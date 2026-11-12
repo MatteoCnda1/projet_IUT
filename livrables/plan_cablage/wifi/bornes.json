@@ -1,0 +1,949 @@
+{
+ "hypotheses": {
+  "frequence_MHz": 5500,
+  "PIRE_dBm": 18.0,
+  "exposant": 2.2,
+  "affaiblissements_dB": {
+   "mur": 12.0,
+   "cloison": 5.0,
+   "vitrage": 3.0
+  },
+  "objectif_dBm": -67.0,
+  "itinerance_dBm": -70.0
+ },
+ "niveaux": [
+  {
+   "code": "N-1",
+   "nom": "SOUS-SOL",
+   "stats": {
+    "surface_cible_m2": 225,
+    "couverture_pct": 99.1,
+    "itinerance_pct": 86.4,
+    "candidats": 21
+   },
+   "par_salle": [
+    {
+     "salle": "CIRC 02",
+     "type": "circulation",
+     "surface": 33.5,
+     "min": -77.9,
+     "moyen": -49.2,
+     "couvert": 95.2
+    },
+    {
+     "salle": "SALLE J05",
+     "type": "cours",
+     "surface": 55.1,
+     "min": -54.9,
+     "moyen": -39.6,
+     "couvert": 100.0
+    },
+    {
+     "salle": "SALLE J02",
+     "type": "cours",
+     "surface": 13.2,
+     "min": -61.1,
+     "moyen": -40.4,
+     "couvert": 100.0
+    },
+    {
+     "salle": "SALLE J03",
+     "type": "cours",
+     "surface": 14.3,
+     "min": -45.3,
+     "moyen": -35.2,
+     "couvert": 100.0
+    },
+    {
+     "salle": "SALLE J04",
+     "type": "cours",
+     "surface": 14.2,
+     "min": -62.6,
+     "moyen": -53.1,
+     "couvert": 100.0
+    },
+    {
+     "salle": "CIRC 03",
+     "type": "circulation",
+     "surface": 7.9,
+     "min": -66.3,
+     "moyen": -51.4,
+     "couvert": 100.0
+    },
+    {
+     "salle": "CIRC 05",
+     "type": "circulation",
+     "surface": 26.8,
+     "min": -59.9,
+     "moyen": -45.4,
+     "couvert": 100.0
+    },
+    {
+     "salle": "CIRC 04",
+     "type": "circulation",
+     "surface": 4.3,
+     "min": -58.9,
+     "moyen": -50.3,
+     "couvert": 100.0
+    },
+    {
+     "salle": "ATELIER",
+     "type": "atelier",
+     "surface": 18.7,
+     "min": -61.7,
+     "moyen": -50.2,
+     "couvert": 100.0
+    }
+   ]
+  },
+  {
+   "code": "N0",
+   "nom": "RDC",
+   "stats": {
+    "surface_cible_m2": 1269,
+    "couverture_pct": 98.5,
+    "itinerance_pct": 87.8,
+    "candidats": 110
+   },
+   "par_salle": [
+    {
+     "salle": "BUREAU 01",
+     "type": "bureau",
+     "surface": 11.9,
+     "min": -58.1,
+     "moyen": -51.4,
+     "couvert": 100.0
+    },
+    {
+     "salle": "BUREAU 02",
+     "type": "bureau",
+     "surface": 14.3,
+     "min": -64.7,
+     "moyen": -58.0,
+     "couvert": 100.0
+    },
+    {
+     "salle": "BUREAU 03",
+     "type": "bureau",
+     "surface": 12.0,
+     "min": -53.1,
+     "moyen": -47.6,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.ANGLAIS",
+     "type": "cours",
+     "surface": 44.0,
+     "min": -49.1,
+     "moyen": -38.9,
+     "couvert": 100.0
+    },
+    {
+     "salle": "FOYER ETUDIANTS",
+     "type": "vie",
+     "surface": 37.0,
+     "min": -58.1,
+     "moyen": -38.6,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.PROJET 01",
+     "type": "projet",
+     "surface": 39.0,
+     "min": -66.8,
+     "moyen": -38.6,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.TD 02",
+     "type": "cours",
+     "surface": 40.9,
+     "min": -54.5,
+     "moyen": -38.1,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.COURS",
+     "type": "cours",
+     "surface": 116.2,
+     "min": -62.9,
+     "moyen": -39.6,
+     "couvert": 100.0
+    },
+    {
+     "salle": "CIRCULATION 01",
+     "type": "circulation",
+     "surface": 26.9,
+     "min": -53.2,
+     "moyen": -48.3,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.TD 01",
+     "type": "cours",
+     "surface": 43.6,
+     "min": -57.6,
+     "moyen": -38.0,
+     "couvert": 100.0
+    },
+    {
+     "salle": "BUREAU GARDIEN",
+     "type": "bureau",
+     "surface": 12.1,
+     "min": -62.9,
+     "moyen": -51.4,
+     "couvert": 100.0
+    },
+    {
+     "salle": "DGMT",
+     "type": "circulation",
+     "surface": 61.4,
+     "min": -80.0,
+     "moyen": -59.8,
+     "couvert": 83.8
+    },
+    {
+     "salle": "HALL D'ENTREE",
+     "type": "vie",
+     "surface": 78.8,
+     "min": -69.1,
+     "moyen": -44.5,
+     "couvert": 99.7
+    },
+    {
+     "salle": "SOUS-PASSERELLE",
+     "type": "circulation",
+     "surface": 38.3,
+     "min": -78.0,
+     "moyen": -56.0,
+     "couvert": 96.4
+    },
+    {
+     "salle": "BUREAU 04",
+     "type": "bureau",
+     "surface": 21.8,
+     "min": -56.4,
+     "moyen": -48.0,
+     "couvert": 100.0
+    },
+    {
+     "salle": "BUREAU 05",
+     "type": "bureau",
+     "surface": 13.5,
+     "min": -44.5,
+     "moyen": -34.3,
+     "couvert": 100.0
+    },
+    {
+     "salle": "ADMIN/RES",
+     "type": "bureau",
+     "surface": 14.5,
+     "min": -66.7,
+     "moyen": -53.5,
+     "couvert": 100.0
+    },
+    {
+     "salle": "SECRETARIAT",
+     "type": "accueil",
+     "surface": 18.7,
+     "min": -49.5,
+     "moyen": -35.9,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.INFORMATIQUE 01",
+     "type": "tp",
+     "surface": 43.4,
+     "min": -55.9,
+     "moyen": -38.4,
+     "couvert": 100.0
+    },
+    {
+     "salle": "BUREAU 07",
+     "type": "bureau",
+     "surface": 14.9,
+     "min": -52.6,
+     "moyen": -46.5,
+     "couvert": 100.0
+    },
+    {
+     "salle": "BUREAU 08",
+     "type": "bureau",
+     "surface": 9.7,
+     "min": -44.9,
+     "moyen": -33.3,
+     "couvert": 100.0
+    },
+    {
+     "salle": "BUREAU 09",
+     "type": "bureau",
+     "surface": 19.3,
+     "min": -79.3,
+     "moyen": -53.6,
+     "couvert": 94.6
+    },
+    {
+     "salle": "BUREAU 06",
+     "type": "bureau",
+     "surface": 13.2,
+     "min": -55.7,
+     "moyen": -47.9,
+     "couvert": 100.0
+    },
+    {
+     "salle": "CIRCULATION 04",
+     "type": "circulation",
+     "surface": 22.0,
+     "min": -68.9,
+     "moyen": -54.0,
+     "couvert": 98.0
+    },
+    {
+     "salle": "BUREAU CHEF-DPTMT",
+     "type": "bureau",
+     "surface": 17.9,
+     "min": -64.4,
+     "moyen": -56.4,
+     "couvert": 100.0
+    },
+    {
+     "salle": "CIRCULATION 03",
+     "type": "circulation",
+     "surface": 32.0,
+     "min": -70.7,
+     "moyen": -51.6,
+     "couvert": 99.0
+    },
+    {
+     "salle": "CIRCULATION 02",
+     "type": "circulation",
+     "surface": 25.6,
+     "min": -52.5,
+     "moyen": -48.2,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.REUNION",
+     "type": "cours",
+     "surface": 63.5,
+     "min": -69.8,
+     "moyen": -41.0,
+     "couvert": 97.2
+    },
+    {
+     "salle": "S.INFORMATIQUE 03",
+     "type": "tp",
+     "surface": 64.5,
+     "min": -57.6,
+     "moyen": -40.1,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.INFORMATIQUE 02",
+     "type": "tp",
+     "surface": 63.6,
+     "min": -49.9,
+     "moyen": -39.7,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.PROJET 03",
+     "type": "projet",
+     "surface": 41.1,
+     "min": -54.0,
+     "moyen": -38.3,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.PROJET 02",
+     "type": "projet",
+     "surface": 23.5,
+     "min": -46.5,
+     "moyen": -36.3,
+     "couvert": 100.0
+    },
+    {
+     "salle": "BUREAU 11",
+     "type": "bureau",
+     "surface": 12.3,
+     "min": -51.2,
+     "moyen": -43.7,
+     "couvert": 100.0
+    },
+    {
+     "salle": "BUREAU 10",
+     "type": "bureau",
+     "surface": 10.8,
+     "min": -62.0,
+     "moyen": -35.6,
+     "couvert": 100.0
+    },
+    {
+     "salle": "ENTREE",
+     "type": "circulation",
+     "surface": 2.7,
+     "min": -73.5,
+     "moyen": -59.3,
+     "couvert": 76.9
+    }
+   ]
+  },
+  {
+   "code": "N1",
+   "nom": "ETAGE 1",
+   "stats": {
+    "surface_cible_m2": 1186,
+    "couverture_pct": 98.8,
+    "itinerance_pct": 92.4,
+    "candidats": 105
+   },
+   "par_salle": [
+    {
+     "salle": "BUREAU",
+     "type": "bureau",
+     "surface": 12.5,
+     "min": -58.9,
+     "moyen": -50.6,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.TP TELECOM 01",
+     "type": "tp",
+     "surface": 45.3,
+     "min": -49.5,
+     "moyen": -38.8,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.TD 01",
+     "type": "cours",
+     "surface": 49.3,
+     "min": -57.2,
+     "moyen": -39.5,
+     "couvert": 100.0
+    },
+    {
+     "salle": "CIRCULATION 01",
+     "type": "circulation",
+     "surface": 37.1,
+     "min": -62.1,
+     "moyen": -49.6,
+     "couvert": 100.0
+    },
+    {
+     "salle": "AMPHITHEATRE",
+     "type": "amphi",
+     "surface": 157.9,
+     "min": -74.7,
+     "moyen": -44.0,
+     "couvert": 92.7
+    },
+    {
+     "salle": "ESTRADE",
+     "type": "amphi",
+     "surface": 9.4,
+     "min": -41.5,
+     "moyen": -36.0,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.TECH",
+     "type": "amphi",
+     "surface": 6.4,
+     "min": -54.3,
+     "moyen": -42.7,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.TP TELECOM 02",
+     "type": "tp",
+     "surface": 40.4,
+     "min": -55.9,
+     "moyen": -38.8,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.TD 03",
+     "type": "cours",
+     "surface": 42.3,
+     "min": -52.5,
+     "moyen": -37.9,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.TD 02",
+     "type": "cours",
+     "surface": 44.5,
+     "min": -55.9,
+     "moyen": -38.2,
+     "couvert": 100.0
+    },
+    {
+     "salle": "CIRC 02",
+     "type": "circulation",
+     "surface": 13.3,
+     "min": -77.8,
+     "moyen": -59.6,
+     "couvert": 92.4
+    },
+    {
+     "salle": "PASSERELLE",
+     "type": "circulation",
+     "surface": 53.6,
+     "min": -67.4,
+     "moyen": -47.1,
+     "couvert": 99.6
+    },
+    {
+     "salle": "BUREAU 01",
+     "type": "bureau",
+     "surface": 14.9,
+     "min": -61.0,
+     "moyen": -55.9,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.INFO 01",
+     "type": "tp",
+     "surface": 66.6,
+     "min": -57.2,
+     "moyen": -40.4,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.TP",
+     "type": "tp",
+     "surface": 20.4,
+     "min": -47.0,
+     "moyen": -37.5,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.RESEAUX 01",
+     "type": "tp",
+     "surface": 48.7,
+     "min": -53.1,
+     "moyen": -39.2,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S RESEAUX 02",
+     "type": "tp",
+     "surface": 67.2,
+     "min": -70.1,
+     "moyen": -41.2,
+     "couvert": 97.6
+    },
+    {
+     "salle": "BUREAU 02",
+     "type": "bureau",
+     "surface": 18.6,
+     "min": -57.3,
+     "moyen": -51.4,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.PREPA",
+     "type": "prepa",
+     "surface": 12.3,
+     "min": -50.8,
+     "moyen": -45.2,
+     "couvert": 100.0
+    },
+    {
+     "salle": "CIRC 05",
+     "type": "circulation",
+     "surface": 24.3,
+     "min": -74.4,
+     "moyen": -51.2,
+     "couvert": 98.4
+    },
+    {
+     "salle": "CIRC 04",
+     "type": "circulation",
+     "surface": 31.3,
+     "min": -63.4,
+     "moyen": -48.9,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.ELECTRO 02",
+     "type": "tp",
+     "surface": 67.0,
+     "min": -55.2,
+     "moyen": -40.1,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.ELECTRO 01",
+     "type": "tp",
+     "surface": 66.4,
+     "min": -53.3,
+     "moyen": -39.9,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.INFO 03",
+     "type": "tp",
+     "surface": 63.1,
+     "min": -55.2,
+     "moyen": -40.1,
+     "couvert": 100.0
+    },
+    {
+     "salle": "S.INFO 02",
+     "type": "tp",
+     "surface": 63.5,
+     "min": -57.2,
+     "moyen": -40.0,
+     "couvert": 100.0
+    }
+   ]
+  }
+ ],
+ "bornes": [
+  {
+   "id": "AP-N-1-01",
+   "niveau": "N-1",
+   "x": 43.25,
+   "y": 26.75,
+   "salle": "SALLE J05",
+   "motif": "capacité",
+   "canal": 140
+  },
+  {
+   "id": "AP-N-1-02",
+   "niveau": "N-1",
+   "x": 24.75,
+   "y": 41.25,
+   "salle": "CIRC 05",
+   "motif": "couverture",
+   "canal": 60
+  },
+  {
+   "id": "AP-N-1-03",
+   "niveau": "N-1",
+   "x": 46.75,
+   "y": 34.25,
+   "salle": "CIRC 02",
+   "motif": "couverture",
+   "canal": 149
+  },
+  {
+   "id": "AP-N-1-04",
+   "niveau": "N-1",
+   "x": 28.75,
+   "y": 39.75,
+   "salle": "SALLE J03",
+   "motif": "couverture",
+   "canal": 116
+  },
+  {
+   "id": "AP-N0-01",
+   "niveau": "N0",
+   "x": 26.75,
+   "y": 6.25,
+   "salle": "S.ANGLAIS",
+   "motif": "capacité",
+   "canal": 52
+  },
+  {
+   "id": "AP-N0-02",
+   "niveau": "N0",
+   "x": 41.75,
+   "y": 6.25,
+   "salle": "FOYER ETUDIANTS",
+   "motif": "capacité",
+   "canal": 157
+  },
+  {
+   "id": "AP-N0-03",
+   "niveau": "N0",
+   "x": 37.75,
+   "y": 15.25,
+   "salle": "S.PROJET 01",
+   "motif": "capacité",
+   "canal": 44
+  },
+  {
+   "id": "AP-N0-04",
+   "niveau": "N0",
+   "x": 31.25,
+   "y": 15.25,
+   "salle": "S.TD 02",
+   "motif": "capacité",
+   "canal": 108
+  },
+  {
+   "id": "AP-N0-05",
+   "niveau": "N0",
+   "x": 68.25,
+   "y": 6.25,
+   "salle": "S.COURS",
+   "motif": "capacité",
+   "canal": 36
+  },
+  {
+   "id": "AP-N0-06",
+   "niveau": "N0",
+   "x": 68.25,
+   "y": 13.25,
+   "salle": "S.COURS",
+   "motif": "capacité",
+   "canal": 44
+  },
+  {
+   "id": "AP-N0-07",
+   "niveau": "N0",
+   "x": 25.25,
+   "y": 15.25,
+   "salle": "S.TD 01",
+   "motif": "capacité",
+   "canal": 124
+  },
+  {
+   "id": "AP-N0-08",
+   "niveau": "N0",
+   "x": 25.25,
+   "y": 40.25,
+   "salle": "S.INFORMATIQUE 01",
+   "motif": "capacité",
+   "canal": 100
+  },
+  {
+   "id": "AP-N0-09",
+   "niveau": "N0",
+   "x": 68.75,
+   "y": 48.25,
+   "salle": "S.REUNION",
+   "motif": "capacité",
+   "canal": 157
+  },
+  {
+   "id": "AP-N0-10",
+   "niveau": "N0",
+   "x": 28.25,
+   "y": 49.25,
+   "salle": "S.INFORMATIQUE 03",
+   "motif": "capacité",
+   "canal": 157
+  },
+  {
+   "id": "AP-N0-11",
+   "niveau": "N0",
+   "x": 37.75,
+   "y": 49.25,
+   "salle": "S.INFORMATIQUE 02",
+   "motif": "capacité",
+   "canal": 52
+  },
+  {
+   "id": "AP-N0-12",
+   "niveau": "N0",
+   "x": 45.75,
+   "y": 49.25,
+   "salle": "S.PROJET 03",
+   "motif": "capacité",
+   "canal": 124
+  },
+  {
+   "id": "AP-N0-13",
+   "niveau": "N0",
+   "x": 53.25,
+   "y": 49.25,
+   "salle": "S.PROJET 02",
+   "motif": "capacité",
+   "canal": 100
+  },
+  {
+   "id": "AP-N0-14",
+   "niveau": "N0",
+   "x": 48.25,
+   "y": 38.25,
+   "salle": "SECRETARIAT",
+   "motif": "couverture",
+   "canal": 44
+  },
+  {
+   "id": "AP-N0-15",
+   "niveau": "N0",
+   "x": 63.75,
+   "y": 38.25,
+   "salle": "BUREAU 08",
+   "motif": "couverture",
+   "canal": 108
+  },
+  {
+   "id": "AP-N0-16",
+   "niveau": "N0",
+   "x": 48.25,
+   "y": 25.75,
+   "salle": "HALL D'ENTREE",
+   "motif": "couverture",
+   "canal": 52
+  },
+  {
+   "id": "AP-N0-17",
+   "niveau": "N0",
+   "x": 35.75,
+   "y": 38.75,
+   "salle": "BUREAU 05",
+   "motif": "couverture",
+   "canal": 36
+  },
+  {
+   "id": "AP-N0-18",
+   "niveau": "N0",
+   "x": 59.75,
+   "y": 50.75,
+   "salle": "BUREAU 10",
+   "motif": "couverture",
+   "canal": 36
+  },
+  {
+   "id": "AP-N1-01",
+   "niveau": "N1",
+   "x": 26.75,
+   "y": 6.25,
+   "salle": "S.TP TELECOM 01",
+   "motif": "capacité",
+   "canal": 132
+  },
+  {
+   "id": "AP-N1-02",
+   "niveau": "N1",
+   "x": 41.25,
+   "y": 6.25,
+   "salle": "S.TD 01",
+   "motif": "capacité",
+   "canal": 60
+  },
+  {
+   "id": "AP-N1-03",
+   "niveau": "N1",
+   "x": 50.75,
+   "y": 10.75,
+   "salle": "AMPHITHEATRE",
+   "motif": "capacité",
+   "canal": 60
+  },
+  {
+   "id": "AP-N1-04",
+   "niveau": "N1",
+   "x": 58.75,
+   "y": 10.75,
+   "salle": "AMPHITHEATRE",
+   "motif": "capacité",
+   "canal": 132
+  },
+  {
+   "id": "AP-N1-05",
+   "niveau": "N1",
+   "x": 37.75,
+   "y": 15.25,
+   "salle": "S.TP TELECOM 02",
+   "motif": "capacité",
+   "canal": 116
+  },
+  {
+   "id": "AP-N1-06",
+   "niveau": "N1",
+   "x": 31.75,
+   "y": 15.25,
+   "salle": "S.TD 03",
+   "motif": "capacité",
+   "canal": 149
+  },
+  {
+   "id": "AP-N1-07",
+   "niveau": "N1",
+   "x": 25.25,
+   "y": 15.25,
+   "salle": "S.TD 02",
+   "motif": "capacité",
+   "canal": 140
+  },
+  {
+   "id": "AP-N1-08",
+   "niveau": "N1",
+   "x": 26.75,
+   "y": 40.75,
+   "salle": "S.INFO 01",
+   "motif": "capacité",
+   "canal": 132
+  },
+  {
+   "id": "AP-N1-09",
+   "niveau": "N1",
+   "x": 39.25,
+   "y": 40.75,
+   "salle": "S.TP",
+   "motif": "capacité",
+   "canal": 60
+  },
+  {
+   "id": "AP-N1-10",
+   "niveau": "N1",
+   "x": 55.25,
+   "y": 40.75,
+   "salle": "S.RESEAUX 01",
+   "motif": "capacité",
+   "canal": 116
+  },
+  {
+   "id": "AP-N1-11",
+   "niveau": "N1",
+   "x": 68.75,
+   "y": 40.75,
+   "salle": "S RESEAUX 02",
+   "motif": "capacité",
+   "canal": 140
+  },
+  {
+   "id": "AP-N1-12",
+   "niveau": "N1",
+   "x": 28.25,
+   "y": 49.75,
+   "salle": "S.ELECTRO 02",
+   "motif": "capacité",
+   "canal": 149
+  },
+  {
+   "id": "AP-N1-13",
+   "niveau": "N1",
+   "x": 38.25,
+   "y": 49.75,
+   "salle": "S.ELECTRO 01",
+   "motif": "capacité",
+   "canal": 140
+  },
+  {
+   "id": "AP-N1-14",
+   "niveau": "N1",
+   "x": 47.25,
+   "y": 49.75,
+   "salle": "S.INFO 03",
+   "motif": "capacité",
+   "canal": 132
+  },
+  {
+   "id": "AP-N1-15",
+   "niveau": "N1",
+   "x": 57.75,
+   "y": 49.75,
+   "salle": "S.INFO 02",
+   "motif": "capacité",
+   "canal": 60
+  },
+  {
+   "id": "AP-N1-16",
+   "niveau": "N1",
+   "x": 43.75,
+   "y": 31.75,
+   "salle": "PASSERELLE",
+   "motif": "couverture",
+   "canal": 132
+  }
+ ],
+ "conflits_co_canal": 0
+}

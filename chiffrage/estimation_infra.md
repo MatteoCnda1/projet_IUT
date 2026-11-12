@@ -11,18 +11,18 @@ Source : `architecture/Projet_Marseille_site.drawio`. Prix HT, prix revendeur co
 | DMZ | 22 000 € |
 | Cœur | 19 000 € |
 | Distribution | 38 000 € |
-| Accès | 70 200 € |
+| Accès | 107 900 € |
 | Net Management | 33 100 € |
 | Datacenter | 61 000 € |
-| Énergie / locaux | 42 000 € |
-| Câblage | 74 600 € |
+| Énergie / locaux | 42 500 € |
+| Câblage | 118 805 € |
 | Prestations | 35 750 € |
-| **Sous-total** | **433 050 €** |
-| Aléas (10%) | 43 305 € |
-| **CAPEX total** | **476 355 €** |
+| **Sous-total** | **515 455 €** |
+| Aléas (10%) | 51 546 € |
+| **CAPEX total** | **567 001 €** |
 | OPEX annuel (années 1 à 3) | 39 181 € |
-| Renouvellements annuels (dès l'année 4) | 25 500 € |
-| **Coût total sur 5 ans (TCO)** | **723 260 €** |
+| Renouvellements annuels (dès l'année 4) | 27 857 € |
+| **Coût total sur 5 ans (TCO)** | **818 620 €** |
 
 ## Détail CAPEX
 
@@ -36,8 +36,8 @@ Source : `architecture/Projet_Marseille_site.drawio`. Prix HT, prix revendeur co
 | DMZ | DM-RP1/2 (Caddy), DM-DNS1, DM-WEB1, DM-MAIL1, DM-SRV1 | Dell PowerEdge R260 (Xeon E-2434, 32 Go, 2x960 Go SSD RAID1, double alim) | 6 | 2 900 € | 17 400 € | 6 serveurs physiques comme sur le schéma |
 | Cœur | CL-SW1, CL-SW2 | Cisco Catalyst C9500-16X-E + DNA-E 3 ans + modules 40G SVL | 2 | 9 500 € | 19 000 € | StackWise Virtual |
 | Distribution | DL-SW1 à DL-SW4 | Cisco Catalyst C9500-16X-E + DNA-E 3 ans | 4 | 9 500 € | 38 000 € | 2 blocs StackWise Virtual (le SVL impose la gamme 9500) |
-| Accès | AL-SW1 à AL-SW4 | Cisco Catalyst C9200L-48P-4X-E PoE+ + DNA-E 3 ans | 8 | 3 900 € | 31 200 € | Le schéma en montre 4. Il en faut 8 pour ~400 prises + 20 % de réserve |
-| Accès | AL-AP1 | Borne Wi-Fi 6E Cisco CW9164I + licence DNA AP 3 ans | 30 | 1 300 € | 39 000 € | Environ 1 borne par salle de cours/TP + amphi, foyer, couloirs. Contrôleur 9800-CL en VM |
+| Accès | AL-SW1 à AL-SW4 | Cisco Catalyst C9200L-48P-4X-E PoE+ + DNA-E 3 ans | 15 | 3 900 € | 58 500 € | Le schéma en montre 4. Plan de câblage : 15 switchs pour 484 prises (+10 % de ports libres) et le budget PoE, répartis dans les 6 L.TECH |
+| Accès | AL-AP1 | Borne Wi-Fi 6E Cisco CW9164I + licence DNA AP 3 ans | 38 | 1 300 € | 49 400 € | Nombre fixé par l'étude RSSI prédictive (≥ −67 dBm à 5 GHz, livrables/plan_cablage/wifi). Contrôleur 9800-CL en VM |
 | Net Management | NM-SW1, NM-SW2 | Cisco Catalyst C9200L-24T-4X-E + DNA-E 3 ans | 2 | 2 300 € | 4 600 € |  |
 | Net Management | NM-PVE1 à NM-PVE3 | Dell PowerEdge R660xs (2x Xeon Silver 4510, 256 Go, 4x1,92 To SSD Ceph, 2x25 GbE) | 3 | 9 500 € | 28 500 € | Cluster Proxmox HA : LXC Kea/chrony/DNS, VM Docker (LibreNMS, Grafana, syslog, snmptrapd), Teleport |
 | Net Management | Services NM (LXC + Docker) | Kea, chrony, Bind/Unbound, LibreNMS, Grafana, rsyslog, snmptrapd, Teleport Community | 1 | 0 € | 0 € | Logiciels libres, 0 € de licence |
@@ -47,14 +47,18 @@ Source : `architecture/Projet_Marseille_site.drawio`. Prix HT, prix revendeur co
 | Datacenter | Licences d'accès | CAL utilisateur Windows Server (tarif Éducation) | 600 | 10 € | 6 000 € | ~100 personnels + ~500 étudiants |
 | Datacenter | DT-BKP1 | Serveur de sauvegarde Proxmox Backup Server (Dell R760xd2, ~100 To bruts) | 1 | 12 000 € | 12 000 € | Règle 3-2-1 avec copie externalisée (voir OPEX) |
 | Énergie / locaux | Salle serveur | Baie 42U 800x1000 avec portes ventilées | 2 | 1 500 € | 3 000 € |  |
-| Énergie / locaux | Locaux techniques (6 L.TECH) | Baie 24U murale/sol | 6 | 700 € | 4 200 € | 2 L.TECH par niveau d'après les plans |
+| Énergie / locaux | Locaux techniques (6 L.TECH) | Baie 24U murale/sol | 5 | 700 € | 3 500 € | 2 L.TECH par niveau d'après les plans |
+| Énergie / locaux | Locaux techniques | Baie 42U 600x800 au sol | 1 | 1 200 € | 1 200 € | L.TECH dont la baie dépasse 22U (plan de câblage) |
 | Énergie / locaux | Salle serveur | Onduleur APC Smart-UPS SRT 6 kVA (en ligne) | 2 | 4 800 € | 9 600 € | Alimentation A/B |
 | Énergie / locaux | Locaux techniques | Onduleur 1,5 kVA rackable | 6 | 900 € | 5 400 € |  |
 | Énergie / locaux | Salle serveur | PDU managées et métrées | 4 | 700 € | 2 800 € | Mesure de consommation (Green IT) |
 | Énergie / locaux | Salle serveur | Climatisation de précision ~7 kW, redondance N+1 | 1 | 12 000 € | 12 000 € |  |
 | Énergie / locaux | Salle serveur + L.TECH | Contrôle d'accès par badge | 1 | 5 000 € | 5 000 € |  |
-| Câblage | Prises utilisateurs | Prise RJ45 Cat6A fournie, posée et recettée | 400 | 140 € | 56 000 € | 10 Gb/s, durée de vie 15 ans (CdC) |
-| Câblage | Rocades verticales | Fibre OM4 12 brins L.TECH vers salle serveur | 6 | 1 500 € | 9 000 € |  |
+| Câblage | Prises | Prise RJ45 Cat6A fournie, posée et recettée | 484 | 140 € | 67 760 € | 10 Gb/s, durée de vie 15 ans (CdC). Usagers + bornes + caméras + badgeuses (plan de câblage) |
+| Câblage | Rocades | Fibre OM4 12 brins L.TECH vers salle serveur | 12 | 1 500 € | 18 000 € | 2 câbles par local, par deux chemins disjoints (colonnes Nord et Sud) |
+| Câblage | Chemins de câbles | Chemin de câbles fil 100×50 mm, posé | 636 | 35 € | 22 260 € | Métré du plan de câblage (circulations et locaux) |
+| Câblage | Chemins de câbles | Chemin de câbles fil 200×60 mm, posé | 17 | 45 € | 765 € | Métré du plan de câblage (circulations et locaux) |
+| Câblage | Chemins de câbles | Chemin de câbles fil 300×100 mm, posé | 7 | 60 € | 420 € | Métré du plan de câblage (circulations et locaux) |
 | Câblage | Optiques | Modules SFP+/SFP28/QSFP compatibles | 80 | 70 € | 5 600 € | Optiques Cisco d'origine : x4 environ |
 | Câblage | Brassage | Panneaux, cordons, passe-câbles | 1 | 4 000 € | 4 000 € | Forfait |
 | Prestations | Intégration | Ingénierie, intégration et configuration (jours) | 45 | 650 € | 29 250 € |  |
@@ -78,7 +82,7 @@ Source : `architecture/Projet_Marseille_site.drawio`. Prix HT, prix revendeur co
 |---|---|---:|
 | FortiGuard UTP + FortiCare | 2 FortiGate 120G | 4 200 € |
 | Stormshield Premium UTM | 2 SN710 | 3 000 € |
-| Cisco DNA Essentials / AP | ~26 switchs + 30 bornes | 12 000 € |
+| Cisco DNA Essentials / AP | ~29 switchs + 38 bornes | 14 357 € |
 | Support matériel serveurs | Extension garantie 18 serveurs | 6 300 € |
 
 ## Pistes d'optimisation
@@ -92,7 +96,7 @@ Source : `architecture/Projet_Marseille_site.drawio`. Prix HT, prix revendeur co
 ## Hypothèses de dimensionnement
 
 - Bâtiment IUT Génie Télécom (Luminy) : sous-sol, RDC, étage 1, 6 locaux techniques (plans `docs/plans_batiment/`).
-- ~400 prises : ~17 bureaux x 2, ~10 salles info/TP/réseaux x 24, ~12 salles TD/cours/réunion x 3, 30 bornes, ~15 caméras IP, ~10 badgeuses.
+- 484 prises d'après le plan de câblage (`livrables/plan_cablage/`) : bureaux 2 par poste, salles de TP 1 par poste + 2, salles de TD/cours/réunion 3, 38 bornes Wi-Fi (étude RSSI), 15 caméras IP, 11 badgeuses.
 - Postes clients, imprimantes, téléphones IP et caméras exclus (budget poste de travail à part).
 - La `cisco-price-list.pdf` du Drive date du début des années 2000 (gammes Aironet 340/350, VPN 3000) : elle n'est pas utilisable pour des prix actuels.
 - Électricité : 3.5 kW de charge IT moyenne, PUE 1.6, 0.20 €/kWh HT.

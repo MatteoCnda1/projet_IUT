@@ -1,0 +1,13 @@
+local,voie,par,longueur
+N-1-LT01,A,sous-sol (chemin direct),14.1
+N-1-LT01,B,sous-sol (second chemin),14.1
+N-1-LT02,A,sous-sol (chemin direct),51.3
+N-1-LT02,B,sous-sol (second chemin),53.1
+N0-LT01,A,colonne Nord,48.4
+N0-LT01,B,colonne Sud,92.8
+N0-LT02,A,colonne Sud,35.9
+N0-LT02,B,colonne Nord,105.3
+N1-LT01,A,colonne Nord,57.0
+N1-LT01,B,colonne Sud,104.3
+N1-LT02,A,colonne Sud,41.8
+N1-LT02,B,colonne Nord,114.0

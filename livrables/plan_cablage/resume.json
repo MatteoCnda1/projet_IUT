@@ -1,0 +1,237 @@
+{
+ "prises": 484,
+ "par_type": {
+  "usager": 420,
+  "wifi": 38,
+  "camera": 15,
+  "badge": 11
+ },
+ "telephones": 17,
+ "cable_cuivre_m": 13037,
+ "lien_moyen_m": 26.9,
+ "lien_max_m": 57.1,
+ "liens_hors_norme": [],
+ "chemins_de_cables_m": {
+  "N-1": {
+   "100×50": 120
+  },
+  "N0": {
+   "100×50": 274,
+   "200×60": 8
+  },
+  "N1": {
+   "100×50": 242,
+   "200×60": 9,
+   "300×100": 7
+  }
+ },
+ "baies": [
+  {
+   "local": "N-1-LT01",
+   "salle": "L.TECH 01",
+   "niveau": "N-1",
+   "surface_m2": 6.7,
+   "prises": 10,
+   "usagers": 3,
+   "wifi": 2,
+   "cameras": 3,
+   "badges": 2,
+   "telephones": 0,
+   "poe_W": 103,
+   "switchs_48p": 1,
+   "panneaux_24": 1,
+   "hauteur_U": 9,
+   "baie": "24U murale",
+   "lien_max_m": 38.5
+  },
+  {
+   "local": "N-1-LT02",
+   "salle": "L.TECH 02",
+   "niveau": "N-1",
+   "surface_m2": 16.0,
+   "prises": 17,
+   "usagers": 13,
+   "wifi": 2,
+   "cameras": 1,
+   "badges": 1,
+   "telephones": 0,
+   "poe_W": 70,
+   "switchs_48p": 1,
+   "panneaux_24": 1,
+   "hauteur_U": 9,
+   "baie": "24U murale",
+   "lien_max_m": 26.5
+  },
+  {
+   "local": "N0-LT01",
+   "salle": "L.TECH",
+   "niveau": "N0",
+   "surface_m2": 2.3,
+   "prises": 53,
+   "usagers": 38,
+   "wifi": 10,
+   "cameras": 3,
+   "badges": 2,
+   "telephones": 4,
+   "poe_W": 333,
+   "switchs_48p": 2,
+   "panneaux_24": 3,
+   "hauteur_U": 13,
+   "baie": "24U murale",
+   "lien_max_m": 54.0
+  },
+  {
+   "local": "N0-LT02",
+   "salle": "L.TECH 02",
+   "niveau": "N0",
+   "surface_m2": 6.9,
+   "prises": 136,
+   "usagers": 120,
+   "wifi": 10,
+   "cameras": 4,
+   "badges": 2,
+   "telephones": 10,
+   "poe_W": 385,
+   "switchs_48p": 4,
+   "panneaux_24": 6,
+   "hauteur_U": 20,
+   "baie": "24U murale",
+   "lien_max_m": 52.6
+  },
+  {
+   "local": "N1-LT01",
+   "salle": "L.TECH 01",
+   "niveau": "N1",
+   "surface_m2": 3.7,
+   "prises": 58,
+   "usagers": 49,
+   "wifi": 6,
+   "cameras": 2,
+   "badges": 1,
+   "telephones": 1,
+   "poe_W": 192,
+   "switchs_48p": 2,
+   "panneaux_24": 3,
+   "hauteur_U": 13,
+   "baie": "24U murale",
+   "lien_max_m": 39.2
+  },
+  {
+   "local": "N1-LT02",
+   "salle": "L.TECH 02",
+   "niveau": "N1",
+   "surface_m2": 6.6,
+   "prises": 210,
+   "usagers": 197,
+   "wifi": 8,
+   "cameras": 2,
+   "badges": 3,
+   "telephones": 2,
+   "poe_W": 262,
+   "switchs_48p": 5,
+   "panneaux_24": 9,
+   "hauteur_U": 27,
+   "baie": "42U au sol",
+   "lien_max_m": 57.1
+  }
+ ],
+ "rocades": [
+  {
+   "local": "N-1-LT01",
+   "voie": "A",
+   "par": "sous-sol (chemin direct)",
+   "longueur": 14.1
+  },
+  {
+   "local": "N-1-LT01",
+   "voie": "B",
+   "par": "sous-sol (second chemin)",
+   "longueur": 14.1
+  },
+  {
+   "local": "N-1-LT02",
+   "voie": "A",
+   "par": "sous-sol (chemin direct)",
+   "longueur": 51.3
+  },
+  {
+   "local": "N-1-LT02",
+   "voie": "B",
+   "par": "sous-sol (second chemin)",
+   "longueur": 53.1
+  },
+  {
+   "local": "N0-LT01",
+   "voie": "A",
+   "par": "colonne Nord",
+   "longueur": 48.4
+  },
+  {
+   "local": "N0-LT01",
+   "voie": "B",
+   "par": "colonne Sud",
+   "longueur": 92.8
+  },
+  {
+   "local": "N0-LT02",
+   "voie": "A",
+   "par": "colonne Sud",
+   "longueur": 35.9
+  },
+  {
+   "local": "N0-LT02",
+   "voie": "B",
+   "par": "colonne Nord",
+   "longueur": 105.3
+  },
+  {
+   "local": "N1-LT01",
+   "voie": "A",
+   "par": "colonne Nord",
+   "longueur": 57.0
+  },
+  {
+   "local": "N1-LT01",
+   "voie": "B",
+   "par": "colonne Sud",
+   "longueur": 104.3
+  },
+  {
+   "local": "N1-LT02",
+   "voie": "A",
+   "par": "colonne Sud",
+   "longueur": 41.8
+  },
+  {
+   "local": "N1-LT02",
+   "voie": "B",
+   "par": "colonne Nord",
+   "longueur": 114.0
+  }
+ ],
+ "adductions": [
+  {
+   "operateur": "FAI 1",
+   "entree": "façade ouest, chambre de tirage côté chaufferie",
+   "x": 20.86,
+   "y": 51.27,
+   "longueur_interne": 58.3
+  },
+  {
+   "operateur": "FAI 2",
+   "entree": "façade est, par le parking",
+   "x": 73.26,
+   "y": 46.41,
+   "longueur_interne": 55.1
+  }
+ ],
+ "fibre_m": 732,
+ "hypotheses": {
+  "coef_trace": 1.1,
+  "descentes_m": 3.0,
+  "lovage_m": 2.0,
+  "lien_max_m": 90.0,
+  "hauteur_niveau_m": 3.5,
+  "maille_m": 0.25
+ }
+}

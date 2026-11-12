@@ -76,19 +76,19 @@
    "categorie": "Accès",
    "schema": "AL-SW1 à AL-SW4",
    "solution": "Cisco Catalyst C9200L-48P-4X-E PoE+ + DNA-E 3 ans",
-   "quantite": 8,
+   "quantite": 15,
    "pu_ht": 3900,
-   "total_ht": 31200,
-   "note": "Le schéma en montre 4. Il en faut 8 pour ~400 prises + 20 % de réserve"
+   "total_ht": 58500,
+   "note": "Le schéma en montre 4. Plan de câblage : 15 switchs pour 484 prises (+10 % de ports libres) et le budget PoE, répartis dans les 6 L.TECH"
   },
   {
    "categorie": "Accès",
    "schema": "AL-AP1",
    "solution": "Borne Wi-Fi 6E Cisco CW9164I + licence DNA AP 3 ans",
-   "quantite": 30,
+   "quantite": 38,
    "pu_ht": 1300,
-   "total_ht": 39000,
-   "note": "Environ 1 borne par salle de cours/TP + amphi, foyer, couloirs. Contrôleur 9800-CL en VM"
+   "total_ht": 49400,
+   "note": "Nombre fixé par l'étude RSSI prédictive (≥ −67 dBm à 5 GHz, livrables/plan_cablage/wifi). Contrôleur 9800-CL en VM"
   },
   {
    "categorie": "Net Management",
@@ -175,10 +175,19 @@
    "categorie": "Énergie / locaux",
    "schema": "Locaux techniques (6 L.TECH)",
    "solution": "Baie 24U murale/sol",
-   "quantite": 6,
+   "quantite": 5,
    "pu_ht": 700,
-   "total_ht": 4200,
+   "total_ht": 3500,
    "note": "2 L.TECH par niveau d'après les plans"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Locaux techniques",
+   "solution": "Baie 42U 600x800 au sol",
+   "quantite": 1,
+   "pu_ht": 1200,
+   "total_ht": 1200,
+   "note": "L.TECH dont la baie dépasse 22U (plan de câblage)"
   },
   {
    "categorie": "Énergie / locaux",
@@ -227,21 +236,48 @@
   },
   {
    "categorie": "Câblage",
-   "schema": "Prises utilisateurs",
+   "schema": "Prises",
    "solution": "Prise RJ45 Cat6A fournie, posée et recettée",
-   "quantite": 400,
+   "quantite": 484,
    "pu_ht": 140,
-   "total_ht": 56000,
-   "note": "10 Gb/s, durée de vie 15 ans (CdC)"
+   "total_ht": 67760,
+   "note": "10 Gb/s, durée de vie 15 ans (CdC). Usagers + bornes + caméras + badgeuses (plan de câblage)"
   },
   {
    "categorie": "Câblage",
-   "schema": "Rocades verticales",
+   "schema": "Rocades",
    "solution": "Fibre OM4 12 brins L.TECH vers salle serveur",
-   "quantite": 6,
+   "quantite": 12,
    "pu_ht": 1500,
-   "total_ht": 9000,
-   "note": ""
+   "total_ht": 18000,
+   "note": "2 câbles par local, par deux chemins disjoints (colonnes Nord et Sud)"
+  },
+  {
+   "categorie": "Câblage",
+   "schema": "Chemins de câbles",
+   "solution": "Chemin de câbles fil 100×50 mm, posé",
+   "quantite": 636,
+   "pu_ht": 35,
+   "total_ht": 22260,
+   "note": "Métré du plan de câblage (circulations et locaux)"
+  },
+  {
+   "categorie": "Câblage",
+   "schema": "Chemins de câbles",
+   "solution": "Chemin de câbles fil 200×60 mm, posé",
+   "quantite": 17,
+   "pu_ht": 45,
+   "total_ht": 765,
+   "note": "Métré du plan de câblage (circulations et locaux)"
+  },
+  {
+   "categorie": "Câblage",
+   "schema": "Chemins de câbles",
+   "solution": "Chemin de câbles fil 300×100 mm, posé",
+   "quantite": 7,
+   "pu_ht": 60,
+   "total_ht": 420,
+   "note": "Métré du plan de câblage (circulations et locaux)"
   },
   {
    "categorie": "Câblage",
@@ -286,16 +322,16 @@
   "DMZ": 22000,
   "Cœur": 19000,
   "Distribution": 38000,
-  "Accès": 70200,
+  "Accès": 107900,
   "Net Management": 33100,
   "Datacenter": 61000,
-  "Énergie / locaux": 42000,
-  "Câblage": 74600,
+  "Énergie / locaux": 42500,
+  "Câblage": 118805,
   "Prestations": 35750
  },
- "sous_total": 433050,
- "aleas": 43305,
- "capex": 476355,
+ "sous_total": 515455,
+ "aleas": 51546,
+ "capex": 567001,
  "opex": [
   {
    "poste": "Accès Internet FAI 1",
@@ -347,8 +383,8 @@
   },
   {
    "poste": "Cisco DNA Essentials / AP",
-   "detail": "~26 switchs + 30 bornes",
-   "montant": 12000
+   "detail": "~29 switchs + 38 bornes",
+   "montant": 14357
   },
   {
    "poste": "Support matériel serveurs",
@@ -356,8 +392,8 @@
    "montant": 6300
   }
  ],
- "renouvellement_total": 25500,
- "tco5": 723260,
+ "renouvellement_total": 27857,
+ "tco5": 818620,
  "optimisations": [
   {
    "piste": "Cœur replié (collapsed core)",

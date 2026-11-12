@@ -3,3 +3,6 @@
 *.dtmp
 .$*
 __pycache__/
+
+# Fichiers intermédiaires du plan de câblage
+cablage/build/
