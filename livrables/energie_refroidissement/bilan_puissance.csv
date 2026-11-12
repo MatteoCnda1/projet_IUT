@@ -1,46 +1,15 @@
-Zone;Emplacement;Position_U;ID;Modele;Fonction;Alimentations;P_Nominale_W;P_Crete_W;Facteur_Puissance;S_Nominale_VA;S_Crete_VA;Thermique_Nom_W;Thermique_Nom_BTUh;Note
-Salle Serveur;Baie 1;U41;EL-RTR1;Cisco Catalyst C8200L-1N-4T;Routeur bordure WAN 1 (FAI 1);1x (Monosource (via ATS));20;28;0.88;22.7;31.8;20;68.2;Alimenté via ATS 1U rackable
-Salle Serveur;Baie 1;U40;EL-RTR2;Cisco Catalyst C8200L-1N-4T;Routeur bordure WAN 2 (FAI 2);1x (Monosource (via ATS));20;28;0.88;22.7;31.8;20;68.2;Alimenté via ATS 1U rackable
-Salle Serveur;Baie 1;U38;EL-FGT1;FortiGate 120G;Pare-feu externe HA (Actif);2x (Double 1+1 100W);32;53;0.95;33.7;55.8;32;109.2;Alim A + B
-Salle Serveur;Baie 1;U37;EL-FGT2;FortiGate 120G;Pare-feu externe HA (Passif);2x (Double 1+1 100W);32;53;0.95;33.7;55.8;32;109.2;Alim A + B
-Salle Serveur;Baie 1;U35;EL-SW1;Cisco Catalyst C9200L-24T-4X-E;Switch WAN 1;2x (Double 1+1 125W);45;70;0.95;47.4;73.7;45;153.5;Alim A + B
-Salle Serveur;Baie 1;U34;EL-SW2;Cisco Catalyst C9200L-24T-4X-E;Switch WAN 2;2x (Double 1+1 125W);45;70;0.95;47.4;73.7;45;153.5;Alim A + B
-Salle Serveur;Baie 1;U32;EL-SNS1;Stormshield SN710;Pare-feu interne HA (Actif);2x (Double 1+1 150W);40;65;0.95;42.1;68.4;40;136.5;Alim A + B (Qualif standard ANSSI)
-Salle Serveur;Baie 1;U31;EL-SNS2;Stormshield SN710;Pare-feu interne HA (Passif);2x (Double 1+1 150W);40;65;0.95;42.1;68.4;40;136.5;Alim A + B (Qualif standard ANSSI)
-Salle Serveur;Baie 1;U29;DM-SW1;Cisco Catalyst C9200L-24T-4X-E;Switch DMZ 1;2x (Double 1+1 125W);45;70;0.95;47.4;73.7;45;153.5;Alim A + B
-Salle Serveur;Baie 1;U28;DM-SW2;Cisco Catalyst C9200L-24T-4X-E;Switch DMZ 2;2x (Double 1+1 125W);45;70;0.95;47.4;73.7;45;153.5;Alim A + B
-Salle Serveur;Baie 1;U26;DM-RP1;Dell PowerEdge R260;Reverse-proxy public 1 (Caddy);2x (Double 1+1 450W Plat);110;200;0.95;115.8;210.5;110;375.3;Xeon E-2434, 32 Go, NVMe
-Salle Serveur;Baie 1;U25;DM-RP2;Dell PowerEdge R260;Reverse-proxy public 2 (Caddy);2x (Double 1+1 450W Plat);110;200;0.95;115.8;210.5;110;375.3;Xeon E-2434, 32 Go, NVMe
-Salle Serveur;Baie 1;U24;DM-DNS1;Dell PowerEdge R260;DNS autoritaire externe;2x (Double 1+1 450W Plat);110;200;0.95;115.8;210.5;110;375.3;Xeon E-2434, 32 Go, NVMe
-Salle Serveur;Baie 1;U23;DM-WEB1;Dell PowerEdge R260;Serveur Web public / réservation;2x (Double 1+1 450W Plat);110;200;0.95;115.8;210.5;110;375.3;Xeon E-2434, 32 Go, NVMe
-Salle Serveur;Baie 1;U22;DM-MAIL1;Dell PowerEdge R260;Passerelle messagerie / MX;2x (Double 1+1 450W Plat);110;200;0.95;115.8;210.5;110;375.3;Xeon E-2434, 32 Go, NVMe
-Salle Serveur;Baie 1;U21;DM-SRV1;Dell PowerEdge R260;Serveurs applicatifs DMZ;2x (Double 1+1 450W Plat);110;200;0.95;115.8;210.5;110;375.3;Xeon E-2434, 32 Go, NVMe
-Salle Serveur;Baie 1;U18;CL-SW1;Cisco Catalyst C9500-16X-E;Switch Cœur 1 (StackWise Virtual);2x (Double 1+1 950W);140;220;0.95;147.4;231.6;140;477.7;Alim A + B, liens 40G SVL
-Salle Serveur;Baie 1;U17;CL-SW2;Cisco Catalyst C9500-16X-E;Switch Cœur 2 (StackWise Virtual);2x (Double 1+1 950W);140;220;0.95;147.4;231.6;140;477.7;Alim A + B, liens 40G SVL
-Salle Serveur;Baie 1;U15;DL-SW1;Cisco Catalyst C9500-16X-E;Switch Distribution 1;2x (Double 1+1 950W);140;220;0.95;147.4;231.6;140;477.7;Bloc SVL 1
-Salle Serveur;Baie 1;U14;DL-SW2;Cisco Catalyst C9500-16X-E;Switch Distribution 2;2x (Double 1+1 950W);140;220;0.95;147.4;231.6;140;477.7;Bloc SVL 1
-Salle Serveur;Baie 1;U12;DL-SW3;Cisco Catalyst C9500-16X-E;Switch Distribution 3;2x (Double 1+1 950W);140;220;0.95;147.4;231.6;140;477.7;Bloc SVL 2
-Salle Serveur;Baie 1;U11;DL-SW4;Cisco Catalyst C9500-16X-E;Switch Distribution 4;2x (Double 1+1 950W);140;220;0.95;147.4;231.6;140;477.7;Bloc SVL 2
-Salle Serveur;Baie 1;U39;ATS-B1;APC AP4421A;Automatic Transfer Switch 1U;2x (Alim A + B (10A));10;15;0.9;11.1;16.7;10;34.1;Secours automatique pour C8200L
-Salle Serveur;Baie 1;0U;PDU-B1;APC AP8959EU3 (x2);2x PDU managées et métrées;2x (Voie A1 + Voie B1);30;30;0.95;31.6;31.6;30;102.4;Métrage par prise (Green IT)
-Salle Serveur;Baie 2;U41;NM-SW1;Cisco Catalyst C9200L-24T-4X-E;Switch Administration NM 1;2x (Double 1+1 125W);45;70;0.95;47.4;73.7;45;153.5;Alim A + B
-Salle Serveur;Baie 2;U40;NM-SW2;Cisco Catalyst C9200L-24T-4X-E;Switch Administration NM 2;2x (Double 1+1 125W);45;70;0.95;47.4;73.7;45;153.5;Alim A + B
-Salle Serveur;Baie 2;U37;NM-PVE1;Dell PowerEdge R660xs;Nœud Proxmox HA 1 (Ceph OSD);2x (Double 1+1 800W Tit.);200;350;0.96;208.3;364.6;200;682.4;2x Xeon Silver 4510, 256 Go, NVMe
-Salle Serveur;Baie 2;U36;NM-PVE2;Dell PowerEdge R660xs;Nœud Proxmox HA 2 (Ceph OSD);2x (Double 1+1 800W Tit.);200;350;0.96;208.3;364.6;200;682.4;2x Xeon Silver 4510, 256 Go, NVMe
-Salle Serveur;Baie 2;U35;NM-PVE3;Dell PowerEdge R660xs;Nœud Proxmox HA 3 (Ceph OSD);2x (Double 1+1 800W Tit.);200;350;0.96;208.3;364.6;200;682.4;2x Xeon Silver 4510, 256 Go, NVMe
-Salle Serveur;Baie 2;U32;DT-SW1;Cisco Catalyst C9300X-12Y-E;Switch Datacenter 1 (25G);2x (Double 1+1 715W);130;200;0.95;136.8;210.5;130;443.6;Raccordement hyperviseurs & stockage
-Salle Serveur;Baie 2;U31;DT-SW2;Cisco Catalyst C9300X-12Y-E;Switch Datacenter 2 (25G);2x (Double 1+1 715W);130;200;0.95;136.8;210.5;130;443.6;Raccordement hyperviseurs & stockage
-Salle Serveur;Baie 2;U28;DT-AD1;Dell PowerEdge R360;Active Directory 1 (Contrôleur PDC);2x (Double 1+1 600W Plat);115;180;0.95;121.1;189.5;115;392.4;Xeon E-2400, 64 Go, SSD RAID1
-Salle Serveur;Baie 2;U27;DT-AD2;Dell PowerEdge R360;Active Directory 2 (Contrôleur BDC);2x (Double 1+1 600W Plat);115;180;0.95;121.1;189.5;115;392.4;Xeon E-2400, 64 Go, SSD RAID1
-Salle Serveur;Baie 2;U25;DT-RAD1;Dell PowerEdge R360;NPS / RADIUS 802.1X primaire;2x (Double 1+1 600W Plat);115;180;0.95;121.1;189.5;115;392.4;Xeon E-2400, 64 Go, SSD RAID1
-Salle Serveur;Baie 2;U24;DT-RAD2;Dell PowerEdge R360;NPS / RADIUS 802.1X secondaire;2x (Double 1+1 600W Plat);115;180;0.95;121.1;189.5;115;392.4;Xeon E-2400, 64 Go, SSD RAID1
-Salle Serveur;Baie 2;U22;DT-DHCP1;Dell PowerEdge R360;DHCP Failover Serveur 1;2x (Double 1+1 600W Plat);115;180;0.95;121.1;189.5;115;392.4;Xeon E-2400, 64 Go, SSD RAID1
-Salle Serveur;Baie 2;U21;DT-DHCP2;Dell PowerEdge R360;DHCP Failover Serveur 2;2x (Double 1+1 600W Plat);115;180;0.95;121.1;189.5;115;392.4;Xeon E-2400, 64 Go, SSD RAID1
-Salle Serveur;Baie 2;U16-17;DT-BKP1;Dell PowerEdge R760xd2;Serveur Proxmox Backup Server (PBS);2x (Double 1+1 1100W Tit.);250;380;0.96;260.4;395.8;250;853.0;2U, 12x 10 To SAS (~100 To bruts)
-Salle Serveur;Baie 2;0U;PDU-B2;APC AP8959EU3 (x2);2x PDU managées et métrées;2x (Voie A2 + Voie B2);30;30;0.95;31.6;31.6;30;102.4;Métrage par prise (Green IT)
-Local Technique;N-1-LT01;Baie 24U murale;AL-N-1-LT01;1x C9200L-48P-4X;Commutateurs accès (10 prises, PoE 103W);1x Onduleur 1.5 kVA (APC Smart-UPS 1.5 kVA (SMT1500RMI2U));148;168;0.95;155.8;176.8;148;505.0;Surface 6.7 m², autonomie batt ~72 min, charge UPS 14.8%
-Local Technique;N-1-LT02;Baie 24U murale;AL-N-1-LT02;1x C9200L-48P-4X;Commutateurs accès (17 prises, PoE 70W);1x Onduleur 1.5 kVA (APC Smart-UPS 1.5 kVA (SMT1500RMI2U));115;135;0.95;121.1;142.1;115;392.4;Surface 16.0 m², autonomie batt ~79 min, charge UPS 11.5%
-Local Technique;N0-LT01;Baie 24U murale (placard);AL-N0-LT01;2x C9200L-48P-4X;Commutateurs accès (53 prises, PoE 333W);1x Onduleur 1.5 kVA (APC Smart-UPS 1.5 kVA (SMT1500RMI2U));423;463;0.95;445.3;487.4;423;1443.3;Surface 2.3 m², autonomie batt ~33 min, charge UPS 42.3%
-Local Technique;N0-LT02;Baie 24U murale;AL-N0-LT02;4x C9200L-48P-4X;Commutateurs accès (136 prises, PoE 385W);1x Onduleur 1.5 kVA (APC Smart-UPS 1.5 kVA (SMT1500RMI2U));565;645;0.95;594.7;678.9;565;1927.9;Surface 6.9 m², autonomie batt ~22 min, charge UPS 56.5%
-Local Technique;N1-LT01;Baie 24U murale;AL-N1-LT01;2x C9200L-48P-4X;Commutateurs accès (58 prises, PoE 192W);1x Onduleur 1.5 kVA (APC Smart-UPS 1.5 kVA (SMT1500RMI2U));282;322;0.95;296.8;338.9;282;962.2;Surface 3.7 m², autonomie batt ~49 min, charge UPS 28.2%
-Local Technique;N1-LT02;Baie 42U 600x800 au sol;AL-N1-LT02;5x C9200L-48P-4X;Commutateurs accès (210 prises, PoE 262W);1x Onduleur 1.5 kVA (APC Smart-UPS 1.5 kVA (SMT1500RMI2U));487;587;0.95;512.6;617.9;487;1661.7;Surface 6.6 m², autonomie batt ~27 min, charge UPS 48.7%
+reperes,modele,nombre,baie,alimentations,w_typ,w_max,u,total_typ,total_max
+"EL-RTR1, EL-RTR2",Cisco C8200L-1N-4T,2,1,1,20,30,2,40,60
+"EL-FGT1, EL-FGT2",FortiGate 120G,2,1,2,40,65,2,80,130
+"EL-SW1, EL-SW2",Cisco C9200L-24T-4X,2,1,1,40,60,2,80,120
+"EL-SNS1, EL-SNS2",Stormshield SN710,2,1,1,45,70,2,90,140
+"DM-SW1, DM-SW2",Cisco C9200L-24T-4X,2,1,1,40,60,2,80,120
+"CL-SW1, CL-SW2",Cisco C9500-16X,2,1,2,160,260,2,320,520
+DL-SW1 à DL-SW4,Cisco C9500-16X,4,1,2,160,260,4,640,1040
+"NM-SW1, NM-SW2",Cisco C9200L-24T-4X,2,1,1,40,60,2,80,120
+Tiroirs optiques,Rocades et adductions,3,1,0,0,0,3,0,0
+"DM-RP1/2, DM-DNS1, DM-WEB1, DM-MAIL1, DM-SRV1",Dell PowerEdge R260,6,2,2,110,190,6,660,1140
+"DT-SW1, DT-SW2",Cisco C9300X-12Y,2,2,2,130,220,2,260,440
+"DT-AD1/2, DT-RAD1/2, DT-DHCP1/2",Dell PowerEdge R360,6,2,2,120,200,6,720,1200
+NM-PVE1 à NM-PVE3,Dell PowerEdge R660xs,3,2,2,260,420,3,780,1260
+DT-BKP1,Dell PowerEdge R760xd2,1,2,2,320,480,2,320,480

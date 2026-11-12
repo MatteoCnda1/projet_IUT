@@ -1,395 +1,363 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1680 1180" width="100%" height="100%" style="background:#0f172a; font-family:system-ui, -apple-system, Segoe UI, Roboto, Helvetica, sans-serif;">
-<defs>
-      <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%" stop-color="#1e293b"/>
-        <stop offset="50%" stop-color="#334155"/>
-        <stop offset="100%" stop-color="#1e293b"/>
-      </linearGradient>
-      <linearGradient id="cardGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#1e293b"/>
-        <stop offset="100%" stop-color="#0f172a"/>
-      </linearGradient>
-      <linearGradient id="gradVoieA" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#1e40af"/>
-        <stop offset="100%" stop-color="#2563eb"/>
-      </linearGradient>
-      <linearGradient id="gradVoieB" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#991b1b"/>
-        <stop offset="100%" stop-color="#dc2626"/>
-      </linearGradient>
-      <linearGradient id="gradGen" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#065f46"/>
-        <stop offset="100%" stop-color="#059669"/>
-      </linearGradient>
-      <linearGradient id="gradATS" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#92400e"/>
-        <stop offset="100%" stop-color="#d97706"/>
-      </linearGradient>
-      <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
-        <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.4"/>
-      </filter>
-      <marker id="arrowA" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-        <path d="M 0 0 L 8 4 L 0 8 z" fill="#3b82f6"/>
-      </marker>
-      <marker id="arrowB" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-        <path d="M 0 0 L 8 4 L 0 8 z" fill="#ef4444"/>
-      </marker>
-      <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-        <path d="M 0 0 L 8 4 L 0 8 z" fill="#10b981"/>
-      </marker>
-      <marker id="arrowYellow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-        <path d="M 0 0 L 8 4 L 0 8 z" fill="#f59e0b"/>
-      </marker>
-      <marker id="arrowGrey" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-        <path d="M 0 0 L 8 4 L 0 8 z" fill="#94a3b8"/>
-      </marker>
-    </defs>
-<rect width="100%" height="100%" fill="#0f172a"/>
-
-    <g transform="translate(30, 20)">
-      <rect width="1620" height="70" rx="10" fill="url(#headerGrad)" stroke="#475569" stroke-width="1.5" filter="url(#shadow)"/>
-      <circle cx="35" cy="35" r="18" fill="#3b82f6" opacity="0.2"/>
-      <path d="M 35 22 L 35 48 M 25 35 L 45 35" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"/>
-      <text x="65" y="32" fill="#f8fafc" font-size="20" font-weight="700" letter-spacing="0.5">ARCHITECTURE ÉLECTRIQUE REDONDANTE 2N (VOIES A &amp; B) – SALLE SERVEUR &amp; LOCAUX TECHNIQUES</text>
-      <text x="65" y="54" fill="#94a3b8" font-size="13">Campus IUT de Luminy (Marseille) • Sous-sol J05 Sud • P_nom: 3.82 kW • P_pic: 6.22 kW • Autonomie: 42 min (N) / 95 min (2N) • Conforme EN 50600 Class 3 / Tier III</text>
-    </g>
-    
-
-    <!-- Enedis Arrival -->
-    <g transform="translate(100, 110)" filter="url(#shadow)">
-      <rect width="260" height="90" rx="8" fill="url(#cardGrad)" stroke="#38bdf8" stroke-width="2"/>
-      <rect x="0" y="0" width="260" height="26" rx="8" fill="#0369a1"/>
-      <text x="130" y="18" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">SOURCE NORMALE (RÉSEAU ENEDIS)</text>
-      <text x="15" y="46" fill="#e2e8f0" font-size="12" font-weight="600">Arrivée TGBT Campus Luminy</text>
-      <text x="15" y="64" fill="#94a3b8" font-size="11">400 V Triphasé + N + PE • 50 Hz</text>
-      <text x="15" y="80" fill="#38bdf8" font-size="10" font-weight="600">Comptage Tarif Vert Enedis</text>
-    </g>
-
-    <!-- Generator Secours -->
-    <g transform="translate(460, 110)" filter="url(#shadow)">
-      <rect width="260" height="90" rx="8" fill="url(#cardGrad)" stroke="#10b981" stroke-width="2"/>
-      <rect x="0" y="0" width="260" height="26" rx="8" fill="url(#gradGen)"/>
-      <text x="130" y="18" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">SOURCE SECOURS (GROUPE ÉLECTROGÈNE)</text>
-      <text x="15" y="46" fill="#e2e8f0" font-size="12" font-weight="600">Groupe Électrogène Campus 250 kVA</text>
-      <text x="15" y="64" fill="#94a3b8" font-size="11">Démarrage auto &lt; 15 s • Cuve 500 L</text>
-      <text x="15" y="80" fill="#10b981" font-size="10" font-weight="600">Autonomie continue &gt; 24h à pleine charge</text>
-    </g>
-
-    <!-- Inverseur ATS Campus -->
-    <g transform="translate(260, 230)" filter="url(#shadow)">
-      <rect width="300" height="85" rx="8" fill="url(#cardGrad)" stroke="#f59e0b" stroke-width="2"/>
-      <rect x="0" y="0" width="300" height="26" rx="8" fill="url(#gradATS)"/>
-      <text x="150" y="18" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">INVERSEUR DE SOURCE NORMAL / SECOURS (ATS)</text>
-      <text x="15" y="46" fill="#e2e8f0" font-size="12" font-weight="600">ATS Tétrapolaire 4P 160A motorisé</text>
-      <text x="15" y="63" fill="#94a3b8" font-size="11">Verrouillage mécanique + électrique</text>
-      <text x="15" y="78" fill="#fbbf24" font-size="10" font-weight="600">Temps de commutation : ~8 à 10 secondes</text>
-    </g>
-    
-
-    <!-- Cable Enedis to ATS -->
-    <path d="M 230 200 L 230 272 L 260 272" stroke="#38bdf8" stroke-width="3" fill="none" marker-end="url(#arrowGrey)"/>
-    <text x="180" y="245" fill="#38bdf8" font-size="10" font-weight="600">Voie Normale</text>
-
-    <!-- Cable GE to ATS -->
-    <path d="M 590 200 L 590 272 L 560 272" stroke="#10b981" stroke-width="3" fill="none" marker-end="url(#arrowGreen)"/>
-    <text x="600" y="245" fill="#10b981" font-size="10" font-weight="600">Voie Secours</text>
-    
-
-    <!-- Départ TGBT vers 6 L.TECH -->
-    <g transform="translate(1120, 110)" filter="url(#shadow)">
-      <rect width="520" height="205" rx="10" fill="url(#cardGrad)" stroke="#64748b" stroke-width="2"/>
-      <rect x="0" y="0" width="520" height="28" rx="10" fill="#334155"/>
-      <text x="260" y="19" fill="#f8fafc" font-size="12" font-weight="bold" text-anchor="middle">DISTRIBUTION ÉLECTRIQUE SECILISÉE VERS LES 6 LOCAUX TECHNIQUES (L.TECH)</text>
-
-      <g transform="translate(15, 38)">
-        <rect width="240" height="70" rx="6" fill="#1e293b" stroke="#475569"/>
-        <text x="10" y="18" fill="#38bdf8" font-size="11" font-weight="bold">N-1-LT01 (Sous-sol • 6.7 m²)</text>
-        <text x="10" y="34" fill="#cbd5e1" font-size="10">1x C9200L-48P • PoE 103W • P_nom: 148W</text>
-        <text x="10" y="48" fill="#94a3b8" font-size="10">Onduleur APC 1.5 kVA (Charge: 14.8%)</text>
-        <text x="10" y="62" fill="#10b981" font-size="10" font-weight="bold">Autonomie batterie : ~72 min</text>
-      </g>
-
-      <g transform="translate(265, 38)">
-        <rect width="240" height="70" rx="6" fill="#1e293b" stroke="#475569"/>
-        <text x="10" y="18" fill="#38bdf8" font-size="11" font-weight="bold">N-1-LT02 (Sous-sol • 16.0 m²)</text>
-        <text x="10" y="34" fill="#cbd5e1" font-size="10">1x C9200L-48P • PoE 70W • P_nom: 115W</text>
-        <text x="10" y="48" fill="#94a3b8" font-size="10">Onduleur APC 1.5 kVA (Charge: 11.5%)</text>
-        <text x="10" y="62" fill="#10b981" font-size="10" font-weight="bold">Autonomie batterie : ~79 min</text>
-      </g>
-
-      <g transform="translate(15, 118)">
-        <rect width="240" height="75" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
-        <text x="10" y="17" fill="#f59e0b" font-size="11" font-weight="bold">N0-LT01 (Placard RDC • 2.3 m²)</text>
-        <text x="10" y="32" fill="#cbd5e1" font-size="10">2x C9200L-48P • PoE 333W • P_nom: 423W</text>
-        <text x="10" y="46" fill="#94a3b8" font-size="10">Onduleur APC 1.5 kVA (Charge: 42.3%)</text>
-        <text x="10" y="60" fill="#ef4444" font-size="10" font-weight="bold">Ventilation forcée dédiée 185 m³/h</text>
-        <text x="10" y="72" fill="#10b981" font-size="9">Autonomie : ~33 min</text>
-      </g>
-
-      <g transform="translate(265, 118)">
-        <rect width="240" height="75" rx="6" fill="#1e293b" stroke="#475569"/>
-        <text x="10" y="17" fill="#38bdf8" font-size="11" font-weight="bold">N0-LT02, N1-LT01, N1-LT02</text>
-        <text x="10" y="32" fill="#cbd5e1" font-size="10">N0-LT02 (565W) • N1-LT01 (282W)</text>
-        <text x="10" y="46" fill="#cbd5e1" font-size="10">N1-LT02 (487W • Baie 42U au sol)</text>
-        <text x="10" y="60" fill="#94a3b8" font-size="10">3x Onduleurs APC 1.5 kVA dédiés</text>
-        <text x="10" y="72" fill="#10b981" font-size="9">Autonomie : ~22 à 49 min</text>
-      </g>
-    </g>
-
-    <!-- Cable ATS to L.TECH panel -->
-    <path d="M 560 272 L 1120 272" stroke="#94a3b8" stroke-width="2.5" stroke-dasharray="6,4" fill="none" marker-end="url(#arrowGrey)"/>
-    <text x="750" y="264" fill="#94a3b8" font-size="10" font-weight="600">6 lignes dédiées C20A 3G4mm² vers les L.TECH</text>
-    
-
-    <!-- Busbar from ATS downwards -->
-    <path d="M 410 315 L 410 345" stroke="#f59e0b" stroke-width="3" fill="none"/>
-    <path d="M 230 345 L 750 345" stroke="#f59e0b" stroke-width="3" fill="none"/>
-    <path d="M 230 345 L 230 380" stroke="#3b82f6" stroke-width="3" fill="none" marker-end="url(#arrowA)"/>
-    <path d="M 750 345 L 750 380" stroke="#ef4444" stroke-width="3" fill="none" marker-end="url(#arrowB)"/>
-    <text x="410" y="340" fill="#f59e0b" font-size="11" font-weight="bold" text-anchor="middle">DISTRIBUTION TGBT SALLE SERVEUR (J05 SUD)</text>
-    
-
-    <!-- CADRE VOIE A -->
-    <g transform="translate(40, 380)" filter="url(#shadow)">
-      <rect width="470" height="420" rx="10" fill="#0f172a" stroke="#2563eb" stroke-width="2.5"/>
-      <rect x="0" y="0" width="470" height="32" rx="10" fill="url(#gradVoieA)"/>
-      <text x="235" y="22" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">VOIE A (ALIMENTATION PRIMAIRE REDONDANTE)</text>
-
-      <!-- Étage 1 : Protection & Bypass -->
-      <g transform="translate(15, 45)">
-        <rect width="440" height="75" rx="6" fill="#1e293b" stroke="#3b82f6"/>
-        <text x="12" y="18" fill="#93c5fd" font-size="11" font-weight="bold">Protection TGBT Voie A &amp; Bypass de Maintenance</text>
-        <text x="12" y="36" fill="#e2e8f0" font-size="11">• Disjoncteur différentiel C32A / 300mA Type A-Si (Super-immunisé)</text>
-        <text x="12" y="52" fill="#e2e8f0" font-size="11">• Parafoudre débrochable Type 2 (SPD 40 kA) conforme NF C 15-100</text>
-        <text x="12" y="68" fill="#60a5fa" font-size="10" font-weight="600">• Inverseur de Bypass manuel 3 positions (Normal / Test / Bypass)</text>
-      </g>
-
-      <!-- Étage 2 : Onduleur A -->
-      <g transform="translate(15, 135)">
-        <rect width="440" height="150" rx="6" fill="#1e293b" stroke="#2563eb" stroke-width="1.5"/>
-        <rect x="0" y="0" width="440" height="24" rx="6" fill="#1d4ed8"/>
-        <text x="220" y="17" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">ONDULEUR UPS A : APC SMART-UPS SRT 6 kVA (SRT6KRMXLI)</text>
-
-        <text x="12" y="44" fill="#f8fafc" font-size="12" font-weight="600">Technologie : On-Line Double Conversion (VFI-SS-111)</text>
-        <text x="12" y="62" fill="#cbd5e1" font-size="11">Capacité : 6 000 VA / 6 000 W • Facteur de puissance : 1.0</text>
-        <text x="12" y="80" fill="#cbd5e1" font-size="11">Régime nominal 2N (50% charge) : <tspan fill="#60a5fa" font-weight="bold">1 912 W (31.9% charge)</tspan></text>
-        <text x="12" y="98" fill="#cbd5e1" font-size="11">Régime dégradé N (100% salle) : <tspan fill="#f87171" font-weight="bold">3 824 W (63.7% charge)</tspan></text>
-        <text x="12" y="116" fill="#93c5fd" font-size="11">Supervision : Carte NMC3 (SNMPv3, NUT, Modbus-TCP, LibreNMS)</text>
-        <rect x="12" y="124" width="416" height="20" rx="4" fill="#0f172a" stroke="#3b82f6"/>
-        <text x="220" y="138" fill="#93c5fd" font-size="10" font-weight="bold" text-anchor="middle">+ 1 Pack Batterie Externe SRT192RMBP • Autonomie : 42 min (N) / 95 min (2N)</text>
-      </g>
-
-      <!-- Étage 3 : Tableau divisionnaire ondulé A -->
-      <g transform="translate(15, 300)">
-        <rect width="440" height="105" rx="6" fill="#1e293b" stroke="#3b82f6"/>
-        <text x="12" y="18" fill="#93c5fd" font-size="11" font-weight="bold">Tableau Divisionnaire Ondulé A (TD-OND-A)</text>
-        <text x="12" y="36" fill="#e2e8f0" font-size="11">Départs protégés par disjoncteurs C16A 30mA Si :</text>
-        <text x="20" y="54" fill="#93c5fd" font-size="11">➜ Départ A1 : Alimentation PDU A1 (Baie 1 Réseau/Cœur)</text>
-        <text x="20" y="72" fill="#93c5fd" font-size="11">➜ Départ A2 : Alimentation PDU A2 (Baie 2 Datacenter/Hyperviseurs)</text>
-        <text x="20" y="90" fill="#f59e0b" font-size="11">➜ Départ A-ATS : Source primaire de l'ATS 1U (APC AP4421A)</text>
-      </g>
-    </g>
-    
-
-    <!-- CADRE VOIE B -->
-    <g transform="translate(560, 380)" filter="url(#shadow)">
-      <rect width="470" height="420" rx="10" fill="#0f172a" stroke="#dc2626" stroke-width="2.5"/>
-      <rect x="0" y="0" width="470" height="32" rx="10" fill="url(#gradVoieB)"/>
-      <text x="235" y="22" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">VOIE B (ALIMENTATION SECONDAIRE INDÉPENDANTE)</text>
-
-      <!-- Étage 1 : Protection & Bypass -->
-      <g transform="translate(15, 45)">
-        <rect width="440" height="75" rx="6" fill="#1e293b" stroke="#ef4444"/>
-        <text x="12" y="18" fill="#fca5a5" font-size="11" font-weight="bold">Protection TGBT Voie B &amp; Bypass de Maintenance</text>
-        <text x="12" y="36" fill="#e2e8f0" font-size="11">• Disjoncteur différentiel C32A / 300mA Type A-Si (Super-immunisé)</text>
-        <text x="12" y="52" fill="#e2e8f0" font-size="11">• Parafoudre débrochable Type 2 (SPD 40 kA) conforme NF C 15-100</text>
-        <text x="12" y="68" fill="#f87171" font-size="10" font-weight="600">• Inverseur de Bypass manuel 3 positions (Normal / Test / Bypass)</text>
-      </g>
-
-      <!-- Étage 2 : Onduleur B -->
-      <g transform="translate(15, 135)">
-        <rect width="440" height="150" rx="6" fill="#1e293b" stroke="#dc2626" stroke-width="1.5"/>
-        <rect x="0" y="0" width="440" height="24" rx="6" fill="#b91c1c"/>
-        <text x="220" y="17" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">ONDULEUR UPS B : APC SMART-UPS SRT 6 kVA (SRT6KRMXLI)</text>
-
-        <text x="12" y="44" fill="#f8fafc" font-size="12" font-weight="600">Technologie : On-Line Double Conversion (VFI-SS-111)</text>
-        <text x="12" y="62" fill="#cbd5e1" font-size="11">Capacité : 6 000 VA / 6 000 W • Facteur de puissance : 1.0</text>
-        <text x="12" y="80" fill="#cbd5e1" font-size="11">Régime nominal 2N (50% charge) : <tspan fill="#fca5a5" font-weight="bold">1 912 W (31.9% charge)</tspan></text>
-        <text x="12" y="98" fill="#cbd5e1" font-size="11">Régime dégradé N (100% salle) : <tspan fill="#f87171" font-weight="bold">3 824 W (63.7% charge)</tspan></text>
-        <text x="12" y="116" fill="#fca5a5" font-size="11">Supervision : Carte NMC3 (SNMPv3, NUT, Modbus-TCP, LibreNMS)</text>
-        <rect x="12" y="124" width="416" height="20" rx="4" fill="#0f172a" stroke="#ef4444"/>
-        <text x="220" y="138" fill="#fca5a5" font-size="10" font-weight="bold" text-anchor="middle">+ 1 Pack Batterie Externe SRT192RMBP • Autonomie : 42 min (N) / 95 min (2N)</text>
-      </g>
-
-      <!-- Étage 3 : Tableau divisionnaire ondulé B -->
-      <g transform="translate(15, 300)">
-        <rect width="440" height="105" rx="6" fill="#1e293b" stroke="#ef4444"/>
-        <text x="12" y="18" fill="#fca5a5" font-size="11" font-weight="bold">Tableau Divisionnaire Ondulé B (TD-OND-B)</text>
-        <text x="12" y="36" fill="#e2e8f0" font-size="11">Départs protégés par disjoncteurs C16A 30mA Si :</text>
-        <text x="20" y="54" fill="#fca5a5" font-size="11">➜ Départ B1 : Alimentation PDU B1 (Baie 1 Réseau/Cœur)</text>
-        <text x="20" y="72" fill="#fca5a5" font-size="11">➜ Départ B2 : Alimentation PDU B2 (Baie 2 Datacenter/Hyperviseurs)</text>
-        <text x="20" y="90" fill="#f59e0b" font-size="11">➜ Départ B-ATS : Source secours de l'ATS 1U (APC AP4421A)</text>
-      </g>
-    </g>
-    
-
-    <!-- ALIMENTATION CLIMATISATION N+1 -->
-    <g transform="translate(1080, 380)" filter="url(#shadow)">
-      <rect width="560" height="420" rx="10" fill="#0f172a" stroke="#0ea5e9" stroke-width="2.5"/>
-      <rect x="0" y="0" width="560" height="32" rx="10" fill="#0284c7"/>
-      <text x="280" y="22" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">CLIMATISATION DE PRÉCISION N+1 (7.2 kW FROID SENSIBLE)</text>
-
-      <g transform="translate(15, 45)">
-        <rect width="530" height="75" rx="6" fill="#1e293b" stroke="#0ea5e9"/>
-        <text x="12" y="18" fill="#7dd3fc" font-size="11" font-weight="bold">Alimentation Électrique Sécurisée des Groupes Froid</text>
-        <text x="12" y="36" fill="#e2e8f0" font-size="11">• Climatiseur Unité 1 (Maître) raccordé au départ Force Voie A (TGBT)</text>
-        <text x="12" y="52" fill="#e2e8f0" font-size="11">• Climatiseur Unité 2 (Secours N+1) raccordé au départ Force Voie B (TGBT)</text>
-        <text x="12" y="68" fill="#38bdf8" font-size="10" font-weight="600">• Redémarrage automatique échelonné après reprise secteur / groupe électrogène</text>
-      </g>
-
-      <g transform="translate(15, 135)">
-        <rect width="255" height="150" rx="6" fill="#1e293b" stroke="#38bdf8"/>
-        <text x="128" y="20" fill="#38bdf8" font-size="12" font-weight="bold" text-anchor="middle">UNITÉ 1 : ACTIVE</text>
-        <text x="10" y="44" fill="#cbd5e1" font-size="11">Type : Détente directe DX Inverter</text>
-        <text x="10" y="62" fill="#cbd5e1" font-size="11">Capacité sensible : 7.2 kW</text>
-        <text x="10" y="80" fill="#cbd5e1" font-size="11">Régime nominal : <tspan fill="#10b981" font-weight="bold">60.6% charge</tspan></text>
-        <text x="10" y="98" fill="#cbd5e1" font-size="11">Débit d'air : 1 850 m³/h (EC fans)</text>
-        <text x="10" y="116" fill="#cbd5e1" font-size="11">Fluide frigorigène : R32 (Bas GWP)</text>
-        <text x="10" y="136" fill="#38bdf8" font-size="10" font-weight="bold">Soufflage allée froide à 22°C</text>
-      </g>
-
-      <g transform="translate(290, 135)">
-        <rect width="255" height="150" rx="6" fill="#1e293b" stroke="#10b981"/>
-        <text x="128" y="20" fill="#10b981" font-size="12" font-weight="bold" text-anchor="middle">UNITÉ 2 : SECOURS (STANDBY)</text>
-        <text x="10" y="44" fill="#cbd5e1" font-size="11">Type : Détente directe DX Inverter</text>
-        <text x="10" y="62" fill="#cbd5e1" font-size="11">Capacité sensible : 7.2 kW</text>
-        <text x="10" y="80" fill="#cbd5e1" font-size="11">Statut : <tspan fill="#10b981" font-weight="bold">Veille active (Standby)</tspan></text>
-        <text x="10" y="98" fill="#cbd5e1" font-size="11">Permutation automatique hebdo</text>
-        <text x="10" y="116" fill="#cbd5e1" font-size="11">Reprise instantanée si défaut U1</text>
-        <text x="10" y="136" fill="#10b981" font-size="10" font-weight="bold">Assure la redondance N+1 stricte</text>
-      </g>
-
-      <g transform="translate(15, 300)">
-        <rect width="530" height="105" rx="6" fill="#1e293b" stroke="#0ea5e9"/>
-        <text x="12" y="18" fill="#7dd3fc" font-size="11" font-weight="bold">Performances Énergétiques &amp; Free-Cooling Nocturne</text>
-        <text x="12" y="36" fill="#e2e8f0" font-size="11">• Climat méditerranéen de Luminy : 42% de l'année avec T_ext &lt; 18°C (nuits &amp; mi-saison)</text>
-        <text x="12" y="54" fill="#e2e8f0" font-size="11">• Économiseur Free-cooling indirect : EER passe de 3.6 (compression) à 12.0 (free-cooling)</text>
-        <text x="12" y="72" fill="#10b981" font-size="11" font-weight="bold">• PUE annuel moyen pondéré : 1.28 (vs 1.60 initial chiffrage) • Gain éco-énergie : -20% OPEX</text>
-        <text x="12" y="90" fill="#94a3b8" font-size="10">Supervision T°/HR par sondes Modbus raccordées au collecteur SNMP LibreNMS</text>
-      </g>
-    </g>
-    
-
-    <!-- BAIE 1 : RÉSEAU / CŒUR / DMZ -->
-    <g transform="translate(40, 830)" filter="url(#shadow)">
-      <rect width="740" height="320" rx="10" fill="url(#cardGrad)" stroke="#475569" stroke-width="2"/>
-      <rect x="0" y="0" width="740" height="30" rx="10" fill="#334155"/>
-      <text x="370" y="20" fill="#f8fafc" font-size="13" font-weight="bold" text-anchor="middle">BAIE 1 (42U 800x1000) : WAN • FIREWALLS • DMZ • CŒUR • DISTRIBUTION</text>
-
-      <!-- PDU A1 et PDU B1 -->
-      <g transform="translate(15, 40)">
-        <rect width="345" height="40" rx="4" fill="#1e3a8a" stroke="#3b82f6"/>
-        <text x="10" y="18" fill="#ffffff" font-size="11" font-weight="bold">PDU A1 (0U Verticale) : APC AP8959EU3</text>
-        <text x="10" y="32" fill="#bfdbfe" font-size="10">Alimentée par Voie A • 230V 16A • Métrée par prise</text>
-      </g>
-      <g transform="translate(380, 40)">
-        <rect width="345" height="40" rx="4" fill="#7f1d1d" stroke="#ef4444"/>
-        <text x="10" y="18" fill="#ffffff" font-size="11" font-weight="bold">PDU B1 (0U Verticale) : APC AP8959EU3</text>
-        <text x="10" y="32" fill="#fecaca" font-size="10">Alimentée par Voie B • 230V 16A • Métrée par prise</text>
-      </g>
-
-      <!-- ATS 1U pour monosource -->
-      <g transform="translate(15, 90)">
-        <rect width="710" height="42" rx="4" fill="#78350f" stroke="#f59e0b"/>
-        <text x="10" y="18" fill="#fef3c7" font-size="11" font-weight="bold">ATS 1U Rackable : APC AP4421A (Automatic Transfer Switch 10A)</text>
-        <text x="10" y="33" fill="#fde68a" font-size="10">Entrée 1 sur Voie A | Entrée 2 sur Voie B ➜ Alimente les équipements monosources en &lt; 10 ms sans coupure</text>
-      </g>
-
-      <!-- Équipements de Baie 1 -->
-      <g transform="translate(15, 142)">
-        <rect width="710" height="165" rx="6" fill="#0f172a" stroke="#334155"/>
-        <text x="15" y="20" fill="#38bdf8" font-size="11" font-weight="bold">Équipements hébergés en Baie 1 (P_nom: 1 904 W • P_pic: 3 137 W • 24 unités physiques) :</text>
-
-        <!-- Monosources via ATS -->
-        <g transform="translate(15, 30)">
-          <rect width="680" height="26" rx="4" fill="#1e293b" stroke="#f59e0b"/>
-          <text x="10" y="17" fill="#fbbf24" font-size="10" font-weight="bold">[Monosource via ATS]</text>
-          <text x="145" y="17" fill="#f8fafc" font-size="10">2x Routeurs Cisco C8200L-1N-4T (EL-RTR1, EL-RTR2) • 2x 20W • FAI 1 &amp; FAI 2</text>
-        </g>
-
-        <!-- Double alimentation Voie A + Voie B -->
-        <g transform="translate(15, 62)">
-          <rect width="680" height="92" rx="4" fill="#1e293b" stroke="#64748b"/>
-          <text x="10" y="18" fill="#38bdf8" font-size="10" font-weight="bold">[Double Alim A + B]</text>
-          <text x="145" y="18" fill="#f8fafc" font-size="10">2x Pare-feu FortiGate 120G (Alim 1 sur PDU A1, Alim 2 sur PDU B1) • 2x 32W</text>
-          <text x="145" y="34" fill="#f8fafc" font-size="10">2x Pare-feu Stormshield SN710 (Qualif ANSSI) (Alim 1 ➜ A1, Alim 2 ➜ B1) • 2x 40W</text>
-          <text x="145" y="50" fill="#f8fafc" font-size="10">4x Switchs C9200L-24T (WAN &amp; DMZ) (Alim 1 ➜ A1, Alim 2 ➜ B1) • 4x 45W</text>
-          <text x="145" y="66" fill="#f8fafc" font-size="10">6x Switchs C9500-16X-E (Cœur &amp; Distribution SVL) (Alim 1 ➜ A1, Alim 2 ➜ B1) • 6x 140W</text>
-          <text x="145" y="82" fill="#f8fafc" font-size="10">6x Serveurs Dell PowerEdge R260 (DMZ RP/DNS/WEB) (Alim 1 ➜ A1, Alim 2 ➜ B1) • 6x 110W</text>
-        </g>
-      </g>
-    </g>
-
-    <!-- BAIE 2 : DATACENTER / HYPERVISEURS / BACKUP -->
-    <g transform="translate(820, 830)" filter="url(#shadow)">
-      <rect width="820" height="320" rx="10" fill="url(#cardGrad)" stroke="#475569" stroke-width="2"/>
-      <rect x="0" y="0" width="820" height="30" rx="10" fill="#334155"/>
-      <text x="410" y="20" fill="#f8fafc" font-size="13" font-weight="bold" text-anchor="middle">BAIE 2 (42U 800x1000) : DATACENTER • PROXMOX HA CEPH • ACTIVE DIRECTORY • BACKUP PBS</text>
-
-      <!-- PDU A2 et PDU B2 -->
-      <g transform="translate(15, 40)">
-        <rect width="385" height="40" rx="4" fill="#1e3a8a" stroke="#3b82f6"/>
-        <text x="10" y="18" fill="#ffffff" font-size="11" font-weight="bold">PDU A2 (0U Verticale) : APC AP8959EU3</text>
-        <text x="10" y="32" fill="#bfdbfe" font-size="10">Alimentée par Voie A • 230V 16A • Métrée par prise</text>
-      </g>
-      <g transform="translate(420, 40)">
-        <rect width="385" height="40" rx="4" fill="#7f1d1d" stroke="#ef4444"/>
-        <text x="10" y="18" fill="#ffffff" font-size="11" font-weight="bold">PDU B2 (0U Verticale) : APC AP8959EU3</text>
-        <text x="10" y="32" fill="#fecaca" font-size="10">Alimentée par Voie B • 230V 16A • Métrée par prise</text>
-      </g>
-
-      <!-- Équipements de Baie 2 -->
-      <g transform="translate(15, 90)">
-        <rect width="790" height="217" rx="6" fill="#0f172a" stroke="#334155"/>
-        <text x="15" y="20" fill="#38bdf8" font-size="11" font-weight="bold">Équipements hébergés en Baie 2 (P_nom: 1 920 W • P_pic: 3 080 W • 15 serveurs &amp; switchs) :</text>
-        <text x="15" y="36" fill="#94a3b8" font-size="10">Tous les équipements de la Baie 2 disposent de doubles blocs d'alimentation redondants (PSU1 sur PDU A2, PSU2 sur PDU B2) :</text>
-
-        <g transform="translate(15, 45)">
-          <rect width="760" height="158" rx="4" fill="#1e293b" stroke="#64748b"/>
-          <g transform="translate(12, 18)">
-            <text x="0" y="0" fill="#10b981" font-size="10" font-weight="bold">Cluster Virtualisation HA :</text>
-            <text x="160" y="0" fill="#f8fafc" font-size="10">3x Dell PowerEdge R660xs (NM-PVE1 à 3) • 2x PSU 800W Titanium • P_nom: 3x 200W</text>
-            <text x="160" y="14" fill="#94a3b8" font-size="9">Cluster Proxmox VE + Stockage distribué Ceph (NVMe) + Supervision LibreNMS/Grafana</text>
-          </g>
-
-          <g transform="translate(12, 54)">
-            <text x="0" y="0" fill="#38bdf8" font-size="10" font-weight="bold">Commutateurs Datacenter :</text>
-            <text x="160" y="0" fill="#f8fafc" font-size="10">2x Cisco C9300X-12Y-E (25G DT-SW1/2) + 2x C9200L-24T (NM-SW1/2) • P_nom: 350W</text>
-            <text x="160" y="14" fill="#94a3b8" font-size="9">Double alimentation redondante 1+1 Platinum • Câblage DAC 25G vers R660xs</text>
-          </g>
-
-          <g transform="translate(12, 90)">
-            <text x="0" y="0" fill="#fbbf24" font-size="10" font-weight="bold">Serveurs Métier Datacenter :</text>
-            <text x="160" y="0" fill="#f8fafc" font-size="10">6x Dell PowerEdge R360 (DT-AD1/2, DT-RAD1/2, DT-DHCP1/2) • 2x PSU 600W • P_nom: 6x 115W</text>
-            <text x="160" y="14" fill="#94a3b8" font-size="9">Services d'infrastructure haute disponibilité (Contrôleurs AD, RADIUS 802.1X, DHCP)</text>
-          </g>
-
-          <g transform="translate(12, 126)">
-            <text x="0" y="0" fill="#f43f5e" font-size="10" font-weight="bold">Serveur Sauvegarde PBS :</text>
-            <text x="160" y="0" fill="#f8fafc" font-size="10">1x Dell PowerEdge R760xd2 (DT-BKP1) • 2x PSU 1100W Titanium • ~100 To bruts • P_nom: 250W</text>
-            <text x="160" y="14" fill="#94a3b8" font-size="9">Proxmox Backup Server (Dédoublonnage à la source, chiffrement, rétention Règle 3-2-1)</text>
-          </g>
-        </g>
-      </g>
-    </g>
-    
-
-    <!-- Liaison Voie A -> PDU A1 & PDU A2 -->
-    <path d="M 230 800 L 230 820 L 190 820 L 190 840" stroke="#3b82f6" stroke-width="2.5" fill="none" marker-end="url(#arrowA)"/>
-    <path d="M 230 800 L 230 820 L 1010 820 L 1010 840" stroke="#3b82f6" stroke-width="2.5" stroke-dasharray="8,4" fill="none" marker-end="url(#arrowA)"/>
-
-    <!-- Liaison Voie B -> PDU B1 & PDU B2 -->
-    <path d="M 750 800 L 750 820 L 550 820 L 550 840" stroke="#ef4444" stroke-width="2.5" fill="none" marker-end="url(#arrowB)"/>
-    <path d="M 750 800 L 750 820 L 1240 820 L 1240 840" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="8,4" fill="none" marker-end="url(#arrowB)"/>
-    
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="667.26pt" height="435.744pt" viewBox="0 0 667.26 435.744" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-12T16:20:44.598330</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.1+dfsg1, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 435.744 
+L 667.26 435.744 
+L 667.26 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 260.7273 92.52216 
+L 406.5327 92.52216 
+Q 410.8851 92.52216 410.8851 88.30872 
+L 410.8851 63.02808 
+Q 410.8851 58.81464 406.5327 58.81464 
+L 260.7273 58.81464 
+Q 256.3749 58.81464 256.3749 63.02808 
+L 256.3749 88.30872 
+Q 256.3749 92.52216 260.7273 92.52216 
+z
+" clip-path="url(#p3fc8b5f6cc)" style="fill: #f6f4ef; stroke: #8c8880; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 244.4058 150.45696 
+L 422.8542 150.45696 
+Q 427.2066 150.45696 427.2066 146.24352 
+L 427.2066 118.32948 
+Q 427.2066 114.11604 422.8542 114.11604 
+L 244.4058 114.11604 
+Q 240.0534 114.11604 240.0534 118.32948 
+L 240.0534 146.24352 
+Q 240.0534 150.45696 244.4058 150.45696 
+z
+" clip-path="url(#p3fc8b5f6cc)" style="fill: #eaf0f8; stroke: #1f4e8c; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 64.8693 221.55876 
+L 199.7937 221.55876 
+Q 204.1461 221.55876 204.1461 217.34532 
+L 204.1461 184.16448 
+Q 204.1461 179.95104 199.7937 179.95104 
+L 64.8693 179.95104 
+Q 60.5169 179.95104 60.5169 184.16448 
+L 60.5169 217.34532 
+Q 60.5169 221.55876 64.8693 221.55876 
+z
+" clip-path="url(#p3fc8b5f6cc)" style="fill: #ffffff; stroke: #2c6e8c; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 266.1678 221.55876 
+L 401.0922 221.55876 
+Q 405.4446 221.55876 405.4446 217.34532 
+L 405.4446 184.16448 
+Q 405.4446 179.95104 401.0922 179.95104 
+L 266.1678 179.95104 
+Q 261.8154 179.95104 261.8154 184.16448 
+L 261.8154 217.34532 
+Q 261.8154 221.55876 266.1678 221.55876 
+z
+" clip-path="url(#p3fc8b5f6cc)" style="fill: #ffffff; stroke: #8c682c; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 467.4663 221.55876 
+L 635.0337 221.55876 
+Q 639.3861 221.55876 639.3861 217.34532 
+L 639.3861 184.16448 
+Q 639.3861 179.95104 635.0337 179.95104 
+L 467.4663 179.95104 
+Q 463.1139 179.95104 463.1139 184.16448 
+L 463.1139 217.34532 
+Q 463.1139 221.55876 467.4663 221.55876 
+z
+" clip-path="url(#p3fc8b5f6cc)" style="fill: #ffffff; stroke: #1d7a4e; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 32.2263 305.82756 
+L 210.6747 305.82756 
+Q 215.0271 305.82756 215.0271 301.61412 
+L 215.0271 265.79988 
+Q 215.0271 261.58644 210.6747 261.58644 
+L 32.2263 261.58644 
+Q 27.8739 261.58644 27.8739 265.79988 
+L 27.8739 301.61412 
+Q 27.8739 305.82756 32.2263 305.82756 
+z
+" clip-path="url(#p3fc8b5f6cc)" style="fill: #ffffff; stroke: #3a3833; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 233.5248 305.82756 
+L 411.9732 305.82756 
+Q 416.3256 305.82756 416.3256 301.61412 
+L 416.3256 265.79988 
+Q 416.3256 261.58644 411.9732 261.58644 
+L 233.5248 261.58644 
+Q 229.1724 261.58644 229.1724 265.79988 
+L 229.1724 301.61412 
+Q 229.1724 305.82756 233.5248 305.82756 
+z
+" clip-path="url(#p3fc8b5f6cc)" style="fill: #ffffff; stroke: #3a3833; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 32.2263 379.56276 
+L 210.6747 379.56276 
+Q 215.0271 379.56276 215.0271 375.34932 
+L 215.0271 334.26828 
+Q 215.0271 330.05484 210.6747 330.05484 
+L 32.2263 330.05484 
+Q 27.8739 330.05484 27.8739 334.26828 
+L 27.8739 375.34932 
+Q 27.8739 379.56276 32.2263 379.56276 
+z
+" clip-path="url(#p3fc8b5f6cc)" style="fill: #ffffff; stroke: #3a3833; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 233.5248 379.56276 
+L 411.9732 379.56276 
+Q 416.3256 379.56276 416.3256 375.34932 
+L 416.3256 334.26828 
+Q 416.3256 330.05484 411.9732 330.05484 
+L 233.5248 330.05484 
+Q 229.1724 330.05484 229.1724 334.26828 
+L 229.1724 375.34932 
+Q 229.1724 379.56276 233.5248 379.56276 
+z
+" clip-path="url(#p3fc8b5f6cc)" style="fill: #ffffff; stroke: #3a3833; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 467.4663 326.89476 
+L 635.0337 326.89476 
+Q 639.3861 326.89476 639.3861 322.68132 
+L 639.3861 265.79988 
+Q 639.3861 261.58644 635.0337 261.58644 
+L 467.4663 261.58644 
+Q 463.1139 261.58644 463.1139 265.79988 
+L 463.1139 322.68132 
+Q 463.1139 326.89476 467.4663 326.89476 
+z
+" clip-path="url(#p3fc8b5f6cc)" style="fill: #ffffff; stroke: #5c2c8c; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Serif'; text-anchor: start" x="7.2" y="26.298012" transform="rotate(-0 7.2 26.298012)">Alimentation électrique de l'infrastructure</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3833" x="7.2" y="42.56615" transform="rotate(-0 7.2 42.56615)">Chaque équipement critique est alimenté par deux voies indépendantes (A et B). La panne d'un onduleur ou d'un circuit ne coupe aucun service.</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="333.63" y="71.070685" transform="rotate(-0 333.63 71.070685)">Arrivée électrique du bâtiment</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3833" x="333.63" y="86.38796" transform="rotate(-0 333.63 86.38796)">TGBT existant</text>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="333.63" y="127.536785" transform="rotate(-0 333.63 127.536785)">Tableau informatique TD-INFO</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3833" x="333.63" y="143.00606" transform="rotate(-0 333.63 143.00606)">sous-sol, à côté de la salle serveur · nouveau</text>
+   </g>
+   <g id="patch_12">
+    <path d="M 333.63 93.467959 
+Q 333.63 103.318644 333.63 111.827687 
+" style="fill: none; stroke: #3a3833; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 335.23 108.627687 
+L 333.63 111.827687 
+L 332.03 108.627687 
+z
+" style="fill: #3a3833; stroke: #3a3833; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="132.3315" y="196.005185" transform="rotate(-0 132.3315 196.005185)">Onduleur A</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3833" x="132.3315" y="211.47446" transform="rotate(-0 132.3315 211.47446)">APC SRT 6 kVA + pack batterie</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="333.63" y="196.005185" transform="rotate(-0 333.63 196.005185)">Onduleur B</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3833" x="333.63" y="211.47446" transform="rotate(-0 333.63 211.47446)">APC SRT 6 kVA + pack batterie</text>
+   </g>
+   <g id="patch_13">
+    <path d="M 277.266002 149.825034 
+Q 205.778456 165.203956 135.602544 180.300709 
+" style="fill: none; stroke: #2c6e8c; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 139.067477 181.191913 
+L 135.602544 180.300709 
+L 138.394466 178.063485 
+z
+" style="fill: #2c6e8c; stroke: #2c6e8c; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 333.63 151.405653 
+Q 333.63 165.205996 333.63 177.664699 
+" style="fill: none; stroke: #8c682c; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 335.23 174.464699 
+L 333.63 177.664699 
+L 332.03 174.464699 
+z
+" style="fill: #8c682c; stroke: #8c682c; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #2c6e8c" x="164.9745" y="165.204" transform="rotate(-0 164.9745 165.204)">départ 32 A</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #8c682c" x="339.0705" y="165.204" transform="rotate(-0 339.0705 165.204)">départ 32 A</text>
+   </g>
+   <g id="text_13">
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="551.25" y="196.005185" transform="rotate(-0 551.25 196.005185)">2 climatiseurs 7.1 kW</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3833" x="551.25" y="211.47446" transform="rotate(-0 551.25 211.47446)">1 en marche, 1 en secours, alternance</text>
+   </g>
+   <g id="patch_15">
+    <path d="M 389.990512 149.840464 
+Q 458.762246 165.204167 526.224615 180.275355 
+" style="fill: none; stroke: #1d7a4e; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 523.450441 178.01616 
+L 526.224615 180.275355 
+L 522.752755 181.139177 
+z
+" style="fill: #1d7a4e; stroke: #1d7a4e; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #1d7a4e" x="464.202" y="165.204" transform="rotate(-0 464.202 165.204)">2 départs 16 A</text>
+   </g>
+   <g id="text_16">
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="121.4505" y="278.957285" transform="rotate(-0 121.4505 278.957285)">Baie 1 · réseau et sécurité</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3833" x="121.4505" y="294.42656" transform="rotate(-0 121.4505 294.42656)">PDU A (bleue) + PDU B (ocre), métrées</text>
+   </g>
+   <g id="text_18">
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="322.749" y="278.957285" transform="rotate(-0 322.749 278.957285)">Baie 2 · serveurs</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3833" x="322.749" y="294.42656" transform="rotate(-0 322.749 294.42656)">PDU A (bleue) + PDU B (ocre), métrées</text>
+   </g>
+   <g id="patch_16">
+    <path d="M 131.171774 222.138417 
+Q 117.368718 241.574582 104.342493 259.916885 
+" style="fill: none; stroke: #2c6e8c; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 107.49985 258.2343 
+L 104.342493 259.916885 
+L 104.890839 256.381448 
+z
+" style="fill: #2c6e8c; stroke: #2c6e8c; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_17">
+    <path d="M 331.676107 220.931656 
+Q 237.059993 241.572847 143.754691 261.928075 
+" style="fill: none; stroke: #8c682c; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 147.222188 262.809247 
+L 143.754691 261.928075 
+L 146.540126 259.68278 
+z
+" style="fill: #8c682c; stroke: #8c682c; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_18">
+    <path d="M 134.274435 220.98309 
+Q 218.020047 241.572765 300.462818 261.842125 
+" style="fill: none; stroke: #2c6e8c; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 297.737358 259.524396 
+L 300.462818 261.842125 
+L 296.973359 262.631855 
+z
+" style="fill: #2c6e8c; stroke: #2c6e8c; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_19">
+    <path d="M 334.010045 222.467592 
+Q 337.709964 241.570477 341.15477 259.3562 
+" style="fill: none; stroke: #8c682c; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 342.117098 255.910344 
+L 341.15477 259.3562 
+L 338.975482 256.518824 
+z
+" style="fill: #8c682c; stroke: #8c682c; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="text_20">
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="121.4505" y="350.695585" transform="rotate(-0 121.4505 350.695585)">Équipements à 2 alimentations</text>
+   </g>
+   <g id="text_21">
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(58.554 361.94506)">cœur, distribution, pare-feux FortiGate,</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(72.061 369.11166)">serveurs : 1 alim sur A, 1 sur B</text>
+   </g>
+   <g id="text_22">
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="322.749" y="350.695585" transform="rotate(-0 322.749 350.695585)">Équipements à 1 alimentation</text>
+   </g>
+   <g id="text_23">
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(258.968 361.94506)">routeurs, switchs C9200L, Stormshield :</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(283.1635 369.11166)">le n°1 sur A, le n°2 sur B</text>
+   </g>
+   <g id="patch_20">
+    <path d="M 121.4505 306.776896 
+Q 121.4505 317.943099 121.4505 327.767662 
+" style="fill: none; stroke: #3a3833; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 123.0505 324.567662 
+L 121.4505 327.767662 
+L 119.8505 324.567662 
+z
+" style="fill: #3a3833; stroke: #3a3833; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_21">
+    <path d="M 322.749 306.776896 
+Q 322.749 317.943099 322.749 327.767662 
+" style="fill: none; stroke: #3a3833; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 324.349 324.567662 
+L 322.749 327.767662 
+L 321.149 324.567662 
+z
+" style="fill: #3a3833; stroke: #3a3833; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="text_24">
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="551.25" y="289.490885" transform="rotate(-0 551.25 289.490885)">6 locaux techniques</text>
+   </g>
+   <g id="text_25">
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(516.758 297.76796)">1 départ 16 A chacun</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(494.065 304.93456)">→ onduleur 1,5 kVA → switchs PoE+</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(481.668 312.40836)">→ bornes, caméras, badgeuses, téléphones</text>
+   </g>
+   <g id="patch_22">
+    <path d="M 427.556244 142.895241 
+Q 488.68496 202.072287 548.849729 260.316163 
+" style="fill: none; stroke: #5c2c8c; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 547.663453 256.940848 
+L 548.849729 260.316163 
+L 545.437712 259.239995 
+z
+" style="fill: #5c2c8c; stroke: #5c2c8c; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="text_26">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(491.4045 361.040681)">Coupure secteur : bascule sur batterie</text>
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(491.4045 368.87915)">sans interruption (onduleurs en ligne),</text>
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(491.4045 377.053619)">24 min même si un onduleur est en panne.</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p3fc8b5f6cc">
+   <rect x="7.2" y="7.2" width="652.86" height="421.344"/>
+  </clipPath>
+ </defs>
 </svg>

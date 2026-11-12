@@ -14,15 +14,15 @@ Source : `architecture/Projet_Marseille_site.drawio`. Prix HT, prix revendeur co
 | Accès | 107 900 € |
 | Net Management | 33 100 € |
 | Datacenter | 61 000 € |
-| Énergie / locaux | 42 500 € |
+| Énergie / locaux | 57 000 € |
 | Câblage | 118 805 € |
 | Prestations | 35 750 € |
-| **Sous-total** | **515 455 €** |
-| Aléas (10%) | 51 546 € |
-| **CAPEX total** | **567 001 €** |
-| OPEX annuel (années 1 à 3) | 39 181 € |
+| **Sous-total** | **529 955 €** |
+| Aléas (10%) | 52 996 € |
+| **CAPEX total** | **582 951 €** |
+| OPEX annuel (années 1 à 3) | 44 081 € |
 | Renouvellements annuels (dès l'année 4) | 27 857 € |
-| **Coût total sur 5 ans (TCO)** | **818 620 €** |
+| **Coût total sur 5 ans (TCO)** | **859 070 €** |
 
 ## Détail CAPEX
 
@@ -54,6 +54,12 @@ Source : `architecture/Projet_Marseille_site.drawio`. Prix HT, prix revendeur co
 | Énergie / locaux | Salle serveur | PDU managées et métrées | 4 | 700 € | 2 800 € | Mesure de consommation (Green IT) |
 | Énergie / locaux | Salle serveur | Climatisation de précision ~7 kW, redondance N+1 | 1 | 12 000 € | 12 000 € |  |
 | Énergie / locaux | Salle serveur + L.TECH | Contrôle d'accès par badge | 1 | 5 000 € | 5 000 € |  |
+| Énergie / locaux | Salle serveur | Pack batterie externe APC SRT192RMBP (1 par onduleur) | 2 | 1 400 € | 2 800 € | Autonomie si un onduleur tombe : 7.9 min sans pack, 24 min avec (point 14) |
+| Énergie / locaux | Salle serveur + L.TECH | Tableau électrique informatique (TD-INFO) et circuits dédiés | 1 | 6 000 € | 6 000 € | 2 départs 32 A onduleurs, 2 départs clim, 6 départs 16 A L.TECH, protections différentielles (point 14) |
+| Énergie / locaux | Salle serveur | Confinement d'allée froide (obturateurs, rideaux) | 1 | 1 200 € | 1 200 € | Green IT : -10 % sur la clim (point 14) |
+| Énergie / locaux | Salle serveur + L.TECH | Sondes température/humidité et détection de fuite d'eau | 1 | 1 200 € | 1 200 € | Remontées dans LibreNMS ; fuite : salle au sous-sol (point 14) |
+| Énergie / locaux | Salle serveur | Détection incendie raccordée au SSI + extincteurs CO2 | 1 | 1 500 € | 1 500 € | Sécurité minimale, sans extinction automatique (point 14) |
+| Énergie / locaux | Locaux techniques | Extracteur d'air avec thermostat | 4 | 450 € | 1 800 € | Locaux les plus chargés ou les plus petits (point 14) |
 | Câblage | Prises | Prise RJ45 Cat6A fournie, posée et recettée | 484 | 140 € | 67 760 € | 10 Gb/s, durée de vie 15 ans (CdC). Usagers + bornes + caméras + badgeuses (plan de câblage) |
 | Câblage | Rocades | Fibre OM4 12 brins L.TECH vers salle serveur | 12 | 1 500 € | 18 000 € | 2 câbles par local, par deux chemins disjoints (colonnes Nord et Sud) |
 | Câblage | Chemins de câbles | Chemin de câbles fil 100×50 mm, posé | 636 | 35 € | 22 260 € | Métré du plan de câblage (circulations et locaux) |
@@ -73,7 +79,9 @@ Source : `architecture/Projet_Marseille_site.drawio`. Prix HT, prix revendeur co
 | Interconnexion WAN | VPN MPLS vers le site jumeau (Digne/Gap) | 8 400 € |
 | Proxmox VE | Souscription Standard, 3 nœuds x 2 sockets x 550 € | 3 300 € |
 | Sauvegarde externalisée | Stockage objet ~20 To hors site | 1 440 € |
-| Électricité | 3.5 kW IT x PUE 1.6 x 8 760 h x 0.20 €/kWh | 9 811 € |
+| Électricité du réseau | 61 557 kWh/an × 0.20 € (salle serveur, PUE 1.34, 6 locaux techniques) | 12 311 € |
+| Maintenance de la climatisation | Contrat d'entretien, 2 unités | 900 € |
+| Provision batteries d'onduleurs | Remplacement tous les 5 ans, lissé par an | 1 500 € |
 | Nom de domaine | Domaine + DNS secondaire | 30 € |
 
 ## Renouvellements (à partir de l'année 4)
@@ -99,4 +107,4 @@ Source : `architecture/Projet_Marseille_site.drawio`. Prix HT, prix revendeur co
 - 484 prises d'après le plan de câblage (`livrables/plan_cablage/`) : bureaux 2 par poste, salles de TP 1 par poste + 2, salles de TD/cours/réunion 3, 38 bornes Wi-Fi (étude RSSI), 15 caméras IP, 11 badgeuses.
 - Postes clients, imprimantes, téléphones IP et caméras exclus (budget poste de travail à part).
 - La `cisco-price-list.pdf` du Drive date du début des années 2000 (gammes Aironet 340/350, VPN 3000) : elle n'est pas utilisable pour des prix actuels.
-- Électricité : 3.5 kW de charge IT moyenne, PUE 1.6, 0.20 €/kWh HT.
+- Électricité, onduleurs, climatisation : bilan du point 14 (`livrables/energie_refroidissement/`), PUE 1.34, 61557 kWh/an, 0.20 €/kWh HT.
