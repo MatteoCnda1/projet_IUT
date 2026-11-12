@@ -12,6 +12,7 @@ Projet BUT3 R&T (R5.08 Gestion de projets / SAÉ 5.02) : concevoir le réseau co
 | `docs/cahier_des_charges/` | Consignes du projet (`PS5 Projet.pptx`, `Presentation_Projets_LP2021.pptx`) et grille des 21 points (`Avancement projet.xlsx`) |
 | `docs/cours/` | Cours architecture d'entreprise (CCNP ch. 22), présentation du réseau AMU / Luminy |
 | `docs/plans_batiment/` | Plans du bâtiment : sous-sol, RDC, étage 1, toiture |
+| `docs/anssi/` | Référentiel des guides ANSSI applicables, reliés aux points du CdC et au schéma |
 | `docs/references_prix/` | `cisco-price-list.pdf` (ancienne, gammes des années 2000) |
 | `architecture/` | Schéma `Projet_Marseille_site.drawio` (version du 9 oct.) + `archives/` |
 | `chiffrage/` | Estimation budgétaire de l'infra : `estimation_infra.md`, `.csv`, script `estimation.py` |
