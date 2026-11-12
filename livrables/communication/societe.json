@@ -1,0 +1,104 @@
+{
+ "nom": "RudyLink Infrastructure",
+ "signature": "Conseil et ingénierie des réseaux",
+ "site": "infra.rudylink.eu",
+ "contact": "infra@rudylink.eu",
+ "origine": "Branche fictive de RudyLink, micro-entreprise réelle de Mattéo Canada (rudylink.eu), qui reprend sa charte graphique.",
+ "equipe": [
+  {
+   "nom": "Mattéo Canada",
+   "titre": "Chef de projet",
+   "role": "CP"
+  },
+  {
+   "nom": "Rafael Maunier",
+   "titre": "Membre de l'équipe",
+   "role": ""
+  },
+  {
+   "nom": "Solal Kruczinsky",
+   "titre": "Membre de l'équipe",
+   "role": ""
+  },
+  {
+   "nom": "Raphael Hovsepian",
+   "titre": "Membre de l'équipe",
+   "role": ""
+  }
+ ],
+ "roles": [
+  {
+   "code": "CP",
+   "nom": "Direction de projet",
+   "titulaire": "Mattéo Canada (fondateur de RudyLink)",
+   "perimetre": "Planning, relation avec la MOA, arbitrages, chiffrage, qualité et dépôt des livrables"
+  },
+  {
+   "code": "ARC",
+   "nom": "Architecture réseau",
+   "titulaire": "À attribuer",
+   "perimetre": "LAN trois couches, adressage, WAN, Internet, Wi-Fi, maquette GNS3"
+  },
+  {
+   "code": "PHY",
+   "nom": "Infrastructure physique",
+   "titulaire": "À attribuer",
+   "perimetre": "Câblage, locaux techniques, énergie, climatisation, bâtiment intelligent"
+  },
+  {
+   "code": "SYS",
+   "nom": "Systèmes et services",
+   "titulaire": "À attribuer",
+   "perimetre": "AD, RADIUS, Proxmox, ToIP, applications, sauvegarde, supervision"
+  },
+  {
+   "code": "SEC",
+   "nom": "Sécurité et conformité",
+   "titulaire": "À attribuer",
+   "perimetre": "Politique de sécurité, matrice de flux, RGPD, chartes, CCTP"
+  },
+  {
+   "code": "COM",
+   "nom": "Communication et qualité",
+   "titulaire": "À attribuer (cumulable)",
+   "perimetre": "Charte, site web, journal de bord, relecture, vidéo en anglais"
+  }
+ ],
+ "documents": [
+  {
+   "ref": "RLI-COM-001",
+   "titre": "Charte graphique",
+   "chemin": "livrables/communication/charte_graphique.pdf"
+  },
+  {
+   "ref": "RLI-COM-002",
+   "titre": "Présentation de la société",
+   "chemin": "livrables/communication/plaquette_rudylink_infrastructure.pdf"
+  },
+  {
+   "ref": "RLI-COM-003",
+   "titre": "Organisation du projet",
+   "chemin": "livrables/communication/organisation_projet.pdf"
+  },
+  {
+   "ref": "",
+   "titre": "Modèle de rapport (Word)",
+   "chemin": "livrables/communication/modeles/modele_rapport.docx"
+  },
+  {
+   "ref": "",
+   "titre": "Modèle de compte rendu (Word)",
+   "chemin": "livrables/communication/modeles/modele_compte_rendu.docx"
+  },
+  {
+   "ref": "",
+   "titre": "Modèle de présentation (PowerPoint)",
+   "chemin": "livrables/communication/modeles/modele_presentation.pptx"
+  },
+  {
+   "ref": "",
+   "titre": "Site vitrine",
+   "chemin": "livrables/site_web/"
+  }
+ ]
+}

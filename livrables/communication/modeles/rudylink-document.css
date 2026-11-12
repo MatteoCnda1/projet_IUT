@@ -1,0 +1,58 @@
+@font-face{font-family:'Space Grotesk';font-weight:400;font-style:normal;font-display:swap;src:url('../fonts/space-grotesk-latin-400-normal.woff2') format('woff2'),url('../fonts/space-grotesk-latin-400-normal.woff') format('woff')}
+@font-face{font-family:'Space Grotesk';font-weight:500;font-style:normal;font-display:swap;src:url('../fonts/space-grotesk-latin-500-normal.woff2') format('woff2'),url('../fonts/space-grotesk-latin-500-normal.woff') format('woff')}
+@font-face{font-family:'Space Grotesk';font-weight:600;font-style:normal;font-display:swap;src:url('../fonts/space-grotesk-latin-600-normal.woff2') format('woff2'),url('../fonts/space-grotesk-latin-600-normal.woff') format('woff')}
+@font-face{font-family:'Space Grotesk';font-weight:700;font-style:normal;font-display:swap;src:url('../fonts/space-grotesk-latin-700-normal.woff2') format('woff2'),url('../fonts/space-grotesk-latin-700-normal.woff') format('woff')}
+@font-face{font-family:'IBM Plex Mono';font-weight:400;font-style:normal;font-display:swap;src:url('../fonts/ibm-plex-mono-latin-400-normal.woff2') format('woff2'),url('../fonts/ibm-plex-mono-latin-400-normal.woff') format('woff')}
+@font-face{font-family:'IBM Plex Mono';font-weight:500;font-style:normal;font-display:swap;src:url('../fonts/ibm-plex-mono-latin-500-normal.woff2') format('woff2'),url('../fonts/ibm-plex-mono-latin-500-normal.woff') format('woff')}
+@font-face{font-family:'IBM Plex Mono';font-weight:600;font-style:normal;font-display:swap;src:url('../fonts/ibm-plex-mono-latin-600-normal.woff2') format('woff2'),url('../fonts/ibm-plex-mono-latin-600-normal.woff') format('woff')}
+/* Charte « Console » de RudyLink : angles droits, traits de 1 px, une seule couleur d'accent. */
+:root { --encre:#101217; --papier:#f3f4f6; --surface:#fbfbfc; --remplissage:#eceef1; --trait:#cfd2d8; --trait-doux:#e3e5e9;
+  --corps:#2b2f36; --secondaire:#4d525b; --discret:#6d727b; --emeraude:#05893e; --emeraude-fonce:#006925; --emeraude-clair:#b9eec2;
+  --sans:'Space Grotesk','Arial',sans-serif; --mono:'IBM Plex Mono','Consolas','Courier New',monospace; }
+@page { size: A4; margin: 14mm 15mm 16mm; @bottom-left { content: "RudyLink Infrastructure"; font: 500 7pt var(--mono); color: #6d727b; letter-spacing: .06em; text-transform: uppercase; }
+  @bottom-right { content: counter(page) " / " counter(pages); font: 500 7pt var(--mono); color: #6d727b; } }
+@page couverture { margin: 0; @bottom-left { content: none } @bottom-right { content: none } }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { margin: 0; font: 400 9.3pt/1.5 var(--sans); color: var(--corps); background: #fff; font-variant-numeric: tabular-nums; }
+h1, h2, h3 { color: var(--encre); font-weight: 600; text-wrap: balance; margin: 0; }
+h1 { font-size: 24pt; line-height: 1.1; letter-spacing: -.02em; }
+h2 { font-size: 14.5pt; line-height: 1.25; letter-spacing: -.01em; padding-bottom: 2mm; border-bottom: 1px solid var(--trait); margin: 6mm 0 2.5mm; }
+h3 { font-size: 10.5pt; margin: 4.5mm 0 1.5mm; }
+p { margin: 1.4mm 0; max-width: 165mm; } ul, ol { margin: 1mm 0 2mm; padding-left: 5mm; } li { margin: .7mm 0; }
+b, strong { color: var(--encre); font-weight: 600; }
+code, .mono { font-family: var(--mono); font-size: .92em; }
+code { background: var(--remplissage); padding: 0 1.2mm; }
+.label { font: 500 6.8pt/1.2 var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--discret); }
+.label.accent { color: var(--emeraude-fonce); }
+.chapo { font-size: 11pt; line-height: 1.45; color: var(--secondaire); max-width: 160mm; margin: 2mm 0 4mm; }
+.saut { break-before: page; }
+.garde { break-inside: avoid; }
+table { width: 100%; border-collapse: collapse; margin: 2mm 0 3mm; font-size: 8.4pt; }
+th { text-align: left; font: 500 6.8pt var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--secondaire);
+  background: var(--remplissage); border-top: 1px solid var(--trait); border-bottom: 1px solid var(--trait); padding: 1.6mm 2mm; }
+td { padding: 1.5mm 2mm; border-bottom: 1px solid var(--trait-doux); vertical-align: top; }
+tr { break-inside: avoid; } td.n, th.n { text-align: right; white-space: nowrap; } td.c, th.c { text-align: center; }
+.grille { display: grid; gap: 3mm; } .g2 { grid-template-columns: 1fr 1fr; } .g3 { grid-template-columns: repeat(3, 1fr); } .g4 { grid-template-columns: repeat(4, 1fr); }
+.bloc { border: 1px solid var(--trait); background: var(--surface); padding: 3mm 3.5mm; break-inside: avoid; }
+.bloc > .label { display: block; margin-bottom: 1.5mm; }
+.bloc h3 { margin-top: 0; }
+.chiffre { font: 600 17pt/1.1 var(--sans); color: var(--encre); letter-spacing: -.02em; display: block; margin: 1mm 0 .5mm; }
+.note { border: 1px solid var(--trait); border-left: 3px solid var(--emeraude); background: var(--surface); padding: 2.5mm 3.5mm; margin: 3mm 0; break-inside: avoid; }
+.note.alerte { border-left-color: #ab7400; }
+.pastille { display: inline-block; font: 500 6.6pt var(--mono); letter-spacing: .05em; text-transform: uppercase; padding: .4mm 1.6mm; border: 1px solid currentColor; }
+.oui { color: var(--emeraude-fonce); } .non { color: #c13c3b; }
+.entete { display: flex; justify-content: space-between; align-items: center; padding-bottom: 3mm; border-bottom: 1px solid var(--trait); margin-bottom: 6mm; }
+.entete img { height: 11mm; }
+.entete .label { text-align: right; }
+.cartouche { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--trait); margin: 4mm 0; }
+.cartouche div { padding: 2mm 3mm; border-right: 1px solid var(--trait-doux); } .cartouche div:last-child { border-right: 0; }
+.cartouche b { display: block; font-weight: 500; font-size: 9pt; margin-top: .6mm; }
+/* Couverture : pleine page, encre */
+.couverture { page: couverture; height: 297mm; background: var(--encre); color: var(--papier); padding: 22mm 20mm; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+.couverture h1 { color: var(--papier); font-size: 40pt; font-weight: 500; letter-spacing: -.03em; line-height: 1; margin-top: auto; }
+.couverture .chapo { color: #a4a9b1; font-size: 12.5pt; }
+.couverture .label { color: #868b94; }
+.couverture .bas { display: flex; justify-content: space-between; border-top: 1px solid #353941; padding-top: 4mm; margin-top: 14mm; }
+.couverture .logo { height: 17mm; align-self: flex-start; }
+.couverture .trame { position: absolute; right: -10mm; top: 52mm; width: 130mm; opacity: .9; }

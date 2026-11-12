@@ -16,10 +16,11 @@ Projet BUT3 R&T (R5.08 Gestion de projets / SAÉ 5.02) : concevoir le réseau co
 | `docs/references_prix/` | `cisco-price-list.pdf` (ancienne, gammes des années 2000) |
 | `architecture/` | Schéma `Projet_Marseille_site.drawio` (version du 9 oct.) + `archives/` |
 | `chiffrage/` | Estimation budgétaire de l'infra : `estimation_infra.md`, `.csv`, script `estimation.py` (reprend les quantités du plan de câblage) |
+| `communication/` | Scripts du point 02 (société fictive **RudyLink Infrastructure**) : logo, charte, plaquette, organisation MOA/MOE, modèles Office → `livrables/communication/` (copie des PDF dans `livrables/site_web/documents/`) |
 | `energie/` | Script du point 14 (énergie, onduleurs, climatisation, PUE, finances) → `livrables/energie_refroidissement/` |
 | `cablage/` | Scripts du plan de câblage et de l'étude Wi-Fi RSSI, à partir des plans PDF (voir `cablage/README.md`) |
 | `roadmap/` | Source de la roadmap (`roadmap.template.html`, `build.py`, `seed_points.json`). `build.py` y injecte le chiffrage et le référentiel ANSSI |
-| `livrables/` | Rapport, présentation, maquette GNS3, site web, journal de bord, vidéo en anglais. **`livrables/plan_cablage/`** : plan de câblage (point 04) et étude Wi-Fi |
+| `livrables/` | Rapport, présentation, maquette GNS3, site web, journal de bord, vidéo en anglais. **`livrables/plan_cablage/`** : plan de câblage (point 04) et étude Wi-Fi. **`livrables/communication/`** : identité, charte et modèles (point 02). **`livrables/site_web/`** : site vitrine (HTML simple, hébergé sur DM-WEB1) avec le journal de bord |
 
 ## Chiffrage (résumé)
 
@@ -30,6 +31,10 @@ Projet BUT3 R&T (R5.08 Gestion de projets / SAÉ 5.02) : concevoir le réseau co
 | Coût total sur 5 ans | 859 070 € |
 
 Détail et hypothèses : [`chiffrage/estimation_infra.md`](chiffrage/estimation_infra.md). Après une modification de `estimation.py` ou de `docs/anssi/referentiel_anssi.md` : `python3 chiffrage/estimation.py && python3 roadmap/build.py`, puis republier la page.
+
+## Société fictive : RudyLink Infrastructure
+
+Le groupe joue **RudyLink Infrastructure**, branche conseil réseau (imaginaire) de RudyLink, micro-entreprise réelle d'un membre. Charte, logo, modèles de rapport / slides / compte rendu : [`livrables/communication/`](livrables/communication/README.md). Équipe (comptes GesTT) : Mattéo Canada (chef de projet), Rafael Maunier, Solal Kruczinsky, Raphael Hovsepian. Journal de bord : `livrables/site_web/journal.html`.
 
 ## Livrables attendus
 
