@@ -140,73 +140,85 @@
    "local": "N-1-LT01",
    "voie": "A",
    "par": "sous-sol (chemin direct)",
-   "longueur": 14.1
+   "longueur": 14.1,
+   "chemin": "SALLE SERVEUR → L.TECH 01 → N-1-LT01"
   },
   {
    "local": "N-1-LT01",
    "voie": "B",
    "par": "sous-sol (second chemin)",
-   "longueur": 14.1
+   "longueur": 14.1,
+   "chemin": "SALLE SERVEUR → L.TECH 01 → N-1-LT01"
   },
   {
    "local": "N-1-LT02",
    "voie": "A",
    "par": "sous-sol (chemin direct)",
-   "longueur": 51.3
+   "longueur": 51.3,
+   "chemin": "SALLE SERVEUR → CIRC 03 → PARKING NORD → PARKING → L.TECH 02 → N-1-LT02"
   },
   {
    "local": "N-1-LT02",
    "voie": "B",
    "par": "sous-sol (second chemin)",
-   "longueur": 53.1
+   "longueur": 53.1,
+   "chemin": "SALLE SERVEUR → CIRC 03 → PARKING NORD → PARKING → L.TECH 02 → N-1-LT02"
   },
   {
    "local": "N0-LT01",
    "voie": "A",
    "par": "colonne Nord",
-   "longueur": 48.4
+   "longueur": 48.4,
+   "chemin": "SALLE SERVEUR → CIRC 02 → CIRCULATION 01 → VIDE SANITAIRE 02 → VIDE SANITAIRE 01 → colonne Nord (montée 3.5 m) → L.TECH → N0-LT01"
   },
   {
    "local": "N0-LT01",
    "voie": "B",
    "par": "colonne Sud",
-   "longueur": 92.8
+   "longueur": 92.8,
+   "chemin": "SALLE SERVEUR → CIRC 03 → PARKING NORD → PARKING NORD EST → colonne Sud (montée 3.5 m) → L.TECH 02 → CIRCULATION 04 → SOUS-PASSERELLE → DGMT → PL.ELEC → L.TECH → N0-LT01"
   },
   {
    "local": "N0-LT02",
    "voie": "A",
    "par": "colonne Sud",
-   "longueur": 35.9
+   "longueur": 35.9,
+   "chemin": "SALLE SERVEUR → CIRC 03 → PARKING NORD → PARKING NORD EST → colonne Sud (montée 3.5 m) → L.TECH 02 → N0-LT02"
   },
   {
    "local": "N0-LT02",
    "voie": "B",
    "par": "colonne Nord",
-   "longueur": 105.3
+   "longueur": 105.3,
+   "chemin": "SALLE SERVEUR → CIRC 02 → CIRCULATION 01 → VIDE SANITAIRE 02 → VIDE SANITAIRE 01 → colonne Nord (montée 3.5 m) → L.TECH → PL.ELEC → DGMT → SOUS-PASSERELLE → CIRCULATION 04 → L.TECH 02 → N0-LT02"
   },
   {
    "local": "N1-LT01",
    "voie": "A",
    "par": "colonne Nord",
-   "longueur": 57.0
+   "longueur": 57.0,
+   "chemin": "SALLE SERVEUR → CIRC 02 → CIRCULATION 01 → VIDE SANITAIRE 02 → VIDE SANITAIRE 01 → colonne Nord (montée 7.0 m) → RGMT 01 → L.TECH 01 → N1-LT01"
   },
   {
    "local": "N1-LT01",
    "voie": "B",
    "par": "colonne Sud",
-   "longueur": 104.3
+   "longueur": 104.3,
+   "chemin": "SALLE SERVEUR → CIRC 03 → PARKING NORD → PARKING NORD EST → colonne Sud (montée 7.0 m) → CIRC 05 → PASSERELLE → CIRC 02 → CIRCULATION 01 → L.TECH 01 → N1-LT01"
   },
   {
    "local": "N1-LT02",
    "voie": "A",
    "par": "colonne Sud",
-   "longueur": 41.8
+   "longueur": 41.8,
+   "chemin": "SALLE SERVEUR → CIRC 03 → PARKING NORD → PARKING NORD EST → colonne Sud (montée 7.0 m) → L.TECH 02 → N1-LT02"
   },
   {
    "local": "N1-LT02",
    "voie": "B",
    "par": "colonne Nord",
-   "longueur": 114.0
+   "longueur": 114.0,
+   "chemin": "SALLE SERVEUR → CIRC 02 → CIRCULATION 01 → VIDE SANITAIRE 02 → VIDE SANITAIRE 01 → colonne Nord (montée 7.0 m) → CIRCULATION 01 → CIRC 02 → PASSERELLE → CIRC 05 → L.TECH 02 → N1-LT02"
   }
  ],
  "adductions": [
@@ -215,14 +227,16 @@
    "entree": "façade ouest, chambre de tirage côté chaufferie",
    "x": 20.86,
    "y": 51.27,
-   "longueur_interne": 58.3
+   "longueur_interne": 58.3,
+   "chemin": "chambre de tirage → L.SERVICE → L.TECH 02 → PARKING → PARKING NORD → CIRC 03 → SALLE SERVEUR"
   },
   {
    "operateur": "FAI 2",
    "entree": "façade est, par le parking",
    "x": 73.26,
    "y": 46.41,
-   "longueur_interne": 55.1
+   "longueur_interne": 55.1,
+   "chemin": "chambre de tirage → PARKING EST → PARKING NORD EST → PARKING NORD → CIRC 03 → SALLE SERVEUR"
   }
  ],
  "fibre_m": 732,

@@ -267,7 +267,8 @@ def carte(e):
     import matplotlib.pyplot as plt
     from matplotlib.patches import Patch
 
-    fond = cv2.imread(str(BUILD / f"{e['code']}.png"), cv2.IMREAD_GRAYSCALE)
+    from rendu_cablage import fond_murs, etiquettes_salles
+    fond = fond_murs(e["code"])
     ppm = e["ppm"]
     ys, xs = np.nonzero(e["batiment"])
     x0, x1 = xs.min() * GRILLE - 2, (xs.max() + 1) * GRILLE + 2
@@ -294,22 +295,26 @@ def carte(e):
     img = img.reshape(X.shape + (4,))
 
     fig, ax = plt.subplots(figsize=(11.7, 11.7 * (y1 - y0) / (x1 - x0) + 1.2), dpi=150)
-    ax.imshow(fond, cmap="gray", extent=(0, fond.shape[1] / ppm, fond.shape[0] / ppm, 0), alpha=0.9)
     ax.imshow(img, extent=(x0, x1, y1, y0), interpolation="nearest")
+    ax.imshow(fond, extent=(0, fond.shape[1] / ppm, fond.shape[0] / ppm, 0), interpolation="antialiased")
+    etiquettes_salles(ax, {"salles": e["salles"]}, [], gris_circ=True)
     for b in e["bornes"]:
-        ax.plot(b["x"], b["y"], marker="o", ms=7, mfc="#1F4E8C", mec="white", mew=1.2)
-        ax.annotate(f"{b['id'][-2:]}·{b['canal']}", (b["x"], b["y"]), xytext=(4, -4), textcoords="offset points",
-                    fontsize=6.5, color="#0E2240", weight="bold")
+        ax.plot(b["x"], b["y"], marker="o", ms=7, mfc="#1F4E8C", mec="white", mew=1.2, zorder=10)
+        ax.annotate(f"AP{b['id'][-2:]} · canal {b['canal']}", (b["x"], b["y"]), xytext=(5, -9), textcoords="offset points",
+                    fontsize=6, color="#0E2240", weight="bold", zorder=11,
+                    bbox=dict(boxstyle="round,pad=0.12", fc="white", ec="none", alpha=0.85))
     ax.set_xlim(x0, x1)
     ax.set_ylim(y1, y0)
     ax.set_axis_off()
     s = e["stats"]
-    ax.set_title(f"{e['nom']} — {len(e['bornes'])} bornes · couverture ≥ {R.OBJECTIF_DBM:.0f} dBm : "
-                 f"{s['couverture_pct']} % · 2e borne ≥ {R.ROAMING_DBM:.0f} dBm : {s['itinerance_pct']} %",
+    noms = {"N-1": "Sous-sol", "N0": "Rez-de-chaussée", "N1": "Étage 1"}
+    ax.set_title(f"Couverture Wi-Fi prévue (5 GHz) · {noms[e['code']]} · {len(e['bornes'])} bornes\n"
+                 f"Signal reçu de la meilleure borne. Objectif ≥ {R.OBJECTIF_DBM:.0f} dBm atteint sur {s['couverture_pct']} % "
+                 f"de la surface ; une 2ᵉ borne ≥ {R.ROAMING_DBM:.0f} dBm (passage d'une borne à l'autre) sur {s['itinerance_pct']} %.",
                  fontsize=9, loc="left")
     ax.legend(handles=[Patch(color=np.array(c) / 255, label=l, alpha=0.7) for _v, l, c in BANDES]
-              + [plt.Line2D([], [], marker="o", ls="", mfc="#1F4E8C", mec="white", label="borne (n°·canal)")],
-              loc="lower right", fontsize=7, framealpha=0.95)
+              + [plt.Line2D([], [], marker="o", ls="", mfc="#1F4E8C", mec="white", label="borne Wi-Fi (APxx · canal)")],
+              loc="lower right", fontsize=7.5, framealpha=0.95, title="Signal reçu", title_fontsize=8)
     OUT.mkdir(parents=True, exist_ok=True)
     fig.savefig(OUT / f"{e['code']}_rssi.png", bbox_inches="tight")
     plt.close(fig)

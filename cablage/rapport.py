@@ -79,6 +79,7 @@ def main():
           "## Fichiers", "",
           "| Fichier | Contenu |", "|---|---|",
           "| `plans/<niveau>_cablage.pdf` (.svg, .png) | Plan A3 de chaque niveau : prises, bornes, caméras, badgeuses, chemins de câbles, rocades, colonnes, salles teintées par local |",
+          "| `implantation.pdf` (.html) | **Document d'implantation** : salle serveur, locaux techniques, fibres, et salle par salle le local de rattachement et le chemin des câbles |",
           "| `synoptique.pdf` (.svg, .png) | Rocades, colonnes montantes, adductions, contenu de chaque baie |",
           "| `prises.csv` | Toutes les prises : repère (`N0-LT02-P017`), local, salle, type, usage, PoE, position, longueur |",
           "| `baies.csv`, `rocades.csv`, `resume.json` | Dimensionnement des baies, longueurs des rocades, synthèse |",

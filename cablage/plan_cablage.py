@@ -263,6 +263,22 @@ def placer_prises(data, bornes):
     return prises
 
 
+def passage(rs, salles, cells, depart=None):
+    """Noms des circulations et locaux traversés, dans l'ordre (prise -> local)."""
+    H, W = rs.shape
+    out = []
+    for c in cells:
+        i = rs.zone.flat[c]
+        if i < 0:
+            continue
+        s = salles[i]
+        if s["type"] in ("circulation", "parking", "exterieur", "salle_serveur", "technique") and s["nom"] != depart:
+            nom = s["nom"]
+            if not out or out[-1] != nom:
+                out.append(nom)
+    return " → ".join(out)
+
+
 def dimension_chemin(n):
     for w, h in CHEMINS:
         if n * CABLE_MM2 <= w * h * REMPLISSAGE:
@@ -313,6 +329,8 @@ def main():
             p["remarque"] = "chemin estimé (pas de passage trouvé sur le plan)"
         p["local"] = code
         p["longueur"] = round(COEF_TRACE * geo + monte + DESCENTES + LOVAGE, 1)
+        p["_cells"], p["_route"] = cells, niveau
+        p["passage"] = passage(rs, niveaux[niveau]["salles"], cells, p["salle"])
         if np.isfinite(d):
             H, W = rs.shape
             ys, xs = np.divmod(np.array(cells), W)
@@ -374,7 +392,8 @@ def main():
             for voie, cells in (("A", cA), ("B", cB)):
                 L = COEF_TRACE * rs_ss.longueur(cells) + 2 * LOVAGE + 2 * DESCENTES
                 rocades.append({"local": code, "voie": voie, "par": "sous-sol" + (" (chemin direct)" if voie == "A" else " (second chemin)"),
-                                "longueur": round(L, 1)})
+                                "longueur": round(L, 1),
+                                "chemin": "SALLE SERVEUR → " + passage(rs_ss, niveaux["N-1"]["salles"], cells[::-1], "SALLE SERVEUR") + f" → {code}"})
                 traces["N-1"].append((voie, cells))
             continue
         # locaux du RDC et de l'étage : voie A par la colonne la plus proche, voie B par l'autre
@@ -389,7 +408,10 @@ def main():
             h_niv, cells = dist[nomc]
             vert = HAUTEUR_NIVEAU * (ALTITUDE[c] - ALTITUDE["N-1"])
             L = COEF_TRACE * (col[nomc]["horiz_ss"] + h_niv) + vert + 2 * LOVAGE + 2 * DESCENTES
-            rocades.append({"local": code, "voie": voie, "par": f"colonne {nomc}", "longueur": round(L, 1)})
+            bas = passage(rs_ss, niveaux["N-1"]["salles"], col[nomc]["cells_ss"][::-1], "SALLE SERVEUR")
+            haut = passage(rs, niveaux[c]["salles"], cells[::-1])
+            rocades.append({"local": code, "voie": voie, "par": f"colonne {nomc}", "longueur": round(L, 1),
+                            "chemin": f"SALLE SERVEUR → {bas} → colonne {nomc} (montée {vert:.1f} m) → {haut} → {code}"})
             traces[c].append((voie, cells))
             traces["N-1"].append((voie, col[nomc]["cells_ss"]))
 
@@ -400,7 +422,8 @@ def main():
         x, y = (s["bbox"][0], s["y"]) if fai == "FAI 1" else (s["bbox"][2], s["y"])
         cells = rs_ss.chemin(p_srv, x, y)
         L = COEF_TRACE * rs_ss.longueur(cells) + 15.0  # + 15 m jusqu'à la chambre de tirage extérieure
-        adductions.append({"operateur": fai, "entree": ou, "x": round(x, 2), "y": round(y, 2), "longueur_interne": round(L, 1)})
+        adductions.append({"operateur": fai, "entree": ou, "x": round(x, 2), "y": round(y, 2), "longueur_interne": round(L, 1),
+                           "chemin": "chambre de tirage → " + passage(rs_ss, niveaux["N-1"]["salles"], cells, "SALLE SERVEUR") + " → SALLE SERVEUR"})
         traces["N-1"].append(("FAI", cells))
 
     # 5. Baies
@@ -423,7 +446,7 @@ def main():
 
     # Sorties
     OUT.mkdir(parents=True, exist_ok=True)
-    champs = ["id", "niveau", "local", "salle", "type", "usage", "poe", "x", "y", "longueur", "remarque"]
+    champs = ["id", "niveau", "local", "salle", "type", "usage", "poe", "x", "y", "longueur", "passage", "remarque"]
     with open(OUT / "prises.csv", "w", newline="", encoding="utf-8") as f:
         wr = csv.DictWriter(f, fieldnames=champs, extrasaction="ignore")
         wr.writeheader()
@@ -447,9 +470,11 @@ def main():
     }
     (OUT / "resume.json").write_text(json.dumps(resume, ensure_ascii=False, indent=1), encoding="utf-8")
 
+    import document
     import rendu_cablage
     rendu_cablage.plans(data, ppm, reseaux, prises, locaux, srv, chemins_par_niveau, traces, adductions, col, resume)
     rendu_cablage.synoptique(locaux, rocades, adductions, baies, resume)
+    document.implantation(data, prises, locaux, srv, baies, rocades, adductions, resume, wifi)
 
     print(f"{len(prises)} prises ({resume['par_type']}), {resume['telephones']} téléphones")
     print(f"Cuivre : {resume['cable_cuivre_m']} m, lien moyen {resume['lien_moyen_m']} m, max {resume['lien_max_m']} m, "
