@@ -1,4 +1,5 @@
-# Site vitrine de RudyLink Infrastructure
+# Site vitrine de RudyLink Infrastructure (point 02)
+<!-- onglet: Site vitrine -->
 
 Site statique : trois pages HTML, une feuille de style, aucun JavaScript ni outil de build. Il se modifie directement dans les fichiers.
 

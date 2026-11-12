@@ -1,4 +1,5 @@
 # Énergie et refroidissement (point 14)
+<!-- onglet: Énergie -->
 
 Document principal : **[energie_refroidissement.pdf](energie_refroidissement.pdf)**. Tout est calculé par `energie/energie.py` à partir du chiffrage et du plan de câblage (`python3 energie/energie.py && python3 chiffrage/estimation.py`).
 

@@ -1,4 +1,5 @@
 # Point 02 · Communication sur la société fictive
+<!-- onglet: Communication -->
 
 **RudyLink Infrastructure**, société de conseil et d'ingénierie réseau du jeu de rôle (MOE), face à l'IUT Aix-Marseille (MOA).
 Le nom vient de **RudyLink**, la micro-entreprise réelle de Mattéo Canada (rudylink.eu, services Nutrition et Knowledge) : la société du projet en est une troisième branche, imaginaire, qui reprend la charte « Console » existante.

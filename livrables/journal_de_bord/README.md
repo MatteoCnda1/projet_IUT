@@ -1,4 +1,5 @@
 # Journal de bord
+<!-- onglet: Journal -->
 
 Le journal de bord est tenu sur le site vitrine : [`../site_web/journal.html`](../site_web/journal.html). Une entrée par réunion de suivi, réunion client ou avancée notable, ajoutée en haut de la liste.
 
