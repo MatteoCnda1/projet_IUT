@@ -446,12 +446,6 @@ def main():
 
     # Sorties
     OUT.mkdir(parents=True, exist_ok=True)
-    champs = ["id", "niveau", "local", "salle", "type", "usage", "poe", "x", "y", "longueur", "passage", "remarque"]
-    with open(OUT / "prises.csv", "w", newline="", encoding="utf-8") as f:
-        wr = csv.DictWriter(f, fieldnames=champs, extrasaction="ignore")
-        wr.writeheader()
-        for p in prises:
-            wr.writerow({k: p.get(k, "") for k in champs})
     for nom, rows in (("baies.csv", baies), ("rocades.csv", rocades)):
         with open(OUT / nom, "w", newline="", encoding="utf-8") as f:
             wr = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
@@ -475,6 +469,13 @@ def main():
     rendu_cablage.plans(data, ppm, reseaux, prises, locaux, srv, chemins_par_niveau, traces, adductions, col, resume)
     rendu_cablage.synoptique(locaux, rocades, adductions, baies, resume)
     document.implantation(data, prises, locaux, srv, baies, rocades, adductions, resume, wifi)
+    # tableau des prises écrit après le rendu, qui attribue les repères AP/C/B
+    champs = ["id", "niveau", "local", "salle", "type", "usage", "poe", "x", "y", "longueur", "passage", "repere", "remarque"]
+    with open(OUT / "prises.csv", "w", newline="", encoding="utf-8") as f:
+        wr = csv.DictWriter(f, fieldnames=champs, extrasaction="ignore")
+        wr.writeheader()
+        for p in prises:
+            wr.writerow({k: p.get(k, "") for k in champs})
 
     print(f"{len(prises)} prises ({resume['par_type']}), {resume['telephones']} téléphones")
     print(f"Cuivre : {resume['cable_cuivre_m']} m, lien moyen {resume['lien_moyen_m']} m, max {resume['lien_max_m']} m, "
