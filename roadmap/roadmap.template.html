@@ -128,6 +128,19 @@ td.num,th.num{text-align:right;font-family:var(--f-mono);font-variant-numeric:ta
 tr.cat td{background:var(--sunken);font-weight:600}
 .note{color:var(--muted);font-size:12px}
 ul.plain{margin:0;padding-left:18px;display:grid;gap:4px}
+/* Référentiel ANSSI */
+.gap-panel{border-color:color-mix(in srgb,var(--review) 45%,var(--line));background:color-mix(in srgb,var(--review) 7%,var(--surface))}
+.a-sec{display:grid;gap:10px}
+.a-tbl td{font-size:13px}
+.a-tbl td:first-child{min-width:220px;font-weight:500}
+.a-tbl td.ref{font-family:var(--f-mono);font-size:12px;color:var(--ink2);white-space:nowrap}
+.a-tbl a,.guides a,.a-list a{color:var(--accent)}
+.ptchip{font:500 11px var(--f-mono);padding:1px 6px;border-radius:4px;border:1px solid var(--line);background:var(--sunken);color:var(--ink2);cursor:pointer;margin:0 3px 3px 0}
+.ptchip:hover{border-color:var(--accent);color:var(--ink)}
+.ptchip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+.a-list{margin:0;padding-left:20px;display:grid;gap:6px;font-size:14px}
+.guides{margin:0;padding-left:18px;display:grid;gap:4px;font-size:13px}
+code{font-family:var(--f-mono);font-size:.92em;background:var(--sunken);padding:0 4px;border-radius:3px}
 @media (max-width:700px){
   .g-row{grid-template-columns:190px 1fr}
   .gantt{min-width:760px}
@@ -152,6 +165,7 @@ ul.plain{margin:0;padding-left:18px;display:grid;gap:4px}
       <a href="#roadmap" data-v="roadmap">Roadmap</a>
       <a href="#journal" data-v="journal">Journal de bord</a>
       <a href="#chiffrage" data-v="chiffrage">Chiffrage infra</a>
+      <a href="#anssi" data-v="anssi">Référentiel ANSSI</a>
     </nav>
   </div>
 </header>
@@ -161,10 +175,11 @@ ul.plain{margin:0;padding-left:18px;display:grid;gap:4px}
 
 <script>
 const EST = /*ESTIMATION*/null;
+const ANSSI = /*ANSSI*/null;
 const STATUS = {todo:{l:"À faire",c:"var(--todo)"},doing:{l:"En cours",c:"var(--doing)"},review:{l:"À relire",c:"var(--review)"},done:{l:"Terminé",c:"var(--done)"}};
 const AXES = {A:"A · Architecture physique",B:"B · Architecture réseaux",C:"C · Architecture système",D:"D · WAN",E:"E · Sécurité",G:"Gestion de projet",I:"Innovation",F:"Chiffrage",L:"Livrables"};
 const KINDS = {reunion:"Réunion de suivi",avancement:"Avancement",decision:"Décision",probleme:"Problème / blocage",client:"Réunion client"};
-const S = {points:new Map(), journal:[], meta:{}, loaded:false, slow:false, offline:false, canWrite:true, sel:null, axis:"all", status:"all", q:"", names:{}, me:null, jDel:null};
+const S = {aPt:"all", aQ:"", points:new Map(), journal:[], meta:{}, loaded:false, slow:false, offline:false, canWrite:true, sel:null, axis:"all", status:"all", q:"", names:{}, me:null, jDel:null};
 let db=null, user=null;
 const $=(s,r=document)=>r.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -177,7 +192,7 @@ const keur=n=>new Intl.NumberFormat("fr-FR",{maximumFractionDigits:0}).format(Ma
 function prog(p){if(p.status==="done")return 100;const t=p.tasks||[];if(!t.length)return 0;return Math.round(100*t.filter(x=>x.done).length/t.length)}
 function isLate(p){return p.status!=="done"&&D(p.due)&&D(p.due)<todayUTC()}
 function sorted(){return [...S.points.entries()].map(([id,p])=>({id,...p})).sort((a,b)=>(a.num||0)-(b.num||0))}
-function view(){const h=location.hash.slice(1);return ["roadmap","journal","chiffrage"].includes(h)?h:"roadmap"}
+function view(){const h=location.hash.slice(1);return ["roadmap","journal","chiffrage","anssi"].includes(h)?h:"roadmap"}
 
 /* ---------- écritures : une à la fois par document ---------- */
 const queues=new Map();
@@ -281,11 +296,13 @@ function renderDrawer(){
     <div class="field"><span class="lbl">Tâches (${tk.filter(t=>t.done).length}/${tk.length})</span>
       <ul class="tasks">${tk.map((t,i)=>`<li class="${t.done?"ok":""}"><input type="checkbox" id="t-${i}" data-i="${i}" ${t.done?"checked":""} ${ro}><label for="t-${i}">${esc(t.t)}</label>${ro?"":`<button class="x" data-del="${i}" aria-label="Supprimer la tâche">×</button>`}</li>`).join("")||`<li class="muted small">Aucune tâche.</li>`}</ul>
       ${ro?"":`<form class="addtask" id="d-add"><input id="d-newtask" placeholder="Ajouter une tâche" aria-label="Nouvelle tâche"><button class="btn ghost" type="submit">Ajouter</button></form>`}</div>
+    ${(()=>{const g=guidesFor(p.num);return g.length?`<div class="field"><span class="lbl">Guides ANSSI liés (${g.length})</span><ul class="guides">${g.map(r=>`<li>${md(r.doc)} <span class="muted small">${md(r.ref)}</span></li>`).join("")}</ul><a class="small" href="#anssi" data-anssi-pt="${p.num}">Voir dans le référentiel ANSSI</a></div>`:""})()}
     <div class="field"><label for="d-notes">Notes, choix techniques, liens</label><textarea id="d-notes" ${ro} placeholder="Décisions, liens vers le repo GitHub, questions pour le client…">${esc(p.notes||"")}</textarea></div>
     ${p.repo?`<div class="small muted">Dans le repo : <code>${esc(p.repo)}</code></div>`:""}
   </aside>`;
   const id=S.sel,path="points/"+id;
   $("#d-close").onclick=closePoint;
+  host.querySelectorAll("[data-anssi-pt]").forEach(a=>a.onclick=()=>{S.aPt=a.dataset.anssiPt;S.aQ=""});
   host.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>write(path,{status:b.dataset.s}));
   const bindText=(sel,key)=>{const el=$(sel);if(!el)return;el.onchange=()=>{const cur=S.points.get(id)?.[key]||"";if(el.value!==cur)write(path,{[key]:el.value})};el.onblur=()=>setTimeout(renderDrawer,0)};
   bindText("#d-owner","owner");bindText("#d-start","start");bindText("#d-due","due");bindText("#d-notes","notes");
@@ -347,11 +364,49 @@ function renderChiffrage(){
   v.querySelectorAll("[data-hb]").forEach(b=>{b.onmousemove=ev=>{const c=b.dataset.hb;const t=$("#tip");const n=E.par_categorie[c];t.innerHTML=`<b>${esc(c)}</b><br>${eur(n)} · ${Math.round(100*n/E.sous_total)} % du sous-total`;t.hidden=false;t.style.left=Math.min(ev.clientX+14,innerWidth-300)+"px";t.style.top=(ev.clientY+14)+"px"};b.onmouseleave=hideTip});
 }
 
+/* ---------- référentiel ANSSI (statique) ---------- */
+function md(s){let h=esc(s);h=h.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g,(m,t,u)=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`);return h.replace(/\*\*([^*]+)\*\*/g,"<b>$1</b>").replace(/\*([^*]+)\*/g,"<i>$1</i>").replace(/`([^`]+)`/g,"<code>$1</code>")}
+function ptsOf(cell){return (String(cell||"").match(/\d+/g)||[]).map(Number)}
+function anssiTables(){return (ANSSI?.sections||[]).filter(s=>s.kind==="table").map(s=>{const h=s.head.map(x=>x.toLowerCase());const iPt=h.findIndex(x=>x==="pt");return {s,iPt,iRef:h.findIndex(x=>x.startsWith("réf"))}})}
+function guidesFor(num){const out=[];for(const {s,iPt,iRef} of anssiTables()){if(iPt<0)continue;for(const r of s.rows)if(ptsOf(r[iPt]).includes(num))out.push({doc:r[0],ref:iRef>=0?r[iRef]:""})}return out}
+function renderAnssi(){
+  const v=$("#view");if(!ANSSI){v.innerHTML=`<div class="empty">Référentiel indisponible.</div>`;return}
+  const qf=document.activeElement?.id==="a-q",qpos=qf?document.activeElement.selectionStart:0;
+  const pt=S.aPt==="all"?null:+S.aPt, q=S.aQ.toLowerCase();
+  const title=n=>{const p=[...S.points.values()].find(x=>x.num===n);return p?p.title:""};
+  const ptOpts=Array.from({length:21},(_,i)=>i+1).map(n=>`<option value="${n}" ${pt===n?"selected":""}>${String(n).padStart(2,"0")}${title(n)?" · "+esc(title(n)):""}</option>`).join("");
+  const secs=[...ANSSI.sections].sort((a,b)=>(/écarts/i.test(b.title)?1:0)-(/écarts/i.test(a.title)?1:0));
+  let shown=0;
+  const html=secs.map(s=>{
+    const gap=/écarts/i.test(s.title);
+    if(s.kind==="table"){
+      const h=s.head.map(x=>x.toLowerCase()),iPt=h.indexOf("pt"),iRef=h.findIndex(x=>x.startsWith("réf"));
+      const rows=s.rows.filter(r=>(!pt||(iPt>=0&&ptsOf(r[iPt]).includes(pt)))&&(!q||r.join(" ").toLowerCase().includes(q)));
+      if(!rows.length)return "";shown+=rows.length;
+      return `<section class="panel a-sec"><h3>${md(s.title)} <span class="muted small">${rows.length}</span></h3><div class="tbl-box"><table class="a-tbl"><thead><tr>${s.head.map((c,i)=>`<th>${i===iPt?"Points":md(c)}</th>`).join("")}</tr></thead><tbody>
+        ${rows.map(r=>`<tr>${r.map((c,i)=>i===iPt?`<td>${ptsOf(c).map(n=>`<button class="ptchip" data-goto="${n}" aria-pressed="${pt===n}" title="${esc(title(n))}">${String(n).padStart(2,"0")}</button>`).join("")}</td>`:`<td class="${i===iRef?"ref":""}">${md(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div></section>`}
+    if(s.kind==="list"){
+      const items=s.items.filter(t=>!q||t.toLowerCase().includes(q));if(!items.length||(pt&&!gap))return "";
+      const tag=s.ordered?"ol":"ul";
+      return `<section class="panel a-sec ${gap?"gap-panel":""}"><h3>${md(s.title)}</h3><${tag} class="a-list">${items.map(t=>`<li>${md(t)}</li>`).join("")}</${tag}></section>`}
+    return ""}).join("");
+  v.innerHTML=`<div><h2>Référentiel ANSSI</h2><p class="muted small" style="margin:4px 0 0">${ANSSI.intro.map(md).join(" ")}</p></div>
+   <div class="toolbar"><select id="a-pt" aria-label="Filtrer par point du cahier des charges"><option value="all">Tous les points du cahier des charges</option>${ptOpts}</select>
+     <input type="search" id="a-q" placeholder="Rechercher un guide, une référence, un équipement (ex. 802.1X, Stormshield)" value="${esc(S.aQ)}" aria-label="Rechercher dans le référentiel"></div>
+   ${pt?`<div class="banner">${shown} guide${shown>1?"s":""} pour le point ${String(pt).padStart(2,"0")} · ${esc(title(pt))}. <a href="#roadmap" data-open-pt="${pt}">Ouvrir la fiche du point</a></div>`:""}
+   ${html||`<div class="empty">Aucun guide ne correspond à ce filtre.</div>`}`;
+  $("#a-pt").onchange=e=>{S.aPt=e.target.value;renderAnssi()};
+  $("#a-q").oninput=e=>{S.aQ=e.target.value;renderAnssi()};
+  if(qf){const n=$("#a-q");n.focus();try{n.setSelectionRange(qpos,qpos)}catch(e){}}
+  v.querySelectorAll("[data-goto]").forEach(b=>b.onclick=()=>{S.aPt=S.aPt===b.dataset.goto?"all":b.dataset.goto;renderAnssi();scrollTo({top:0})});
+  v.querySelectorAll("[data-open-pt]").forEach(a=>a.onclick=()=>{const n=+a.dataset.openPt;const e=[...S.points.entries()].find(([,x])=>x.num===n);if(e)setTimeout(()=>openPoint(e[0]),0)});
+}
+
 /* ---------- rendu global ---------- */
 function renderAll(){
   const v=view();document.querySelectorAll("nav.tabs a").forEach(a=>a.setAttribute("aria-current",a.dataset.v===v?"page":"false"));
   renderStats();hideTip();
-  if(v==="roadmap")renderRoadmap();else if(v==="journal")renderJournal();else renderChiffrage();
+  if(v==="roadmap")renderRoadmap();else if(v==="journal")renderJournal();else if(v==="anssi")renderAnssi();else renderChiffrage();
   renderDrawer();
 }
 addEventListener("hashchange",()=>{if(view()!=="roadmap"){S.sel=null;$("#drawer-host").innerHTML=""}renderAll()});

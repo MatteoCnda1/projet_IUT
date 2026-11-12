@@ -16,7 +16,7 @@ Projet BUT3 R&T (R5.08 Gestion de projets / SAÉ 5.02) : concevoir le réseau co
 | `docs/references_prix/` | `cisco-price-list.pdf` (ancienne, gammes des années 2000) |
 | `architecture/` | Schéma `Projet_Marseille_site.drawio` (version du 9 oct.) + `archives/` |
 | `chiffrage/` | Estimation budgétaire de l'infra : `estimation_infra.md`, `.csv`, script `estimation.py` |
-| `roadmap/` | Source de la roadmap (`roadmap.template.html`, `build.py`, `seed_points.json`) |
+| `roadmap/` | Source de la roadmap (`roadmap.template.html`, `build.py`, `seed_points.json`). `build.py` y injecte le chiffrage et le référentiel ANSSI |
 | `livrables/` | Rapport, présentation, maquette GNS3, site web, journal de bord, vidéo en anglais |
 
 ## Chiffrage (résumé)
@@ -27,7 +27,7 @@ Projet BUT3 R&T (R5.08 Gestion de projets / SAÉ 5.02) : concevoir le réseau co
 | OPEX annuel (années 1 à 3) | 39 181 € |
 | Coût total sur 5 ans | 723 260 € |
 
-Détail et hypothèses : [`chiffrage/estimation_infra.md`](chiffrage/estimation_infra.md). Après une modification de `estimation.py` : `python3 chiffrage/estimation.py && python3 roadmap/build.py`.
+Détail et hypothèses : [`chiffrage/estimation_infra.md`](chiffrage/estimation_infra.md). Après une modification de `estimation.py` ou de `docs/anssi/referentiel_anssi.md` : `python3 chiffrage/estimation.py && python3 roadmap/build.py`, puis republier la page.
 
 ## Livrables attendus
 
