@@ -1,0 +1,372 @@
+<title>Roadmap Projet IUT</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: band d'en-tête + onglets, Gantt pleine largeur avec colonne de libellés collante, fiche de détail en panneau latéral */
+:root{
+  --bg:#f3f5f8; --surface:#ffffff; --sunken:#e9edf2; --ink:#14202b; --ink2:#465462; --muted:#76838f; --line:#d9e0e7;
+  --accent:#0a6aa1; --accent-soft:#e1eef7;
+  --todo:#8d99a6; --doing:#0a6aa1; --review:#a86a12; --done:#2c7a51; --late:#c0392b;
+  --f-display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0e141a; --surface:#161f28; --sunken:#1c2733; --ink:#e5ecf2; --ink2:#a7b4c1; --muted:#7c8996; --line:#293541;
+  --accent:#4cb0e6; --accent-soft:#15324a; --todo:#66727e; --doing:#4cb0e6; --review:#e0a64a; --done:#55b98a; --late:#f07b6f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e141a; --surface:#161f28; --sunken:#1c2733; --ink:#e5ecf2; --ink2:#a7b4c1; --muted:#7c8996; --line:#293541;
+  --accent:#4cb0e6; --accent-soft:#15324a; --todo:#66727e; --doing:#4cb0e6; --review:#e0a64a; --done:#55b98a; --late:#f07b6f; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{background:var(--surface);border-bottom:1px solid var(--line)}
+header.top .wrap{padding-block:22px 0;display:grid;gap:18px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(26px,4vw,36px);line-height:1.1;margin:4px 0 0;text-wrap:balance}
+h2{font-family:var(--f-display);font-weight:600;font-size:22px;margin:0;text-wrap:balance}
+h3{font-family:var(--f-display);font-weight:600;font-size:17px;margin:0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.stat{background:var(--sunken);border-radius:8px;padding:12px 14px;display:grid;gap:2px;min-width:0}
+.stat .k{font-size:12px;color:var(--ink2)}
+.stat .v{font-family:var(--f-display);font-size:26px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.15}
+.stat .s{font-size:12px;color:var(--muted)}
+.meter{height:6px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:6px}
+.meter i{display:block;height:100%;background:var(--accent);border-radius:3px}
+.dates{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--ink2)}
+.dates input{font:inherit;font-family:var(--f-mono);font-size:12px;padding:2px 6px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)}
+nav.tabs{display:flex;gap:4px;overflow-x:auto}
+nav.tabs a{padding:10px 14px;color:var(--ink2);text-decoration:none;font-weight:500;border-bottom:2px solid transparent;white-space:nowrap}
+nav.tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+nav.tabs a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+main .wrap{padding-block:22px 60px;display:grid;gap:18px}
+.banner{padding:10px 14px;border-radius:8px;background:var(--accent-soft);color:var(--ink);font-size:14px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.toolbar select,.toolbar input[type=search]{font:inherit;font-size:14px;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)}
+.toolbar input[type=search]{flex:1 1 200px;min-width:0}
+.chip{font:inherit;font-size:13px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink2);cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.chip[aria-pressed="true"]{border-color:var(--accent);color:var(--ink);background:var(--accent-soft)}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex:none}
+/* Gantt */
+.gantt-box{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow-x:auto}
+.gantt{min-width:900px;position:relative}
+.g-row{display:grid;grid-template-columns:300px 1fr;border-bottom:1px solid var(--line);min-height:44px}
+.g-row:last-child{border-bottom:0}
+.g-head{position:sticky;top:0;background:var(--surface);z-index:2}
+.g-label{position:sticky;left:0;background:var(--surface);z-index:1;padding:8px 12px;display:flex;gap:10px;align-items:center;border-right:1px solid var(--line);min-width:0;cursor:pointer;text-align:left;border-top:0;border-bottom:0;border-left:0;font:inherit;color:inherit}
+.g-row:hover .g-label,.g-row.sel .g-label{background:var(--sunken)}
+.g-num{font-family:var(--f-mono);font-size:12px;color:var(--muted);width:20px;flex:none}
+.g-title{font-size:14px;line-height:1.25;min-width:0;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.axis{font-family:var(--f-mono);font-size:11px;padding:1px 5px;border-radius:4px;background:var(--sunken);color:var(--ink2);flex:none;margin-left:auto}
+.g-track{position:relative;cursor:pointer}
+.g-months{position:relative;height:34px}
+.g-months span{position:absolute;top:9px;font-family:var(--f-mono);font-size:11px;color:var(--muted);transform:translateX(6px);white-space:nowrap}
+.g-grid{position:absolute;top:0;bottom:0;width:1px;background:var(--line);pointer-events:none}
+.g-mark{position:absolute;top:0;bottom:0;width:0;border-left:2px dashed var(--late);pointer-events:none;z-index:1}
+.g-mark.today{border-left:2px solid var(--accent)}
+.g-mark b{position:absolute;top:2px;left:4px;font:500 11px var(--f-mono);color:var(--ink2);background:var(--surface);padding:0 3px;white-space:nowrap}
+.bar{position:absolute;top:13px;height:18px;border-radius:4px;background:color-mix(in srgb,var(--c) 22%,transparent);overflow:hidden;min-width:6px}
+.bar i{display:block;height:100%;background:var(--c);border-radius:4px}
+.bar-lbl{position:absolute;top:13px;height:18px;display:flex;align-items:center;font:500 11px var(--f-mono);color:var(--ink2);white-space:nowrap;padding-left:6px;pointer-events:none}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--ink2)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.tip{position:fixed;z-index:30;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12px;padding:6px 9px;border-radius:6px;max-width:280px;line-height:1.4}
+/* Fiche */
+.layout{display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(460px,100%);background:var(--surface);border-left:1px solid var(--line);box-shadow:-12px 0 32px rgb(0 0 0 / .12);z-index:20;overflow-y:auto;padding:calc(18px + env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-right,0px)) calc(28px + env(safe-area-inset-bottom,0px)) 20px;display:grid;gap:16px;align-content:start}
+.drawer header{display:grid;gap:6px}
+.close{justify-self:end;font:inherit;font-size:14px;border:1px solid var(--line);background:var(--surface);color:var(--ink2);border-radius:6px;padding:4px 10px;cursor:pointer}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font:inherit;font-size:13px;padding:6px 10px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink2);cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.seg button[aria-pressed="true"]{border-color:var(--c);color:var(--ink);background:color-mix(in srgb,var(--c) 14%,var(--surface))}
+.field{display:grid;gap:4px}
+.field label,.lbl{font-size:12px;color:var(--ink2);font-weight:500}
+.field input,.field textarea,.field select{font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);width:100%}
+.field textarea{min-height:96px;resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tasks{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.tasks li{display:flex;gap:10px;align-items:flex-start;padding:6px 4px;border-radius:6px}
+.tasks li:hover{background:var(--sunken)}
+.tasks input[type=checkbox]{width:17px;height:17px;margin-top:2px;accent-color:var(--done);flex:none}
+.tasks label{flex:1;min-width:0;font-size:14px}
+.tasks li.ok label{color:var(--muted);text-decoration:line-through}
+.x{border:0;background:none;color:var(--muted);cursor:pointer;font-size:16px;line-height:1;padding:2px 6px;border-radius:4px}
+.x:hover{color:var(--late)}
+.addtask{display:flex;gap:6px}
+.addtask input{flex:1;min-width:0;font:inherit;font-size:14px;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)}
+.btn{font:inherit;font-size:14px;font-weight:500;padding:7px 14px;border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:var(--surface);cursor:pointer}
+.btn.ghost{background:var(--surface);color:var(--accent)}
+.btn:disabled{opacity:.5;cursor:default}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;padding:2px 8px;border-radius:999px;background:color-mix(in srgb,var(--c) 15%,transparent);color:var(--ink)}
+.late{--c:var(--late)}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+/* Journal */
+.j-form{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:10px}
+.j-form .row3{display:grid;grid-template-columns:160px 200px 1fr;gap:10px}
+.j-list{display:grid;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.j-item{display:grid;grid-template-columns:110px 1fr auto;gap:14px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.j-item:last-child{border-bottom:0}
+.j-date{font-family:var(--f-mono);font-size:13px;color:var(--ink2)}
+.j-text{white-space:pre-wrap;min-width:0;overflow-wrap:anywhere}
+.empty{padding:28px 16px;text-align:center;color:var(--muted)}
+/* Chiffrage */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:12px;min-width:0}
+.bars{display:grid;gap:6px}
+.hb{display:grid;grid-template-columns:150px 1fr 90px;gap:10px;align-items:center;font-size:13px;position:relative}
+.hb .t{height:16px;position:relative}
+.hb .t i{position:absolute;left:0;top:0;bottom:0;background:var(--accent);border-radius:0 4px 4px 0}
+.hb .n{font-family:var(--f-mono);text-align:right;font-variant-numeric:tabular-nums;color:var(--ink2)}
+.hb:hover .t i{filter:brightness(1.12)}
+.tbl-box{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:760px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;color:var(--ink2);font-size:12px;position:sticky;top:0;background:var(--surface)}
+td.num,th.num{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.cat td{background:var(--sunken);font-weight:600}
+.note{color:var(--muted);font-size:12px}
+ul.plain{margin:0;padding-left:18px;display:grid;gap:4px}
+@media (max-width:700px){
+  .g-row{grid-template-columns:190px 1fr}
+  .gantt{min-width:760px}
+  .j-form .row3{grid-template-columns:1fr 1fr}
+  .j-form .row3 .field:last-child{grid-column:1/-1}
+  .j-item{grid-template-columns:1fr auto}
+  .j-item .j-text{grid-column:1/-1;grid-row:2}
+  .hb{grid-template-columns:110px 1fr 78px}
+}
+@media (prefers-reduced-motion:no-preference){.bar i,.meter i,.hb .t i{transition:width .35s ease}}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">BUT3 R&amp;T · R5.08 Gestion de projets · SAÉ 5.02</div>
+      <h1>Site de Marseille, suivi du projet</h1>
+    </div>
+    <div class="stats" id="stats"></div>
+    <div class="dates" id="dates"></div>
+    <nav class="tabs" aria-label="Vues">
+      <a href="#roadmap" data-v="roadmap">Roadmap</a>
+      <a href="#journal" data-v="journal">Journal de bord</a>
+      <a href="#chiffrage" data-v="chiffrage">Chiffrage infra</a>
+    </nav>
+  </div>
+</header>
+<main><div class="wrap" id="view"></div></main>
+<div id="drawer-host"></div>
+<div class="tip" id="tip" hidden></div>
+
+<script>
+const EST = {"capex_lignes": [{"categorie": "Egress / WAN", "schema": "EL-RTR1, EL-RTR2", "solution": "Cisco Catalyst C8200L-1N-4T + DNA Essentials 3 ans", "quantite": 2, "pu_ht": 2200, "total_ht": 4400, "note": "Routeurs de bordure, 1 par FAI"}, {"categorie": "Egress / WAN", "schema": "EL-FGT1, EL-FGT2", "solution": "FortiGate 120G + bundle UTP / FortiCare Premium 3 ans", "quantite": 2, "pu_ht": 7200, "total_ht": 14400, "note": "Cluster HA actif/passif, pare-feu externe"}, {"categorie": "Egress / WAN", "schema": "EL-SW1, EL-SW2", "solution": "Cisco Catalyst C9200L-24T-4X-E + DNA-E 3 ans", "quantite": 2, "pu_ht": 2300, "total_ht": 4600, "note": ""}, {"categorie": "Sécurité interne", "schema": "EL-SNS1, EL-SNS2", "solution": "Stormshield SN710 + Premium UTM Security Pack 3 ans", "quantite": 2, "pu_ht": 7000, "total_ht": 14000, "note": "Pare-feu interne HA. Prix à confirmer par devis revendeur"}, {"categorie": "DMZ", "schema": "DM-SW1, DM-SW2", "solution": "Cisco Catalyst C9200L-24T-4X-E + DNA-E 3 ans", "quantite": 2, "pu_ht": 2300, "total_ht": 4600, "note": ""}, {"categorie": "DMZ", "schema": "DM-RP1/2 (Caddy), DM-DNS1, DM-WEB1, DM-MAIL1, DM-SRV1", "solution": "Dell PowerEdge R260 (Xeon E-2434, 32 Go, 2x960 Go SSD RAID1, double alim)", "quantite": 6, "pu_ht": 2900, "total_ht": 17400, "note": "6 serveurs physiques comme sur le schéma"}, {"categorie": "Cœur", "schema": "CL-SW1, CL-SW2", "solution": "Cisco Catalyst C9500-16X-E + DNA-E 3 ans + modules 40G SVL", "quantite": 2, "pu_ht": 9500, "total_ht": 19000, "note": "StackWise Virtual"}, {"categorie": "Distribution", "schema": "DL-SW1 à DL-SW4", "solution": "Cisco Catalyst C9500-16X-E + DNA-E 3 ans", "quantite": 4, "pu_ht": 9500, "total_ht": 38000, "note": "2 blocs StackWise Virtual (le SVL impose la gamme 9500)"}, {"categorie": "Accès", "schema": "AL-SW1 à AL-SW4", "solution": "Cisco Catalyst C9200L-48P-4X-E PoE+ + DNA-E 3 ans", "quantite": 8, "pu_ht": 3900, "total_ht": 31200, "note": "Le schéma en montre 4. Il en faut 8 pour ~400 prises + 20 % de réserve"}, {"categorie": "Accès", "schema": "AL-AP1", "solution": "Borne Wi-Fi 6E Cisco CW9164I + licence DNA AP 3 ans", "quantite": 30, "pu_ht": 1300, "total_ht": 39000, "note": "Environ 1 borne par salle de cours/TP + amphi, foyer, couloirs. Contrôleur 9800-CL en VM"}, {"categorie": "Net Management", "schema": "NM-SW1, NM-SW2", "solution": "Cisco Catalyst C9200L-24T-4X-E + DNA-E 3 ans", "quantite": 2, "pu_ht": 2300, "total_ht": 4600, "note": ""}, {"categorie": "Net Management", "schema": "NM-PVE1 à NM-PVE3", "solution": "Dell PowerEdge R660xs (2x Xeon Silver 4510, 256 Go, 4x1,92 To SSD Ceph, 2x25 GbE)", "quantite": 3, "pu_ht": 9500, "total_ht": 28500, "note": "Cluster Proxmox HA : LXC Kea/chrony/DNS, VM Docker (LibreNMS, Grafana, syslog, snmptrapd), Teleport"}, {"categorie": "Net Management", "schema": "Services NM (LXC + Docker)", "solution": "Kea, chrony, Bind/Unbound, LibreNMS, Grafana, rsyslog, snmptrapd, Teleport Community", "quantite": 1, "pu_ht": 0, "total_ht": 0, "note": "Logiciels libres, 0 € de licence"}, {"categorie": "Datacenter", "schema": "DT-SW1, DT-SW2", "solution": "Cisco Catalyst C9300X-12Y-E (10/25G) + DNA-E 3 ans", "quantite": 2, "pu_ht": 8000, "total_ht": 16000, "note": ""}, {"categorie": "Datacenter", "schema": "DT-AD1/2, DT-RAD1/2, DT-DHCP1/2", "solution": "Dell PowerEdge R360 (Xeon E-2400, 64 Go, 2x960 Go SSD RAID1)", "quantite": 6, "pu_ht": 3400, "total_ht": 20400, "note": "6 serveurs physiques comme sur le schéma"}, {"categorie": "Datacenter", "schema": "Licences serveurs Windows", "solution": "Windows Server 2025 Standard 16 cœurs (AD, DHCP, NPS/RADIUS)", "quantite": 6, "pu_ht": 1100, "total_ht": 6600, "note": "Tarif public. Le tarif Éducation est nettement plus bas"}, {"categorie": "Datacenter", "schema": "Licences d'accès", "solution": "CAL utilisateur Windows Server (tarif Éducation)", "quantite": 600, "pu_ht": 10, "total_ht": 6000, "note": "~100 personnels + ~500 étudiants"}, {"categorie": "Datacenter", "schema": "DT-BKP1", "solution": "Serveur de sauvegarde Proxmox Backup Server (Dell R760xd2, ~100 To bruts)", "quantite": 1, "pu_ht": 12000, "total_ht": 12000, "note": "Règle 3-2-1 avec copie externalisée (voir OPEX)"}, {"categorie": "Énergie / locaux", "schema": "Salle serveur", "solution": "Baie 42U 800x1000 avec portes ventilées", "quantite": 2, "pu_ht": 1500, "total_ht": 3000, "note": ""}, {"categorie": "Énergie / locaux", "schema": "Locaux techniques (6 L.TECH)", "solution": "Baie 24U murale/sol", "quantite": 6, "pu_ht": 700, "total_ht": 4200, "note": "2 L.TECH par niveau d'après les plans"}, {"categorie": "Énergie / locaux", "schema": "Salle serveur", "solution": "Onduleur APC Smart-UPS SRT 6 kVA (en ligne)", "quantite": 2, "pu_ht": 4800, "total_ht": 9600, "note": "Alimentation A/B"}, {"categorie": "Énergie / locaux", "schema": "Locaux techniques", "solution": "Onduleur 1,5 kVA rackable", "quantite": 6, "pu_ht": 900, "total_ht": 5400, "note": ""}, {"categorie": "Énergie / locaux", "schema": "Salle serveur", "solution": "PDU managées et métrées", "quantite": 4, "pu_ht": 700, "total_ht": 2800, "note": "Mesure de consommation (Green IT)"}, {"categorie": "Énergie / locaux", "schema": "Salle serveur", "solution": "Climatisation de précision ~7 kW, redondance N+1", "quantite": 1, "pu_ht": 12000, "total_ht": 12000, "note": ""}, {"categorie": "Énergie / locaux", "schema": "Salle serveur + L.TECH", "solution": "Contrôle d'accès par badge", "quantite": 1, "pu_ht": 5000, "total_ht": 5000, "note": ""}, {"categorie": "Câblage", "schema": "Prises utilisateurs", "solution": "Prise RJ45 Cat6A fournie, posée et recettée", "quantite": 400, "pu_ht": 140, "total_ht": 56000, "note": "10 Gb/s, durée de vie 15 ans (CdC)"}, {"categorie": "Câblage", "schema": "Rocades verticales", "solution": "Fibre OM4 12 brins L.TECH vers salle serveur", "quantite": 6, "pu_ht": 1500, "total_ht": 9000, "note": ""}, {"categorie": "Câblage", "schema": "Optiques", "solution": "Modules SFP+/SFP28/QSFP compatibles", "quantite": 80, "pu_ht": 70, "total_ht": 5600, "note": "Optiques Cisco d'origine : x4 environ"}, {"categorie": "Câblage", "schema": "Brassage", "solution": "Panneaux, cordons, passe-câbles", "quantite": 1, "pu_ht": 4000, "total_ht": 4000, "note": "Forfait"}, {"categorie": "Prestations", "schema": "Intégration", "solution": "Ingénierie, intégration et configuration (jours)", "quantite": 45, "pu_ht": 650, "total_ht": 29250, "note": ""}, {"categorie": "Prestations", "schema": "Recette", "solution": "Recette, documentation et formation (jours)", "quantite": 10, "pu_ht": 650, "total_ht": 6500, "note": ""}], "par_categorie": {"Egress / WAN": 23400, "Sécurité interne": 14000, "DMZ": 22000, "Cœur": 19000, "Distribution": 38000, "Accès": 70200, "Net Management": 33100, "Datacenter": 61000, "Énergie / locaux": 42000, "Câblage": 74600, "Prestations": 35750}, "sous_total": 433050, "aleas": 43305, "capex": 476355, "opex": [{"poste": "Accès Internet FAI 1", "detail": "Fibre dédiée FTTO 1 Gb/s symétrique, GTR 4 h", "montant": 10800}, {"poste": "Accès Internet FAI 2", "detail": "Fibre dédiée 500 Mb/s, autre opérateur", "montant": 5400}, {"poste": "Interconnexion WAN", "detail": "VPN MPLS vers le site jumeau (Digne/Gap)", "montant": 8400}, {"poste": "Proxmox VE", "detail": "Souscription Standard, 3 nœuds x 2 sockets x 550 €", "montant": 3300}, {"poste": "Sauvegarde externalisée", "detail": "Stockage objet ~20 To hors site", "montant": 1440}, {"poste": "Électricité", "detail": "3.5 kW IT x PUE 1.6 x 8 760 h x 0.20 €/kWh", "montant": 9811}, {"poste": "Nom de domaine", "detail": "Domaine + DNS secondaire", "montant": 30}], "opex_total": 39181, "renouvellement": [{"poste": "FortiGuard UTP + FortiCare", "detail": "2 FortiGate 120G", "montant": 4200}, {"poste": "Stormshield Premium UTM", "detail": "2 SN710", "montant": 3000}, {"poste": "Cisco DNA Essentials / AP", "detail": "~26 switchs + 30 bornes", "montant": 12000}, {"poste": "Support matériel serveurs", "detail": "Extension garantie 18 serveurs", "montant": 6300}], "renouvellement_total": 25500, "tco5": 723260, "optimisations": [{"piste": "Cœur replié (collapsed core)", "detail": "Un seul bâtiment : fusionner distribution et cœur dans le bloc CL-SW (SVL). Suppression de DL-SW1 à DL-SW4.", "economie": 38000}, {"piste": "Virtualiser DMZ et datacenter", "detail": "Héberger DM-* et DT-* (hors sauvegarde) en VM sur 2 clusters Proxmox (un pour la DMZ, isolé). 12 serveurs remplacés par 3 nœuds supplémentaires.", "economie": 9300}, {"piste": "Tarifs Éducation", "detail": "Remises éditeur Microsoft/Cisco/Fortinet pour l'enseignement supérieur (souvent -30 à -50 %).", "economie": null}]};
+const STATUS = {todo:{l:"À faire",c:"var(--todo)"},doing:{l:"En cours",c:"var(--doing)"},review:{l:"À relire",c:"var(--review)"},done:{l:"Terminé",c:"var(--done)"}};
+const AXES = {A:"A · Architecture physique",B:"B · Architecture réseaux",C:"C · Architecture système",D:"D · WAN",E:"E · Sécurité",G:"Gestion de projet",I:"Innovation",F:"Chiffrage",L:"Livrables"};
+const KINDS = {reunion:"Réunion de suivi",avancement:"Avancement",decision:"Décision",probleme:"Problème / blocage",client:"Réunion client"};
+const S = {points:new Map(), journal:[], meta:{}, loaded:false, slow:false, offline:false, canWrite:true, sel:null, axis:"all", status:"all", q:"", names:{}, me:null, jDel:null};
+let db=null, user=null;
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const D=s=>{if(!s)return null;const [y,m,d]=s.split("-").map(Number);return Date.UTC(y,m-1,d)};
+const todayUTC=()=>{const n=new Date();return Date.UTC(n.getFullYear(),n.getMonth(),n.getDate())};
+const fmt=s=>{const t=D(s);return t?new Date(t).toLocaleDateString("fr-FR",{day:"2-digit",month:"short",timeZone:"UTC"}):"—"};
+const fmtLong=s=>{const t=D(s);return t?new Date(t).toLocaleDateString("fr-FR",{weekday:"short",day:"numeric",month:"long",year:"numeric",timeZone:"UTC"}):"—"};
+const eur=n=>new Intl.NumberFormat("fr-FR",{maximumFractionDigits:0}).format(n)+" €";
+const keur=n=>new Intl.NumberFormat("fr-FR",{maximumFractionDigits:0}).format(Math.round(n/1000))+" k€";
+function prog(p){if(p.status==="done")return 100;const t=p.tasks||[];if(!t.length)return 0;return Math.round(100*t.filter(x=>x.done).length/t.length)}
+function isLate(p){return p.status!=="done"&&D(p.due)&&D(p.due)<todayUTC()}
+function sorted(){return [...S.points.entries()].map(([id,p])=>({id,...p})).sort((a,b)=>(a.num||0)-(b.num||0))}
+function view(){const h=location.hash.slice(1);return ["roadmap","journal","chiffrage"].includes(h)?h:"roadmap"}
+
+/* ---------- écritures : une à la fois par document ---------- */
+const queues=new Map();
+function write(path,data){
+  if(!db||!S.canWrite)return Promise.resolve();
+  const prev=queues.get(path)||Promise.resolve();
+  const p=prev.then(()=>db.doc(path).update(data)).catch(e=>onWriteErr(e));
+  queues.set(path,p);return p;
+}
+function onWriteErr(e){if(e&&e.code==="invalid_argument"){S.canWrite=false;renderAll()}else{console.warn(e)}}
+
+/* ---------- en-tête ---------- */
+function renderStats(){
+  const pts=sorted();const el=$("#stats");
+  if(!pts.length){el.innerHTML="";return}
+  const avg=Math.round(pts.reduce((s,p)=>s+prog(p),0)/pts.length);
+  const done=pts.filter(p=>p.status==="done").length, doing=pts.filter(p=>p.status==="doing"||p.status==="review").length, late=pts.filter(isLate).length;
+  const r=D(S.meta.rendu), days=r?Math.ceil((r-todayUTC())/864e5):null;
+  const nt=pts.reduce((s,p)=>s+(p.tasks||[]).length,0), nd=pts.reduce((s,p)=>s+(p.tasks||[]).filter(t=>t.done).length,0);
+  el.innerHTML=`
+   <div class="stat"><span class="k">Avancement global</span><span class="v">${avg} %</span><div class="meter"><i style="width:${avg}%"></i></div></div>
+   <div class="stat"><span class="k">Points du cahier des charges</span><span class="v">${done} / ${pts.length}</span><span class="s">${doing} en cours · ${pts.length-done-doing} à faire</span></div>
+   <div class="stat"><span class="k">Tâches cochées</span><span class="v">${nd} / ${nt}</span><span class="s">${late?`<span class="pill late">! ${late} point${late>1?"s":""} en retard</span>`:"aucun point en retard"}</span></div>
+   <div class="stat"><span class="k">Rendu des supports</span><span class="v">${days===null?"—":days>=0?"J-"+days:"Rendu passé"}</span><span class="s">${fmtLong(S.meta.rendu)}</span></div>`;
+  const ro=!S.canWrite||!db;
+  $("#dates").innerHTML=`<span>Soutenance</span><input type="date" id="m-sout" value="${esc(S.meta.soutenance||"")}" ${ro?"disabled":""} aria-label="Date de soutenance">
+    <span>Rendu des supports (8 à 10 j avant)</span><input type="date" id="m-rendu" value="${esc(S.meta.rendu||"")}" ${ro?"disabled":""} aria-label="Date de rendu">
+    <span class="muted">Dates estimées d'après la session précédente : à ajuster dès qu'elles sont annoncées sur AMETICE.</span>`;
+  $("#m-sout").onchange=e=>write("meta/projet",{soutenance:e.target.value});
+  $("#m-rendu").onchange=e=>write("meta/projet",{rendu:e.target.value});
+}
+
+/* ---------- roadmap ---------- */
+function range(){return {a:D("2026-09-21"),b:D("2027-03-22")}}
+function pct(t){const {a,b}=range();return Math.max(0,Math.min(100,100*(t-a)/(b-a)))}
+function renderRoadmap(){
+  const v=$("#view");
+  if(!S.loaded){v.innerHTML=stateMsg();return}
+  const qf=document.activeElement?.id==="f-q", qpos=qf?document.activeElement.selectionStart:0;
+  const pts=sorted().filter(p=>(S.axis==="all"||p.axis===S.axis)&&(S.status==="all"||(S.status==="late"?isLate(p):p.status===S.status))&&(!S.q||(p.title+" "+(p.owner||"")+" "+(p.tasks||[]).map(t=>t.t).join(" ")).toLowerCase().includes(S.q.toLowerCase())));
+  const months=[];{const {a,b}=range();let d=new Date(a);d.setUTCDate(1);d.setUTCMonth(d.getUTCMonth()+1);while(d.getTime()<b){months.push(d.getTime());d.setUTCMonth(d.getUTCMonth()+1)}}
+  const marks=[["today",todayUTC(),"Aujourd'hui"],["",D(S.meta.rendu),"Rendu"],["",D(S.meta.soutenance),"Soutenance"]].filter(m=>m[1]);
+  const grid=months.map(m=>`<div class="g-grid" style="left:${pct(m)}%"></div>`).join("");
+  const markHtml=(lbl)=>marks.map(([c,t,l])=>`<div class="g-mark ${c}" style="left:${pct(t)}%">${lbl?`<b>${l}</b>`:""}</div>`).join("");
+  const statusChips=[["all","Tous"],["todo","À faire"],["doing","En cours"],["review","À relire"],["done","Terminé"],["late","En retard"]].map(([k,l])=>`<button class="chip" data-st="${k}" aria-pressed="${S.status===k}">${k!=="all"?`<span class="dot" style="background:${k==="late"?"var(--late)":STATUS[k].c}"></span>`:""}${l}</button>`).join("");
+  v.innerHTML=`
+   ${!db?"":!S.canWrite?`<div class="banner">Lecture seule : votre niveau de partage ne permet pas de modifier le suivi. Demandez un accès Contributeur au propriétaire.</div>`:""}
+   <div class="toolbar">
+     <select id="f-axis" aria-label="Filtrer par axe"><option value="all">Tous les axes</option>${Object.entries(AXES).map(([k,l])=>`<option value="${k}" ${S.axis===k?"selected":""}>${esc(l)}</option>`).join("")}</select>
+     <input type="search" id="f-q" placeholder="Rechercher un point, une tâche, un responsable" value="${esc(S.q)}" aria-label="Rechercher">
+   </div>
+   <div class="toolbar">${statusChips}</div>
+   <div class="gantt-box"><div class="gantt">
+     <div class="g-row g-head"><div class="g-label" style="cursor:default"><span class="lbl">Point du cahier des charges</span><span class="axis" style="background:none">Axe</span></div>
+       <div class="g-track g-months" style="cursor:default">${months.map(m=>`<span style="left:${pct(m)}%">${new Date(m).toLocaleDateString("fr-FR",{month:"short",year:"2-digit",timeZone:"UTC"})}</span>`).join("")}${grid}${markHtml(true)}</div></div>
+     ${pts.length?pts.map(p=>{const s=D(p.start)||D(p.due),e=D(p.due)||s;const L=pct(s),W=Math.max(.8,pct(e)-L),pr=prog(p);const col=isLate(p)?"var(--late)":STATUS[p.status]?.c||"var(--todo)";
+       return `<div class="g-row ${S.sel===p.id?"sel":""}" data-id="${p.id}">
+        <button class="g-label" data-open="${p.id}"><span class="g-num">${String(p.num).padStart(2,"0")}</span><span class="g-title">${esc(p.title)}</span><span class="axis">${esc(p.axis)}</span></button>
+        <div class="g-track" data-open="${p.id}">${grid}${markHtml(false)}
+          <div class="bar" style="--c:${col};left:${L}%;width:${W}%" data-tip="${p.id}"><i style="width:${pr}%"></i></div>
+          <div class="bar-lbl" style="left:${Math.min(L+W,88)}%">${pr} %${p.owner?` · ${esc(p.owner)}`:""}</div>
+        </div></div>`}).join(""):`<div class="empty">Aucun point ne correspond à ces filtres.</div>`}
+   </div></div>
+   <div class="legend">${Object.values(STATUS).map(s=>`<span><span class="dot" style="background:${s.c}"></span>${s.l}</span>`).join("")}<span><span class="dot" style="background:var(--late)"></span>En retard</span><span class="muted">Barre = période prévue, partie pleine = tâches cochées. Cliquez une ligne pour ouvrir la fiche.</span></div>`;
+  $("#f-axis").onchange=e=>{S.axis=e.target.value;renderRoadmap()};
+  $("#f-q").oninput=e=>{S.q=e.target.value;renderRoadmap()};
+  if(qf){const n=$("#f-q");n.focus();try{n.setSelectionRange(qpos,qpos)}catch(e){}}
+  v.querySelectorAll("[data-st]").forEach(b=>b.onclick=()=>{S.status=b.dataset.st;renderRoadmap()});
+  v.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>openPoint(b.dataset.open));
+  v.querySelectorAll("[data-tip]").forEach(b=>{b.onmousemove=ev=>showTip(ev,b.dataset.tip);b.onmouseleave=hideTip});
+}
+function showTip(ev,id){const p=S.points.get(id);if(!p)return;const t=$("#tip");const tk=p.tasks||[];
+  t.innerHTML=`<b>${String(p.num).padStart(2,"0")} · ${esc(p.title)}</b><br>${fmt(p.start)} → ${fmt(p.due)} · ${STATUS[p.status]?.l||""}${isLate(p)?" · en retard":""}<br>${tk.filter(x=>x.done).length}/${tk.length} tâches · ${prog(p)} %`;
+  t.hidden=false;const x=Math.min(ev.clientX+14,innerWidth-300);t.style.left=x+"px";t.style.top=(ev.clientY+14)+"px"}
+function hideTip(){$("#tip").hidden=true}
+function stateMsg(){
+  if(S.offline)return `<div class="empty">Le suivi partagé n'est disponible que dans la page publiée sur claude.ai, une fois connecté.</div>`;
+  if(S.slow)return `<div class="empty">Les données du projet ne répondent pas encore. Vérifiez votre connexion : la page se mettra à jour seule.</div>`;
+  return `<div class="empty">Chargement des 21 points du cahier des charges…</div>`;
+}
+
+/* ---------- fiche d'un point ---------- */
+function openPoint(id){S.sel=id;renderDrawer();renderRoadmap();setTimeout(()=>$(".drawer .close")?.focus(),0)}
+function closePoint(){S.sel=null;$("#drawer-host").innerHTML="";renderRoadmap()}
+function renderDrawer(){
+  const host=$("#drawer-host");const p=S.sel&&S.points.get(S.sel);
+  if(!p){host.innerHTML="";return}
+  const a=document.activeElement;if(a&&host.contains(a)&&/^(INPUT|TEXTAREA)$/.test(a.tagName)&&a.type!=="checkbox")return; // ne pas écraser une saisie en cours
+  const ro=!S.canWrite||!db?"disabled":"";const tk=p.tasks||[];const pr=prog(p);
+  host.innerHTML=`<aside class="drawer" role="dialog" aria-label="Fiche du point ${p.num}">
+    <button class="close" id="d-close">Fermer</button>
+    <header><span class="eyebrow">Point ${String(p.num).padStart(2,"0")} · ${esc(AXES[p.axis]||p.axis)}</span><h2>${esc(p.title)}</h2>
+      <div class="small muted">${esc(p.cdc||"")}</div></header>
+    <div class="field"><span class="lbl">Statut</span><div class="seg">${Object.entries(STATUS).map(([k,s])=>`<button data-s="${k}" style="--c:${s.c}" aria-pressed="${p.status===k}" ${ro}><span class="dot" style="background:${s.c}"></span>${s.l}</button>`).join("")}</div>
+      ${isLate(p)?`<span class="pill late">! Échéance dépassée</span>`:""}</div>
+    <div><div class="lbl">Avancement : ${pr} %</div><div class="meter"><i style="width:${pr}%;background:${STATUS[p.status]?.c}"></i></div></div>
+    <div class="field"><label for="d-owner">Responsable(s)</label><input id="d-owner" value="${esc(p.owner||"")}" placeholder="Ex. Mattéo, Inès" ${ro}></div>
+    <div class="row2"><div class="field"><label for="d-start">Début</label><input type="date" id="d-start" value="${esc(p.start||"")}" ${ro}></div>
+      <div class="field"><label for="d-due">Échéance</label><input type="date" id="d-due" value="${esc(p.due||"")}" ${ro}></div></div>
+    <div class="field"><span class="lbl">Livrable attendu</span><div class="small">${esc(p.livrable||"—")}</div></div>
+    <div class="field"><span class="lbl">Tâches (${tk.filter(t=>t.done).length}/${tk.length})</span>
+      <ul class="tasks">${tk.map((t,i)=>`<li class="${t.done?"ok":""}"><input type="checkbox" id="t-${i}" data-i="${i}" ${t.done?"checked":""} ${ro}><label for="t-${i}">${esc(t.t)}</label>${ro?"":`<button class="x" data-del="${i}" aria-label="Supprimer la tâche">×</button>`}</li>`).join("")||`<li class="muted small">Aucune tâche.</li>`}</ul>
+      ${ro?"":`<form class="addtask" id="d-add"><input id="d-newtask" placeholder="Ajouter une tâche" aria-label="Nouvelle tâche"><button class="btn ghost" type="submit">Ajouter</button></form>`}</div>
+    <div class="field"><label for="d-notes">Notes, choix techniques, liens</label><textarea id="d-notes" ${ro} placeholder="Décisions, liens vers le repo GitHub, questions pour le client…">${esc(p.notes||"")}</textarea></div>
+    ${p.repo?`<div class="small muted">Dans le repo : <code>${esc(p.repo)}</code></div>`:""}
+  </aside>`;
+  const id=S.sel,path="points/"+id;
+  $("#d-close").onclick=closePoint;
+  host.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>write(path,{status:b.dataset.s}));
+  const bindText=(sel,key)=>{const el=$(sel);if(!el)return;el.onchange=()=>{const cur=S.points.get(id)?.[key]||"";if(el.value!==cur)write(path,{[key]:el.value})};el.onblur=()=>setTimeout(renderDrawer,0)};
+  bindText("#d-owner","owner");bindText("#d-start","start");bindText("#d-due","due");bindText("#d-notes","notes");
+  host.querySelectorAll(".tasks input[type=checkbox]").forEach(c=>c.onchange=()=>{const t=(S.points.get(id).tasks||[]).map(x=>({...x}));t[+c.dataset.i].done=c.checked;write(path,{tasks:t})});
+  host.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{const t=(S.points.get(id).tasks||[]).filter((_,i)=>i!==+b.dataset.del);write(path,{tasks:t})});
+  const f=$("#d-add");if(f)f.onsubmit=e=>{e.preventDefault();const v=$("#d-newtask").value.trim();if(!v)return;const t=[...(S.points.get(id).tasks||[]).map(x=>({...x})),{t:v,done:false}];$("#d-newtask").value="";write(path,{tasks:t}).then(()=>$("#d-newtask")?.focus())};
+}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&S.sel)closePoint()});
+
+/* ---------- journal ---------- */
+async function resolveNames(){
+  if(!user)return;const ids=[...new Set(S.journal.map(j=>j.author).filter(Boolean))].filter(i=>!(i in S.names));
+  if(!ids.length)return;try{const ps=await user.profiles(ids);for(const i of ids)S.names[i]=ps[i]?.name||"";if(view()==="journal")renderJournal()}catch(e){}
+}
+function renderJournal(){
+  const v=$("#view");if(!S.loaded){v.innerHTML=stateMsg();return}
+  const ro=!S.canWrite||!db;const today=new Date().toISOString().slice(0,10);
+  const draft=$("#j-text")?.value||"";
+  v.innerHTML=`<div><h2>Journal de bord</h2><p class="muted small" style="margin:4px 0 0">Livrable obligatoire, à reprendre sur le site web du projet. Une entrée par réunion de suivi (¼ h par semaine) et à chaque décision importante.</p></div>
+   ${ro?`<div class="banner">Lecture seule : vous ne pouvez pas ajouter d'entrée.</div>`:`<form class="j-form" id="j-form">
+     <div class="row3"><div class="field"><label for="j-date">Date</label><input type="date" id="j-date" value="${today}" required></div>
+       <div class="field"><label for="j-kind">Type</label><select id="j-kind">${Object.entries(KINDS).map(([k,l])=>`<option value="${k}">${l}</option>`).join("")}</select></div>
+       <div class="field"><label for="j-point">Point concerné</label><select id="j-point"><option value="">Général</option>${sorted().map(p=>`<option value="${p.id}">${String(p.num).padStart(2,"0")} · ${esc(p.title)}</option>`).join("")}</select></div></div>
+     <div class="field"><label for="j-text">Compte rendu</label><textarea id="j-text" required placeholder="Ce qui a été fait, décidé, ce qui bloque, prochaines actions">${esc(draft)}</textarea></div>
+     <div><button class="btn" type="submit" id="j-submit">Ajouter au journal</button></div></form>`}
+   <div class="j-list">${S.journal.length?S.journal.map(j=>{const p=j.point&&S.points.get(j.point);const who=j.author?(S.names[j.author]||"Un membre"):"";
+     return `<div class="j-item"><div class="j-date">${esc(j.date)}</div><div class="j-text"><span class="pill" style="--c:var(--accent)">${esc(KINDS[j.kind]||j.kind)}</span> ${p?`<span class="axis" style="margin-left:4px">${String(p.num).padStart(2,"0")}</span>`:""} <span class="muted small">${esc(who)}</span><br>${esc(j.text)}</div>
+       <div>${ro?"":S.jDel===j.id?`<button class="x" data-jdel="${j.id}" style="color:var(--late);font-size:13px">Confirmer</button>`:`<button class="x" data-jask="${j.id}" aria-label="Supprimer l'entrée">×</button>`}</div></div>`}).join(""):`<div class="empty">Aucune entrée pour l'instant. Ajoutez le compte rendu de votre première réunion de suivi avec le formulaire ci-dessus.</div>`}</div>`;
+  const f=$("#j-form");
+  if(f)f.onsubmit=async e=>{e.preventDefault();const text=$("#j-text").value.trim();if(!text)return;const btn=$("#j-submit");btn.disabled=true;
+    try{await db.collection("journal").add({date:$("#j-date").value,kind:$("#j-kind").value,point:$("#j-point").value,text,author:S.me||null,createdAt:new Date().toISOString()});$("#j-text").value=""}catch(err){onWriteErr(err)}finally{if($("#j-submit"))$("#j-submit").disabled=false}};
+  v.querySelectorAll("[data-jask]").forEach(b=>b.onclick=()=>{S.jDel=b.dataset.jask;renderJournal()});
+  v.querySelectorAll("[data-jdel]").forEach(b=>b.onclick=()=>{db.doc("journal/"+b.dataset.jdel).delete().catch(onWriteErr);S.jDel=null});
+}
+
+/* ---------- chiffrage (statique) ---------- */
+function renderChiffrage(){
+  const v=$("#view");const E=EST;if(!E){v.innerHTML=`<div class="empty">Chiffrage indisponible.</div>`;return}
+  const cats=Object.entries(E.par_categorie).sort((a,b)=>b[1]-a[1]);const max=cats[0][1];
+  const byCat={};E.capex_lignes.forEach(r=>(byCat[r.categorie]=byCat[r.categorie]||[]).push(r));
+  v.innerHTML=`<div><h2>Estimation de l'infra du schéma Projet_Marseille_site</h2><p class="muted small" style="margin:4px 0 0">Prix HT, revendeurs, matériel neuf, novembre 2026. Licences 3 ans incluses quand l'éditeur les vend en bundle. Budget de cadrage, à confirmer par devis.</p></div>
+   <div class="cards">
+     <div class="stat"><span class="k">CAPEX total (avec 10 % d'aléas)</span><span class="v">${eur(E.capex)}</span><span class="s">dont matériel et travaux ${eur(E.sous_total)}</span></div>
+     <div class="stat"><span class="k">OPEX annuel, années 1 à 3</span><span class="v">${eur(E.opex_total)}</span><span class="s">liens FAI, WAN, abonnements, énergie</span></div>
+     <div class="stat"><span class="k">Coût total sur 5 ans</span><span class="v">${eur(E.tco5)}</span><span class="s">+ ${eur(E.renouvellement_total)}/an de renouvellements dès l'an 4</span></div>
+     <div class="stat"><span class="k">Économie possible</span><span class="v">−${keur(E.optimisations.reduce((s,o)=>s+(o.economie||0),0))}</span><span class="s">cœur replié + virtualisation, hors remises Éducation</span></div>
+   </div>
+   <div class="panel"><h3>CAPEX par poste</h3><div class="bars" role="img" aria-label="CAPEX par poste">${cats.map(([c,n])=>`<div class="hb" data-hb="${esc(c)}"><span>${esc(c)}</span><span class="t"><i style="width:${100*n/max}%"></i></span><span class="n">${keur(n)}</span></div>`).join("")}</div></div>
+   <div class="panel"><h3>Pistes d'optimisation à proposer au client</h3><ul class="plain">${E.optimisations.map(o=>`<li><b>${esc(o.piste)}</b> : ${esc(o.detail)} ${o.economie?`<span class="pill" style="--c:var(--done)">−${eur(o.economie)}</span>`:""}</li>`).join("")}</ul></div>
+   <div class="panel"><h3>Détail par équipement</h3><div class="tbl-box"><table><thead><tr><th>Éléments du schéma</th><th>Solution proposée</th><th class="num">Qté</th><th class="num">PU HT</th><th class="num">Total HT</th><th>Note</th></tr></thead><tbody>
+     ${Object.entries(byCat).map(([c,rows])=>`<tr class="cat"><td colspan="4">${esc(c)}</td><td class="num">${eur(E.par_categorie[c])}</td><td></td></tr>`+rows.map(r=>`<tr><td>${esc(r.schema)}</td><td>${esc(r.solution)}</td><td class="num">${r.quantite}</td><td class="num">${eur(r.pu_ht)}</td><td class="num">${eur(r.total_ht)}</td><td class="note">${esc(r.note)}</td></tr>`).join("")).join("")}
+     <tr class="cat"><td colspan="4">Aléas 10 %</td><td class="num">${eur(E.aleas)}</td><td></td></tr><tr class="cat"><td colspan="4">CAPEX total</td><td class="num">${eur(E.capex)}</td><td></td></tr>
+   </tbody></table></div></div>
+   <div class="cards">
+     <div class="panel"><h3>OPEX annuel</h3><div class="tbl-box"><table style="min-width:0"><tbody>${E.opex.map(o=>`<tr><td>${esc(o.poste)}<div class="note">${esc(o.detail)}</div></td><td class="num">${eur(o.montant)}</td></tr>`).join("")}<tr class="cat"><td>Total</td><td class="num">${eur(E.opex_total)}</td></tr></tbody></table></div></div>
+     <div class="panel"><h3>Renouvellements dès l'année 4</h3><div class="tbl-box"><table style="min-width:0"><tbody>${E.renouvellement.map(o=>`<tr><td>${esc(o.poste)}<div class="note">${esc(o.detail)}</div></td><td class="num">${eur(o.montant)}</td></tr>`).join("")}<tr class="cat"><td>Total</td><td class="num">${eur(E.renouvellement_total)}</td></tr></tbody></table></div></div>
+   </div>
+   <p class="note">Hypothèses : ~400 prises Cat6A (bureaux, 10 salles info/TP à 24 postes, salles TD), 30 bornes Wi-Fi, 6 locaux techniques d'après les plans du bâtiment. Postes clients, téléphones IP et caméras exclus. La cisco-price-list.pdf du Drive date du début des années 2000 et n'a pas servi.</p>`;
+  v.querySelectorAll("[data-hb]").forEach(b=>{b.onmousemove=ev=>{const c=b.dataset.hb;const t=$("#tip");const n=E.par_categorie[c];t.innerHTML=`<b>${esc(c)}</b><br>${eur(n)} · ${Math.round(100*n/E.sous_total)} % du sous-total`;t.hidden=false;t.style.left=Math.min(ev.clientX+14,innerWidth-300)+"px";t.style.top=(ev.clientY+14)+"px"};b.onmouseleave=hideTip});
+}
+
+/* ---------- rendu global ---------- */
+function renderAll(){
+  const v=view();document.querySelectorAll("nav.tabs a").forEach(a=>a.setAttribute("aria-current",a.dataset.v===v?"page":"false"));
+  renderStats();hideTip();
+  if(v==="roadmap")renderRoadmap();else if(v==="journal")renderJournal();else renderChiffrage();
+  renderDrawer();
+}
+addEventListener("hashchange",()=>{if(view()!=="roadmap"){S.sel=null;$("#drawer-host").innerHTML=""}renderAll()});
+
+async function boot(){
+  renderAll();
+  const timer=setTimeout(()=>{if(!S.loaded){S.slow=true;renderAll()}},10000);
+  if(!window.claude?.use){S.offline=true;clearTimeout(timer);renderAll();return}
+  [db,user]=await Promise.all([claude.use("db"),claude.use("user")]);
+  if(!db){S.offline=true;clearTimeout(timer);renderAll();return}
+  if(user){try{S.me=await user.id();const c=await user.can("data.write");if(c===false)S.canWrite=false}catch(e){}}
+  const fail=e=>{clearTimeout(timer);S.slow=true;S.loaded=S.points.size>0;renderAll();console.warn(e)};
+  db.collection("points").onSnapshot(snap=>{S.points=new Map(snap.docs.map(d=>[d.id,d.data()]));if(!snap.metadata.fromCache){S.loaded=true;S.slow=false;clearTimeout(timer)}else if(snap.size)S.loaded=true;renderAll()},fail);
+  db.doc("meta/projet").onSnapshot(d=>{S.meta=d.exists?d.data():{};renderStats();if(view()==="roadmap"&&S.loaded&&!S.sel)renderRoadmap()},fail);
+  db.collection("journal").orderBy("date","desc").limit(300).onSnapshot(snap=>{S.journal=snap.docs.map(d=>({id:d.id,...d.data()}));const ae=document.activeElement;if(view()==="journal"&&!(ae&&ae.closest&&ae.closest("#j-form")&&/^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName)))renderJournal();renderStats();resolveNames()},fail);
+}
+boot();
+</script>

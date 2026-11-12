@@ -1,0 +1,378 @@
+{
+ "capex_lignes": [
+  {
+   "categorie": "Egress / WAN",
+   "schema": "EL-RTR1, EL-RTR2",
+   "solution": "Cisco Catalyst C8200L-1N-4T + DNA Essentials 3 ans",
+   "quantite": 2,
+   "pu_ht": 2200,
+   "total_ht": 4400,
+   "note": "Routeurs de bordure, 1 par FAI"
+  },
+  {
+   "categorie": "Egress / WAN",
+   "schema": "EL-FGT1, EL-FGT2",
+   "solution": "FortiGate 120G + bundle UTP / FortiCare Premium 3 ans",
+   "quantite": 2,
+   "pu_ht": 7200,
+   "total_ht": 14400,
+   "note": "Cluster HA actif/passif, pare-feu externe"
+  },
+  {
+   "categorie": "Egress / WAN",
+   "schema": "EL-SW1, EL-SW2",
+   "solution": "Cisco Catalyst C9200L-24T-4X-E + DNA-E 3 ans",
+   "quantite": 2,
+   "pu_ht": 2300,
+   "total_ht": 4600,
+   "note": ""
+  },
+  {
+   "categorie": "Sécurité interne",
+   "schema": "EL-SNS1, EL-SNS2",
+   "solution": "Stormshield SN710 + Premium UTM Security Pack 3 ans",
+   "quantite": 2,
+   "pu_ht": 7000,
+   "total_ht": 14000,
+   "note": "Pare-feu interne HA. Prix à confirmer par devis revendeur"
+  },
+  {
+   "categorie": "DMZ",
+   "schema": "DM-SW1, DM-SW2",
+   "solution": "Cisco Catalyst C9200L-24T-4X-E + DNA-E 3 ans",
+   "quantite": 2,
+   "pu_ht": 2300,
+   "total_ht": 4600,
+   "note": ""
+  },
+  {
+   "categorie": "DMZ",
+   "schema": "DM-RP1/2 (Caddy), DM-DNS1, DM-WEB1, DM-MAIL1, DM-SRV1",
+   "solution": "Dell PowerEdge R260 (Xeon E-2434, 32 Go, 2x960 Go SSD RAID1, double alim)",
+   "quantite": 6,
+   "pu_ht": 2900,
+   "total_ht": 17400,
+   "note": "6 serveurs physiques comme sur le schéma"
+  },
+  {
+   "categorie": "Cœur",
+   "schema": "CL-SW1, CL-SW2",
+   "solution": "Cisco Catalyst C9500-16X-E + DNA-E 3 ans + modules 40G SVL",
+   "quantite": 2,
+   "pu_ht": 9500,
+   "total_ht": 19000,
+   "note": "StackWise Virtual"
+  },
+  {
+   "categorie": "Distribution",
+   "schema": "DL-SW1 à DL-SW4",
+   "solution": "Cisco Catalyst C9500-16X-E + DNA-E 3 ans",
+   "quantite": 4,
+   "pu_ht": 9500,
+   "total_ht": 38000,
+   "note": "2 blocs StackWise Virtual (le SVL impose la gamme 9500)"
+  },
+  {
+   "categorie": "Accès",
+   "schema": "AL-SW1 à AL-SW4",
+   "solution": "Cisco Catalyst C9200L-48P-4X-E PoE+ + DNA-E 3 ans",
+   "quantite": 8,
+   "pu_ht": 3900,
+   "total_ht": 31200,
+   "note": "Le schéma en montre 4. Il en faut 8 pour ~400 prises + 20 % de réserve"
+  },
+  {
+   "categorie": "Accès",
+   "schema": "AL-AP1",
+   "solution": "Borne Wi-Fi 6E Cisco CW9164I + licence DNA AP 3 ans",
+   "quantite": 30,
+   "pu_ht": 1300,
+   "total_ht": 39000,
+   "note": "Environ 1 borne par salle de cours/TP + amphi, foyer, couloirs. Contrôleur 9800-CL en VM"
+  },
+  {
+   "categorie": "Net Management",
+   "schema": "NM-SW1, NM-SW2",
+   "solution": "Cisco Catalyst C9200L-24T-4X-E + DNA-E 3 ans",
+   "quantite": 2,
+   "pu_ht": 2300,
+   "total_ht": 4600,
+   "note": ""
+  },
+  {
+   "categorie": "Net Management",
+   "schema": "NM-PVE1 à NM-PVE3",
+   "solution": "Dell PowerEdge R660xs (2x Xeon Silver 4510, 256 Go, 4x1,92 To SSD Ceph, 2x25 GbE)",
+   "quantite": 3,
+   "pu_ht": 9500,
+   "total_ht": 28500,
+   "note": "Cluster Proxmox HA : LXC Kea/chrony/DNS, VM Docker (LibreNMS, Grafana, syslog, snmptrapd), Teleport"
+  },
+  {
+   "categorie": "Net Management",
+   "schema": "Services NM (LXC + Docker)",
+   "solution": "Kea, chrony, Bind/Unbound, LibreNMS, Grafana, rsyslog, snmptrapd, Teleport Community",
+   "quantite": 1,
+   "pu_ht": 0,
+   "total_ht": 0,
+   "note": "Logiciels libres, 0 € de licence"
+  },
+  {
+   "categorie": "Datacenter",
+   "schema": "DT-SW1, DT-SW2",
+   "solution": "Cisco Catalyst C9300X-12Y-E (10/25G) + DNA-E 3 ans",
+   "quantite": 2,
+   "pu_ht": 8000,
+   "total_ht": 16000,
+   "note": ""
+  },
+  {
+   "categorie": "Datacenter",
+   "schema": "DT-AD1/2, DT-RAD1/2, DT-DHCP1/2",
+   "solution": "Dell PowerEdge R360 (Xeon E-2400, 64 Go, 2x960 Go SSD RAID1)",
+   "quantite": 6,
+   "pu_ht": 3400,
+   "total_ht": 20400,
+   "note": "6 serveurs physiques comme sur le schéma"
+  },
+  {
+   "categorie": "Datacenter",
+   "schema": "Licences serveurs Windows",
+   "solution": "Windows Server 2025 Standard 16 cœurs (AD, DHCP, NPS/RADIUS)",
+   "quantite": 6,
+   "pu_ht": 1100,
+   "total_ht": 6600,
+   "note": "Tarif public. Le tarif Éducation est nettement plus bas"
+  },
+  {
+   "categorie": "Datacenter",
+   "schema": "Licences d'accès",
+   "solution": "CAL utilisateur Windows Server (tarif Éducation)",
+   "quantite": 600,
+   "pu_ht": 10,
+   "total_ht": 6000,
+   "note": "~100 personnels + ~500 étudiants"
+  },
+  {
+   "categorie": "Datacenter",
+   "schema": "DT-BKP1",
+   "solution": "Serveur de sauvegarde Proxmox Backup Server (Dell R760xd2, ~100 To bruts)",
+   "quantite": 1,
+   "pu_ht": 12000,
+   "total_ht": 12000,
+   "note": "Règle 3-2-1 avec copie externalisée (voir OPEX)"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur",
+   "solution": "Baie 42U 800x1000 avec portes ventilées",
+   "quantite": 2,
+   "pu_ht": 1500,
+   "total_ht": 3000,
+   "note": ""
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Locaux techniques (6 L.TECH)",
+   "solution": "Baie 24U murale/sol",
+   "quantite": 6,
+   "pu_ht": 700,
+   "total_ht": 4200,
+   "note": "2 L.TECH par niveau d'après les plans"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur",
+   "solution": "Onduleur APC Smart-UPS SRT 6 kVA (en ligne)",
+   "quantite": 2,
+   "pu_ht": 4800,
+   "total_ht": 9600,
+   "note": "Alimentation A/B"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Locaux techniques",
+   "solution": "Onduleur 1,5 kVA rackable",
+   "quantite": 6,
+   "pu_ht": 900,
+   "total_ht": 5400,
+   "note": ""
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur",
+   "solution": "PDU managées et métrées",
+   "quantite": 4,
+   "pu_ht": 700,
+   "total_ht": 2800,
+   "note": "Mesure de consommation (Green IT)"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur",
+   "solution": "Climatisation de précision ~7 kW, redondance N+1",
+   "quantite": 1,
+   "pu_ht": 12000,
+   "total_ht": 12000,
+   "note": ""
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur + L.TECH",
+   "solution": "Contrôle d'accès par badge",
+   "quantite": 1,
+   "pu_ht": 5000,
+   "total_ht": 5000,
+   "note": ""
+  },
+  {
+   "categorie": "Câblage",
+   "schema": "Prises utilisateurs",
+   "solution": "Prise RJ45 Cat6A fournie, posée et recettée",
+   "quantite": 400,
+   "pu_ht": 140,
+   "total_ht": 56000,
+   "note": "10 Gb/s, durée de vie 15 ans (CdC)"
+  },
+  {
+   "categorie": "Câblage",
+   "schema": "Rocades verticales",
+   "solution": "Fibre OM4 12 brins L.TECH vers salle serveur",
+   "quantite": 6,
+   "pu_ht": 1500,
+   "total_ht": 9000,
+   "note": ""
+  },
+  {
+   "categorie": "Câblage",
+   "schema": "Optiques",
+   "solution": "Modules SFP+/SFP28/QSFP compatibles",
+   "quantite": 80,
+   "pu_ht": 70,
+   "total_ht": 5600,
+   "note": "Optiques Cisco d'origine : x4 environ"
+  },
+  {
+   "categorie": "Câblage",
+   "schema": "Brassage",
+   "solution": "Panneaux, cordons, passe-câbles",
+   "quantite": 1,
+   "pu_ht": 4000,
+   "total_ht": 4000,
+   "note": "Forfait"
+  },
+  {
+   "categorie": "Prestations",
+   "schema": "Intégration",
+   "solution": "Ingénierie, intégration et configuration (jours)",
+   "quantite": 45,
+   "pu_ht": 650,
+   "total_ht": 29250,
+   "note": ""
+  },
+  {
+   "categorie": "Prestations",
+   "schema": "Recette",
+   "solution": "Recette, documentation et formation (jours)",
+   "quantite": 10,
+   "pu_ht": 650,
+   "total_ht": 6500,
+   "note": ""
+  }
+ ],
+ "par_categorie": {
+  "Egress / WAN": 23400,
+  "Sécurité interne": 14000,
+  "DMZ": 22000,
+  "Cœur": 19000,
+  "Distribution": 38000,
+  "Accès": 70200,
+  "Net Management": 33100,
+  "Datacenter": 61000,
+  "Énergie / locaux": 42000,
+  "Câblage": 74600,
+  "Prestations": 35750
+ },
+ "sous_total": 433050,
+ "aleas": 43305,
+ "capex": 476355,
+ "opex": [
+  {
+   "poste": "Accès Internet FAI 1",
+   "detail": "Fibre dédiée FTTO 1 Gb/s symétrique, GTR 4 h",
+   "montant": 10800
+  },
+  {
+   "poste": "Accès Internet FAI 2",
+   "detail": "Fibre dédiée 500 Mb/s, autre opérateur",
+   "montant": 5400
+  },
+  {
+   "poste": "Interconnexion WAN",
+   "detail": "VPN MPLS vers le site jumeau (Digne/Gap)",
+   "montant": 8400
+  },
+  {
+   "poste": "Proxmox VE",
+   "detail": "Souscription Standard, 3 nœuds x 2 sockets x 550 €",
+   "montant": 3300
+  },
+  {
+   "poste": "Sauvegarde externalisée",
+   "detail": "Stockage objet ~20 To hors site",
+   "montant": 1440
+  },
+  {
+   "poste": "Électricité",
+   "detail": "3.5 kW IT x PUE 1.6 x 8 760 h x 0.20 €/kWh",
+   "montant": 9811
+  },
+  {
+   "poste": "Nom de domaine",
+   "detail": "Domaine + DNS secondaire",
+   "montant": 30
+  }
+ ],
+ "opex_total": 39181,
+ "renouvellement": [
+  {
+   "poste": "FortiGuard UTP + FortiCare",
+   "detail": "2 FortiGate 120G",
+   "montant": 4200
+  },
+  {
+   "poste": "Stormshield Premium UTM",
+   "detail": "2 SN710",
+   "montant": 3000
+  },
+  {
+   "poste": "Cisco DNA Essentials / AP",
+   "detail": "~26 switchs + 30 bornes",
+   "montant": 12000
+  },
+  {
+   "poste": "Support matériel serveurs",
+   "detail": "Extension garantie 18 serveurs",
+   "montant": 6300
+  }
+ ],
+ "renouvellement_total": 25500,
+ "tco5": 723260,
+ "optimisations": [
+  {
+   "piste": "Cœur replié (collapsed core)",
+   "detail": "Un seul bâtiment : fusionner distribution et cœur dans le bloc CL-SW (SVL). Suppression de DL-SW1 à DL-SW4.",
+   "economie": 38000
+  },
+  {
+   "piste": "Virtualiser DMZ et datacenter",
+   "detail": "Héberger DM-* et DT-* (hors sauvegarde) en VM sur 2 clusters Proxmox (un pour la DMZ, isolé). 12 serveurs remplacés par 3 nœuds supplémentaires.",
+   "economie": 9300
+  },
+  {
+   "piste": "Tarifs Éducation",
+   "detail": "Remises éditeur Microsoft/Cisco/Fortinet pour l'enseignement supérieur (souvent -30 à -50 %).",
+   "economie": null
+  }
+ ]
+}
