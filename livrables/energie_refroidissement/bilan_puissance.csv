@@ -7,9 +7,11 @@ reperes,modele,nombre,baie,alimentations,w_typ,w_max,u,total_typ,total_max
 "CL-SW1, CL-SW2",Cisco C9500-16X,2,1,2,160,260,2,320,520
 DL-SW1 à DL-SW4,Cisco C9500-16X,4,1,2,160,260,4,640,1040
 "NM-SW1, NM-SW2",Cisco C9200L-24T-4X,2,1,1,40,60,2,80,120
+"WLC1, WLC2",Cisco Catalyst 9800-L-F,2,1,1,55,90,2,110,180
 Tiroirs optiques,Rocades et adductions,3,1,0,0,0,3,0,0
-"DM-RP1/2, DM-DNS1, DM-WEB1, DM-MAIL1, DM-SRV1",Dell PowerEdge R260,6,2,2,110,190,6,660,1140
+"DM-PVE1, DM-PVE2 (VM de la DMZ)",Dell PowerEdge R360,2,2,2,120,200,2,240,400
+"NM-WITNESS, DM-WITNESS",Dell PowerEdge R260 (entrée de gamme),2,2,2,60,110,2,120,220
 "DT-SW1, DT-SW2",Cisco C9300X-12Y,2,2,2,130,220,2,260,440
-"DT-AD1/2, DT-RAD1/2, DT-DHCP1/2",Dell PowerEdge R360,6,2,2,120,200,6,720,1200
-NM-PVE1 à NM-PVE3,Dell PowerEdge R660xs,3,2,2,260,420,3,780,1260
+"DT-PVE1, DT-PVE2 (VM AD, NPS, DHCP)",Dell PowerEdge R660xs,2,2,2,240,400,2,480,800
+"NM-PVE1, NM-PVE2",Dell PowerEdge R660xs,2,2,2,260,420,2,520,840
 DT-BKP1,Dell PowerEdge R760xd2,1,2,2,320,480,2,320,480

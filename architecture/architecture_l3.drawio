@@ -4,10 +4,10 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="b-1" value="Architecture de niveau 3 – VRF, routage, NAT, IPv4 et IPv6" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=20;fontColor=#101217;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="b-1" value="Architecture de niveau 3 – VRF, routage, NAT, IPv4 et IPv6 · version 2 (après audit)" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=20;fontColor=#101217;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="20" y="10" width="1200" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="b-2" value="Le cœur sépare 5 VRF sans route entre elles : tout flux d'une VRF à l'autre traverse le Stormshield. Le FortiGate porte Internet, la DMZ et le NAT." style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;fontColor=#4d525b;" vertex="1" parent="1">
+        <mxCell id="b-2" value="Le cœur sépare 5 VRF sans route entre elles : tout flux d'une VRF à l'autre, et tout flux vers le tier 0, traverse le Stormshield. Le FortiGate porte Internet, la DMZ et le NAT." style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;fontColor=#4d525b;" vertex="1" parent="1">
           <mxGeometry x="20" y="40" width="1500" height="20" as="geometry" />
         </mxCell>
         <mxCell id="b-3" value="FAI 1 · AMU / RENATER&lt;br&gt;&lt;font style='font-size:10px;font-weight:normal'&gt;AS2457&lt;/font&gt;" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;" vertex="1" parent="1">
@@ -19,124 +19,139 @@
         <mxCell id="b-5" value="EL-RTR1&lt;br&gt;&lt;font style='font-size:10px;font-weight:normal'&gt;eBGP AS65013 → AS2457 · local-pref 200&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#101217;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="380" y="230" width="260" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="b-6" value="EL-RTR2&lt;br&gt;&lt;font style='font-size:10px;font-weight:normal'&gt;eBGP AS65013 → AS64496 · prepend ×3&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#101217;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="b-6" value="EL-RTR2&lt;br&gt;&lt;font style='font-size:10px;font-weight:normal'&gt;eBGP AS65013 → AS64496 · annonce conditionnelle&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#101217;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="1060" y="230" width="260" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="l-7" value="139.124.112.0/30 (.2)&lt;br&gt;2001:660:5402:4FF0::/127" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#101217;fontSize=10;fontColor=#101217;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="b-3" target="b-5">
+        <mxCell id="l-7" value="v2 : iBGP 139.124.112.4/30 (BFD vers les FAI)" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#101217;fontSize=10;fontColor=#101217;labelBackgroundColor=#ffffff;dashed=1;" edge="1" parent="1" source="b-5" target="b-6">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="l-8" value="203.0.113.0/30 (.2)&lt;br&gt;2001:db8:ffff::/127" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#101217;fontSize=10;fontColor=#101217;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="b-4" target="b-6">
+        <mxCell id="l-8" value="139.124.112.0/30 (.2)&lt;br&gt;2001:660:5402:4FF0::/127" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#101217;fontSize=10;fontColor=#101217;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="b-3" target="b-5">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="b-9" value="Cluster FortiGate (EL-FGT1/2)&lt;br&gt;&lt;font style='font-size:10px;font-weight:normal'&gt;SD-WAN OUT-A prioritaire · SNAT par VRF · VIP DMZ · NPTv6 sur FAI 2&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FDECEC;strokeColor=#c13c3b;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="l-9" value="203.0.113.0/30 (.2)&lt;br&gt;2001:db8:ffff::/127" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#101217;fontSize=10;fontColor=#101217;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="b-4" target="b-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b-10" value="Cluster FortiGate (EL-FGT1/2)&lt;br&gt;&lt;font style='font-size:10px;font-weight:normal'&gt;SD-WAN OUT-A prioritaire · SNAT par VRF · VIP DMZ · NPTv6 sur FAI 2&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FDECEC;strokeColor=#c13c3b;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="640" y="360" width="420" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="l-10" value="OUT-A 139.124.112.8/29&lt;br&gt;RTR1 .9 · FGT .14&lt;br&gt;2001:660:5402:4F00::/64" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#101217;fontSize=10;fontColor=#101217;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="b-5" target="b-9">
+        <mxCell id="l-11" value="OUT-A 139.124.112.8/29&lt;br&gt;RTR1 .9 · FGT .14&lt;br&gt;2001:660:5402:4F00::/64" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#101217;fontSize=10;fontColor=#101217;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="b-5" target="b-10">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="l-11" value="OUT-B 139.124.112.16/29&lt;br&gt;RTR2 .17 · FGT .22&lt;br&gt;2001:660:5402:4F01::/64" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#101217;fontSize=10;fontColor=#101217;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="b-6" target="b-9">
+        <mxCell id="l-12" value="OUT-B 139.124.112.16/29&lt;br&gt;RTR2 .17 · FGT .22&lt;br&gt;2001:660:5402:4F01::/64" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#101217;fontSize=10;fontColor=#101217;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="b-6" target="b-10">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="b-12" value="Annoncé aux deux FAI :&lt;br&gt;&lt;b&gt;139.124.112.0/24&lt;/b&gt;&lt;br&gt;&lt;b&gt;2001:660:5402:4000::/52&lt;/b&gt; (via AMU)&lt;br&gt;secours IPv6 FAI 2 : 2001:db8:2000::/48 (NPTv6)" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=11;fontColor=#4d525b;" vertex="1" parent="1">
-          <mxGeometry x="700" y="200" width="300" height="110" as="geometry" />
+        <mxCell id="b-13" value="Annoncé au FAI 1 : &lt;b&gt;139.124.112.0/24&lt;/b&gt;, &lt;b&gt;2001:660:5402:4000::/52&lt;/b&gt;&lt;br&gt;au FAI 2 : le /24 seulement si le FAI 1 est perdu&lt;br&gt;secours IPv6 FAI 2 : 2001:db8:2000::/48 (NPTv6)" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=10;fontColor=#4d525b;" vertex="1" parent="1">
+          <mxGeometry x="680" y="280" width="340" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="b-13" value="DMZ&lt;br&gt;&lt;font style='font-size:10px;font-weight:normal'&gt;400 FRONT 172.16.13.0/27 · 4400::/64&lt;br&gt;401 BACK 172.16.13.32/27 · 4401::/64&lt;br&gt;402 GEST 172.16.13.64/27&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFF4E5;strokeColor=#a75c00;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="b-14" value="DMZ (VM sur DM-PVE1/2)&lt;br&gt;&lt;font style='font-size:10px;font-weight:normal'&gt;400 FRONT 172.16.13.0/27 · 4400::/64&lt;br&gt;401 BACK 172.16.13.32/27 · 4401::/64&lt;br&gt;402 GEST 172.16.13.64/27 · 403 cluster&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FFF4E5;strokeColor=#a75c00;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="60" y="360" width="380" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="l-14" value="VIP 139.124.112.32/27&lt;br&gt;(.33 web · .34 mail · .35 ns1)" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#a75c00;fontSize=10;fontColor=#a75c00;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="b-9" target="b-13">
+        <mxCell id="l-15" value="VIP 139.124.112.32/27&lt;br&gt;(.33 web · .34 mail · .35 ns1)" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#a75c00;fontSize=10;fontColor=#a75c00;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="b-10" target="b-14">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="b-15" value="Cluster Stormshield (EL-SNS1/2)&lt;br&gt;&lt;font style='font-size:10px;font-weight:normal'&gt;filtrage inter-VRF · routes statiques · défaut vers 10.13.3.1&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#ECECFB;strokeColor=#2b2f8c;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="b-16" value="Cluster Stormshield (EL-SNS1/2)&lt;br&gt;&lt;font style='font-size:10px;font-weight:normal'&gt;filtrage inter-VRF · passerelle du tier 0 · défaut vers 10.13.3.1&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#ECECFB;strokeColor=#2b2f8c;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="640" y="520" width="420" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="l-16" value="TR-FW 10.13.3.0/29 · FGT .1 · SNS .2&lt;br&gt;2001:660:5402:4F10::/64" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#2b2f8c;fontSize=10;fontColor=#2b2f8c;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="b-9" target="b-15">
+        <mxCell id="b-17" value="Tier 0 (v2)&lt;br&gt;&lt;font style='font-size:10px;font-weight:normal'&gt;310 SRV-T0 10.13.52.0/27 · 4310::/64&lt;br&gt;DT-AD1 .11 · DT-AD2 .12 · pas d&amp;#x27;Internet&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#EDE7F6;strokeColor=#5b2c8c;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1180" y="520" width="330" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="l-18" value="passerelle .1" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#5b2c8c;fontSize=10;fontColor=#5b2c8c;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="b-16" target="b-17">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="b-17" value="Cœur CL (VRF-lite : USR · IOT · GST · SRV · ADM)&lt;br&gt;&lt;font style='font-size:10px;font-weight:normal'&gt;défaut statique par VRF vers le SNS · OSPFv2 + OSPFv3 par VRF vers les blocs · Lo0 10.13.0.1&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#E6F1F8;strokeColor=#0079b5;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="l-19" value="TR-FW 10.13.3.0/29 · FGT .1 · SNS .2&lt;br&gt;2001:660:5402:4F10::/64" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#2b2f8c;fontSize=10;fontColor=#2b2f8c;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="b-10" target="b-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b-20" value="Cœur CL (VRF-lite : USR · IOT · GST · SRV · ADM)&lt;br&gt;&lt;font style='font-size:10px;font-weight:normal'&gt;défaut statique par VRF vers le SNS · OSPFv2 + OSPFv3 par VRF vers les blocs · Lo0 10.13.0.1&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#E6F1F8;strokeColor=#0079b5;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="520" y="760" width="660" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="l-18" value="TR-USR (1010)&lt;br&gt;10.13.2.0/29&lt;br&gt;CL .1 · SNS .2" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#0079b5;fontSize=10;fontColor=#0079b5;labelBackgroundColor=#ffffff;exitX=0.1;exitY=1;entryX=0.1;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="b-15" target="b-17">
+        <mxCell id="l-21" value="TR-USR (1010)&lt;br&gt;10.13.2.0/29&lt;br&gt;CL .1 · SNS .2" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#0079b5;fontSize=10;fontColor=#0079b5;labelBackgroundColor=#ffffff;exitX=0.1;exitY=1;entryX=0.1;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="b-16" target="b-20">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="l-19" value="TR-IOT (1020)&lt;br&gt;10.13.2.8/29&lt;br&gt;CL .1 · SNS .2" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#a75c00;fontSize=10;fontColor=#a75c00;labelBackgroundColor=#ffffff;exitX=0.30000000000000004;exitY=1;entryX=0.30000000000000004;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="b-15" target="b-17">
+        <mxCell id="l-22" value="TR-IOT (1020)&lt;br&gt;10.13.2.8/29&lt;br&gt;CL .1 · SNS .2" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#a75c00;fontSize=10;fontColor=#a75c00;labelBackgroundColor=#ffffff;exitX=0.30000000000000004;exitY=1;entryX=0.30000000000000004;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="b-16" target="b-20">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="l-20" value="TR-GST (1030)&lt;br&gt;10.13.2.16/29&lt;br&gt;CL .1 · SNS .2" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#97549b;fontSize=10;fontColor=#97549b;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="b-15" target="b-17">
+        <mxCell id="l-23" value="TR-GST (1030)&lt;br&gt;10.13.2.16/29&lt;br&gt;CL .1 · SNS .2" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#97549b;fontSize=10;fontColor=#97549b;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="b-16" target="b-20">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="l-21" value="TR-SRV (1040)&lt;br&gt;10.13.2.24/29&lt;br&gt;CL .1 · SNS .2" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#008889;fontSize=10;fontColor=#008889;labelBackgroundColor=#ffffff;exitX=0.7000000000000001;exitY=1;entryX=0.7000000000000001;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="b-15" target="b-17">
+        <mxCell id="l-24" value="TR-SRV (1040)&lt;br&gt;10.13.2.24/29&lt;br&gt;CL .1 · SNS .2" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#008889;fontSize=10;fontColor=#008889;labelBackgroundColor=#ffffff;exitX=0.7000000000000001;exitY=1;entryX=0.7000000000000001;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="b-16" target="b-20">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="l-22" value="TR-ADM (1090)&lt;br&gt;10.13.2.32/29&lt;br&gt;CL .1 · SNS .2" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#c13c3b;fontSize=10;fontColor=#c13c3b;labelBackgroundColor=#ffffff;exitX=0.9;exitY=1;entryX=0.9;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="b-15" target="b-17">
+        <mxCell id="l-25" value="TR-ADM (1090)&lt;br&gt;10.13.2.32/29&lt;br&gt;CL .1 · SNS .2" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#c13c3b;fontSize=10;fontColor=#c13c3b;labelBackgroundColor=#ffffff;exitX=0.9;exitY=1;entryX=0.9;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="b-16" target="b-20">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="b-23" value="VRF SRV (SVI sur CL)&lt;br&gt;&lt;font style='font-size:10px;font-weight:normal'&gt;300 SRV-INFRA 10.13.48.0/24 · 4300::/64&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#E6F4F4;strokeColor=#008889;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="1280" y="690" width="360" height="50" as="geometry" />
+        <mxCell id="b-26" value="VRF SRV (SVI sur CL)&lt;br&gt;&lt;font style='font-size:10px;font-weight:normal'&gt;300 SRV-INFRA 10.13.48.0/24 · 4300::/64 (VM NPS, DHCP)&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#E6F4F4;strokeColor=#008889;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1280" y="690" width="400" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="b-24" value="VRF ADM (SVI sur CL)&lt;br&gt;&lt;font style='font-size:10px;font-weight:normal'&gt;900 GEST-RESEAU 10.13.56.0/24 · 901 IPMI 10.13.57.0/24&lt;br&gt;902 MGMT 10.13.58.0/27 · 904 WORKLOAD 10.13.59.0/24&lt;br&gt;906 PAW 10.13.60.0/26 · (903, 905 non routés)&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FBECEC;strokeColor=#c13c3b;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="1280" y="760" width="420" height="80" as="geometry" />
+        <mxCell id="b-27" value="VRF ADM (SVI sur CL)&lt;br&gt;&lt;font style='font-size:10px;font-weight:normal'&gt;900 GEST-RESEAU 10.13.56.0/24 · 901 IPMI 10.13.57.0/24&lt;br&gt;902 PVE-MGMT 10.13.58.0/27 · 904 WORKLOAD 10.13.59.0/24&lt;br&gt;906 PAW 10.13.60.0/26 · 907 WLC 10.13.60.64/28 · 909 PBS 10.13.60.128/27&lt;br&gt;(903, 905, 908 non routés)&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#FBECEC;strokeColor=#c13c3b;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1280" y="760" width="440" height="95" as="geometry" />
         </mxCell>
-        <mxCell id="l-25" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#008889;fontSize=10;fontColor=#008889;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="b-17" target="b-23">
+        <mxCell id="b-28" value="Wi-Fi du bâtiment (v2, SVI sur CL)&lt;br&gt;&lt;font style='font-size:10px;font-weight:normal'&gt;514 WIFI-PERS 10.13.80.0/22 · 515 WIFI-ETU 10.13.64.0/20 (USR)&lt;br&gt;530 WIFI-INVITES 10.13.84.0/22 (GST) · trafic amené par les WLC&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#E6F1F8;strokeColor=#0079b5;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="650" width="420" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="l-29" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#008889;fontSize=10;fontColor=#008889;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="b-20" target="b-26">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="l-26" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#c13c3b;fontSize=10;fontColor=#c13c3b;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="b-17" target="b-24">
+        <mxCell id="l-30" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#c13c3b;fontSize=10;fontColor=#c13c3b;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="b-20" target="b-27">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="b-27" value="DL-B1 (DL-SW1/2, StackWise Virtual)&lt;br&gt;&lt;font style='font-size:10px;font-weight:normal'&gt;passerelle unique .1 / ::1 (pas de HSRP/VRRP) · Lo0 10.13.0.2 · relais DHCP&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#E8F3E8;strokeColor=#05893e;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="l-31" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=2;strokeColor=#0079b5;fontSize=10;fontColor=#0079b5;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="b-20" target="b-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b-32" value="DL-B1 (DL-SW1/2, StackWise Virtual)&lt;br&gt;&lt;font style='font-size:10px;font-weight:normal'&gt;passerelle unique .1 / ::1 (pas de HSRP/VRRP) · Lo0 10.13.0.2 · relais DHCP&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#E8F3E8;strokeColor=#05893e;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="120" y="960" width="620" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="l-28" value="OSPF zone 0 par VRF, BFD&lt;br&gt;Po101.10 10.13.1.0/31&lt;br&gt;Po101.20 10.13.1.2/31&lt;br&gt;Po101.30 10.13.1.4/31&lt;br&gt;Po101.90 10.13.1.6/31" style="endArrow=none;html=1;rounded=0;strokeWidth=3;strokeColor=#05893e;fontSize=10;fontColor=#05893e;labelBackgroundColor=#ffffff;dashed=1;" edge="1" parent="1" source="b-17" target="b-27">
+        <mxCell id="l-33" value="OSPF zone 0 par VRF, BFD&lt;br&gt;Po101.10 10.13.1.0/31&lt;br&gt;Po101.20 10.13.1.2/31&lt;br&gt;Po101.30 10.13.1.4/31&lt;br&gt;Po101.90 10.13.1.6/31" style="endArrow=none;html=1;rounded=0;strokeWidth=3;strokeColor=#05893e;fontSize=10;fontColor=#05893e;labelBackgroundColor=#ffffff;dashed=1;" edge="1" parent="1" source="b-20" target="b-32">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="b-29" value="&lt;b&gt;USR&lt;/b&gt; · 110 10.13.18.0/24 · 111 10.13.16.0/23 · 112 10.13.19.0/25 · 113 10.13.19.128/26 · 114 10.13.24.0/23 · 115 10.13.20.0/22&lt;br&gt;&lt;font color='#4d525b'&gt;IPv6 2001:660:5402:4110::/60 (un /64 par VLAN)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0079b5;strokeWidth=2;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="1">
-          <mxGeometry x="120" y="1060" width="620" height="68" as="geometry" />
+        <mxCell id="b-34" value="&lt;b&gt;USR&lt;/b&gt; · 110 10.13.18.0/24 · 111 10.13.16.0/23 · 112 10.13.19.0/25 · 113 10.13.19.128/26&lt;br&gt;&lt;font color='#4d525b'&gt;IPv6 2001:660:5402:4110::/60 (un /64 par VLAN)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0079b5;strokeWidth=2;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="120" y="1060" width="620" height="52" as="geometry" />
         </mxCell>
-        <mxCell id="b-30" value="&lt;b&gt;IOT&lt;/b&gt; · 120 10.13.28.0/26 · 121 10.13.28.64/27 · 122 10.13.28.96/27&lt;br&gt;&lt;font color='#4d525b'&gt;IPv6 2001:660:5402:4120::/60 (un /64 par VLAN)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#a75c00;strokeWidth=2;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="1">
-          <mxGeometry x="120" y="1136" width="620" height="52" as="geometry" />
+        <mxCell id="b-35" value="&lt;b&gt;IOT&lt;/b&gt; · 120 10.13.28.0/26 · 121 10.13.28.64/27 · 122 10.13.28.96/27&lt;br&gt;&lt;font color='#4d525b'&gt;IPv6 2001:660:5402:4120::/60 (un /64 par VLAN)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#a75c00;strokeWidth=2;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="120" y="1120" width="620" height="52" as="geometry" />
         </mxCell>
-        <mxCell id="b-31" value="&lt;b&gt;GST&lt;/b&gt; · 130 10.13.30.0/23&lt;br&gt;&lt;font color='#4d525b'&gt;IPv6 2001:660:5402:4130::/60 (un /64 par VLAN)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#97549b;strokeWidth=2;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="1">
-          <mxGeometry x="120" y="1196" width="620" height="36" as="geometry" />
+        <mxCell id="b-36" value="&lt;b&gt;GST&lt;/b&gt; · 130 10.13.30.0/24&lt;br&gt;&lt;font color='#4d525b'&gt;IPv6 2001:660:5402:4130::/60 (un /64 par VLAN)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#97549b;strokeWidth=2;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="120" y="1180" width="620" height="36" as="geometry" />
         </mxCell>
-        <mxCell id="b-32" value="&lt;b&gt;ADM&lt;/b&gt; · 190 10.13.29.0/26 · 191 10.13.29.64/26&lt;br&gt;&lt;font color='#4d525b'&gt;IPv6 2001:660:5402:4190::/60 (un /64 par VLAN)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#c13c3b;strokeWidth=2;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="1">
-          <mxGeometry x="120" y="1240" width="620" height="36" as="geometry" />
+        <mxCell id="b-37" value="&lt;b&gt;ADM&lt;/b&gt; · 190 10.13.29.0/26 · 191 10.13.29.64/26&lt;br&gt;&lt;font color='#4d525b'&gt;IPv6 2001:660:5402:4190::/60 (un /64 par VLAN)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#c13c3b;strokeWidth=2;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="120" y="1224" width="620" height="36" as="geometry" />
         </mxCell>
-        <mxCell id="b-33" value="DL-B2 (DL-SW3/4, StackWise Virtual)&lt;br&gt;&lt;font style='font-size:10px;font-weight:normal'&gt;passerelle unique .1 / ::1 (pas de HSRP/VRRP) · Lo0 10.13.0.3 · relais DHCP&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#E8F3E8;strokeColor=#05893e;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="b-38" value="DL-B2 (DL-SW3/4, StackWise Virtual)&lt;br&gt;&lt;font style='font-size:10px;font-weight:normal'&gt;passerelle unique .1 / ::1 (pas de HSRP/VRRP) · Lo0 10.13.0.3 · relais DHCP&lt;/font&gt;" style="rounded=1;arcSize=12;whiteSpace=wrap;html=1;fillColor=#E8F3E8;strokeColor=#05893e;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="900" y="960" width="620" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="l-34" value="OSPF zone 0 par VRF, BFD&lt;br&gt;Po102.10 10.13.1.8/31&lt;br&gt;Po102.20 10.13.1.10/31&lt;br&gt;Po102.30 10.13.1.12/31&lt;br&gt;Po102.90 10.13.1.14/31" style="endArrow=none;html=1;rounded=0;strokeWidth=3;strokeColor=#05893e;fontSize=10;fontColor=#05893e;labelBackgroundColor=#ffffff;dashed=1;" edge="1" parent="1" source="b-17" target="b-33">
+        <mxCell id="l-39" value="OSPF zone 0 par VRF, BFD&lt;br&gt;Po102.10 10.13.1.8/31&lt;br&gt;Po102.20 10.13.1.10/31&lt;br&gt;Po102.30 10.13.1.12/31&lt;br&gt;Po102.90 10.13.1.14/31" style="endArrow=none;html=1;rounded=0;strokeWidth=3;strokeColor=#05893e;fontSize=10;fontColor=#05893e;labelBackgroundColor=#ffffff;dashed=1;" edge="1" parent="1" source="b-20" target="b-38">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="b-35" value="&lt;b&gt;USR&lt;/b&gt; · 210 10.13.34.0/24 · 211 10.13.32.0/23 · 212 10.13.35.0/25 · 213 10.13.35.128/26 · 214 10.13.40.0/23 · 215 10.13.36.0/22&lt;br&gt;&lt;font color='#4d525b'&gt;IPv6 2001:660:5402:4210::/60 (un /64 par VLAN)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0079b5;strokeWidth=2;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="1">
-          <mxGeometry x="900" y="1060" width="620" height="68" as="geometry" />
+        <mxCell id="b-40" value="&lt;b&gt;USR&lt;/b&gt; · 210 10.13.34.0/24 · 211 10.13.32.0/23 · 212 10.13.35.0/25 · 213 10.13.35.128/26&lt;br&gt;&lt;font color='#4d525b'&gt;IPv6 2001:660:5402:4210::/60 (un /64 par VLAN)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#0079b5;strokeWidth=2;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="900" y="1060" width="620" height="52" as="geometry" />
         </mxCell>
-        <mxCell id="b-36" value="&lt;b&gt;IOT&lt;/b&gt; · 220 10.13.44.0/26 · 221 10.13.44.64/27 · 222 10.13.44.96/27&lt;br&gt;&lt;font color='#4d525b'&gt;IPv6 2001:660:5402:4220::/60 (un /64 par VLAN)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#a75c00;strokeWidth=2;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="1">
-          <mxGeometry x="900" y="1136" width="620" height="52" as="geometry" />
+        <mxCell id="b-41" value="&lt;b&gt;IOT&lt;/b&gt; · 220 10.13.44.0/26 · 221 10.13.44.64/27 · 222 10.13.44.96/27&lt;br&gt;&lt;font color='#4d525b'&gt;IPv6 2001:660:5402:4220::/60 (un /64 par VLAN)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#a75c00;strokeWidth=2;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="900" y="1120" width="620" height="52" as="geometry" />
         </mxCell>
-        <mxCell id="b-37" value="&lt;b&gt;GST&lt;/b&gt; · 230 10.13.46.0/23&lt;br&gt;&lt;font color='#4d525b'&gt;IPv6 2001:660:5402:4230::/60 (un /64 par VLAN)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#97549b;strokeWidth=2;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="1">
-          <mxGeometry x="900" y="1196" width="620" height="36" as="geometry" />
+        <mxCell id="b-42" value="&lt;b&gt;GST&lt;/b&gt; · 230 10.13.46.0/24&lt;br&gt;&lt;font color='#4d525b'&gt;IPv6 2001:660:5402:4230::/60 (un /64 par VLAN)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#97549b;strokeWidth=2;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="900" y="1180" width="620" height="36" as="geometry" />
         </mxCell>
-        <mxCell id="b-38" value="&lt;b&gt;ADM&lt;/b&gt; · 290 10.13.45.0/26 · 291 10.13.45.64/26&lt;br&gt;&lt;font color='#4d525b'&gt;IPv6 2001:660:5402:4290::/60 (un /64 par VLAN)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#c13c3b;strokeWidth=2;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="1">
-          <mxGeometry x="900" y="1240" width="620" height="36" as="geometry" />
+        <mxCell id="b-43" value="&lt;b&gt;ADM&lt;/b&gt; · 290 10.13.45.0/26 · 291 10.13.45.64/26&lt;br&gt;&lt;font color='#4d525b'&gt;IPv6 2001:660:5402:4290::/60 (un /64 par VLAN)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#c13c3b;strokeWidth=2;fontSize=10;align=left;spacingLeft=6;" vertex="1" parent="1">
+          <mxGeometry x="900" y="1224" width="620" height="36" as="geometry" />
         </mxCell>
-        <mxCell id="b-39" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#cfd2d8;" vertex="1" parent="1">
+        <mxCell id="b-44" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#cfd2d8;" vertex="1" parent="1">
           <mxGeometry x="1780" y="360" width="560" height="300" as="geometry" />
         </mxCell>
-        <mxCell id="b-40" value="VRF" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=13;fontColor=#101217;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="b-45" value="VRF" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=13;fontColor=#101217;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="1790" y="366" width="500" height="22" as="geometry" />
         </mxCell>
-        <mxCell id="b-41" value="&lt;b&gt;USR&lt;/b&gt; (10) Utilisateurs – Personnel, étudiants, téléphonie, impression, Wi-Fi authentifié (802.1X)" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#0079b5;" vertex="1" parent="1">
+        <mxCell id="b-46" value="&lt;b&gt;USR&lt;/b&gt; (10) Utilisateurs – Personnel, étudiants, téléphonie, impression, Wi-Fi authentifié (802.1X)" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#0079b5;" vertex="1" parent="1">
           <mxGeometry x="1794" y="394" width="535" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="b-42" value="&lt;b&gt;IOT&lt;/b&gt; (20) Objets – Caméras IP, badgeuses, GTB : aucun accès Internet, flux limités à leurs serveurs" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#a75c00;" vertex="1" parent="1">
+        <mxCell id="b-47" value="&lt;b&gt;IOT&lt;/b&gt; (20) Objets – Caméras IP, badgeuses, GTB : aucun accès Internet, flux limités à leurs serveurs" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#a75c00;" vertex="1" parent="1">
           <mxGeometry x="1794" y="446" width="535" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="b-43" value="&lt;b&gt;GST&lt;/b&gt; (30) Invités – Wi-Fi invités : Internet seulement (HTTP/HTTPS/DNS), isolation entre clients" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#97549b;" vertex="1" parent="1">
+        <mxCell id="b-48" value="&lt;b&gt;GST&lt;/b&gt; (30) Invités – Wi-Fi invités : Internet seulement (HTTP/HTTPS/DNS), isolation entre clients" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#97549b;" vertex="1" parent="1">
           <mxGeometry x="1794" y="498" width="535" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="b-44" value="&lt;b&gt;SRV&lt;/b&gt; (40) Serveurs – Datacenter : AD, RADIUS, DHCP, sauvegarde" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#008889;" vertex="1" parent="1">
+        <mxCell id="b-49" value="&lt;b&gt;SRV&lt;/b&gt; (40) Serveurs – Datacenter tier 1 (VM) : RADIUS/NPS, DHCP, enregistreur vidéo. L&amp;#x27;AD est en tier 0 (VLAN 310, derrière le Stormshield)" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#008889;" vertex="1" parent="1">
           <mxGeometry x="1794" y="550" width="535" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="b-45" value="&lt;b&gt;ADM&lt;/b&gt; (90) Administration – Gestion des équipements, IPMI, Proxmox, services d&amp;#x27;infrastructure, postes d&amp;#x27;admin (ANSSI : SI d&amp;#x27;administration dédié)" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#c13c3b;" vertex="1" parent="1">
+        <mxCell id="b-50" value="&lt;b&gt;ADM&lt;/b&gt; (90) Administration – Gestion des équipements, IPMI, Proxmox, contrôleurs Wi-Fi, sauvegarde, services d&amp;#x27;infrastructure, postes d&amp;#x27;admin (ANSSI : SI d&amp;#x27;administration dédié)" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#c13c3b;" vertex="1" parent="1">
           <mxGeometry x="1794" y="602" width="535" height="50" as="geometry" />
         </mxCell>
       </root>

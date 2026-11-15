@@ -1,22 +1,29 @@
 categorie;schema;solution;quantite;pu_ht;total_ht;note
 Egress / WAN;EL-RTR1, EL-RTR2;Cisco Catalyst C8200L-1N-4T + DNA Essentials 3 ans;2;2200;4400;Routeurs de bordure, 1 par FAI
-Egress / WAN;EL-FGT1, EL-FGT2;FortiGate 120G + bundle UTP / FortiCare Premium 3 ans;2;7200;14400;Cluster HA actif/passif, pare-feu externe
+Egress / WAN;EL-FGT1, EL-FGT2;FortiGate 120G + bundle UTP / FortiCare Premium 3 ans;2;7200;14400;Cluster HA actif/passif, pare-feu externe. Inspection TLS incluse dans le bundle
 Egress / WAN;EL-SW1, EL-SW2;Cisco Catalyst C9200L-24T-4X-E + DNA-E 3 ans;2;2300;4600;
 Sécurité interne;EL-SNS1, EL-SNS2;Stormshield SN710 + Premium UTM Security Pack 3 ans;2;7000;14000;Pare-feu interne HA. Prix à confirmer par devis revendeur
+Sécurité interne;EL-SNS1, EL-SNS2;Module d'extension 10G SFP+ pour SN710;2;1200;2400;v2 (SEC-01) : raccordement direct au cœur en 2×10G. Prix à confirmer
 DMZ;DM-SW1, DM-SW2;Cisco Catalyst C9200L-24T-4X-E + DNA-E 3 ans;2;2300;4600;
-DMZ;DM-RP1/2 (Caddy), DM-DNS1, DM-WEB1, DM-MAIL1, DM-SRV1;Dell PowerEdge R260 (Xeon E-2434, 32 Go, 2x960 Go SSD RAID1, double alim);6;2900;17400;6 serveurs physiques comme sur le schéma
+DMZ;DM-PVE1, DM-PVE2;Dell PowerEdge R360 (Xeon E-2488 8 cœurs, 64 Go, 4x960 Go SSD ZFS, 2x10 GbE, double alim);2;4200;8400;v2 (SYS-02) : cluster Proxmox de la DMZ (VM Caddy x2, DNS x2, web, mail, applicatif) au lieu de 6 serveurs physiques
+DMZ;DM-WITNESS;Dell PowerEdge R260 entrée de gamme (Xeon E-2414, 16 Go, 2x480 Go SSD);1;1600;1600;v2 : QDevice propre à la DMZ (aucun flux vers l'administration)
 Cœur;CL-SW1, CL-SW2;Cisco Catalyst C9500-16X-E + DNA-E 3 ans + modules 40G SVL;2;9500;19000;StackWise Virtual
 Distribution;DL-SW1 à DL-SW4;Cisco Catalyst C9500-16X-E + DNA-E 3 ans;4;9500;38000;2 blocs StackWise Virtual (le SVL impose la gamme 9500)
 Accès;AL-SW1 à AL-SW4;Cisco Catalyst C9200L-48P-4X-E PoE+ + DNA-E 3 ans;15;3900;58500;Le schéma en montre 4. Plan de câblage : 15 switchs pour 484 prises (+10 % de ports libres) et le budget PoE, répartis dans les 6 L.TECH
-Accès;AL-AP1;Borne Wi-Fi 6E Cisco CW9164I + licence DNA AP 3 ans;38;1300;49400;Nombre fixé par l'étude RSSI prédictive (≥ −67 dBm à 5 GHz, livrables/plan_cablage/wifi). Contrôleur 9800-CL en VM
+Accès;AL-AP1;Borne Wi-Fi 6E Cisco CW9164I + licence DNA AP 3 ans;38;1300;49400;Nombre fixé par l'étude RSSI prédictive (≥ −67 dBm à 5 GHz, livrables/plan_cablage/wifi)
+Accès;WLC1, WLC2;Contrôleur Wi-Fi Cisco Catalyst 9800-L-F (4x10G SFP+), HA SSO;2;6000;12000;v2 (NET-01) : bornes en mode local, itinérance sans coupure dans tout le bâtiment. Remplace la VM 9800-CL
 Net Management;NM-SW1, NM-SW2;Cisco Catalyst C9200L-24T-4X-E + DNA-E 3 ans;2;2300;4600;
-Net Management;NM-PVE1 à NM-PVE3;Dell PowerEdge R660xs (2x Xeon Silver 4510, 256 Go, 4x1,92 To SSD Ceph, 2x25 GbE);3;9500;28500;Cluster Proxmox HA : LXC Kea/chrony/DNS, VM Docker (LibreNMS, Grafana, syslog, snmptrapd), Teleport
-Net Management;Services NM (LXC + Docker);Kea, chrony, Bind/Unbound, LibreNMS, Grafana, rsyslog, snmptrapd, Teleport Community;1;0;0;Logiciels libres, 0 € de licence
+Net Management;NM-PVE1, NM-PVE2;Dell PowerEdge R660xs (2x Xeon Silver 4510, 256 Go, 4x1,92 To SSD ZFS miroir, 2x25 GbE + carte 4x1G);2;9800;19600;v2 (SYS-01) : 2 nœuds + témoin, ZFS répliqué en câble direct 25G (v1 : 3 nœuds Ceph). LXC Kea/chrony/DNS/Teleport/journaux, VM supervision
+Net Management;NM-WITNESS;Dell PowerEdge R260 entrée de gamme (Xeon E-2414, 16 Go, 2x480 Go SSD);1;1600;1600;v2 (SYS-01) : QDevice des clusters NM et DT, serveur NUT (arrêt ordonné)
+Net Management;EL-SW, NM-SW, DM-SW;Kit de pile StackWise-80 C9200L (2 modules + câbles);3;1100;3300;v2 : oubli de la v1 (piles prévues dans l'architecture L2)
+Net Management;Services NM (LXC + Docker);Kea, chrony, Unbound, LibreNMS, Grafana, Loki, rsyslog, snmptrapd, Teleport Community, NUT;1;0;0;Logiciels libres, 0 € de licence
 Datacenter;DT-SW1, DT-SW2;Cisco Catalyst C9300X-12Y-E (10/25G) + DNA-E 3 ans;2;8000;16000;
-Datacenter;DT-AD1/2, DT-RAD1/2, DT-DHCP1/2;Dell PowerEdge R360 (Xeon E-2400, 64 Go, 2x960 Go SSD RAID1);6;3400;20400;6 serveurs physiques comme sur le schéma
-Datacenter;Licences serveurs Windows;Windows Server 2025 Standard 16 cœurs (AD, DHCP, NPS/RADIUS);6;1100;6600;Tarif public. Le tarif Éducation est nettement plus bas
+Datacenter;DT-PVE1, DT-PVE2;Dell PowerEdge R660xs (1x Xeon Silver 4514Y 16 cœurs, 128 Go, 4x1,92 To SSD ZFS, 4x25 GbE);2;8500;17000;v2 (SYS-02) : cluster Proxmox tier 0 (VM AD x2, NPS x2, DHCP x2) au lieu de 6 serveurs physiques
+Datacenter;Licences serveurs Windows;Windows Server 2025 Standard 16 cœurs (AD, DHCP, NPS/RADIUS);6;1100;6600;"6 VM Windows ; 1 licence = 2 VM, 3 par nœud pour pouvoir tout porter sur un seul nœud. Tarif public (Éducation nettement plus bas)"
 Datacenter;Licences d'accès;CAL utilisateur Windows Server (tarif Éducation);600;10;6000;~100 personnels + ~500 étudiants
-Datacenter;DT-BKP1;Serveur de sauvegarde Proxmox Backup Server (Dell R760xd2, ~100 To bruts);1;12000;12000;Règle 3-2-1 avec copie externalisée (voir OPEX)
+Datacenter;DT-BKP1;Serveur de sauvegarde Proxmox Backup Server (Dell R760xd2, ~100 To bruts);1;12000;12000;Règle 3-2-1-1-0 : copie hors ligne et copie immuable externalisée (voir OPEX)
+Datacenter;DT-BKP1;Disque externe 24 To pour datastore amovible PBS;3;550;1650;v2 (SEC-03) : copie hors ligne. Rotation hebdomadaire : 1 branché, 1 au coffre sur place, 1 hors site
+Datacenter;DT-BKP1;Coffre ignifuge pour supports de sauvegarde;1;800;800;v2 (SEC-03) : hors de la salle serveur
 Énergie / locaux;Salle serveur;Baie 42U 800x1000 avec portes ventilées;2;1500;3000;
 Énergie / locaux;Locaux techniques (6 L.TECH);Baie 24U murale/sol;5;700;3500;2 L.TECH par niveau d'après les plans
 Énergie / locaux;Locaux techniques;Baie 42U 600x800 au sol;1;1200;1200;L.TECH dont la baie dépasse 22U (plan de câblage)
@@ -25,18 +32,22 @@ Datacenter;DT-BKP1;Serveur de sauvegarde Proxmox Backup Server (Dell R760xd2, ~1
 Énergie / locaux;Salle serveur;PDU managées et métrées;4;700;2800;Mesure de consommation (Green IT)
 Énergie / locaux;Salle serveur;Climatisation de précision ~7 kW, redondance N+1;1;12000;12000;
 Énergie / locaux;Salle serveur + L.TECH;Contrôle d'accès par badge;1;5000;5000;
-Énergie / locaux;Salle serveur;Pack batterie externe APC SRT192RMBP (1 par onduleur);2;1400;2800;Autonomie si un onduleur tombe : 7.9 min sans pack, 24 min avec (point 14)
+Énergie / locaux;Salle serveur;Pack batterie externe APC SRT192RMBP (1 par onduleur);2;1400;2800;Autonomie si un onduleur tombe : 11.2 min sans pack, 33 min avec (point 14)
 Énergie / locaux;Salle serveur + L.TECH;Tableau électrique informatique (TD-INFO) et circuits dédiés;1;6000;6000;2 départs 32 A onduleurs, 2 départs clim, 6 départs 16 A L.TECH, protections différentielles (point 14)
 Énergie / locaux;Salle serveur;Confinement d'allée froide (obturateurs, rideaux);1;1200;1200;Green IT : -10 % sur la clim (point 14)
 Énergie / locaux;Salle serveur + L.TECH;Sondes température/humidité et détection de fuite d'eau;1;1200;1200;"Remontées dans LibreNMS ; fuite : salle au sous-sol (point 14)"
-Énergie / locaux;Salle serveur;Détection incendie raccordée au SSI + extincteurs CO2;1;1500;1500;Sécurité minimale, sans extinction automatique (point 14)
+Énergie / locaux;Salle serveur;Détection incendie raccordée au SSI + extincteurs CO2;1;1500;1500;Report d'alarme au SSI du bâtiment (point 14)
+Énergie / locaux;Salle serveur;Extinction automatique par gaz inerte (IG-541) + détection précoce par aspiration (VESDA);1;8500;8500;v2 (audit SYS-03) : un incendie la nuit ne détruit plus la salle. Gaz inerte : sans danger pour le matériel (point 14)
+Énergie / locaux;Salle serveur;Plancher technique surélevé 30 cm, baies et onduleurs sur socles;25;160;4000;v2 (SYS-03) : matériel hors d'eau en cas d'inondation du sous-sol (prix au m²) (point 14)
+Énergie / locaux;Salle serveur;Batardeau amovible à la porte (60 cm) + clapet anti-retour sur l'évacuation des condensats;1;1500;1500;v2 (SYS-03) : retarde l'entrée de l'eau par la circulation (point 14)
+Énergie / locaux;Salle serveur;Câble de détection de fuite sous le plancher (centrale + 20 m);1;900;900;v2 (SYS-03) : alerte dès les premiers centimètres, avant que l'eau n'atteigne le matériel (point 14)
 Énergie / locaux;Locaux techniques;Extracteur d'air avec thermostat;4;450;1800;Locaux les plus chargés ou les plus petits (point 14)
 Câblage;Prises;Prise RJ45 Cat6A fournie, posée et recettée;484;140;67760;10 Gb/s, durée de vie 15 ans (CdC). Usagers + bornes + caméras + badgeuses (plan de câblage)
 Câblage;Rocades;Fibre OM4 12 brins L.TECH vers salle serveur;12;1500;18000;2 câbles par local, par deux chemins disjoints (colonnes Nord et Sud)
 Câblage;Chemins de câbles;Chemin de câbles fil 100×50 mm, posé;636;35;22260;Métré du plan de câblage (circulations et locaux)
 Câblage;Chemins de câbles;Chemin de câbles fil 200×60 mm, posé;17;45;765;Métré du plan de câblage (circulations et locaux)
 Câblage;Chemins de câbles;Chemin de câbles fil 300×100 mm, posé;7;60;420;Métré du plan de câblage (circulations et locaux)
-Câblage;Optiques;Modules SFP+/SFP28/QSFP compatibles;80;70;5600;Optiques Cisco d'origine : x4 environ
+Câblage;Optiques;Modules SFP+/SFP28/QSFP compatibles et câbles DAC;96;70;6720;Optiques Cisco d'origine : x4 environ. v2 : +16 (Stormshield, WLC, DAC de réplication)
 Câblage;Brassage;Panneaux, cordons, passe-câbles;1;4000;4000;Forfait
-Prestations;Intégration;Ingénierie, intégration et configuration (jours);45;650;29250;
+Prestations;Intégration;Ingénierie, intégration et configuration (jours);50;650;32500;v2 : +5 j (3 clusters Proxmox, WLC, chaîne de journalisation)
 Prestations;Recette;Recette, documentation et formation (jours);10;650;6500;

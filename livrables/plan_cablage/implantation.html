@@ -23,7 +23,7 @@ img { width: 100%; border: 1px solid #DEDAD1; margin: 2mm 0; }
 ul { margin: 1mm 0 2mm 5mm; padding: 0; } li { margin: 0.6mm 0; }
 </style></head><body>
 <h1>Implantation de l'infrastructure réseau</h1>
-<p class='sous'>Site de Marseille · IUT Génie Télécom, Luminy · point 04 du cahier des charges · 12/11/2026<br>Où se trouve chaque élément, quelle salle est desservie par quel local technique, et par où passent les câbles et les fibres. Plans à l'échelle et repères dans <code>plans/</code> et <code>prises.csv</code>.</p>
+<p class='sous'>Site de Marseille · IUT Génie Télécom, Luminy · point 04 du cahier des charges · 15/11/2026<br>Où se trouve chaque élément, quelle salle est desservie par quel local technique, et par où passent les câbles et les fibres. Plans à l'échelle et repères dans <code>plans/</code> et <code>prises.csv</code>.</p>
 <div class='cles'>
 <div class='cle'><b>484</b>prises RJ45 Cat6A</div>
 <div class='cle'><b>38</b>bornes Wi-Fi</div>
@@ -40,12 +40,12 @@ ul { margin: 1mm 0 2mm 5mm; padding: 0; } li { margin: 0.6mm 0; }
 <p><b>Où :</b> sous-sol, partie sud de la <b>SALLE J05</b>, cloisonnée sur environ 25 m², contre le local technique N-1-LT01 et le couloir CIRC 03. C'est le point le plus central du bâtiment : les fibres vers les étages y sont les plus courtes.</p>
 <table><tr><th>Zone</th><th>Équipements installés dans la salle serveur</th></tr>
 <tr><td><b>Egress / WAN</b></td><td>EL-RTR1, EL-RTR2 (Cisco Catalyst C8200L-1N-4T) · EL-FGT1, EL-FGT2 (FortiGate 120G) · EL-SW1, EL-SW2 (Cisco Catalyst C9200L-24T-4X-E)</td></tr>
-<tr><td><b>Sécurité interne</b></td><td>EL-SNS1, EL-SNS2 (Stormshield SN710)</td></tr>
-<tr><td><b>DMZ</b></td><td>DM-SW1, DM-SW2 (Cisco Catalyst C9200L-24T-4X-E) · DM-RP1/2 (Caddy), DM-DNS1, DM-WEB1, DM-MAIL1, DM-SRV1 (Dell PowerEdge R260 (Xeon E-2434, 32 Go, 2x960 Go SSD RAID1, double alim))</td></tr>
+<tr><td><b>Sécurité interne</b></td><td>EL-SNS1, EL-SNS2 (Stormshield SN710) · EL-SNS1, EL-SNS2 (Module d&#x27;extension 10G SFP+ pour SN710)</td></tr>
+<tr><td><b>DMZ</b></td><td>DM-SW1, DM-SW2 (Cisco Catalyst C9200L-24T-4X-E) · DM-PVE1, DM-PVE2 (Dell PowerEdge R360 (Xeon E-2488 8 cœurs, 64 Go, 4x960 Go SSD ZFS, 2x10 GbE, double alim)) · DM-WITNESS (Dell PowerEdge R260 entrée de gamme (Xeon E-2414, 16 Go, 2x480 Go SSD))</td></tr>
 <tr><td><b>Cœur</b></td><td>CL-SW1, CL-SW2 (Cisco Catalyst C9500-16X-E)</td></tr>
 <tr><td><b>Distribution</b></td><td>DL-SW1 à DL-SW4 (Cisco Catalyst C9500-16X-E)</td></tr>
-<tr><td><b>Net Management</b></td><td>NM-SW1, NM-SW2 (Cisco Catalyst C9200L-24T-4X-E) · NM-PVE1 à NM-PVE3 (Dell PowerEdge R660xs (2x Xeon Silver 4510, 256 Go, 4x1,92 To SSD Ceph, 2x25 GbE)) · Services NM (LXC + Docker) (Kea, chrony, Bind/Unbound, LibreNMS, Grafana, rsyslog, snmptrapd, Teleport Community)</td></tr>
-<tr><td><b>Datacenter</b></td><td>DT-SW1, DT-SW2 (Cisco Catalyst C9300X-12Y-E (10/25G)) · DT-AD1/2, DT-RAD1/2, DT-DHCP1/2 (Dell PowerEdge R360 (Xeon E-2400, 64 Go, 2x960 Go SSD RAID1)) · Licences serveurs Windows (Windows Server 2025 Standard 16 cœurs (AD, DHCP, NPS/RADIUS)) · Licences d&#x27;accès (CAL utilisateur Windows Server (tarif Éducation)) · DT-BKP1 (Serveur de sauvegarde Proxmox Backup Server (Dell R760xd2, ~100 To bruts))</td></tr>
+<tr><td><b>Net Management</b></td><td>NM-SW1, NM-SW2 (Cisco Catalyst C9200L-24T-4X-E) · NM-PVE1, NM-PVE2 (Dell PowerEdge R660xs (2x Xeon Silver 4510, 256 Go, 4x1,92 To SSD ZFS miroir, 2x25 GbE) · NM-WITNESS (Dell PowerEdge R260 entrée de gamme (Xeon E-2414, 16 Go, 2x480 Go SSD)) · EL-SW, NM-SW, DM-SW (Kit de pile StackWise-80 C9200L (2 modules) · Services NM (LXC + Docker) (Kea, chrony, Unbound, LibreNMS, Grafana, Loki, rsyslog, snmptrapd, Teleport Community, NUT)</td></tr>
+<tr><td><b>Datacenter</b></td><td>DT-SW1, DT-SW2 (Cisco Catalyst C9300X-12Y-E (10/25G)) · DT-PVE1, DT-PVE2 (Dell PowerEdge R660xs (1x Xeon Silver 4514Y 16 cœurs, 128 Go, 4x1,92 To SSD ZFS, 4x25 GbE)) · Licences serveurs Windows (Windows Server 2025 Standard 16 cœurs (AD, DHCP, NPS/RADIUS)) · Licences d&#x27;accès (CAL utilisateur Windows Server (tarif Éducation)) · DT-BKP1 (Serveur de sauvegarde Proxmox Backup Server (Dell R760xd2, ~100 To bruts)) · DT-BKP1 (Disque externe 24 To pour datastore amovible PBS) · DT-BKP1 (Coffre ignifuge pour supports de sauvegarde)</td></tr>
 </table>
 <p><b>Aménagement :</b> 2 baies 42U, onduleurs en double alimentation A/B, climatisation de précision N+1, contrôle d'accès par badge (B), caméra (C). Sous-sol : plancher technique et détection de fuite d'eau à prévoir, cloison coupe-feu.</p>
 <h2>3. Locaux techniques</h2><table><tr><th>Local</th><th>Où</th><th class='n'>Surface</th><th>Baie</th><th class='n'>Switchs</th><th class='n'>Prises</th><th>Salles desservies</th></tr>

@@ -16,7 +16,7 @@
    "quantite": 2,
    "pu_ht": 7200,
    "total_ht": 14400,
-   "note": "Cluster HA actif/passif, pare-feu externe"
+   "note": "Cluster HA actif/passif, pare-feu externe. Inspection TLS incluse dans le bundle"
   },
   {
    "categorie": "Egress / WAN",
@@ -37,6 +37,15 @@
    "note": "Pare-feu interne HA. Prix à confirmer par devis revendeur"
   },
   {
+   "categorie": "Sécurité interne",
+   "schema": "EL-SNS1, EL-SNS2",
+   "solution": "Module d'extension 10G SFP+ pour SN710",
+   "quantite": 2,
+   "pu_ht": 1200,
+   "total_ht": 2400,
+   "note": "v2 (SEC-01) : raccordement direct au cœur en 2×10G. Prix à confirmer"
+  },
+  {
    "categorie": "DMZ",
    "schema": "DM-SW1, DM-SW2",
    "solution": "Cisco Catalyst C9200L-24T-4X-E + DNA-E 3 ans",
@@ -47,12 +56,21 @@
   },
   {
    "categorie": "DMZ",
-   "schema": "DM-RP1/2 (Caddy), DM-DNS1, DM-WEB1, DM-MAIL1, DM-SRV1",
-   "solution": "Dell PowerEdge R260 (Xeon E-2434, 32 Go, 2x960 Go SSD RAID1, double alim)",
-   "quantite": 6,
-   "pu_ht": 2900,
-   "total_ht": 17400,
-   "note": "6 serveurs physiques comme sur le schéma"
+   "schema": "DM-PVE1, DM-PVE2",
+   "solution": "Dell PowerEdge R360 (Xeon E-2488 8 cœurs, 64 Go, 4x960 Go SSD ZFS, 2x10 GbE, double alim)",
+   "quantite": 2,
+   "pu_ht": 4200,
+   "total_ht": 8400,
+   "note": "v2 (SYS-02) : cluster Proxmox de la DMZ (VM Caddy x2, DNS x2, web, mail, applicatif) au lieu de 6 serveurs physiques"
+  },
+  {
+   "categorie": "DMZ",
+   "schema": "DM-WITNESS",
+   "solution": "Dell PowerEdge R260 entrée de gamme (Xeon E-2414, 16 Go, 2x480 Go SSD)",
+   "quantite": 1,
+   "pu_ht": 1600,
+   "total_ht": 1600,
+   "note": "v2 : QDevice propre à la DMZ (aucun flux vers l'administration)"
   },
   {
    "categorie": "Cœur",
@@ -88,7 +106,16 @@
    "quantite": 38,
    "pu_ht": 1300,
    "total_ht": 49400,
-   "note": "Nombre fixé par l'étude RSSI prédictive (≥ −67 dBm à 5 GHz, livrables/plan_cablage/wifi). Contrôleur 9800-CL en VM"
+   "note": "Nombre fixé par l'étude RSSI prédictive (≥ −67 dBm à 5 GHz, livrables/plan_cablage/wifi)"
+  },
+  {
+   "categorie": "Accès",
+   "schema": "WLC1, WLC2",
+   "solution": "Contrôleur Wi-Fi Cisco Catalyst 9800-L-F (4x10G SFP+), HA SSO",
+   "quantite": 2,
+   "pu_ht": 6000,
+   "total_ht": 12000,
+   "note": "v2 (NET-01) : bornes en mode local, itinérance sans coupure dans tout le bâtiment. Remplace la VM 9800-CL"
   },
   {
    "categorie": "Net Management",
@@ -101,17 +128,35 @@
   },
   {
    "categorie": "Net Management",
-   "schema": "NM-PVE1 à NM-PVE3",
-   "solution": "Dell PowerEdge R660xs (2x Xeon Silver 4510, 256 Go, 4x1,92 To SSD Ceph, 2x25 GbE)",
+   "schema": "NM-PVE1, NM-PVE2",
+   "solution": "Dell PowerEdge R660xs (2x Xeon Silver 4510, 256 Go, 4x1,92 To SSD ZFS miroir, 2x25 GbE + carte 4x1G)",
+   "quantite": 2,
+   "pu_ht": 9800,
+   "total_ht": 19600,
+   "note": "v2 (SYS-01) : 2 nœuds + témoin, ZFS répliqué en câble direct 25G (v1 : 3 nœuds Ceph). LXC Kea/chrony/DNS/Teleport/journaux, VM supervision"
+  },
+  {
+   "categorie": "Net Management",
+   "schema": "NM-WITNESS",
+   "solution": "Dell PowerEdge R260 entrée de gamme (Xeon E-2414, 16 Go, 2x480 Go SSD)",
+   "quantite": 1,
+   "pu_ht": 1600,
+   "total_ht": 1600,
+   "note": "v2 (SYS-01) : QDevice des clusters NM et DT, serveur NUT (arrêt ordonné)"
+  },
+  {
+   "categorie": "Net Management",
+   "schema": "EL-SW, NM-SW, DM-SW",
+   "solution": "Kit de pile StackWise-80 C9200L (2 modules + câbles)",
    "quantite": 3,
-   "pu_ht": 9500,
-   "total_ht": 28500,
-   "note": "Cluster Proxmox HA : LXC Kea/chrony/DNS, VM Docker (LibreNMS, Grafana, syslog, snmptrapd), Teleport"
+   "pu_ht": 1100,
+   "total_ht": 3300,
+   "note": "v2 : oubli de la v1 (piles prévues dans l'architecture L2)"
   },
   {
    "categorie": "Net Management",
    "schema": "Services NM (LXC + Docker)",
-   "solution": "Kea, chrony, Bind/Unbound, LibreNMS, Grafana, rsyslog, snmptrapd, Teleport Community",
+   "solution": "Kea, chrony, Unbound, LibreNMS, Grafana, Loki, rsyslog, snmptrapd, Teleport Community, NUT",
    "quantite": 1,
    "pu_ht": 0,
    "total_ht": 0,
@@ -128,12 +173,12 @@
   },
   {
    "categorie": "Datacenter",
-   "schema": "DT-AD1/2, DT-RAD1/2, DT-DHCP1/2",
-   "solution": "Dell PowerEdge R360 (Xeon E-2400, 64 Go, 2x960 Go SSD RAID1)",
-   "quantite": 6,
-   "pu_ht": 3400,
-   "total_ht": 20400,
-   "note": "6 serveurs physiques comme sur le schéma"
+   "schema": "DT-PVE1, DT-PVE2",
+   "solution": "Dell PowerEdge R660xs (1x Xeon Silver 4514Y 16 cœurs, 128 Go, 4x1,92 To SSD ZFS, 4x25 GbE)",
+   "quantite": 2,
+   "pu_ht": 8500,
+   "total_ht": 17000,
+   "note": "v2 (SYS-02) : cluster Proxmox tier 0 (VM AD x2, NPS x2, DHCP x2) au lieu de 6 serveurs physiques"
   },
   {
    "categorie": "Datacenter",
@@ -142,7 +187,7 @@
    "quantite": 6,
    "pu_ht": 1100,
    "total_ht": 6600,
-   "note": "Tarif public. Le tarif Éducation est nettement plus bas"
+   "note": "6 VM Windows ; 1 licence = 2 VM, 3 par nœud pour pouvoir tout porter sur un seul nœud. Tarif public (Éducation nettement plus bas)"
   },
   {
    "categorie": "Datacenter",
@@ -160,7 +205,25 @@
    "quantite": 1,
    "pu_ht": 12000,
    "total_ht": 12000,
-   "note": "Règle 3-2-1 avec copie externalisée (voir OPEX)"
+   "note": "Règle 3-2-1-1-0 : copie hors ligne et copie immuable externalisée (voir OPEX)"
+  },
+  {
+   "categorie": "Datacenter",
+   "schema": "DT-BKP1",
+   "solution": "Disque externe 24 To pour datastore amovible PBS",
+   "quantite": 3,
+   "pu_ht": 550,
+   "total_ht": 1650,
+   "note": "v2 (SEC-03) : copie hors ligne. Rotation hebdomadaire : 1 branché, 1 au coffre sur place, 1 hors site"
+  },
+  {
+   "categorie": "Datacenter",
+   "schema": "DT-BKP1",
+   "solution": "Coffre ignifuge pour supports de sauvegarde",
+   "quantite": 1,
+   "pu_ht": 800,
+   "total_ht": 800,
+   "note": "v2 (SEC-03) : hors de la salle serveur"
   },
   {
    "categorie": "Énergie / locaux",
@@ -241,7 +304,7 @@
    "quantite": 2,
    "pu_ht": 1400,
    "total_ht": 2800,
-   "note": "Autonomie si un onduleur tombe : 7.9 min sans pack, 24 min avec (point 14)"
+   "note": "Autonomie si un onduleur tombe : 11.2 min sans pack, 33 min avec (point 14)"
   },
   {
    "categorie": "Énergie / locaux",
@@ -277,7 +340,43 @@
    "quantite": 1,
    "pu_ht": 1500,
    "total_ht": 1500,
-   "note": "Sécurité minimale, sans extinction automatique (point 14)"
+   "note": "Report d'alarme au SSI du bâtiment (point 14)"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur",
+   "solution": "Extinction automatique par gaz inerte (IG-541) + détection précoce par aspiration (VESDA)",
+   "quantite": 1,
+   "pu_ht": 8500,
+   "total_ht": 8500,
+   "note": "v2 (audit SYS-03) : un incendie la nuit ne détruit plus la salle. Gaz inerte : sans danger pour le matériel (point 14)"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur",
+   "solution": "Plancher technique surélevé 30 cm, baies et onduleurs sur socles",
+   "quantite": 25,
+   "pu_ht": 160,
+   "total_ht": 4000,
+   "note": "v2 (SYS-03) : matériel hors d'eau en cas d'inondation du sous-sol (prix au m²) (point 14)"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur",
+   "solution": "Batardeau amovible à la porte (60 cm) + clapet anti-retour sur l'évacuation des condensats",
+   "quantite": 1,
+   "pu_ht": 1500,
+   "total_ht": 1500,
+   "note": "v2 (SYS-03) : retarde l'entrée de l'eau par la circulation (point 14)"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur",
+   "solution": "Câble de détection de fuite sous le plancher (centrale + 20 m)",
+   "quantite": 1,
+   "pu_ht": 900,
+   "total_ht": 900,
+   "note": "v2 (SYS-03) : alerte dès les premiers centimètres, avant que l'eau n'atteigne le matériel (point 14)"
   },
   {
    "categorie": "Énergie / locaux",
@@ -336,11 +435,11 @@
   {
    "categorie": "Câblage",
    "schema": "Optiques",
-   "solution": "Modules SFP+/SFP28/QSFP compatibles",
-   "quantite": 80,
+   "solution": "Modules SFP+/SFP28/QSFP compatibles et câbles DAC",
+   "quantite": 96,
    "pu_ht": 70,
-   "total_ht": 5600,
-   "note": "Optiques Cisco d'origine : x4 environ"
+   "total_ht": 6720,
+   "note": "Optiques Cisco d'origine : x4 environ. v2 : +16 (Stormshield, WLC, DAC de réplication)"
   },
   {
    "categorie": "Câblage",
@@ -355,10 +454,10 @@
    "categorie": "Prestations",
    "schema": "Intégration",
    "solution": "Ingénierie, intégration et configuration (jours)",
-   "quantite": 45,
+   "quantite": 50,
    "pu_ht": 650,
-   "total_ht": 29250,
-   "note": ""
+   "total_ht": 32500,
+   "note": "v2 : +5 j (3 clusters Proxmox, WLC, chaîne de journalisation)"
   },
   {
    "categorie": "Prestations",
@@ -372,20 +471,20 @@
  ],
  "par_categorie": {
   "Egress / WAN": 23400,
-  "Sécurité interne": 14000,
-  "DMZ": 22000,
+  "Sécurité interne": 16400,
+  "DMZ": 14600,
   "Cœur": 19000,
   "Distribution": 38000,
-  "Accès": 107900,
-  "Net Management": 33100,
-  "Datacenter": 61000,
-  "Énergie / locaux": 57000,
-  "Câblage": 118805,
-  "Prestations": 35750
+  "Accès": 119900,
+  "Net Management": 29100,
+  "Datacenter": 60050,
+  "Énergie / locaux": 71900,
+  "Câblage": 119925,
+  "Prestations": 39000
  },
- "sous_total": 529955,
- "aleas": 52996,
- "capex": 582951,
+ "sous_total": 551275,
+ "aleas": 55128,
+ "capex": 606403,
  "opex": [
   {
    "poste": "Accès Internet FAI 1",
@@ -404,18 +503,18 @@
   },
   {
    "poste": "Proxmox VE",
-   "detail": "Souscription Standard, 3 nœuds x 2 sockets x 550 €",
-   "montant": 3300
+   "detail": "Souscription Standard : NM 2 nœuds x 2 sockets, DT et DMZ 4 nœuds x 1 socket, 550 €/socket",
+   "montant": 4400
   },
   {
    "poste": "Sauvegarde externalisée",
-   "detail": "Stockage objet ~20 To hors site",
-   "montant": 1440
+   "detail": "Stockage objet ~20 To hors site, verrouillage S3 Object Lock en mode conformité (hébergeur SecNumCloud)",
+   "montant": 2160
   },
   {
    "poste": "Électricité du réseau",
-   "detail": "61 557 kWh/an × 0.20 € (salle serveur, PUE 1.34, 6 locaux techniques)",
-   "montant": 12311
+   "detail": "53 510 kWh/an × 0.20 € (salle serveur, PUE 1.34, 6 locaux techniques)",
+   "montant": 10702
   },
   {
    "poste": "Maintenance de la climatisation",
@@ -428,12 +527,17 @@
    "montant": 1500
   },
   {
+   "poste": "Maintenance de l'extinction automatique",
+   "detail": "Visite annuelle obligatoire (APSAD R13), contrôle des bouteilles",
+   "montant": 600
+  },
+  {
    "poste": "Nom de domaine",
    "detail": "Domaine + DNS secondaire",
    "montant": 30
   }
  ],
- "opex_total": 44081,
+ "opex_total": 44892,
  "renouvellement": [
   {
    "poste": "FortiGuard UTP + FortiCare",
@@ -452,22 +556,22 @@
   },
   {
    "poste": "Support matériel serveurs",
-   "detail": "Extension garantie 18 serveurs",
-   "montant": 6300
+   "detail": "Extension garantie 9 serveurs (v1 : 16)",
+   "montant": 3600
   }
  ],
- "renouvellement_total": 27857,
- "tco5": 859070,
+ "renouvellement_total": 25157,
+ "tco5": 881177,
  "optimisations": [
   {
    "piste": "Cœur replié (collapsed core)",
-   "detail": "Un seul bâtiment : fusionner distribution et cœur dans le bloc CL-SW (SVL). Suppression de DL-SW1 à DL-SW4.",
+   "detail": "Un seul bâtiment : fusionner distribution et cœur sur 2 C9500-48Y4C (SVL). Suppression de DL-SW1 à DL-SW4. Étudiée, non retenue : le cahier des charges demande 3 couches (audit NET-02).",
    "economie": 38000
   },
   {
-   "piste": "Virtualiser DMZ et datacenter",
-   "detail": "Héberger DM-* et DT-* (hors sauvegarde) en VM sur 2 clusters Proxmox (un pour la DMZ, isolé). 12 serveurs remplacés par 3 nœuds supplémentaires.",
-   "economie": 9300
+   "piste": "Services libres pour NPS et DHCP",
+   "detail": "Remplacer NPS et le DHCP Windows par FreeRADIUS et Kea (déjà utilisés pour les autres VRF) : seules les 2 VM AD restent sous Windows, soit 1 licence par nœud au lieu de 3.",
+   "economie": 4400
   },
   {
    "piste": "Tarifs Éducation",

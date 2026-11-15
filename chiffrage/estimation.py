@@ -4,6 +4,10 @@
 Prix en euros HT, prix revendeur constatés (neuf), novembre 2026.
 Les licences sur 3 ans sont incluses dans le CAPEX quand l'éditeur les vend en bundle.
 Lancer: python3 estimation.py  -> régénère estimation_infra.csv, estimation_infra.md, estimation.json
+
+Version 2 (après l'audit du 15/11/2026) : chiffrage aligné sur l'architecture réelle (SYS-01 : 2 nœuds NM + témoin, sans Ceph),
+virtualisation de la DMZ et du datacenter (SYS-02), contrôleurs Wi-Fi physiques (NET-01), modules 10G du Stormshield (SEC-01),
+sauvegarde hors ligne et immuable (SEC-03). v1 : livrables/archives/v1_2026-11-15/chiffrage/.
 """
 import csv, json, pathlib
 
@@ -32,25 +36,39 @@ PRIX_CHEMIN = {"100×50": 35, "200×60": 45, "300×100": 60}  # €/m posé, ave
 # (catégorie, éléments du schéma, solution proposée, quantité, prix unitaire HT, note)
 CAPEX = [
     ("Egress / WAN", "EL-RTR1, EL-RTR2", "Cisco Catalyst C8200L-1N-4T + DNA Essentials 3 ans", 2, 2200, "Routeurs de bordure, 1 par FAI"),
-    ("Egress / WAN", "EL-FGT1, EL-FGT2", "FortiGate 120G + bundle UTP / FortiCare Premium 3 ans", 2, 7200, "Cluster HA actif/passif, pare-feu externe"),
+    ("Egress / WAN", "EL-FGT1, EL-FGT2", "FortiGate 120G + bundle UTP / FortiCare Premium 3 ans", 2, 7200, "Cluster HA actif/passif, pare-feu externe. Inspection TLS incluse dans le bundle"),
     ("Egress / WAN", "EL-SW1, EL-SW2", "Cisco Catalyst C9200L-24T-4X-E + DNA-E 3 ans", 2, 2300, ""),
     ("Sécurité interne", "EL-SNS1, EL-SNS2", "Stormshield SN710 + Premium UTM Security Pack 3 ans", 2, 7000, "Pare-feu interne HA. Prix à confirmer par devis revendeur"),
+    ("Sécurité interne", "EL-SNS1, EL-SNS2", "Module d'extension 10G SFP+ pour SN710", 2, 1200, "v2 (SEC-01) : raccordement direct au cœur en 2×10G. Prix à confirmer"),
     ("DMZ", "DM-SW1, DM-SW2", "Cisco Catalyst C9200L-24T-4X-E + DNA-E 3 ans", 2, 2300, ""),
-    ("DMZ", "DM-RP1/2 (Caddy), DM-DNS1, DM-WEB1, DM-MAIL1, DM-SRV1", "Dell PowerEdge R260 (Xeon E-2434, 32 Go, 2x960 Go SSD RAID1, double alim)", 6, 2900, "6 serveurs physiques comme sur le schéma"),
+    ("DMZ", "DM-PVE1, DM-PVE2", "Dell PowerEdge R360 (Xeon E-2488 8 cœurs, 64 Go, 4x960 Go SSD ZFS, 2x10 GbE, double alim)", 2, 4200,
+     "v2 (SYS-02) : cluster Proxmox de la DMZ (VM Caddy x2, DNS x2, web, mail, applicatif) au lieu de 6 serveurs physiques"),
+    ("DMZ", "DM-WITNESS", "Dell PowerEdge R260 entrée de gamme (Xeon E-2414, 16 Go, 2x480 Go SSD)", 1, 1600, "v2 : QDevice propre à la DMZ (aucun flux vers l'administration)"),
     ("Cœur", "CL-SW1, CL-SW2", "Cisco Catalyst C9500-16X-E + DNA-E 3 ans + modules 40G SVL", 2, 9500, "StackWise Virtual"),
     ("Distribution", "DL-SW1 à DL-SW4", "Cisco Catalyst C9500-16X-E + DNA-E 3 ans", 4, 9500, "2 blocs StackWise Virtual (le SVL impose la gamme 9500)"),
     ("Accès", "AL-SW1 à AL-SW4", "Cisco Catalyst C9200L-48P-4X-E PoE+ + DNA-E 3 ans", NB_AL_SW, 3900,
      f"Le schéma en montre 4. Plan de câblage : {NB_AL_SW} switchs pour {NB_PRISES} prises (+10 % de ports libres) et le budget PoE, répartis dans les 6 L.TECH"),
     ("Accès", "AL-AP1", "Borne Wi-Fi 6E Cisco CW9164I + licence DNA AP 3 ans", NB_BORNES, 1300,
-     "Nombre fixé par l'étude RSSI prédictive (≥ −67 dBm à 5 GHz, livrables/plan_cablage/wifi). Contrôleur 9800-CL en VM"),
+     "Nombre fixé par l'étude RSSI prédictive (≥ −67 dBm à 5 GHz, livrables/plan_cablage/wifi)"),
+    ("Accès", "WLC1, WLC2", "Contrôleur Wi-Fi Cisco Catalyst 9800-L-F (4x10G SFP+), HA SSO", 2, 6000,
+     "v2 (NET-01) : bornes en mode local, itinérance sans coupure dans tout le bâtiment. Remplace la VM 9800-CL"),
     ("Net Management", "NM-SW1, NM-SW2", "Cisco Catalyst C9200L-24T-4X-E + DNA-E 3 ans", 2, 2300, ""),
-    ("Net Management", "NM-PVE1 à NM-PVE3", "Dell PowerEdge R660xs (2x Xeon Silver 4510, 256 Go, 4x1,92 To SSD Ceph, 2x25 GbE)", 3, 9500, "Cluster Proxmox HA : LXC Kea/chrony/DNS, VM Docker (LibreNMS, Grafana, syslog, snmptrapd), Teleport"),
-    ("Net Management", "Services NM (LXC + Docker)", "Kea, chrony, Bind/Unbound, LibreNMS, Grafana, rsyslog, snmptrapd, Teleport Community", 1, 0, "Logiciels libres, 0 € de licence"),
+    ("Net Management", "NM-PVE1, NM-PVE2", "Dell PowerEdge R660xs (2x Xeon Silver 4510, 256 Go, 4x1,92 To SSD ZFS miroir, 2x25 GbE + carte 4x1G)", 2, 9800,
+     "v2 (SYS-01) : 2 nœuds + témoin, ZFS répliqué en câble direct 25G (v1 : 3 nœuds Ceph). LXC Kea/chrony/DNS/Teleport/journaux, VM supervision"),
+    ("Net Management", "NM-WITNESS", "Dell PowerEdge R260 entrée de gamme (Xeon E-2414, 16 Go, 2x480 Go SSD)", 1, 1600,
+     "v2 (SYS-01) : QDevice des clusters NM et DT, serveur NUT (arrêt ordonné)"),
+    ("Net Management", "EL-SW, NM-SW, DM-SW", "Kit de pile StackWise-80 C9200L (2 modules + câbles)", 3, 1100, "v2 : oubli de la v1 (piles prévues dans l'architecture L2)"),
+    ("Net Management", "Services NM (LXC + Docker)", "Kea, chrony, Unbound, LibreNMS, Grafana, Loki, rsyslog, snmptrapd, Teleport Community, NUT", 1, 0, "Logiciels libres, 0 € de licence"),
     ("Datacenter", "DT-SW1, DT-SW2", "Cisco Catalyst C9300X-12Y-E (10/25G) + DNA-E 3 ans", 2, 8000, ""),
-    ("Datacenter", "DT-AD1/2, DT-RAD1/2, DT-DHCP1/2", "Dell PowerEdge R360 (Xeon E-2400, 64 Go, 2x960 Go SSD RAID1)", 6, 3400, "6 serveurs physiques comme sur le schéma"),
-    ("Datacenter", "Licences serveurs Windows", "Windows Server 2025 Standard 16 cœurs (AD, DHCP, NPS/RADIUS)", 6, 1100, "Tarif public. Le tarif Éducation est nettement plus bas"),
+    ("Datacenter", "DT-PVE1, DT-PVE2", "Dell PowerEdge R660xs (1x Xeon Silver 4514Y 16 cœurs, 128 Go, 4x1,92 To SSD ZFS, 4x25 GbE)", 2, 8500,
+     "v2 (SYS-02) : cluster Proxmox tier 0 (VM AD x2, NPS x2, DHCP x2) au lieu de 6 serveurs physiques"),
+    ("Datacenter", "Licences serveurs Windows", "Windows Server 2025 Standard 16 cœurs (AD, DHCP, NPS/RADIUS)", 6, 1100,
+     "6 VM Windows ; 1 licence = 2 VM, 3 par nœud pour pouvoir tout porter sur un seul nœud. Tarif public (Éducation nettement plus bas)"),
     ("Datacenter", "Licences d'accès", "CAL utilisateur Windows Server (tarif Éducation)", 600, 10, "~100 personnels + ~500 étudiants"),
-    ("Datacenter", "DT-BKP1", "Serveur de sauvegarde Proxmox Backup Server (Dell R760xd2, ~100 To bruts)", 1, 12000, "Règle 3-2-1 avec copie externalisée (voir OPEX)"),
+    ("Datacenter", "DT-BKP1", "Serveur de sauvegarde Proxmox Backup Server (Dell R760xd2, ~100 To bruts)", 1, 12000, "Règle 3-2-1-1-0 : copie hors ligne et copie immuable externalisée (voir OPEX)"),
+    ("Datacenter", "DT-BKP1", "Disque externe 24 To pour datastore amovible PBS", 3, 550,
+     "v2 (SEC-03) : copie hors ligne. Rotation hebdomadaire : 1 branché, 1 au coffre sur place, 1 hors site"),
+    ("Datacenter", "DT-BKP1", "Coffre ignifuge pour supports de sauvegarde", 1, 800, "v2 (SEC-03) : hors de la salle serveur"),
     ("Énergie / locaux", "Salle serveur", "Baie 42U 800x1000 avec portes ventilées", 2, 1500, ""),
     ("Énergie / locaux", "Locaux techniques (6 L.TECH)", "Baie 24U murale/sol", 6 - BAIES_42, 700, "2 L.TECH par niveau d'après les plans"),
     ("Énergie / locaux", "Locaux techniques", "Baie 42U 600x800 au sol", BAIES_42, 1200, "L.TECH dont la baie dépasse 22U (plan de câblage)"),
@@ -70,9 +88,9 @@ CAPEX = [
     ("Câblage", "Chemins de câbles", f"Chemin de câbles fil {dim} mm, posé", round(m), PRIX_CHEMIN.get(dim.split()[0], 60),
      "Métré du plan de câblage (circulations et locaux)") for dim, m in sorted(CHEMINS.items())
 ] + [
-    ("Câblage", "Optiques", "Modules SFP+/SFP28/QSFP compatibles", 80, 70, "Optiques Cisco d'origine : x4 environ"),
+    ("Câblage", "Optiques", "Modules SFP+/SFP28/QSFP compatibles et câbles DAC", 96, 70, "Optiques Cisco d'origine : x4 environ. v2 : +16 (Stormshield, WLC, DAC de réplication)"),
     ("Câblage", "Brassage", "Panneaux, cordons, passe-câbles", 1, 4000, "Forfait"),
-    ("Prestations", "Intégration", "Ingénierie, intégration et configuration (jours)", 45, 650, ""),
+    ("Prestations", "Intégration", "Ingénierie, intégration et configuration (jours)", 50, 650, "v2 : +5 j (3 clusters Proxmox, WLC, chaîne de journalisation)"),
     ("Prestations", "Recette", "Recette, documentation et formation (jours)", 10, 650, ""),
 ]
 ALEAS = 0.10  # provision pour aléas
@@ -83,8 +101,8 @@ OPEX = [
     ("Accès Internet FAI 1", "Fibre dédiée FTTO 1 Gb/s symétrique, GTR 4 h", 12 * 900),
     ("Accès Internet FAI 2", "Fibre dédiée 500 Mb/s, autre opérateur", 12 * 450),
     ("Interconnexion WAN", "VPN MPLS vers le site jumeau (Digne/Gap)", 12 * 700),
-    ("Proxmox VE", "Souscription Standard, 3 nœuds x 2 sockets x 550 €", 3 * 2 * 550),
-    ("Sauvegarde externalisée", "Stockage objet ~20 To hors site", 12 * 120),
+    ("Proxmox VE", "Souscription Standard : NM 2 nœuds x 2 sockets, DT et DMZ 4 nœuds x 1 socket, 550 €/socket", (2 * 2 + 4 * 1) * 550),
+    ("Sauvegarde externalisée", "Stockage objet ~20 To hors site, verrouillage S3 Object Lock en mode conformité (hébergeur SecNumCloud)", 12 * 180),
 ] + ([
     ("Électricité", f"{IT_KW} kW IT x PUE {PUE} x 8 760 h x {KWH:.2f} €/kWh", round(IT_KW * PUE * 8760 * KWH)),
 ] if not ENERGIE else [(o["poste"], o["detail"], o["montant"]) for o in ENERGIE["opex"]]) + [
@@ -95,13 +113,15 @@ RENOUV = [
     ("FortiGuard UTP + FortiCare", "2 FortiGate 120G", 2 * 2100),
     ("Stormshield Premium UTM", "2 SN710", 2 * 1500),
     ("Cisco DNA Essentials / AP", f"~{NB_AL_SW + 14} switchs + {NB_BORNES} bornes", round(12000 * (NB_AL_SW + 14 + NB_BORNES) / 56)),
-    ("Support matériel serveurs", "Extension garantie 18 serveurs", 18 * 350),
+    ("Support matériel serveurs", "Extension garantie 9 serveurs (v1 : 16)", 9 * 400),
 ]
 
 # Pistes d'optimisation (force de proposition)
 OPTIM = [
-    ("Cœur replié (collapsed core)", "Un seul bâtiment : fusionner distribution et cœur dans le bloc CL-SW (SVL). Suppression de DL-SW1 à DL-SW4.", 4 * 9500),
-    ("Virtualiser DMZ et datacenter", "Héberger DM-* et DT-* (hors sauvegarde) en VM sur 2 clusters Proxmox (un pour la DMZ, isolé). 12 serveurs remplacés par 3 nœuds supplémentaires.", 6 * 2900 + 6 * 3400 - 3 * 9500),
+    ("Cœur replié (collapsed core)", "Un seul bâtiment : fusionner distribution et cœur sur 2 C9500-48Y4C (SVL). Suppression de DL-SW1 à DL-SW4. "
+     "Étudiée, non retenue : le cahier des charges demande 3 couches (audit NET-02).", 4 * 9500),
+    ("Services libres pour NPS et DHCP", "Remplacer NPS et le DHCP Windows par FreeRADIUS et Kea (déjà utilisés pour les autres VRF) : seules les 2 VM AD "
+     "restent sous Windows, soit 1 licence par nœud au lieu de 3.", 4 * 1100),
     ("Tarifs Éducation", "Remises éditeur Microsoft/Cisco/Fortinet pour l'enseignement supérieur (souvent -30 à -50 %).", None),
 ]
 
@@ -131,7 +151,7 @@ def main():
     (HERE / "estimation.json").write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
 
     e = lambda n: f"{n:,.0f} €".replace(",", " ")
-    md = ["# Estimation budgétaire – Site de Marseille", "",
+    md = ["# Estimation budgétaire – Site de Marseille (version 2)", "",
           "Source : `architecture/Projet_Marseille_site.drawio`. Prix HT, prix revendeur constatés (neuf), novembre 2026. "
           "À confirmer par devis : ces montants servent à cadrer le budget.", "",
           "## Synthèse", "", "| Poste | Montant HT |", "|---|---:|"]
@@ -147,6 +167,16 @@ def main():
     md += [f"| {a} | {b} | {e(c)} |" for a, b, c in RENOUV]
     md += ["", "## Pistes d'optimisation", "", "| Piste | Détail | Économie CAPEX |", "|---|---|---:|"]
     md += [f"| {a} | {b} | {e(c) if c else 'variable'} |" for a, b, c in OPTIM]
+    v1 = HERE.parent / "livrables" / "archives" / "v1_2026-11-15" / "chiffrage" / "estimation.json"
+    if v1.exists():
+        a = json.loads(v1.read_text(encoding="utf-8"))
+        md += ["", "## Écarts avec la version 1 (audit du 15/11/2026)", "",
+               "Détail par constat : `livrables/audit/traitement_audit.pdf`. Version 1 : `livrables/archives/v1_2026-11-15/chiffrage/`.", "",
+               "| | v1 | v2 | Écart |", "|---|---:|---:|---:|"]
+        for nom, k in (("CAPEX total", "capex"), ("OPEX annuel", "opex_total"), ("Renouvellements annuels", "renouvellement_total"), ("TCO 5 ans", "tco5")):
+            md.append(f"| {nom} | {e(a[k])} | {e(data[k])} | {'+' if data[k] >= a[k] else '−'}{e(abs(data[k] - a[k]))} |")
+        md += ["", "Principales causes : 12 serveurs physiques et 3 nœuds Ceph remplacés par 6 hyperviseurs et 2 témoins (−) ; contrôleurs Wi-Fi physiques, "
+               "modules 10G du Stormshield, kits de pile, sauvegarde hors ligne (+) ; extinction automatique, plancher surélevé et batardeau (lot énergie, +)."]
     md += ["", "## Hypothèses de dimensionnement", "",
            "- Bâtiment IUT Génie Télécom (Luminy) : sous-sol, RDC, étage 1, 6 locaux techniques (plans `docs/plans_batiment/`).",
            (f"- {NB_PRISES} prises d'après le plan de câblage (`livrables/plan_cablage/`) : bureaux 2 par poste, salles de TP 1 par poste + 2, "

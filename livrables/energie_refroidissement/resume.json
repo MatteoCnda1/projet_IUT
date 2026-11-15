@@ -1,23 +1,23 @@
 {
  "salle": {
-  "it_typ": 4150,
-  "it_max": 6770,
-  "it_pointe": 5416,
-  "simple": 185.0,
-  "simple_max": 224.0,
-  "double": 3780.0,
-  "double_max": 4968.0
+  "it_typ": 3460,
+  "it_max": 5610,
+  "it_pointe": 4488,
+  "simple": 240.0,
+  "simple_max": 296.0,
+  "double": 2980.0,
+  "double_max": 3896.0
  },
  "baies": {
   "1": {
-   "typ": 1410,
-   "max": 2250,
-   "u": 28
+   "typ": 1520,
+   "max": 2430,
+   "u": 30
   },
   "2": {
-   "typ": 2740,
-   "max": 4520,
-   "u": 26
+   "typ": 1940,
+   "max": 3180,
+   "u": 19
   }
  },
  "locaux": [
@@ -114,53 +114,53 @@
  ],
  "onduleurs": {
   "capacite": 6000,
-  "normal": 2075,
-  "degrade": 3965,
-  "degrade_pointe": 5192,
-  "taux_normal": 35,
-  "taux_degrade": 87,
+  "normal": 1730,
+  "degrade": 3220,
+  "degrade_pointe": 4192,
+  "taux_normal": 29,
+  "taux_degrade": 70,
   "ok": true,
-  "autonomie_interne": 7.9,
+  "autonomie_interne": 11.2,
   "pack": true,
-  "autonomie_normal": 65,
-  "autonomie_degrade": 24
+  "autonomie_normal": 85,
+  "autonomie_degrade": 33
  },
  "clim": {
-  "q_typ": 4.39,
-  "q_pointe": 6.0,
+  "q_typ": 3.66,
+  "q_pointe": 5.02,
   "unite_kw": 7.1,
-  "taux": 62
+  "taux": 52
  },
  "energie": {
-  "it_kw": 4.15,
-  "clim_kw": 1.16,
-  "pertes_kw": 0.22,
-  "salle_kw": 5.55,
+  "it_kw": 3.46,
+  "clim_kw": 0.97,
+  "pertes_kw": 0.18,
+  "salle_kw": 4.63,
   "lt_kw": 1.74,
   "pue": 1.34,
   "pue_usuel": 1.41,
-  "kwh": 61557,
-  "kwh_usuel": 66516,
-  "cout": 12311,
-  "cout_usuel": 13303,
-  "co2_t": 3.2
+  "kwh": 53510,
+  "kwh_usuel": 58033,
+  "cout": 10702,
+  "cout_usuel": 11607,
+  "co2_t": 2.8
  },
  "gains": [
   {
    "mesure": "Consigne de la salle à 27 °C au lieu de 22 °C (plage recommandée ASHRAE A1 : 18-27 °C)",
-   "kwh": 1508,
-   "euros": 302,
-   "co2_kg": 78,
+   "kwh": 1258,
+   "euros": 252,
+   "co2_kg": 65,
    "cout": 0,
    "retour": "immédiat"
   },
   {
    "mesure": "Allée froide confinée (obturateurs de U vides, rideaux aux extrémités)",
-   "kwh": 1131,
-   "euros": 226,
-   "co2_kg": 59,
+   "kwh": 944,
+   "euros": 189,
+   "co2_kg": 49,
    "cout": 1200,
-   "retour": "5.3 ans"
+   "retour": "6.4 ans"
   },
   {
    "mesure": "Coupure programmée de 30 bornes Wi-Fi des salles la nuit et le week-end (103 h/semaine)",
@@ -173,16 +173,10 @@
  ],
  "optimisations": [
   {
-   "piste": "Cœur replié : suppression de DL-SW1 à DL-SW4",
+   "piste": "Cœur replié : suppression de DL-SW1 à DL-SW4 (variante étudiée, non retenue : CdC en 3 couches)",
    "w": 640,
-   "kwh": 7498,
-   "euros": 1500
-  },
-  {
-   "piste": "Virtualisation DMZ et datacenter : 12 serveurs remplacés par 3 nœuds Proxmox",
-   "w": 600,
-   "kwh": 7029,
-   "euros": 1406
+   "kwh": 7505,
+   "euros": 1501
   }
  ],
  "capex_nouveaux": [
@@ -193,7 +187,7 @@
    "quantite": 2,
    "pu_ht": 1400,
    "total_ht": 2800,
-   "note": "Autonomie si un onduleur tombe : 7.9 min sans pack, 24 min avec"
+   "note": "Autonomie si un onduleur tombe : 11.2 min sans pack, 33 min avec"
   },
   {
    "categorie": "Énergie / locaux",
@@ -229,7 +223,43 @@
    "quantite": 1,
    "pu_ht": 1500,
    "total_ht": 1500,
-   "note": "Sécurité minimale, sans extinction automatique"
+   "note": "Report d'alarme au SSI du bâtiment"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur",
+   "solution": "Extinction automatique par gaz inerte (IG-541) + détection précoce par aspiration (VESDA)",
+   "quantite": 1,
+   "pu_ht": 8500,
+   "total_ht": 8500,
+   "note": "v2 (audit SYS-03) : un incendie la nuit ne détruit plus la salle. Gaz inerte : sans danger pour le matériel"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur",
+   "solution": "Plancher technique surélevé 30 cm, baies et onduleurs sur socles",
+   "quantite": 25,
+   "pu_ht": 160,
+   "total_ht": 4000,
+   "note": "v2 (SYS-03) : matériel hors d'eau en cas d'inondation du sous-sol (prix au m²)"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur",
+   "solution": "Batardeau amovible à la porte (60 cm) + clapet anti-retour sur l'évacuation des condensats",
+   "quantite": 1,
+   "pu_ht": 1500,
+   "total_ht": 1500,
+   "note": "v2 (SYS-03) : retarde l'entrée de l'eau par la circulation"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur",
+   "solution": "Câble de détection de fuite sous le plancher (centrale + 20 m)",
+   "quantite": 1,
+   "pu_ht": 900,
+   "total_ht": 900,
+   "note": "v2 (SYS-03) : alerte dès les premiers centimètres, avant que l'eau n'atteigne le matériel"
   },
   {
    "categorie": "Énergie / locaux",
@@ -241,12 +271,12 @@
    "note": "Locaux les plus chargés ou les plus petits"
   }
  ],
- "capex_lot": 57000,
+ "capex_lot": 71900,
  "opex": [
   {
    "poste": "Électricité du réseau",
-   "detail": "61 557 kWh/an × 0.20 € (salle serveur, PUE 1.34, 6 locaux techniques)",
-   "montant": 12311
+   "detail": "53 510 kWh/an × 0.20 € (salle serveur, PUE 1.34, 6 locaux techniques)",
+   "montant": 10702
   },
   {
    "poste": "Maintenance de la climatisation",
@@ -257,8 +287,13 @@
    "poste": "Provision batteries d'onduleurs",
    "detail": "Remplacement tous les 5 ans, lissé par an",
    "montant": 1500
+  },
+  {
+   "poste": "Maintenance de l'extinction automatique",
+   "detail": "Visite annuelle obligatoire (APSAD R13), contrôle des bouteilles",
+   "montant": 600
   }
  ],
- "opex_total": 14711,
- "cout_5ans": 130555
+ "opex_total": 13702,
+ "cout_5ans": 140410
 }

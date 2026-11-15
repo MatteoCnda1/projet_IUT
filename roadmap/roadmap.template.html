@@ -343,12 +343,12 @@ function renderChiffrage(){
   const v=$("#view");const E=EST;if(!E){v.innerHTML=`<div class="empty">Chiffrage indisponible.</div>`;return}
   const cats=Object.entries(E.par_categorie).sort((a,b)=>b[1]-a[1]);const max=cats[0][1];
   const byCat={};E.capex_lignes.forEach(r=>(byCat[r.categorie]=byCat[r.categorie]||[]).push(r));
-  v.innerHTML=`<div><h2>Estimation de l'infra du schéma Projet_Marseille_site</h2><p class="muted small" style="margin:4px 0 0">Prix HT, revendeurs, matériel neuf, novembre 2026. Licences 3 ans incluses quand l'éditeur les vend en bundle. Budget de cadrage, à confirmer par devis.</p></div>
+  v.innerHTML=`<div><h2>Estimation de l'infra du schéma Projet_Marseille_site · version 2</h2><p class="muted small" style="margin:4px 0 0">Prix HT, revendeurs, matériel neuf, novembre 2026. Licences 3 ans incluses quand l'éditeur les vend en bundle. Budget de cadrage, à confirmer par devis. Version 2 après l'audit du 15/11/2026 (v1 : 582 951 € de CAPEX) : voir livrables/audit/.</p></div>
    <div class="cards">
      <div class="stat"><span class="k">CAPEX total (avec 10 % d'aléas)</span><span class="v">${eur(E.capex)}</span><span class="s">dont matériel et travaux ${eur(E.sous_total)}</span></div>
      <div class="stat"><span class="k">OPEX annuel, années 1 à 3</span><span class="v">${eur(E.opex_total)}</span><span class="s">liens FAI, WAN, abonnements, énergie</span></div>
      <div class="stat"><span class="k">Coût total sur 5 ans</span><span class="v">${eur(E.tco5)}</span><span class="s">+ ${eur(E.renouvellement_total)}/an de renouvellements dès l'an 4</span></div>
-     <div class="stat"><span class="k">Économie possible</span><span class="v">−${keur(E.optimisations.reduce((s,o)=>s+(o.economie||0),0))}</span><span class="s">cœur replié + virtualisation, hors remises Éducation</span></div>
+     <div class="stat"><span class="k">Économie possible</span><span class="v">−${keur(E.optimisations.reduce((s,o)=>s+(o.economie||0),0))}</span><span class="s">pistes étudiées non retenues, hors remises Éducation</span></div>
    </div>
    <div class="panel"><h3>CAPEX par poste</h3><div class="bars" role="img" aria-label="CAPEX par poste">${cats.map(([c,n])=>`<div class="hb" data-hb="${esc(c)}"><span>${esc(c)}</span><span class="t"><i style="width:${100*n/max}%"></i></span><span class="n">${keur(n)}</span></div>`).join("")}</div></div>
    <div class="panel"><h3>Pistes d'optimisation à proposer au client</h3><ul class="plain">${E.optimisations.map(o=>`<li><b>${esc(o.piste)}</b> : ${esc(o.detail)} ${o.economie?`<span class="pill" style="--c:var(--done)">−${eur(o.economie)}</span>`:""}</li>`).join("")}</ul></div>
@@ -360,7 +360,7 @@ function renderChiffrage(){
      <div class="panel"><h3>OPEX annuel</h3><div class="tbl-box"><table style="min-width:0"><tbody>${E.opex.map(o=>`<tr><td>${esc(o.poste)}<div class="note">${esc(o.detail)}</div></td><td class="num">${eur(o.montant)}</td></tr>`).join("")}<tr class="cat"><td>Total</td><td class="num">${eur(E.opex_total)}</td></tr></tbody></table></div></div>
      <div class="panel"><h3>Renouvellements dès l'année 4</h3><div class="tbl-box"><table style="min-width:0"><tbody>${E.renouvellement.map(o=>`<tr><td>${esc(o.poste)}<div class="note">${esc(o.detail)}</div></td><td class="num">${eur(o.montant)}</td></tr>`).join("")}<tr class="cat"><td>Total</td><td class="num">${eur(E.renouvellement_total)}</td></tr></tbody></table></div></div>
    </div>
-   <p class="note">Hypothèses : ~400 prises Cat6A (bureaux, 10 salles info/TP à 24 postes, salles TD), 30 bornes Wi-Fi, 6 locaux techniques d'après les plans du bâtiment. Postes clients, téléphones IP et caméras exclus. La cisco-price-list.pdf du Drive date du début des années 2000 et n'a pas servi.</p>`;
+   <p class="note">Hypothèses : 484 prises Cat6A et 38 bornes Wi-Fi d'après le plan de câblage et l'étude RSSI, 6 locaux techniques, énergie et salle serveur du point 14. Postes clients, téléphones IP et caméras exclus. La cisco-price-list.pdf du Drive date du début des années 2000 et n'a pas servi.</p>`;
   v.querySelectorAll("[data-hb]").forEach(b=>{b.onmousemove=ev=>{const c=b.dataset.hb;const t=$("#tip");const n=E.par_categorie[c];t.innerHTML=`<b>${esc(c)}</b><br>${eur(n)} · ${Math.round(100*n/E.sous_total)} % du sous-total`;t.hidden=false;t.style.left=Math.min(ev.clientX+14,innerWidth-300)+"px";t.style.top=(ev.clientY+14)+"px"};b.onmouseleave=hideTip});
 }
 

@@ -108,21 +108,23 @@ def main():
         page.write_text(fonction(*args), encoding="utf-8")
         pdf(page, out[cle] / f"{cle}.pdf")
         print(f"  {page.relative_to(ROOT)} -> .pdf")
-    regen = "Régénérer : `python3 architecture/reseau/build.py` (source unique : `architecture/reseau/donnees.py`)."
+    regen = ("**Version 2** (après l'audit du 15/11/2026) : changements repérés « v2 » dans le document, détail par constat dans "
+             "[`../audit/traitement_audit.pdf`](../audit/README.md). Version 1 : `livrables/archives/v1_2026-11-15/`.\n\n"
+             "Régénérer : `python3 architecture/reseau/build.py` (source unique : `architecture/reseau/donnees.py`).")
     readme(out["plan_adressage"], "Plan d'adressage IPv4 et IPv6 (point 05)", "Adressage",
            "Document principal : **[plan_adressage.pdf](plan_adressage.pdf)**. Tables : `vlans.csv`, `equipements.csv`, `interconnexions.csv`.\n\n"
-           "| | |\n|---|---|\n| IPv4 privé | 10.13.0.0/16 (bloc 1 : 10.13.16.0/20, bloc 2 : 10.13.32.0/20, datacenter 10.13.48.0/22, admin 10.13.56.0/21) |\n"
+           "| | |\n|---|---|\n| IPv4 privé | 10.13.0.0/16 (bloc 1 : 10.13.16.0/20, bloc 2 : 10.13.32.0/20, datacenter 10.13.48.0/22, tier 0 10.13.52.0/27, admin 10.13.56.0/21, Wi-Fi 10.13.64.0/18) |\n"
            "| IPv4 public | 139.124.112.0/24 dans le bloc AMU 139.124.0.0/16 (à confirmer par la DSI) |\n"
            "| IPv6 | 2001:660:5402:4000::/52 dans 2001:660:5402::/48 (Luminy) ; VLAN *n* → 2001:660:5402:4*nnn*::/64 |\n"
-           f"| VLAN | {len([v for v in D.VLANS if v < 1000])} VLAN + {len(D.TRANSITS)} transits, 5 VRF (USR, IOT, GST, SRV, ADM) |\n\n" + regen)
+           f"| VLAN | {len([v for v in D.VLANS if v < 1000])} VLAN + {len(D.TRANSITS)} transits, 5 VRF (USR, IOT, GST, SRV, ADM) + zone tier 0 (VLAN 310) |\n\n" + regen)
     readme(out["architecture_l2"], "Architecture de niveau 2 (points 03 et 06)", "Archi L2",
            "Document principal : **[architecture_l2.pdf](architecture_l2.pdf)** : VLAN par équipement, agrégats et trunks, piles et StackWise Virtual, "
-           "Rapid PVST+, profils de ports 802.1X/MAB, sécurité L2, SSID, zone Net Management (2 nœuds Proxmox + témoin, réseaux ipmi / mgmt / cluster / "
-           "workload / réplication).\n\nSchéma modifiable : `architecture/architecture_l2.drawio`. " + regen)
+           "Rapid PVST+, profils de ports 802.1X/MAB, sécurité L2, SSID et contrôleurs Wi-Fi, zone Net Management (2 nœuds Proxmox + témoin, réseaux ipmi / mgmt / cluster / "
+           "workload / réplication), clusters DT et DMZ.\n\nSchéma modifiable : `architecture/architecture_l2.drawio`. " + regen)
     readme(out["architecture_l3"], "Architecture de niveau 3 (points 03, 05 et 07)", "Archi L3",
            "Document principal : **[architecture_l3.pdf](architecture_l3.pdf)** : VRF-lite, matrice des flux entre zones, OSPFv3 par VRF, "
-           "routes statiques vers les pare-feu, eBGP double opérateur, SD-WAN FortiGate, NAT et VIP, IPv6 (SLAAC/DHCPv6, NPTv6 de secours), "
-           "services IP, extraits de configuration, tests de bascule.\n\nSchéma modifiable : `architecture/architecture_l3.drawio`. " + regen)
+           "routes statiques vers les pare-feu, zone tier 0, politique d'inspection et inspection TLS, eBGP double opérateur avec annonce conditionnelle, "
+           "SD-WAN FortiGate, NAT et VIP, IPv6 (SLAAC/DHCPv6, NPTv6 de secours), MTU, journalisation légale, services IP, extraits de configuration, tests de bascule.\n\nSchéma modifiable : `architecture/architecture_l3.drawio`. " + regen)
 
 
 if __name__ == "__main__":

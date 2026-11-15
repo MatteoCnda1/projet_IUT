@@ -3,37 +3,41 @@ vlan,nom,vrf,ipv4,passerelle_v4,hotes,ipv6,passerelle_v6,route_par,usage
 111,ETU-B1,USR,10.13.16.0/23,10.13.16.1,510,2001:660:5402:4111::/64,2001:660:5402:4111::1,DL-B1,Postes des salles de TP et des étudiants (802.1X)
 112,VOIX-B1,USR,10.13.19.0/25,10.13.19.1,126,2001:660:5402:4112::/64,2001:660:5402:4112::1,DL-B1,"Téléphones IP (voice VLAN, LLDP-MED, DSCP EF)"
 113,IMPR-B1,USR,10.13.19.128/26,10.13.19.129,62,2001:660:5402:4113::/64,2001:660:5402:4113::1,DL-B1,"Imprimantes et copieurs (MAB, adresses réservées)"
-114,WIFI-PERS-B1,USR,10.13.24.0/23,10.13.24.1,510,2001:660:5402:4114::/64,2001:660:5402:4114::1,DL-B1,SSID AMU-Personnel (WPA3-Entreprise)
-115,WIFI-ETU-B1,USR,10.13.20.0/22,10.13.20.1,1022,2001:660:5402:4115::/64,2001:660:5402:4115::1,DL-B1,SSID AMU-Etudiants et eduroam (WPA3-Entreprise)
 120,CAM-B1,IOT,10.13.28.0/26,10.13.28.1,62,2001:660:5402:4120::/64,2001:660:5402:4120::1,DL-B1,"Caméras IP (MAB + profilage, vers l'enregistreur seulement)"
 121,BADGE-B1,IOT,10.13.28.64/27,10.13.28.65,30,2001:660:5402:4121::/64,2001:660:5402:4121::1,DL-B1,"Lecteurs de badge (MAB, vers le serveur de contrôle d'accès)"
 122,GTB-B1,IOT,10.13.28.96/27,10.13.28.97,30,2001:660:5402:4122::/64,2001:660:5402:4122::1,DL-B1,Gestion technique du bâtiment (réservé)
-130,INVITES-B1,GST,10.13.30.0/23,10.13.30.1,510,2001:660:5402:4130::/64,2001:660:5402:4130::1,DL-B1,"SSID AMU-Invites (portail captif, isolation client)"
+130,RESTREINT-B1,GST,10.13.30.0/24,10.13.30.1,254,2001:660:5402:4130::/64,2001:660:5402:4130::1,DL-B1,Échec 802.1X sur une prise filaire : Internet seulement (VRF GST)
 190,GEST-ACC-B1,ADM,10.13.29.0/26,10.13.29.1,62,2001:660:5402:4190::/64,2001:660:5402:4190::1,DL-B1,Gestion des switchs d'accès et de distribution du bloc
-191,AP-B1,ADM,10.13.29.64/26,10.13.29.65,62,2001:660:5402:4191::/64,2001:660:5402:4191::1,DL-B1,"Bornes Wi-Fi (CAPWAP vers le contrôleur, FlexConnect)"
+191,AP-B1,ADM,10.13.29.64/26,10.13.29.65,62,2001:660:5402:4191::/64,2001:660:5402:4191::1,DL-B1,Bornes Wi-Fi (mode local : CAPWAP vers les WLC 10.13.60.70)
 210,PERS-B2,USR,10.13.34.0/24,10.13.34.1,254,2001:660:5402:4210::/64,2001:660:5402:4210::1,DL-B2,"Postes fixes du personnel (802.1X, VLAN donné par RADIUS)"
 211,ETU-B2,USR,10.13.32.0/23,10.13.32.1,510,2001:660:5402:4211::/64,2001:660:5402:4211::1,DL-B2,Postes des salles de TP et des étudiants (802.1X)
 212,VOIX-B2,USR,10.13.35.0/25,10.13.35.1,126,2001:660:5402:4212::/64,2001:660:5402:4212::1,DL-B2,"Téléphones IP (voice VLAN, LLDP-MED, DSCP EF)"
 213,IMPR-B2,USR,10.13.35.128/26,10.13.35.129,62,2001:660:5402:4213::/64,2001:660:5402:4213::1,DL-B2,"Imprimantes et copieurs (MAB, adresses réservées)"
-214,WIFI-PERS-B2,USR,10.13.40.0/23,10.13.40.1,510,2001:660:5402:4214::/64,2001:660:5402:4214::1,DL-B2,SSID AMU-Personnel (WPA3-Entreprise)
-215,WIFI-ETU-B2,USR,10.13.36.0/22,10.13.36.1,1022,2001:660:5402:4215::/64,2001:660:5402:4215::1,DL-B2,SSID AMU-Etudiants et eduroam (WPA3-Entreprise)
 220,CAM-B2,IOT,10.13.44.0/26,10.13.44.1,62,2001:660:5402:4220::/64,2001:660:5402:4220::1,DL-B2,"Caméras IP (MAB + profilage, vers l'enregistreur seulement)"
 221,BADGE-B2,IOT,10.13.44.64/27,10.13.44.65,30,2001:660:5402:4221::/64,2001:660:5402:4221::1,DL-B2,"Lecteurs de badge (MAB, vers le serveur de contrôle d'accès)"
 222,GTB-B2,IOT,10.13.44.96/27,10.13.44.97,30,2001:660:5402:4222::/64,2001:660:5402:4222::1,DL-B2,Gestion technique du bâtiment (réservé)
-230,INVITES-B2,GST,10.13.46.0/23,10.13.46.1,510,2001:660:5402:4230::/64,2001:660:5402:4230::1,DL-B2,"SSID AMU-Invites (portail captif, isolation client)"
+230,RESTREINT-B2,GST,10.13.46.0/24,10.13.46.1,254,2001:660:5402:4230::/64,2001:660:5402:4230::1,DL-B2,Échec 802.1X sur une prise filaire : Internet seulement (VRF GST)
 290,GEST-ACC-B2,ADM,10.13.45.0/26,10.13.45.1,62,2001:660:5402:4290::/64,2001:660:5402:4290::1,DL-B2,Gestion des switchs d'accès et de distribution du bloc
-291,AP-B2,ADM,10.13.45.64/26,10.13.45.65,62,2001:660:5402:4291::/64,2001:660:5402:4291::1,DL-B2,"Bornes Wi-Fi (CAPWAP vers le contrôleur, FlexConnect)"
-300,SRV-INFRA,SRV,10.13.48.0/24,10.13.48.1,254,2001:660:5402:4300::/64,2001:660:5402:4300::1,CL,"Serveurs du datacenter : AD, DHCP, RADIUS, sauvegarde"
-400,DMZ-FRONT,DMZ,172.16.13.0/27,172.16.13.1,30,2001:660:5402:4400::/64,2001:660:5402:4400::1,FGT,"Reverse proxies Caddy, DNS public, messagerie (publiés par VIP)"
-401,DMZ-BACK,DMZ,172.16.13.32/27,172.16.13.33,30,2001:660:5402:4401::/64,2001:660:5402:4401::1,FGT,"Applications derrière Caddy (site web, serveur applicatif)"
-402,DMZ-GEST,DMZ,172.16.13.64/27,172.16.13.65,30,2001:660:5402:4402::/64,2001:660:5402:4402::1,FGT,Gestion des switchs et iDRAC de la DMZ
+291,AP-B2,ADM,10.13.45.64/26,10.13.45.65,62,2001:660:5402:4291::/64,2001:660:5402:4291::1,DL-B2,Bornes Wi-Fi (mode local : CAPWAP vers les WLC 10.13.60.70)
+300,SRV-INFRA,SRV,10.13.48.0/24,10.13.48.1,254,2001:660:5402:4300::/64,2001:660:5402:4300::1,CL,"Serveurs tier 1 du datacenter (VM) : RADIUS (NPS), DHCP"
+310,SRV-T0,T0,10.13.52.0/27,10.13.52.1,30,2001:660:5402:4310::/64,2001:660:5402:4310::1,SNS,"Tier 0 : contrôleurs de domaine DT-AD1/2. Passerelle sur le Stormshield, pas d'Internet"
+400,DMZ-FRONT,DMZ,172.16.13.0/27,172.16.13.1,30,2001:660:5402:4400::/64,2001:660:5402:4400::1,FGT,"VM reverse proxies Caddy, DNS publics, messagerie (publiés par VIP)"
+401,DMZ-BACK,DMZ,172.16.13.32/27,172.16.13.33,30,2001:660:5402:4401::/64,2001:660:5402:4401::1,FGT,"VM applicatives derrière Caddy (site web, serveur applicatif)"
+402,DMZ-GEST,DMZ,172.16.13.64/27,172.16.13.65,30,2001:660:5402:4402::/64,2001:660:5402:4402::1,FGT,"Gestion de la DMZ : switchs, hyperviseurs DM-PVE, témoin, iDRAC"
+403,DM-CLUSTER,DMZ,172.16.13.96/28,,14,,,,Corosync du cluster DMZ et QDevice DM-WITNESS : non routé
+514,WIFI-PERS,USR,10.13.80.0/22,10.13.80.1,1022,2001:660:5402:4514::/64,2001:660:5402:4514::1,CL,"SSID AMU-Personnel, tout le bâtiment (commutation centrale sur les WLC)"
+515,WIFI-ETU,USR,10.13.64.0/20,10.13.64.1,4094,2001:660:5402:4515::/64,2001:660:5402:4515::1,CL,"SSID AMU-Etudiants et eduroam, tout le bâtiment (bail 2 h)"
+530,WIFI-INVITES,GST,10.13.84.0/22,10.13.84.1,1022,2001:660:5402:4530::/64,2001:660:5402:4530::1,CL,"SSID AMU-Invites, tout le bâtiment (portail captif, isolation, bail 1 h)"
 900,GEST-RESEAU,ADM,10.13.56.0/24,10.13.56.1,254,2001:660:5402:4900::/64,2001:660:5402:4900::1,CL,"Interfaces de gestion : cœur, pare-feu, switchs EL/DT/NM, PDU, onduleurs, sondes"
 901,NM-IPMI,ADM,10.13.57.0/24,10.13.57.1,254,2001:660:5402:4901::/64,2001:660:5402:4901::1,CL,iDRAC de tous les serveurs (hors DMZ)
-902,NM-MGMT,ADM,10.13.58.0/27,10.13.58.1,30,2001:660:5402:4902::/64,2001:660:5402:4902::1,CL,"Administration des hyperviseurs Proxmox (GUI 8006, SSH) et du témoin"
+902,PVE-MGMT,ADM,10.13.58.0/27,10.13.58.1,30,2001:660:5402:4902::/64,2001:660:5402:4902::1,CL,"Administration des hyperviseurs Proxmox NM et DT (GUI 8006, SSH, sauvegardes vzdump) et du témoin"
 903,NM-CLUSTER,ADM,10.13.58.32/28,,14,,,,"Corosync lien 0 et QDevice : non routé, latence faible"
-904,NM-WORKLOAD,ADM,10.13.59.0/24,10.13.59.1,254,2001:660:5402:4904::/64,2001:660:5402:4904::1,CL,"VM et conteneurs de services : Kea, chrony, DNS, Teleport, supervision, WLC"
+904,NM-WORKLOAD,ADM,10.13.59.0/24,10.13.59.1,254,2001:660:5402:4904::/64,2001:660:5402:4904::1,CL,"VM et conteneurs de services : Kea, chrony, DNS, Teleport, supervision, journaux"
 905,NM-REPL,ADM,10.13.58.48/30,,2,,,,"Réplication ZFS et migration à chaud : câble direct 25G entre les deux nœuds, non routé"
 906,ADMIN-PAW,ADM,10.13.60.0/26,10.13.60.1,62,2001:660:5402:4906::/64,2001:660:5402:4906::1,CL,Postes d'administration dédiés (accès aux équipements uniquement via Teleport)
+907,WLC-MGMT,ADM,10.13.60.64/28,10.13.60.65,14,2001:660:5402:4907::/64,2001:660:5402:4907::1,CL,Contrôleurs Wi-Fi C9800-L en HA SSO : interface de gestion et CAPWAP
+908,DT-CLUSTER,ADM,10.13.58.64/28,,14,,,,"Corosync lien 0 du cluster DT : non routé, reste dans la pile DT-SW"
+909,SAUVEGARDE,ADM,10.13.60.128/27,10.13.60.129,30,2001:660:5402:4909::/64,2001:660:5402:4909::1,CL,"Proxmox Backup Server DT-BKP1 : hors domaine, ne traverse pas le Stormshield pour NM et DT"
 998,PARKING,,,,,,,,"Ports inutilisés (désactivés), jamais routé"
 999,NATIF-NUL,,,,,,,,VLAN natif des trunks : ne transporte rien (contre le VLAN hopping)
 1010,TR-USR,USR,10.13.2.0/29,,6,2001:660:5402:4F21::/64,,,Transit CL <-> EL-SNS

@@ -11,6 +11,9 @@ Calcule, à partir de l'inventaire du chiffrage et du plan de câblage :
 Sorties dans livrables/energie_refroidissement/ : energie_refroidissement.pdf (+ .html),
 bilan_puissance.csv, schemas/*.png|svg, resume.json (repris par chiffrage/estimation.py), README.md.
 Usage : python3 energie/energie.py   (après cablage/plan_cablage.py ; puis python3 chiffrage/estimation.py)
+
+Version 2 (après l'audit du 15/11/2026) : serveurs virtualisés (SYS-02), contrôleurs Wi-Fi physiques (NET-01),
+protection contre l'eau et extinction automatique (SYS-03), arrêt ordonné par NUT. v1 : livrables/archives/v1_2026-11-15/.
 """
 import csv
 import datetime
@@ -50,7 +53,7 @@ ECLAIRAGE_W_M2 = 8.0
 HEURES_COUPURE_POE = 103   # h/semaine bornes coupées : 20h-7h en semaine + week-end
 MARGE_NORMALE = 0.80       # charge maximale d'un onduleur en marche normale
 MARGE_SECOURS = 0.90       # charge maximale d'un onduleur seul (l'autre en panne), en pointe
-AUTONOMIE_VISEE = 10.0     # min, en cas de panne d'un des deux onduleurs
+AUTONOMIE_VISEE = 20.0     # min, si un des deux onduleurs est en panne : arrêt ordonné NUT (13 min) + marge (v2 ; v1 : 10 min)
 
 # Inventaire de la salle serveur : (repères, modèle, nombre, baie, alimentations, W typique, W max, U)
 # Puissances : fiches constructeur, valeurs typiques arrondies (à affiner avec les configurateurs).
@@ -63,11 +66,13 @@ SALLE = [
     ("CL-SW1, CL-SW2", "Cisco C9500-16X", 2, "1", 2, 160, 260, 1),
     ("DL-SW1 à DL-SW4", "Cisco C9500-16X", 4, "1", 2, 160, 260, 1),
     ("NM-SW1, NM-SW2", "Cisco C9200L-24T-4X", 2, "1", 1, 40, 60, 1),
+    ("WLC1, WLC2", "Cisco Catalyst 9800-L-F", 2, "1", 1, 55, 90, 1),
     ("Tiroirs optiques", "Rocades et adductions", 3, "1", 0, 0, 0, 1),
-    ("DM-RP1/2, DM-DNS1, DM-WEB1, DM-MAIL1, DM-SRV1", "Dell PowerEdge R260", 6, "2", 2, 110, 190, 1),
+    ("DM-PVE1, DM-PVE2 (VM de la DMZ)", "Dell PowerEdge R360", 2, "2", 2, 120, 200, 1),
+    ("NM-WITNESS, DM-WITNESS", "Dell PowerEdge R260 (entrée de gamme)", 2, "2", 2, 60, 110, 1),
     ("DT-SW1, DT-SW2", "Cisco C9300X-12Y", 2, "2", 2, 130, 220, 1),
-    ("DT-AD1/2, DT-RAD1/2, DT-DHCP1/2", "Dell PowerEdge R360", 6, "2", 2, 120, 200, 1),
-    ("NM-PVE1 à NM-PVE3", "Dell PowerEdge R660xs", 3, "2", 2, 260, 420, 1),
+    ("DT-PVE1, DT-PVE2 (VM AD, NPS, DHCP)", "Dell PowerEdge R660xs", 2, "2", 2, 240, 400, 1),
+    ("NM-PVE1, NM-PVE2", "Dell PowerEdge R660xs", 2, "2", 2, 260, 420, 1),
     ("DT-BKP1", "Dell PowerEdge R760xd2", 1, "2", 2, 320, 480, 2),
 ]
 ONDULEUR_U = 4 + 3  # SRT 6 kVA (4U) + pack batterie (3U), un par baie
@@ -91,7 +96,9 @@ CLIM_TAILLES = [3.5, 5.0, 7.1, 10.0]  # kW frigorifiques disponibles
 PRIX = {
     "pack": 1400, "ventilation": 450, "tableau": 6000, "confinement": 1200, "sondes": 1200, "incendie": 1500,
     "maintenance_clim": 450, "batterie_srt": 1500, "batterie_smt": 250,
+    "extinction": 8500, "plancher": 160, "batardeau": 1500, "cable_fuite": 900, "maintenance_extinction": 600,
 }
+AUTONOMIE_ARRET = 15       # min : l'arrêt ordonné doit être fini avant (marge sur l'autonomie avec un seul onduleur)
 
 
 def autonomie(modele, w):
@@ -193,8 +200,7 @@ def calculs():
                   retour=(f"{c / (k * PRIX_KWH):.1f} ans" if c else "immédiat")) for m, k, c in gains]
     # Pistes d'optimisation du chiffrage, vues côté énergie
     optim = [
-        ("Cœur replié : suppression de DL-SW1 à DL-SW4", 4 * 160),
-        ("Virtualisation DMZ et datacenter : 12 serveurs remplacés par 3 nœuds Proxmox", 6 * 110 + 6 * 120 - 3 * 260),
+        ("Cœur replié : suppression de DL-SW1 à DL-SW4 (variante étudiée, non retenue : CdC en 3 couches)", 4 * 160),
     ]
     optim = [dict(piste=p, w=w, kwh=round(w / 1000 * pue * 8760), euros=round(w / 1000 * pue * 8760 * PRIX_KWH)) for p, w in optim]
     return lignes, baies, s, lt, ond, clim, energie, gains, optim, n_vent
@@ -217,7 +223,15 @@ def finances(ond, n_vent, energie):
         ("Salle serveur", "Confinement d'allée froide (obturateurs, rideaux)", 1, PRIX["confinement"], "Green IT : -10 % sur la clim"),
         ("Salle serveur + L.TECH", "Sondes température/humidité et détection de fuite d'eau", 1, PRIX["sondes"],
          "Remontées dans LibreNMS ; fuite : salle au sous-sol"),
-        ("Salle serveur", "Détection incendie raccordée au SSI + extincteurs CO2", 1, PRIX["incendie"], "Sécurité minimale, sans extinction automatique"),
+        ("Salle serveur", "Détection incendie raccordée au SSI + extincteurs CO2", 1, PRIX["incendie"], "Report d'alarme au SSI du bâtiment"),
+        ("Salle serveur", "Extinction automatique par gaz inerte (IG-541) + détection précoce par aspiration (VESDA)", 1, PRIX["extinction"],
+         "v2 (audit SYS-03) : un incendie la nuit ne détruit plus la salle. Gaz inerte : sans danger pour le matériel"),
+        ("Salle serveur", "Plancher technique surélevé 30 cm, baies et onduleurs sur socles", round(SURFACE_SALLE), PRIX["plancher"],
+         "v2 (SYS-03) : matériel hors d'eau en cas d'inondation du sous-sol (prix au m²)"),
+        ("Salle serveur", "Batardeau amovible à la porte (60 cm) + clapet anti-retour sur l'évacuation des condensats", 1, PRIX["batardeau"],
+         "v2 (SYS-03) : retarde l'entrée de l'eau par la circulation"),
+        ("Salle serveur", "Câble de détection de fuite sous le plancher (centrale + 20 m)", 1, PRIX["cable_fuite"],
+         "v2 (SYS-03) : alerte dès les premiers centimètres, avant que l'eau n'atteigne le matériel"),
         ("Locaux techniques", "Extracteur d'air avec thermostat", n_vent, PRIX["ventilation"], "Locaux les plus chargés ou les plus petits"),
     ]
     nouveaux = [dict(categorie="Énergie / locaux", schema=a, solution=b, quantite=q, pu_ht=p, total_ht=q * p, note=n) for a, b, q, p, n in nouveaux]
@@ -228,11 +242,14 @@ def finances(ond, n_vent, energie):
          energie["cout"]),
         ("Maintenance de la climatisation", "Contrat d'entretien, 2 unités", 2 * PRIX["maintenance_clim"]),
         ("Provision batteries d'onduleurs", "Remplacement tous les 5 ans, lissé par an", round(batteries)),
+        ("Maintenance de l'extinction automatique", "Visite annuelle obligatoire (APSAD R13), contrôle des bouteilles", PRIX["maintenance_extinction"]),
     ]
     total_opex = sum(o[2] for o in opex)
     options = [
-        ("Groupe électrogène dédié (20 kVA)", 18000, "Seulement si le campus n'en a pas : à demander au client"),
-        ("Extinction automatique par gaz + détection par aspiration (VESDA)", 8500, "Relève de la sécurité incendie (point 9), pas exigée pour 25 m²"),
+        ("Groupe électrogène dédié (20 kVA)", 18000, "Seulement si le campus n'en a pas : à demander au client. Sans groupe, la salle "
+         "s'arrête proprement sur batterie (arrêt ordonné par NUT, paragraphe 3)"),
+        ("Déplacer la salle serveur au RDC (hors zone inondable)", None, "Aucune salle de 25 m² libre hors des salles d'enseignement ; le sous-sol garde "
+         "les rocades les plus courtes. Risque d'eau traité par le plancher, le batardeau et la détection"),
         ("Armoires de climatisation de précision (au lieu de 2 climatiseurs techniques)", 2 * 14000 - 12000,
          "Surcoût ; utile au-delà de ~10 kW"),
         ("Free-cooling (air extérieur)", None, "Non faisable : salle au sous-sol sans accès à l'air extérieur"),
@@ -311,7 +328,9 @@ def schema_salle(clim):
     ax.plot([0, L], [0, 0], color="#211F1C", lw=2.2, ls=(0, (6, 3)))
     ax.text(L / 2, -0.12, "cloison nouvelle (reste de J05 au nord)", ha="center", va="bottom", fontsize=6.5, color="#6C6861")
     ax.plot([L, L], [2.35, 3.25], color="#FBFAF7", lw=4)
-    ax.text(L + 0.1, 2.8, "porte vers CIRC 02\nbadge B1 · caméra C3", fontsize=6.5, va="center")
+    ax.plot([L + 0.05, L + 0.05], [2.35, 3.25], color="#A85A07", lw=3)
+    ax.text(L + 0.15, 2.8, "porte vers CIRC 02 · batardeau\nbadge B1 · caméra C3", fontsize=6.5, va="center")
+    ax.add_patch(Rectangle((0.03, 0.03), L - 0.06, P - 0.06, fc="none", ec="#A85A07", lw=0.8, ls=":"))
     ax.text(L / 2, P + 0.25, "mur sud : local technique N-1-LT01 (passage des fibres)", ha="center", fontsize=6.5, color="#6C6861")
     # baies (faces avant vers le sud = allée froide)
     for i, nom in enumerate(("Baie 1\nréseau, sécurité", "Baie 2\nserveurs")):
@@ -333,7 +352,8 @@ def schema_salle(clim):
     ax.add_patch(Rectangle((L - 0.5, 0.2), 0.4, 0.5, fc="#EAF0F8", ec=ENCRE))
     ax.text(L - 0.3, 0.45, "TD", ha="center", va="center", fontsize=6, weight="bold")
     for (x, y, t, c) in ((2.8, 3.05, "T/H", "#5C2C8C"), (1.3, 1.9, "T/H", "#5C2C8C"), (0.33, 3.5, "fuite", "#A85A07"),
-                         (0.33, 0.85, "fuite", "#A85A07"), (L - 0.3, 3.55, "CO2", "#B3261E")):
+                         (0.33, 0.85, "fuite", "#A85A07"), (L - 0.3, 3.55, "CO2", "#B3261E"), (L - 0.9, 0.45, "gaz", "#B3261E"),
+                         (4.6, 1.5, "VESDA", "#B3261E")):
         ax.plot(x, y, marker="o", ms=6, mfc="white", mec=c, mew=1.6)
         ax.text(x + 0.12, y - 0.1, t, fontsize=5.8, color=c, weight="bold")
     # cotes
@@ -347,7 +367,8 @@ def schema_salle(clim):
              (f"Climatiseur technique {clim['unite_kw']} kW (1 en marche, 1 en secours)", "#1D7A4E"),
              ("Air froid soufflé dans l'allée froide", "#2C6E8C"), ("Air chaud repris derrière les baies", "#B3261E"),
              ("T/H : sonde température/humidité (supervision)", "#5C2C8C"), ("fuite : détecteur de fuite d'eau au sol", "#A85A07"),
-             ("CO2 : extincteur près de la porte", "#B3261E"), ("TD : tableau électrique informatique", "#3A3833")]
+             ("CO2 : extincteur · gaz : bouteilles IG-541 · VESDA : détection", "#B3261E"), ("TD : tableau électrique informatique", "#3A3833"),
+             ("pointillé ocre : plancher surélevé 30 cm · batardeau à la porte", "#A85A07")]
     ax.text(lx, 0.05, "LÉGENDE", fontsize=8, weight="bold")
     for k, (t, c) in enumerate(items):
         ax.add_patch(Rectangle((lx, 0.35 + k * 0.42), 0.22, 0.22, fc=c, ec="none", alpha=0.8))
@@ -373,12 +394,53 @@ eur = lambda v: f"{v:,.0f} €".replace(",", " ")
 num = lambda v: f"{v:,.0f}".replace(",", " ")
 
 
+V1 = ROOT / "livrables" / "archives" / "v1_2026-11-15" / "energie_refroidissement" / "resume.json"
+
+
+def encadre_version(s, en, fin):
+    """Comparaison avec la version 1 archivée (avant l'audit)."""
+    if not V1.exists():
+        return ""
+    v1 = json.loads(V1.read_text(encoding="utf-8"))
+    lignes = [("Puissance de la salle (typique)", f"{v1['salle']['it_typ']} W", f"{s['it_typ']} W"),
+              ("Consommation annuelle", f"{num(v1['energie']['kwh'])} kWh", f"{num(en['kwh'])} kWh"),
+              ("Électricité par an", eur(v1['energie']['cout']), eur(en['cout'])),
+              ("Investissement du lot", eur(v1['capex_lot']), eur(fin['capex']))]
+    return ("<div class='note' style='border-left-color:#05893e'><b>Version 2, après l'audit du 15/11/2026.</b> La version 1 est archivée dans "
+            "<code>livrables/archives/v1_2026-11-15/</code> ; le traitement de chaque constat est dans <code>livrables/audit/traitement_audit.pdf</code>. "
+            "Changements : 12 serveurs physiques remplacés par 4 hyperviseurs et un témoin (SYS-02), 3 nœuds NM ramenés à 2 + témoin (SYS-01), "
+            "contrôleurs Wi-Fi physiques (NET-01), plancher surélevé, batardeau, détection de fuite et extinction automatique au gaz (SYS-03), "
+            "arrêt ordonné sur batterie par NUT.<table><tr><th></th><th class='n'>v1</th><th class='n'>v2</th></tr>"
+            + "".join(f"<tr><td>{a}</td><td class='n'>{b}</td><td class='n'><b>{c}</b></td></tr>" for a, b, c in lignes) + "</table></div>")
+
+
+def arret_ordonne(ond):
+    """v2 : séquence d'arrêt sur batterie (audit, question Q13)."""
+    return ("<h3>Arrêt ordonné sur batterie (NUT) <span style='color:#05893e'>v2</span></h3>"
+            "<p>Il n'y a pas de groupe électrogène dédié. Une coupure longue doit donc finir par un <b>arrêt propre</b>, avant que les batteries "
+            "soient vides : un hyperviseur coupé brutalement peut abîmer ses disques ou ses VM. Les cartes réseau des deux onduleurs (VLAN 900) "
+            "sont lues par <b>NUT</b> (Network UPS Tools), dont le serveur tourne sur le témoin NM-WITNESS. Ce petit serveur physique s'éteint en "
+            "dernier. Les hyperviseurs, le PBS et les témoins sont clients NUT.</p>"
+            "<table><tr><th>Moment</th><th>Action</th></tr>"
+            "<tr><td>T0 : coupure secteur</td><td>Les onduleurs basculent sur batterie sans interruption. Alerte (supervision, courriel, SMS d'astreinte).</td></tr>"
+            "<tr><td>T0 + 5 min</td><td>Si le secteur n'est pas revenu (on ignore les microcoupures) : arrêt des VM non essentielles (supervision, VM applicatives de la DMZ).</td></tr>"
+            "<tr><td>T0 + 8 min</td><td>Arrêt des VM d'infrastructure : DHCP, NPS, Teleport, journaux (après vidage de leurs files d'attente), puis des contrôleurs de domaine.</td></tr>"
+            "<tr><td>T0 + 11 min</td><td>Arrêt des hyperviseurs (DT, DM, NM) et du serveur de sauvegarde, une fois leurs VM arrêtées.</td></tr>"
+            f"<tr><td>T0 + 13 min</td><td>Arrêt de NM-WITNESS. Les onduleurs coupent leurs sorties serveurs. Les switchs et pare-feu restent alimentés jusqu'à "
+            f"l'épuisement des batteries (≈ {ond['autonomie_degrade']} min avec un seul onduleur), car ils redémarrent sans risque.</td></tr>"
+            "<tr><td>Retour du secteur</td><td>Les onduleurs ne rallument les serveurs que lorsque leurs batteries sont rechargées à 40 % (une seconde coupure ne doit pas "
+            "les surprendre à vide). Le démarrage suit l'ordre inverse : témoins, hyperviseurs, puis les VM selon leur ordre de démarrage Proxmox.</td></tr></table>"
+            f"<p class='sous'>L'arrêt est déclenché par l'autonomie restante annoncée par l'onduleur, pas seulement par l'heure. La séquence complète doit être "
+            f"finie en moins de {AUTONOMIE_ARRET} min, même avec un seul onduleur ({ond['autonomie_degrade']} min d'autonomie). Elle est testée une fois par an.</p>")
+
+
 def document(lignes, baies, s, lt, ond, clim, en, gains, optim, fin):
     date = datetime.date.today().strftime("%d/%m/%Y")
     H = [f"<!doctype html><html lang='fr'><head><meta charset='utf-8'><title>Énergie et refroidissement</title><style>{CSS}</style></head><body>",
          "<h1>Énergie et refroidissement</h1>",
-         f"<p class='sous'>Site de Marseille · IUT Génie Télécom, Luminy · point 14 du cahier des charges · {date}<br>"
+         f"<p class='sous'>Site de Marseille · IUT Génie Télécom, Luminy · point 14 du cahier des charges · <b>version 2</b> · {date}<br>"
          "Alimentation électrique, onduleurs, climatisation des locaux techniques, consommation et coûts de l'infrastructure réseau.</p>",
+         encadre_version(s, en, fin),
          "<div class='cles'>",
          f"<div class='cle'><b>{s['it_typ'] / 1000:.1f} kW</b>consommés par la salle serveur (typique)</div>",
          f"<div class='cle'><b>{ond['autonomie_degrade']} min</b>d'autonomie, même avec un onduleur en panne</div>",
@@ -430,13 +492,14 @@ def document(lignes, baies, s, lt, ond, clim, en, gains, optim, fin):
           f"({ond['taux_normal']} %) et moins de {int(MARGE_SECOURS * 100)} % pour un onduleur seul en pointe ({ond['taux_degrade']} %), "
           "situation rare qui cumule une panne et une pointe. Des onduleurs de 8 kVA (≈ 2 800 € de plus) ne sont donc pas nécessaires. "
           + (f"Sans batterie supplémentaire, l'autonomie avec un seul onduleur ne serait que de {ond['autonomie_interne']} min : "
-             f"on ajoute <b>un pack batterie par onduleur</b> pour dépasser l'objectif de {AUTONOMIE_VISEE:.0f} min (arrêt propre des serveurs, "
-             "coupures courtes)." if ond["pack"] else "L'autonomie interne suffit.") + "</p>",
+             f"on ajoute <b>un pack batterie par onduleur</b> pour dépasser l'objectif de {AUTONOMIE_VISEE:.0f} min : la séquence d'arrêt "
+             "ordonné (13 min, voir plus bas) doit tenir avec une marge, même si un onduleur est en panne." if ond["pack"] else "L'autonomie interne suffit.") + "</p>",
           "<h3>Locaux techniques : un onduleur 1,5 kVA chacun</h3><table><tr><th>Local</th><th class='n'>Charge max.</th><th class='n'>Taux</th><th class='n'>Autonomie</th></tr>"]
     for l in lt:
         H.append(f"<tr><td>{l['local']}</td><td class='n'>{l['charge_max']} W</td><td class='n'>{l['taux']} %</td><td class='n'>{l['autonomie']} min</td></tr>")
     H.append("</table><p>Chaque local a son départ 16 A dédié. Les bornes, les téléphones et les badgeuses restent alimentés pendant une coupure. "
              "Autonomies : courbes constructeur indicatives, à confirmer avec l'outil du fabricant.</p>")
+    H.append(arret_ordonne(ond))
     # 4. Clim
     H += ["<h2 class='saut'>4. Climatisation et ventilation</h2>", "<img src='schemas/salle_serveur.png' alt='Implantation de la salle serveur'>",
           "<h3>Salle serveur</h3>",
@@ -447,7 +510,18 @@ def document(lignes, baies, s, lt, ond, clim, en, gains, optim, fin):
           "<li><b>Allée froide</b> : les baies se font face côté froid ; obturateurs sur les U vides et rideaux aux extrémités, pour que l'air froid "
           "passe dans les équipements au lieu de contourner les baies.</li>",
           "<li><b>Consigne à 27 °C</b> à l'entrée des équipements, dans la plage recommandée (ASHRAE A1 : 18 à 27 °C) : la clim consomme moins.</li>",
-          "<li>Sondes de température et d'humidité, détecteur de fuite d'eau (salle au sous-sol), alertes dans la supervision.</li></ul>",
+          "<li>Sondes de température et d'humidité, détecteur de fuite d'eau (salle au sous-sol), alertes dans la supervision. "
+          "L'humidité relative est tenue entre 40 et 60 % : plus sec, risque d'électricité statique ; plus humide, condensation pendant les épisodes "
+          "pluvieux.</li></ul>"
+          "<h3>Risques propres à une salle en sous-sol <span style='color:#05893e'>v2</span></h3>"
+          "<p>La salle est au sous-sol, où une inondation (épisode méditerranéen, canalisation) est le premier risque, et un incendie de nuit le "
+          "second (constat SYS-03 de l'audit). En v1, ces protections étaient des options écartées. Elles font maintenant partie du lot :</p><ul>"
+          "<li><b>Eau</b> : plancher technique surélevé de 30 cm (baies, onduleurs et climatiseurs posés dessus) ; batardeau amovible à la porte ; "
+          "clapet anti-retour sur l'évacuation des condensats ; câble de détection de fuite sous le plancher, relié à la supervision et à l'astreinte. "
+          "Si l'eau monte quand même, l'alerte arrive tôt et l'arrêt ordonné protège les données.</li>"
+          "<li><b>Feu</b> : détection précoce par aspiration (VESDA) et extinction automatique par gaz inerte (IG-541), sans danger pour le matériel. "
+          "Report au SSI du bâtiment, temporisation et coupure de la climatisation avant le déclenchement, extincteurs CO2 en complément.</li>"
+          "<li><b>Reprise</b> : si la salle est perdue malgré tout, les sauvegardes hors site permettent de reconstruire ailleurs (PRA, point 15).</li></ul>",
           "<h3>Locaux techniques</h3><table><tr><th>Local</th><th class='n'>Surface</th><th class='n'>Chaleur dégagée</th><th class='n'>Débit d'air nécessaire</th><th>Solution</th></tr>"]
     for l in lt:
         H.append(f"<tr><td>{l['local']}</td><td class='n'>{l['surface']:.0f} m²</td><td class='n'>{l['chaleur']} W</td><td class='n'>{l['debit']} m³/h</td>"
@@ -498,7 +572,9 @@ def document(lignes, baies, s, lt, ond, clim, en, gains, optim, fin):
              "<li>Emplacement des unités extérieures des climatiseurs (cour ou façade la plus proche du sous-sol) et passage des liaisons.</li>"
              "<li>Puissances des équipements : fiches constructeur, à affiner avec les configurateurs ; autonomies indicatives.</li>"
              f"<li>Électricité à {PRIX_KWH:.2f} € HT/kWh, comme dans le chiffrage ; facteur carbone ≈ {CO2_KG_KWH * 1000:.0f} g CO₂/kWh.</li>"
-             "<li>Le plan de reprise d'activité (PRA) et la sécurité incendie détaillée relèvent des points 15 et 9.</li></ul></body></html>")
+             "<li>Le plan de reprise d'activité (PRA) relève du point 15. L'étude de l'extinction automatique (volume de la salle, étanchéité, "
+             "évent de surpression) est à confier à un installateur certifié APSAD.</li>"
+             "<li>Cote de crue et historique des remontées d'eau du sous-sol : à demander aux services techniques du campus.</li></ul></body></html>")
     page = OUT / "energie_refroidissement.html"
     page.write_text("\n".join(H), encoding="utf-8")
     chrome = shutil.which("google-chrome") or shutil.which("chromium")
@@ -536,9 +612,11 @@ def main():
         f"| Finances | Investissement {eur(fin['capex'])} HT · {eur(fin['opex_total'])} HT/an · {eur(fin['cout_5ans'])} HT sur 5 ans |", "",
         "Fichiers : `energie_refroidissement.pdf` (et `.html`), `schemas/` (alimentation électrique, plan de la salle serveur), "
         "`bilan_puissance.csv`, `resume.json` (repris par le chiffrage).", "",
-        "La première version (Gemini) est dans l'historique git (commit 1fbc1c1). Écarts corrigés : Tier III, groupe électrogène et extinction "
-        "au gaz sortis du périmètre (options chiffrées), free-cooling impossible au sous-sol, switchs C9200L à une seule alimentation, "
-        "PUE réaliste, consommation des locaux techniques et des bornes ajoutée, prix du kWh aligné sur le chiffrage.", ""]
+        "**Version 2 (après l'audit du 15/11/2026)** : serveurs virtualisés (12 serveurs physiques → 4 hyperviseurs + témoin), contrôleurs Wi-Fi "
+        "physiques, plancher surélevé, batardeau, câble de détection de fuite et extinction automatique au gaz intégrés au lot (SYS-03), "
+        "arrêt ordonné sur batterie par NUT. Le groupe électrogène reste une option à valider avec le campus. "
+        "La v1 est archivée dans `livrables/archives/v1_2026-11-15/energie_refroidissement/` ; le traitement de l'audit est dans `livrables/audit/`.", "",
+        "Historique : la toute première version (Gemini) est dans git (commit 1fbc1c1).", ""]
     (OUT / "README.md").write_text("\n".join(readme), encoding="utf-8")
     print(f"Salle : {s['it_typ']} W typ., {s['it_pointe']} W pointe | onduleur seul {ond['degrade_pointe']} W ({ond['taux_degrade']} %), "
           f"autonomie {ond['autonomie_degrade']} min, pack={ond['pack']} | clim {clim['q_typ']}/{clim['q_pointe']} kW -> 2×{clim['unite_kw']} kW")

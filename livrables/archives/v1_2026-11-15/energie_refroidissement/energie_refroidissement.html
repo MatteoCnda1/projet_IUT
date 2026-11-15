@@ -1,0 +1,143 @@
+<!doctype html><html lang='fr'><head><meta charset='utf-8'><title>Énergie et refroidissement</title><style>
+@page { size: A4; margin: 14mm 13mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'DejaVu Sans', 'Liberation Sans', sans-serif; font-size: 9.2pt; color: #211F1C; line-height: 1.45; margin: 0; }
+h1 { font-family: 'DejaVu Serif', serif; font-size: 22pt; margin: 0 0 2mm; }
+h2 { font-family: 'DejaVu Serif', serif; font-size: 14pt; margin: 8mm 0 2.5mm; padding-bottom: 1.5mm; border-bottom: 1.5px solid #1F4E8C; color: #1F4E8C; }
+h3 { font-size: 10.5pt; margin: 5mm 0 2mm; }
+p { margin: 1.5mm 0; }
+.sous { color: #6C6861; font-size: 9pt; }
+.cles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; margin: 4mm 0; }
+.cle { border: 1px solid #DEDAD1; border-radius: 2mm; padding: 2.5mm 3mm; background: #F6F4EF; }
+.cle b { display: block; font-size: 15pt; color: #1F4E8C; }
+table { width: 100%; border-collapse: collapse; margin: 2mm 0 3mm; font-size: 8.2pt; }
+th { text-align: left; background: #EAF0F8; color: #0E2240; font-weight: bold; padding: 1.4mm 1.8mm; border-bottom: 1px solid #C9D8EC; }
+td { padding: 1.2mm 1.8mm; border-bottom: 1px solid #E8E5DE; vertical-align: top; }
+tr { page-break-inside: avoid; }
+td.n, th.n { text-align: right; white-space: nowrap; }
+.chemin { color: #3A3833; font-size: 7.6pt; }
+.lt01 { color: #2C6E8C; font-weight: bold; } .lt02 { color: #8C682C; font-weight: bold; }
+img { width: 100%; border: 1px solid #DEDAD1; margin: 2mm 0; }
+.saut { page-break-before: always; }
+.note { border-left: 3px solid #A85A07; background: #FBF4EA; padding: 2mm 3mm; margin: 3mm 0; }
+ul { margin: 1mm 0 2mm 5mm; padding: 0; } li { margin: 0.6mm 0; }
+</style></head><body>
+<h1>Énergie et refroidissement</h1>
+<p class='sous'>Site de Marseille · IUT Génie Télécom, Luminy · point 14 du cahier des charges · 12/11/2026<br>Alimentation électrique, onduleurs, climatisation des locaux techniques, consommation et coûts de l'infrastructure réseau.</p>
+<div class='cles'>
+<div class='cle'><b>4.2 kW</b>consommés par la salle serveur (typique)</div>
+<div class='cle'><b>24 min</b>d'autonomie, même avec un onduleur en panne</div>
+<div class='cle'><b>PUE 1.34</b>contre 1.41 dans une salle classique</div>
+<div class='cle'><b>12 311 €</b>d'électricité par an (61 557 kWh)</div></div>
+<h2>1. Ce que demande le projet, et notre réponse</h2>
+<table><tr><th>Demande</th><th>Source</th><th>Réponse</th><th>Partie</th></tr>
+<tr><td>Locaux techniques : rack, alimentation électrique, climatisation, accès par badge</td><td>Consignes, traitement A (architecture physique)</td><td>Salle serveur + 6 locaux, baies, onduleurs, clim/ventilation, badgeuses</td><td>2, 3, 4</td></tr>
+<tr><td>Bilan de puissance par baie</td><td>Roadmap, point 14</td><td>Bilan équipement par équipement, baie par baie et local par local</td><td>2</td></tr>
+<tr><td>Dimensionner les onduleurs</td><td>Roadmap, point 14</td><td>2 onduleurs en ligne 6 kVA (voies A/B) + 6 onduleurs 1,5 kVA, autonomie vérifiée</td><td>3</td></tr>
+<tr><td>Climatisation de la salle serveur</td><td>Roadmap, point 14</td><td>2 climatiseurs techniques (1 en secours), allée froide, ventilation des locaux</td><td>4</td></tr>
+<tr><td>Mesure de consommation, PUE et Green IT ; développement durable obligatoire</td><td>Roadmap ; consignes (DD, green IT)</td><td>PDU et sondes supervisées, PUE calculé, 3 mesures d'économie chiffrées</td><td>5</td></tr>
+<tr><td>Data center : règles de base, PRA</td><td>Consignes, traitement C</td><td>Redondance électrique et frigorifique ; le PRA complet est traité au point 15</td><td>3, 4</td></tr>
+<tr><td>Chiffrage « carte blanche mais réaliste »</td><td>Consignes</td><td>Investissement, coûts annuels, économies, coût sur 5 ans, options écartées</td><td>6</td></tr></table>
+<h2>2. Bilan de puissance</h2>
+<p>Puissances relevées sur les fiches constructeur (valeur typique et maximale). La pointe réaliste retient 80 % de la somme des maxima, car tous les équipements ne sont jamais au maximum en même temps.</p>
+<table><tr><th>Baie</th><th>Équipements</th><th>Modèle</th><th class='n'>Nb</th><th class='n'>Alim.</th><th class='n'>Typique</th><th class='n'>Max.</th></tr>
+<tr><td>1</td><td>EL-RTR1, EL-RTR2</td><td>Cisco C8200L-1N-4T</td><td class='n'>2</td><td class='n'>1</td><td class='n'>40 W</td><td class='n'>60 W</td></tr>
+<tr><td>1</td><td>EL-FGT1, EL-FGT2</td><td>FortiGate 120G</td><td class='n'>2</td><td class='n'>2</td><td class='n'>80 W</td><td class='n'>130 W</td></tr>
+<tr><td>1</td><td>EL-SW1, EL-SW2</td><td>Cisco C9200L-24T-4X</td><td class='n'>2</td><td class='n'>1</td><td class='n'>80 W</td><td class='n'>120 W</td></tr>
+<tr><td>1</td><td>EL-SNS1, EL-SNS2</td><td>Stormshield SN710</td><td class='n'>2</td><td class='n'>1</td><td class='n'>90 W</td><td class='n'>140 W</td></tr>
+<tr><td>1</td><td>DM-SW1, DM-SW2</td><td>Cisco C9200L-24T-4X</td><td class='n'>2</td><td class='n'>1</td><td class='n'>80 W</td><td class='n'>120 W</td></tr>
+<tr><td>1</td><td>CL-SW1, CL-SW2</td><td>Cisco C9500-16X</td><td class='n'>2</td><td class='n'>2</td><td class='n'>320 W</td><td class='n'>520 W</td></tr>
+<tr><td>1</td><td>DL-SW1 à DL-SW4</td><td>Cisco C9500-16X</td><td class='n'>4</td><td class='n'>2</td><td class='n'>640 W</td><td class='n'>1 040 W</td></tr>
+<tr><td>1</td><td>NM-SW1, NM-SW2</td><td>Cisco C9200L-24T-4X</td><td class='n'>2</td><td class='n'>1</td><td class='n'>80 W</td><td class='n'>120 W</td></tr>
+<tr><td>1</td><td>Tiroirs optiques</td><td>Rocades et adductions</td><td class='n'>3</td><td class='n'>—</td><td class='n'>0 W</td><td class='n'>0 W</td></tr>
+<tr><td>2</td><td>DM-RP1/2, DM-DNS1, DM-WEB1, DM-MAIL1, DM-SRV1</td><td>Dell PowerEdge R260</td><td class='n'>6</td><td class='n'>2</td><td class='n'>660 W</td><td class='n'>1 140 W</td></tr>
+<tr><td>2</td><td>DT-SW1, DT-SW2</td><td>Cisco C9300X-12Y</td><td class='n'>2</td><td class='n'>2</td><td class='n'>260 W</td><td class='n'>440 W</td></tr>
+<tr><td>2</td><td>DT-AD1/2, DT-RAD1/2, DT-DHCP1/2</td><td>Dell PowerEdge R360</td><td class='n'>6</td><td class='n'>2</td><td class='n'>720 W</td><td class='n'>1 200 W</td></tr>
+<tr><td>2</td><td>NM-PVE1 à NM-PVE3</td><td>Dell PowerEdge R660xs</td><td class='n'>3</td><td class='n'>2</td><td class='n'>780 W</td><td class='n'>1 260 W</td></tr>
+<tr><td>2</td><td>DT-BKP1</td><td>Dell PowerEdge R760xd2</td><td class='n'>1</td><td class='n'>2</td><td class='n'>320 W</td><td class='n'>480 W</td></tr>
+<tr><td colspan='5'><b>Baie 1 (réseau, sécurité) : 28U occupés sur 42 · Baie 2 (serveurs) : 26U</b></td><td class='n'><b>4 150 W</b></td><td class='n'><b>6 770 W</b></td></tr></table><p><b>Salle serveur : 4.15 kW en fonctionnement normal, 5.42 kW en pointe réaliste.</b></p>
+<h3>Locaux techniques</h3><table><tr><th>Local</th><th class='n'>Switchs</th><th class='n'>PoE typique</th><th class='n'>PoE max.</th><th class='n'>Charge typique</th><th class='n'>Charge max.</th></tr>
+<tr><td>N-1-LT01</td><td class='n'>1</td><td class='n'>52 W</td><td class='n'>103 W</td><td class='n'>113 W</td><td class='n'>169 W</td></tr>
+<tr><td>N-1-LT02</td><td class='n'>1</td><td class='n'>36 W</td><td class='n'>70 W</td><td class='n'>95 W</td><td class='n'>133 W</td></tr>
+<tr><td>N0-LT01</td><td class='n'>2</td><td class='n'>172 W</td><td class='n'>333 W</td><td class='n'>301 W</td><td class='n'>480 W</td></tr>
+<tr><td>N0-LT02</td><td class='n'>4</td><td class='n'>202 W</td><td class='n'>385 W</td><td class='n'>444 W</td><td class='n'>648 W</td></tr>
+<tr><td>N1-LT01</td><td class='n'>2</td><td class='n'>98 W</td><td class='n'>192 W</td><td class='n'>219 W</td><td class='n'>323 W</td></tr>
+<tr><td>N1-LT02</td><td class='n'>5</td><td class='n'>136 W</td><td class='n'>262 W</td><td class='n'>426 W</td><td class='n'>566 W</td></tr>
+</table><p class='sous'>PoE : alimentation des bornes Wi-Fi, caméras, badgeuses et téléphones par leur câble réseau. « Max. » = puissance réservée par le switch (classe PoE) ; « typique » = consommation réelle moyenne.</p>
+<h2 class='saut'>3. Alimentation électrique et onduleurs</h2>
+<img src='schemas/synoptique_electrique.png' alt='Alimentation électrique'>
+<h3>Salle serveur : deux onduleurs, deux voies</h3><ul>
+<li>Un tableau électrique informatique (TD-INFO) au sous-sol, avec deux départs 32 A, un par onduleur.</li>
+<li>Onduleurs <b>en ligne double conversion</b> (APC SRT 6 kVA / 6 kW) : les équipements ne voient jamais une coupure ni une perturbation du réseau.</li>
+<li>Équipements à deux alimentations : l'une sur l'onduleur A, l'autre sur l'onduleur B. Équipements à une seule alimentation (routeurs, switchs C9200L, Stormshield) : ils vont par paires, le n°1 sur A et le n°2 sur B, donc la panne d'une voie laisse toujours un équipement de la paire en service.</li></ul>
+<table><tr><th>Situation</th><th class='n'>Charge d'un onduleur</th><th class='n'>Taux</th><th class='n'>Autonomie</th></tr>
+<tr><td>Normale (les deux onduleurs se partagent la charge)</td><td class='n'>2 075 W</td><td class='n'>35 %</td><td class='n'>65 min</td></tr>
+<tr><td>Un onduleur en panne : l'autre porte tout</td><td class='n'>3 965 W</td><td class='n'>66 %</td><td class='n'>24 min</td></tr>
+<tr><td>Un onduleur en panne, en pointe</td><td class='n'>5 192 W</td><td class='n'>87 %</td><td class='n'>—</td></tr></table>
+<p>✔ Règle de dimensionnement : moins de 80 % en marche normale (35 %) et moins de 90 % pour un onduleur seul en pointe (87 %), situation rare qui cumule une panne et une pointe. Des onduleurs de 8 kVA (≈ 2 800 € de plus) ne sont donc pas nécessaires. Sans batterie supplémentaire, l'autonomie avec un seul onduleur ne serait que de 7.9 min : on ajoute <b>un pack batterie par onduleur</b> pour dépasser l'objectif de 10 min (arrêt propre des serveurs, coupures courtes).</p>
+<h3>Locaux techniques : un onduleur 1,5 kVA chacun</h3><table><tr><th>Local</th><th class='n'>Charge max.</th><th class='n'>Taux</th><th class='n'>Autonomie</th></tr>
+<tr><td>N-1-LT01</td><td class='n'>169 W</td><td class='n'>17 %</td><td class='n'>175 min</td></tr>
+<tr><td>N-1-LT02</td><td class='n'>133 W</td><td class='n'>13 %</td><td class='n'>280 min</td></tr>
+<tr><td>N0-LT01</td><td class='n'>480 W</td><td class='n'>48 %</td><td class='n'>23 min</td></tr>
+<tr><td>N0-LT02</td><td class='n'>648 W</td><td class='n'>65 %</td><td class='n'>13 min</td></tr>
+<tr><td>N1-LT01</td><td class='n'>323 W</td><td class='n'>32 %</td><td class='n'>50 min</td></tr>
+<tr><td>N1-LT02</td><td class='n'>566 W</td><td class='n'>57 %</td><td class='n'>17 min</td></tr>
+</table><p>Chaque local a son départ 16 A dédié. Les bornes, les téléphones et les badgeuses restent alimentés pendant une coupure. Autonomies : courbes constructeur indicatives, à confirmer avec l'outil du fabricant.</p>
+<h2 class='saut'>4. Climatisation et ventilation</h2>
+<img src='schemas/salle_serveur.png' alt='Implantation de la salle serveur'>
+<h3>Salle serveur</h3>
+<p>Toute l'électricité consommée devient de la chaleur. À évacuer : <b>4.39 kW</b> en fonctionnement normal et <b>6.0 kW</b> en pointe (équipements, pertes des onduleurs, éclairage, une personne).</p>
+<ul><li><b>2 climatiseurs techniques de 7.1 kW</b> (fonctionnement 24 h/24) : un seul suffit, à 62 % de sa capacité en marche normale. Le second est en secours et ils alternent chaque semaine (usure égale, test permanent du secours).</li>
+<li><b>Allée froide</b> : les baies se font face côté froid ; obturateurs sur les U vides et rideaux aux extrémités, pour que l'air froid passe dans les équipements au lieu de contourner les baies.</li>
+<li><b>Consigne à 27 °C</b> à l'entrée des équipements, dans la plage recommandée (ASHRAE A1 : 18 à 27 °C) : la clim consomme moins.</li>
+<li>Sondes de température et d'humidité, détecteur de fuite d'eau (salle au sous-sol), alertes dans la supervision.</li></ul>
+<h3>Locaux techniques</h3><table><tr><th>Local</th><th class='n'>Surface</th><th class='n'>Chaleur dégagée</th><th class='n'>Débit d'air nécessaire</th><th>Solution</th></tr>
+<tr><td>N-1-LT01</td><td class='n'>7 m²</td><td class='n'>65 W</td><td class='n'>19 m³/h</td><td>grilles hautes/basses</td></tr>
+<tr><td>N-1-LT02</td><td class='n'>16 m²</td><td class='n'>63 W</td><td class='n'>19 m³/h</td><td>grilles hautes/basses</td></tr>
+<tr><td>N0-LT01</td><td class='n'>2 m²</td><td class='n'>141 W</td><td class='n'>42 m³/h</td><td>extracteur</td></tr>
+<tr><td>N0-LT02</td><td class='n'>7 m²</td><td class='n'>260 W</td><td class='n'>78 m³/h</td><td>extracteur</td></tr>
+<tr><td>N1-LT01</td><td class='n'>4 m²</td><td class='n'>130 W</td><td class='n'>39 m³/h</td><td>extracteur</td></tr>
+<tr><td>N1-LT02</td><td class='n'>7 m²</td><td class='n'>307 W</td><td class='n'>92 m³/h</td><td>extracteur</td></tr>
+</table><p>Les locaux dégagent peu de chaleur (la puissance PoE est dissipée par les bornes et caméras, pas dans le local). Débit calculé pour 10 °C d'écart entre l'air entrant et sortant. Pas de climatisation nécessaire : une ventilation suffit.</p>
+<h2>5. Mesure, PUE et Green IT</h2>
+<p><b>PUE</b> (efficacité énergétique) = électricité totale de la salle ÷ électricité des équipements informatiques. 1,0 serait parfait.</p>
+<table><tr><th>Salle serveur</th><th class='n'>Salle classique (22 °C)</th><th class='n'>Notre proposition</th></tr>
+<tr><td>Équipements informatiques</td><td class='n'>4.15 kW</td><td class='n'>4.15 kW</td></tr>
+<tr><td>Climatisation, pertes onduleurs, éclairage</td><td class='n'>1.70 kW</td><td class='n'>1.40 kW</td></tr>
+<tr><td><b>PUE</b></td><td class='n'><b>1.41</b></td><td class='n'><b>1.34</b></td></tr></table>
+<p><b>Mesure en continu :</b> les PDU métrées (par prise), les onduleurs et les sondes sont interrogés par la supervision déjà prévue (LibreNMS et Grafana, zone NM). Le PUE réel est suivi chaque mois : la valeur ci-dessus est une estimation à confirmer.</p>
+<h3>Mesures d'économie retenues</h3><table><tr><th>Mesure</th><th class='n'>kWh/an</th><th class='n'>€/an</th><th class='n'>CO₂/an</th><th class='n'>Coût</th><th class='n'>Retour</th></tr>
+<tr><td>Consigne de la salle à 27 °C au lieu de 22 °C (plage recommandée ASHRAE A1 : 18-27 °C)</td><td class='n'>1 508</td><td class='n'>302 €</td><td class='n'>78 kg</td><td class='n'>0 €</td><td class='n'>immédiat</td></tr>
+<tr><td>Allée froide confinée (obturateurs de U vides, rideaux aux extrémités)</td><td class='n'>1 131</td><td class='n'>226 €</td><td class='n'>59 kg</td><td class='n'>1 200 €</td><td class='n'>5.3 ans</td></tr>
+<tr><td>Coupure programmée de 30 bornes Wi-Fi des salles la nuit et le week-end (103 h/semaine)</td><td class='n'>2 321</td><td class='n'>464 €</td><td class='n'>121 kg</td><td class='n'>0 €</td><td class='n'>immédiat</td></tr>
+</table><p>Avec ces mesures, le réseau consomme <b>61 557 kWh/an</b> au lieu de 66 516, soit <b>992 € économisés chaque année</b>. Électricité française peu carbonée : ≈ 3.2 t de CO₂ par an.</p><h3>Pistes d'optimisation du chiffrage, côté énergie</h3><table><tr><th>Piste</th><th class='n'>Puissance en moins</th><th class='n'>kWh/an</th><th class='n'>€/an</th></tr>
+<tr><td>Cœur replié : suppression de DL-SW1 à DL-SW4</td><td class='n'>640 W</td><td class='n'>7 498</td><td class='n'>1 500 €</td></tr>
+<tr><td>Virtualisation DMZ et datacenter : 12 serveurs remplacés par 3 nœuds Proxmox</td><td class='n'>600 W</td><td class='n'>7 029</td><td class='n'>1 406 €</td></tr>
+</table><p class='sous'>Économies d'électricité en plus des économies d'achat déjà indiquées dans le chiffrage.</p>
+<h2 class='saut'>6. Finances du lot énergie et refroidissement</h2>
+<h3>Investissement (CAPEX, € HT)</h3>
+<table><tr><th>Élément</th><th>Où</th><th class='n'>Qté</th><th class='n'>Prix unitaire</th><th class='n'>Total</th><th>Remarque</th></tr>
+<tr><td>Baie 42U 800x1000 avec portes ventilées</td><td>Salle serveur</td><td class='n'>2</td><td class='n'>1 500 €</td><td class='n'>3 000 €</td><td class='chemin'></td></tr>
+<tr><td>Baie 24U murale/sol</td><td>Locaux techniques (6 L.TECH)</td><td class='n'>5</td><td class='n'>700 €</td><td class='n'>3 500 €</td><td class='chemin'>2 L.TECH par niveau d&#x27;après les plans</td></tr>
+<tr><td>Baie 42U 600x800 au sol</td><td>Locaux techniques</td><td class='n'>1</td><td class='n'>1 200 €</td><td class='n'>1 200 €</td><td class='chemin'>L.TECH dont la baie dépasse 22U (plan de câblage)</td></tr>
+<tr><td>Onduleur APC Smart-UPS SRT 6 kVA (en ligne)</td><td>Salle serveur</td><td class='n'>2</td><td class='n'>4 800 €</td><td class='n'>9 600 €</td><td class='chemin'>Alimentation A/B</td></tr>
+<tr><td>Onduleur 1,5 kVA rackable</td><td>Locaux techniques</td><td class='n'>6</td><td class='n'>900 €</td><td class='n'>5 400 €</td><td class='chemin'></td></tr>
+<tr><td>PDU managées et métrées</td><td>Salle serveur</td><td class='n'>4</td><td class='n'>700 €</td><td class='n'>2 800 €</td><td class='chemin'>Mesure de consommation (Green IT)</td></tr>
+<tr><td>Climatisation de précision ~7 kW, redondance N+1</td><td>Salle serveur</td><td class='n'>1</td><td class='n'>12 000 €</td><td class='n'>12 000 €</td><td class='chemin'></td></tr>
+<tr><td>Contrôle d&#x27;accès par badge</td><td>Salle serveur + L.TECH</td><td class='n'>1</td><td class='n'>5 000 €</td><td class='n'>5 000 €</td><td class='chemin'></td></tr>
+<tr><td>Pack batterie externe APC SRT192RMBP (1 par onduleur) <b>(ajouté)</b></td><td>Salle serveur</td><td class='n'>2</td><td class='n'>1 400 €</td><td class='n'>2 800 €</td><td class='chemin'>Autonomie si un onduleur tombe : 7.9 min sans pack, 24 min avec</td></tr>
+<tr><td>Tableau électrique informatique (TD-INFO) et circuits dédiés <b>(ajouté)</b></td><td>Salle serveur + L.TECH</td><td class='n'>1</td><td class='n'>6 000 €</td><td class='n'>6 000 €</td><td class='chemin'>2 départs 32 A onduleurs, 2 départs clim, 6 départs 16 A L.TECH, protections différentielles</td></tr>
+<tr><td>Confinement d&#x27;allée froide (obturateurs, rideaux) <b>(ajouté)</b></td><td>Salle serveur</td><td class='n'>1</td><td class='n'>1 200 €</td><td class='n'>1 200 €</td><td class='chemin'>Green IT : -10 % sur la clim</td></tr>
+<tr><td>Sondes température/humidité et détection de fuite d&#x27;eau <b>(ajouté)</b></td><td>Salle serveur + L.TECH</td><td class='n'>1</td><td class='n'>1 200 €</td><td class='n'>1 200 €</td><td class='chemin'>Remontées dans LibreNMS ; fuite : salle au sous-sol</td></tr>
+<tr><td>Détection incendie raccordée au SSI + extincteurs CO2 <b>(ajouté)</b></td><td>Salle serveur</td><td class='n'>1</td><td class='n'>1 500 €</td><td class='n'>1 500 €</td><td class='chemin'>Sécurité minimale, sans extinction automatique</td></tr>
+<tr><td>Extracteur d&#x27;air avec thermostat <b>(ajouté)</b></td><td>Locaux techniques</td><td class='n'>4</td><td class='n'>450 €</td><td class='n'>1 800 €</td><td class='chemin'>Locaux les plus chargés ou les plus petits</td></tr>
+<tr><td colspan='4'><b>Total du lot</b></td><td class='n'><b>57 000 €</b></td><td></td></tr></table><h3>Coûts annuels (OPEX, € HT)</h3><table><tr><th>Poste</th><th>Détail</th><th class='n'>Par an</th></tr>
+<tr><td>Électricité du réseau</td><td class='chemin'>61 557 kWh/an × 0.20 € (salle serveur, PUE 1.34, 6 locaux techniques)</td><td class='n'>12 311 €</td></tr>
+<tr><td>Maintenance de la climatisation</td><td class='chemin'>Contrat d&#x27;entretien, 2 unités</td><td class='n'>900 €</td></tr>
+<tr><td>Provision batteries d&#x27;onduleurs</td><td class='chemin'>Remplacement tous les 5 ans, lissé par an</td><td class='n'>1 500 €</td></tr>
+<tr><td colspan='2'><b>Total par an</b></td><td class='n'><b>14 711 €</b></td></tr></table><p><b>Coût du lot sur 5 ans : 130 555 €</b> (investissement + 5 années de fonctionnement). Ces montants sont intégrés au chiffrage global du projet (<code>chiffrage/estimation_infra.md</code>).</p><h3>Options étudiées et écartées</h3><table><tr><th>Option</th><th class='n'>Coût</th><th>Pourquoi</th></tr>
+<tr><td>Groupe électrogène dédié (20 kVA)</td><td class='n'>18 000 €</td><td>Seulement si le campus n&#x27;en a pas : à demander au client</td></tr>
+<tr><td>Extinction automatique par gaz + détection par aspiration (VESDA)</td><td class='n'>8 500 €</td><td>Relève de la sécurité incendie (point 9), pas exigée pour 25 m²</td></tr>
+<tr><td>Armoires de climatisation de précision (au lieu de 2 climatiseurs techniques)</td><td class='n'>16 000 €</td><td>Surcoût ; utile au-delà de ~10 kW</td></tr>
+<tr><td>Free-cooling (air extérieur)</td><td class='n'>—</td><td>Non faisable : salle au sous-sol sans accès à l&#x27;air extérieur</td></tr>
+</table><h2>7. Hypothèses et points à valider avec le client</h2><ul><li>Existence d'un groupe électrogène sur le campus et puissance disponible au TGBT du bâtiment.</li><li>Emplacement des unités extérieures des climatiseurs (cour ou façade la plus proche du sous-sol) et passage des liaisons.</li><li>Puissances des équipements : fiches constructeur, à affiner avec les configurateurs ; autonomies indicatives.</li><li>Électricité à 0.20 € HT/kWh, comme dans le chiffrage ; facteur carbone ≈ 52 g CO₂/kWh.</li><li>Le plan de reprise d'activité (PRA) et la sécurité incendie détaillée relèvent des points 15 et 9.</li></ul></body></html>

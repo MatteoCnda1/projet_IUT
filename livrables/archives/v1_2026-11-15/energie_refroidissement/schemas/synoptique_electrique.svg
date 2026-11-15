@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="667.26pt" height="435.744pt" viewBox="0 0 667.26 435.744" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-12T16:20:44.598330</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.1+dfsg1, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 435.744 
+L 667.26 435.744 
+L 667.26 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 260.7273 92.52216 
+L 406.5327 92.52216 
+Q 410.8851 92.52216 410.8851 88.30872 
+L 410.8851 63.02808 
+Q 410.8851 58.81464 406.5327 58.81464 
+L 260.7273 58.81464 
+Q 256.3749 58.81464 256.3749 63.02808 
+L 256.3749 88.30872 
+Q 256.3749 92.52216 260.7273 92.52216 
+z
+" clip-path="url(#p3fc8b5f6cc)" style="fill: #f6f4ef; stroke: #8c8880; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 244.4058 150.45696 
+L 422.8542 150.45696 
+Q 427.2066 150.45696 427.2066 146.24352 
+L 427.2066 118.32948 
+Q 427.2066 114.11604 422.8542 114.11604 
+L 244.4058 114.11604 
+Q 240.0534 114.11604 240.0534 118.32948 
+L 240.0534 146.24352 
+Q 240.0534 150.45696 244.4058 150.45696 
+z
+" clip-path="url(#p3fc8b5f6cc)" style="fill: #eaf0f8; stroke: #1f4e8c; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 64.8693 221.55876 
+L 199.7937 221.55876 
+Q 204.1461 221.55876 204.1461 217.34532 
+L 204.1461 184.16448 
+Q 204.1461 179.95104 199.7937 179.95104 
+L 64.8693 179.95104 
+Q 60.5169 179.95104 60.5169 184.16448 
+L 60.5169 217.34532 
+Q 60.5169 221.55876 64.8693 221.55876 
+z
+" clip-path="url(#p3fc8b5f6cc)" style="fill: #ffffff; stroke: #2c6e8c; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 266.1678 221.55876 
+L 401.0922 221.55876 
+Q 405.4446 221.55876 405.4446 217.34532 
+L 405.4446 184.16448 
+Q 405.4446 179.95104 401.0922 179.95104 
+L 266.1678 179.95104 
+Q 261.8154 179.95104 261.8154 184.16448 
+L 261.8154 217.34532 
+Q 261.8154 221.55876 266.1678 221.55876 
+z
+" clip-path="url(#p3fc8b5f6cc)" style="fill: #ffffff; stroke: #8c682c; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 467.4663 221.55876 
+L 635.0337 221.55876 
+Q 639.3861 221.55876 639.3861 217.34532 
+L 639.3861 184.16448 
+Q 639.3861 179.95104 635.0337 179.95104 
+L 467.4663 179.95104 
+Q 463.1139 179.95104 463.1139 184.16448 
+L 463.1139 217.34532 
+Q 463.1139 221.55876 467.4663 221.55876 
+z
+" clip-path="url(#p3fc8b5f6cc)" style="fill: #ffffff; stroke: #1d7a4e; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 32.2263 305.82756 
+L 210.6747 305.82756 
+Q 215.0271 305.82756 215.0271 301.61412 
+L 215.0271 265.79988 
+Q 215.0271 261.58644 210.6747 261.58644 
+L 32.2263 261.58644 
+Q 27.8739 261.58644 27.8739 265.79988 
+L 27.8739 301.61412 
+Q 27.8739 305.82756 32.2263 305.82756 
+z
+" clip-path="url(#p3fc8b5f6cc)" style="fill: #ffffff; stroke: #3a3833; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 233.5248 305.82756 
+L 411.9732 305.82756 
+Q 416.3256 305.82756 416.3256 301.61412 
+L 416.3256 265.79988 
+Q 416.3256 261.58644 411.9732 261.58644 
+L 233.5248 261.58644 
+Q 229.1724 261.58644 229.1724 265.79988 
+L 229.1724 301.61412 
+Q 229.1724 305.82756 233.5248 305.82756 
+z
+" clip-path="url(#p3fc8b5f6cc)" style="fill: #ffffff; stroke: #3a3833; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 32.2263 379.56276 
+L 210.6747 379.56276 
+Q 215.0271 379.56276 215.0271 375.34932 
+L 215.0271 334.26828 
+Q 215.0271 330.05484 210.6747 330.05484 
+L 32.2263 330.05484 
+Q 27.8739 330.05484 27.8739 334.26828 
+L 27.8739 375.34932 
+Q 27.8739 379.56276 32.2263 379.56276 
+z
+" clip-path="url(#p3fc8b5f6cc)" style="fill: #ffffff; stroke: #3a3833; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 233.5248 379.56276 
+L 411.9732 379.56276 
+Q 416.3256 379.56276 416.3256 375.34932 
+L 416.3256 334.26828 
+Q 416.3256 330.05484 411.9732 330.05484 
+L 233.5248 330.05484 
+Q 229.1724 330.05484 229.1724 334.26828 
+L 229.1724 375.34932 
+Q 229.1724 379.56276 233.5248 379.56276 
+z
+" clip-path="url(#p3fc8b5f6cc)" style="fill: #ffffff; stroke: #3a3833; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 467.4663 326.89476 
+L 635.0337 326.89476 
+Q 639.3861 326.89476 639.3861 322.68132 
+L 639.3861 265.79988 
+Q 639.3861 261.58644 635.0337 261.58644 
+L 467.4663 261.58644 
+Q 463.1139 261.58644 463.1139 265.79988 
+L 463.1139 322.68132 
+Q 463.1139 326.89476 467.4663 326.89476 
+z
+" clip-path="url(#p3fc8b5f6cc)" style="fill: #ffffff; stroke: #5c2c8c; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Serif'; text-anchor: start" x="7.2" y="26.298012" transform="rotate(-0 7.2 26.298012)">Alimentation électrique de l'infrastructure</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3833" x="7.2" y="42.56615" transform="rotate(-0 7.2 42.56615)">Chaque équipement critique est alimenté par deux voies indépendantes (A et B). La panne d'un onduleur ou d'un circuit ne coupe aucun service.</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="333.63" y="71.070685" transform="rotate(-0 333.63 71.070685)">Arrivée électrique du bâtiment</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3833" x="333.63" y="86.38796" transform="rotate(-0 333.63 86.38796)">TGBT existant</text>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="333.63" y="127.536785" transform="rotate(-0 333.63 127.536785)">Tableau informatique TD-INFO</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3833" x="333.63" y="143.00606" transform="rotate(-0 333.63 143.00606)">sous-sol, à côté de la salle serveur · nouveau</text>
+   </g>
+   <g id="patch_12">
+    <path d="M 333.63 93.467959 
+Q 333.63 103.318644 333.63 111.827687 
+" style="fill: none; stroke: #3a3833; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 335.23 108.627687 
+L 333.63 111.827687 
+L 332.03 108.627687 
+z
+" style="fill: #3a3833; stroke: #3a3833; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="132.3315" y="196.005185" transform="rotate(-0 132.3315 196.005185)">Onduleur A</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3833" x="132.3315" y="211.47446" transform="rotate(-0 132.3315 211.47446)">APC SRT 6 kVA + pack batterie</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="333.63" y="196.005185" transform="rotate(-0 333.63 196.005185)">Onduleur B</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3833" x="333.63" y="211.47446" transform="rotate(-0 333.63 211.47446)">APC SRT 6 kVA + pack batterie</text>
+   </g>
+   <g id="patch_13">
+    <path d="M 277.266002 149.825034 
+Q 205.778456 165.203956 135.602544 180.300709 
+" style="fill: none; stroke: #2c6e8c; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 139.067477 181.191913 
+L 135.602544 180.300709 
+L 138.394466 178.063485 
+z
+" style="fill: #2c6e8c; stroke: #2c6e8c; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 333.63 151.405653 
+Q 333.63 165.205996 333.63 177.664699 
+" style="fill: none; stroke: #8c682c; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 335.23 174.464699 
+L 333.63 177.664699 
+L 332.03 174.464699 
+z
+" style="fill: #8c682c; stroke: #8c682c; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #2c6e8c" x="164.9745" y="165.204" transform="rotate(-0 164.9745 165.204)">départ 32 A</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #8c682c" x="339.0705" y="165.204" transform="rotate(-0 339.0705 165.204)">départ 32 A</text>
+   </g>
+   <g id="text_13">
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="551.25" y="196.005185" transform="rotate(-0 551.25 196.005185)">2 climatiseurs 7.1 kW</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3833" x="551.25" y="211.47446" transform="rotate(-0 551.25 211.47446)">1 en marche, 1 en secours, alternance</text>
+   </g>
+   <g id="patch_15">
+    <path d="M 389.990512 149.840464 
+Q 458.762246 165.204167 526.224615 180.275355 
+" style="fill: none; stroke: #1d7a4e; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 523.450441 178.01616 
+L 526.224615 180.275355 
+L 522.752755 181.139177 
+z
+" style="fill: #1d7a4e; stroke: #1d7a4e; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #1d7a4e" x="464.202" y="165.204" transform="rotate(-0 464.202 165.204)">2 départs 16 A</text>
+   </g>
+   <g id="text_16">
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="121.4505" y="278.957285" transform="rotate(-0 121.4505 278.957285)">Baie 1 · réseau et sécurité</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3833" x="121.4505" y="294.42656" transform="rotate(-0 121.4505 294.42656)">PDU A (bleue) + PDU B (ocre), métrées</text>
+   </g>
+   <g id="text_18">
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="322.749" y="278.957285" transform="rotate(-0 322.749 278.957285)">Baie 2 · serveurs</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3833" x="322.749" y="294.42656" transform="rotate(-0 322.749 294.42656)">PDU A (bleue) + PDU B (ocre), métrées</text>
+   </g>
+   <g id="patch_16">
+    <path d="M 131.171774 222.138417 
+Q 117.368718 241.574582 104.342493 259.916885 
+" style="fill: none; stroke: #2c6e8c; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 107.49985 258.2343 
+L 104.342493 259.916885 
+L 104.890839 256.381448 
+z
+" style="fill: #2c6e8c; stroke: #2c6e8c; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_17">
+    <path d="M 331.676107 220.931656 
+Q 237.059993 241.572847 143.754691 261.928075 
+" style="fill: none; stroke: #8c682c; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 147.222188 262.809247 
+L 143.754691 261.928075 
+L 146.540126 259.68278 
+z
+" style="fill: #8c682c; stroke: #8c682c; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_18">
+    <path d="M 134.274435 220.98309 
+Q 218.020047 241.572765 300.462818 261.842125 
+" style="fill: none; stroke: #2c6e8c; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 297.737358 259.524396 
+L 300.462818 261.842125 
+L 296.973359 262.631855 
+z
+" style="fill: #2c6e8c; stroke: #2c6e8c; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_19">
+    <path d="M 334.010045 222.467592 
+Q 337.709964 241.570477 341.15477 259.3562 
+" style="fill: none; stroke: #8c682c; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 342.117098 255.910344 
+L 341.15477 259.3562 
+L 338.975482 256.518824 
+z
+" style="fill: #8c682c; stroke: #8c682c; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="text_20">
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="121.4505" y="350.695585" transform="rotate(-0 121.4505 350.695585)">Équipements à 2 alimentations</text>
+   </g>
+   <g id="text_21">
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(58.554 361.94506)">cœur, distribution, pare-feux FortiGate,</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(72.061 369.11166)">serveurs : 1 alim sur A, 1 sur B</text>
+   </g>
+   <g id="text_22">
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="322.749" y="350.695585" transform="rotate(-0 322.749 350.695585)">Équipements à 1 alimentation</text>
+   </g>
+   <g id="text_23">
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(258.968 361.94506)">routeurs, switchs C9200L, Stormshield :</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(283.1635 369.11166)">le n°1 sur A, le n°2 sur B</text>
+   </g>
+   <g id="patch_20">
+    <path d="M 121.4505 306.776896 
+Q 121.4505 317.943099 121.4505 327.767662 
+" style="fill: none; stroke: #3a3833; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 123.0505 324.567662 
+L 121.4505 327.767662 
+L 119.8505 324.567662 
+z
+" style="fill: #3a3833; stroke: #3a3833; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_21">
+    <path d="M 322.749 306.776896 
+Q 322.749 317.943099 322.749 327.767662 
+" style="fill: none; stroke: #3a3833; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 324.349 324.567662 
+L 322.749 327.767662 
+L 321.149 324.567662 
+z
+" style="fill: #3a3833; stroke: #3a3833; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="text_24">
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="551.25" y="289.490885" transform="rotate(-0 551.25 289.490885)">6 locaux techniques</text>
+   </g>
+   <g id="text_25">
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(516.758 297.76796)">1 départ 16 A chacun</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(494.065 304.93456)">→ onduleur 1,5 kVA → switchs PoE+</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(481.668 312.40836)">→ bornes, caméras, badgeuses, téléphones</text>
+   </g>
+   <g id="patch_22">
+    <path d="M 427.556244 142.895241 
+Q 488.68496 202.072287 548.849729 260.316163 
+" style="fill: none; stroke: #5c2c8c; stroke-width: 1.2; stroke-linecap: round"/>
+    <path d="M 547.663453 256.940848 
+L 548.849729 260.316163 
+L 545.437712 259.239995 
+z
+" style="fill: #5c2c8c; stroke: #5c2c8c; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="text_26">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(491.4045 361.040681)">Coupure secteur : bascule sur batterie</text>
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(491.4045 368.87915)">sans interruption (onduleurs en ligne),</text>
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(491.4045 377.053619)">24 min même si un onduleur est en panne.</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p3fc8b5f6cc">
+   <rect x="7.2" y="7.2" width="652.86" height="421.344"/>
+  </clipPath>
+ </defs>
+</svg>
