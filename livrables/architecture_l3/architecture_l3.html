@@ -1,0 +1,154 @@
+<!doctype html><html lang='fr'><head><meta charset='utf-8'><title>Architecture de niveau 3</title><style>
+@page { size: A4; margin: 14mm 13mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'DejaVu Sans', 'Liberation Sans', sans-serif; font-size: 9.2pt; color: #211F1C; line-height: 1.45; margin: 0; }
+h1 { font-family: 'DejaVu Serif', serif; font-size: 22pt; margin: 0 0 2mm; }
+h2 { font-family: 'DejaVu Serif', serif; font-size: 14pt; margin: 8mm 0 2.5mm; padding-bottom: 1.5mm; border-bottom: 1.5px solid #1F4E8C; color: #1F4E8C; }
+h3 { font-size: 10.5pt; margin: 5mm 0 2mm; }
+p { margin: 1.5mm 0; }
+.sous { color: #6C6861; font-size: 9pt; }
+.cles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; margin: 4mm 0; }
+.cle { border: 1px solid #DEDAD1; border-radius: 2mm; padding: 2.5mm 3mm; background: #F6F4EF; }
+.cle b { display: block; font-size: 15pt; color: #1F4E8C; }
+table { width: 100%; border-collapse: collapse; margin: 2mm 0 3mm; font-size: 8.2pt; }
+th { text-align: left; background: #EAF0F8; color: #0E2240; font-weight: bold; padding: 1.4mm 1.8mm; border-bottom: 1px solid #C9D8EC; }
+td { padding: 1.2mm 1.8mm; border-bottom: 1px solid #E8E5DE; vertical-align: top; }
+tr { page-break-inside: avoid; }
+td.n, th.n { text-align: right; white-space: nowrap; }
+.chemin { color: #3A3833; font-size: 7.6pt; }
+.lt01 { color: #2C6E8C; font-weight: bold; } .lt02 { color: #8C682C; font-weight: bold; }
+img { width: 100%; border: 1px solid #DEDAD1; margin: 2mm 0; }
+.saut { page-break-before: always; }
+.note { border-left: 3px solid #A85A07; background: #FBF4EA; padding: 2mm 3mm; margin: 3mm 0; }
+ul { margin: 1mm 0 2mm 5mm; padding: 0; } li { margin: 0.6mm 0; }
+
+code, pre { font-family: 'DejaVu Sans Mono', monospace; font-size: 7.4pt; }
+pre { background: #F3F4F6; border: 1px solid #DEDAD1; border-radius: 1.5mm; padding: 2mm 3mm; white-space: pre-wrap; page-break-inside: avoid; }
+.vrf { display: inline-block; padding: 0 1.5mm; border-radius: 1mm; color: #fff; font-size: 7.4pt; font-weight: bold; }
+td.m { font-family: 'DejaVu Sans Mono', monospace; font-size: 7.4pt; white-space: nowrap; }
+.ok { color: #05893e; font-weight: bold; } .ko { color: #c13c3b; font-weight: bold; }
+img.schema { border: none; }
+@page paysage { size: A4 landscape; margin: 10mm; }
+.paysage { page: paysage; page-break-before: always; page-break-after: always; }
+.paysage img { max-height: 180mm; width: auto; max-width: 100%; display: block; margin: 0 auto; }
+</style></head><body>
+<h1>Architecture de niveau 3</h1>
+<p class='sous'>Site de Marseille · IUT Génie Télécom, Luminy · RudyLink Infrastructure · 15/11/2026<br>Points 03, 05 et 07 · VRF, routage IPv4/IPv6, bordure BGP, NAT, filtrage entre zones, services IP</p>
+<div class='cles'>
+<div class='cle'><b>5 VRF</b>cloisonnées au cœur, reliées seulement par le Stormshield</div>
+<div class='cle'><b>OSPFv3 (v4 + v6)</b>par VRF entre le cœur et les blocs, BFD</div>
+<div class='cle'><b>eBGP AS65013</b>double opérateur, FAI 1 prioritaire</div>
+<div class='cle'><b>2 pare-feu en série</b>FortiGate (Internet, DMZ, NAT) puis Stormshield (zones internes)</div></div>
+<h2>1. Vue d'ensemble</h2><ol>
+<li><b>Bordure</b> : EL-RTR1 (FAI 1, AMU/RENATER) et EL-RTR2 (FAI 2) parlent eBGP avec les opérateurs et annoncent le /24 public et le /52 IPv6.</li>
+<li><b>FortiGate</b> (pare-feu externe, deux marques différentes comme le recommande l'ANSSI) : choix du lien de sortie (SD-WAN), NAT, publication de la DMZ, VPN d'administration.</li>
+<li><b>Stormshield</b> (pare-feu interne, qualifié ANSSI) : seul point de passage entre les VRF. Il porte la matrice de flux du paragraphe 4.</li>
+<li><b>Cœur</b> : VRF-lite, passerelles du datacenter et de l'administration, une route par défaut par VRF vers le Stormshield.</li>
+<li><b>Distribution</b> : passerelles des VLAN d'un bloc, OSPF par VRF vers le cœur. Le routage entre VLAN d'une même VRF se fait ici, à pleine vitesse (ACL de base entre personnel et étudiants).</li></ol>
+<div class='paysage'><img class='schema' src='architecture_l3.png' alt='Schéma L3'></div>
+<h2>2. VRF</h2>
+<table><tr><th>VRF</th><th>Id</th><th>Rôle</th><th>Présente sur</th><th>Résumés IPv4</th><th>Résumés IPv6</th></tr><tr><td><span class='vrf' style='background:#0079b5'>USR</span></td><td>10</td><td>Personnel, étudiants, téléphonie, impression, Wi-Fi authentifié (802.1X)</td><td>CL, DL-B1, DL-B2</td><td class='m'>10.13.16.0/21<br>10.13.24.0/22<br>10.13.32.0/21<br>10.13.40.0/22</td><td class='m'>2001:660:5402:4110::/60<br>2001:660:5402:4210::/60</td></tr><tr><td><span class='vrf' style='background:#a75c00'>IOT</span></td><td>20</td><td>Caméras IP, badgeuses, GTB : aucun accès Internet, flux limités à leurs serveurs</td><td>CL, DL-B1, DL-B2</td><td class='m'>10.13.28.0/24<br>10.13.44.0/24</td><td class='m'>2001:660:5402:4120::/60<br>2001:660:5402:4220::/60</td></tr><tr><td><span class='vrf' style='background:#97549b'>GST</span></td><td>30</td><td>Wi-Fi invités : Internet seulement (HTTP/HTTPS/DNS), isolation entre clients</td><td>CL, DL-B1, DL-B2</td><td class='m'>10.13.30.0/23<br>10.13.46.0/23</td><td class='m'>2001:660:5402:4130::/60<br>2001:660:5402:4230::/60</td></tr><tr><td><span class='vrf' style='background:#008889'>SRV</span></td><td>40</td><td>Datacenter : AD, RADIUS, DHCP, sauvegarde</td><td>CL</td><td class='m'>10.13.48.0/22</td><td class='m'>2001:660:5402:4300::/60</td></tr><tr><td><span class='vrf' style='background:#c13c3b'>ADM</span></td><td>90</td><td>Gestion des équipements, IPMI, Proxmox, services d&#x27;infrastructure, postes d&#x27;admin (ANSSI : SI d&#x27;administration dédié)</td><td>CL, DL-B1, DL-B2</td><td class='m'>10.13.29.0/24<br>10.13.45.0/24<br>10.13.56.0/21</td><td class='m'>2001:660:5402:4190::/60<br>2001:660:5402:4290::/60<br>2001:660:5402:4900::/60</td></tr></table>
+<p>Pourquoi des VRF plutôt que des ACL sur le cœur : une erreur d'ACL ouvre un flux, alors qu'entre deux VRF il n'existe <b>aucune route</b>. Le filtrage est fait par un vrai pare-feu (états, journaux, IPS), et le cœur reste simple. C'est le cloisonnement demandé par le guide ANSSI sur l'administration sécurisée (SI d'administration séparé) et par la note sur l'interconnexion des objets connectés.</p>
+<h2>3. Passerelles par défaut</h2>
+<table><tr><th>Où</th><th>Passerelle</th><th>Redondance</th></tr><tr><td>VLAN des blocs (1xx, 2xx)</td><td>SVI .1 / ::1 sur DL-B1 ou DL-B2</td><td>StackWise Virtual : une seule passerelle logique, reprise en &lt; 1 s si un DL tombe ; pas de HSRP/VRRP nécessaire</td></tr><tr><td>VLAN 300 et 9xx</td><td>SVI .1 / ::1 sur CL</td><td>StackWise Virtual</td></tr><tr><td>DMZ 400-402</td><td>FortiGate .1 / .33 / .65</td><td>FGCP : adresse virtuelle et MAC virtuelle reprises par le passif</td></tr><tr><td>Services DMZ publiés</td><td>VIP Caddy 172.16.13.10 (keepalived/VRRP entre DM-RP1 et DM-RP2)</td><td>VRRP, préemption désactivée</td></tr><tr><td>Teleport</td><td>VIP 10.13.59.40 (keepalived entre les deux LXC)</td><td>VRRP</td></tr><tr><td>Clients IPv6</td><td>fe80::1 annoncée par RA (priorité high, durée 1800 s)</td><td>identique sur toutes les SVI</td></tr></table>
+<h2>4. Matrice des flux entre zones (Stormshield et FortiGate)</h2><p>Politique par défaut : tout refuser et journaliser. Seuls ces flux sont ouverts.</p>
+<table><tr><th>Source</th><th>Destination</th><th>Autorisé</th></tr><tr><td>USR</td><td>SRV</td><td>AD (Kerberos, LDAPS, SMB), DNS, DHCP relayé, RADIUS non (seuls les switchs/WLC parlent RADIUS)</td></tr><tr><td>USR</td><td>Internet</td><td>HTTP/HTTPS, DNS via les résolveurs internes, NTP via chrony ; SNAT .64/28</td></tr><tr><td>USR</td><td>DMZ</td><td>HTTPS vers Caddy (site, applications), SMTP soumission/IMAPS vers MAIL1</td></tr><tr><td>USR</td><td>IOT / ADM / GST</td><td><span class='ko'>interdit</span></td></tr><tr><td>IOT</td><td>SRV</td><td>Caméras → enregistreur, badgeuses → serveur de contrôle d'accès, DHCP/NTP</td></tr><tr><td>IOT</td><td>Internet</td><td><span class='ko'>interdit</span> (mises à jour poussées depuis l'administration)</td></tr><tr><td>GST</td><td>Internet</td><td>HTTP/HTTPS, DNS seulement ; SNAT .88/29 ; débit limité</td></tr><tr><td>GST</td><td>tout le reste</td><td><span class='ko'>interdit</span></td></tr><tr><td>SRV</td><td>Internet</td><td>Mises à jour (proxy), synchronisation eduroam ; SNAT .80/29</td></tr><tr><td>ADM (Teleport, PAW)</td><td>toutes les gestions</td><td>SSH, HTTPS, SNMP, API des équipements : uniquement depuis Teleport 10.13.59.40-42</td></tr><tr><td>toutes les VRF</td><td>ADM services</td><td>DHCP relayé vers Kea, NTP (chrony), syslog et traps SNMP vers la VM supervision</td></tr><tr><td>Internet</td><td>DMZ</td><td>VIP : 443/80 → Caddy, 25 → MAIL1, 53 → DNS1 ; 443 VPN SSL admin → FortiGate</td></tr><tr><td>DMZ</td><td>interne</td><td><span class='ko'>interdit</span> sauf DM-MAIL1 → AD (LDAPS) et DM-SRV1 → SRV (port applicatif précis)</td></tr></table>
+<h2 class='saut'>5. Routage interne</h2><h3>Cœur ↔ distribution : OSPF par VRF</h3>
+<table><tr><th>Paramètre</th><th>Valeur</th></tr><tr><td>Processus</td><td>OSPFv3 avec deux address-families, IPv4 et IPv6 (RFC 5838), un processus par VRF : 10 = USR, 20 = IOT, 30 = GST, 90 = ADM</td></tr><tr><td>Zone</td><td>Zone 0 unique par VRF : 2 routeurs logiques et ~15 préfixes par VRF, un découpage en zones n'apporte rien</td></tr><tr><td>Router-id</td><td>Loopback0 : CL 10.13.0.1, DL-B1 10.13.0.2, DL-B2 10.13.0.3</td></tr><tr><td>Interfaces</td><td>passive-interface default ; actives : sous-interfaces Po101.x / Po102.x (type point-to-point)</td></tr><tr><td>Liens</td><td>/31 IPv4 et /127 IPv6 ; MTU 9198 ; BFD 300 ms × 3</td></tr><tr><td>Authentification</td><td>OSPFv3 avec trailer d'authentification HMAC-SHA-256 (RFC 7166, key-chain), IPv4 comme IPv6</td></tr><tr><td>Route par défaut</td><td>le cœur l'injecte dans chaque VRF (default-information originate), seulement si sa route statique vers le Stormshield est présente</td></tr><tr><td>Convergence</td><td>panne d'un membre SVL ou d'un lien : agrégat, pas de recalcul OSPF ; panne d'un bloc : BFD &lt; 1 s</td></tr></table>
+<h3>Cœur ↔ Stormshield : routes statiques</h3><p>Pas de routage dynamique avec les pare-feu (règle ANSSI : la table d'un pare-feu ne doit pas pouvoir être modifiée depuis le réseau interne).</p>
+<table><tr><th>VRF</th><th>Sur CL (vers le Stormshield)</th><th>Sur le Stormshield (vers CL)</th></tr><tr><td><span class='vrf' style='background:#0079b5'>USR</span></td><td class='m'>0.0.0.0/0 → 10.13.2.2<br>::/0 → 2001:660:5402:4F21::2</td><td class='m'>10.13.16.0/21 → 10.13.2.1<br>10.13.24.0/22 → 10.13.2.1<br>10.13.32.0/21 → 10.13.2.1<br>10.13.40.0/22 → 10.13.2.1<br>2001:660:5402:4110::/60 → 2001:660:5402:4F21::1<br>2001:660:5402:4210::/60 → 2001:660:5402:4F21::1</td></tr><tr><td><span class='vrf' style='background:#a75c00'>IOT</span></td><td class='m'>0.0.0.0/0 → 10.13.2.18<br>::/0 → 2001:660:5402:4F22::10</td><td class='m'>10.13.28.0/24 → 10.13.2.17<br>10.13.44.0/24 → 10.13.2.17<br>2001:660:5402:4120::/60 → 2001:660:5402:4F22::9<br>2001:660:5402:4220::/60 → 2001:660:5402:4F22::9</td></tr><tr><td><span class='vrf' style='background:#97549b'>GST</span></td><td class='m'>0.0.0.0/0 → 10.13.2.34<br>::/0 → 2001:660:5402:4F23::18</td><td class='m'>10.13.30.0/23 → 10.13.2.33<br>10.13.46.0/23 → 10.13.2.33<br>2001:660:5402:4130::/60 → 2001:660:5402:4F23::17<br>2001:660:5402:4230::/60 → 2001:660:5402:4F23::17</td></tr><tr><td><span class='vrf' style='background:#008889'>SRV</span></td><td class='m'>0.0.0.0/0 → 10.13.2.50<br>::/0 → 2001:660:5402:4F24::26</td><td class='m'>10.13.48.0/22 → 10.13.2.49<br>2001:660:5402:4300::/60 → 2001:660:5402:4F24::25</td></tr><tr><td><span class='vrf' style='background:#c13c3b'>ADM</span></td><td class='m'>0.0.0.0/0 → 10.13.2.66<br>::/0 → 2001:660:5402:4F29::34</td><td class='m'>10.13.29.0/24 → 10.13.2.65<br>10.13.45.0/24 → 10.13.2.65<br>10.13.56.0/21 → 10.13.2.65<br>2001:660:5402:4190::/60 → 2001:660:5402:4F29::33<br>2001:660:5402:4290::/60 → 2001:660:5402:4F29::33<br>2001:660:5402:4900::/60 → 2001:660:5402:4F29::33</td></tr></table>
+<p>Stormshield : route par défaut 0.0.0.0/0 → 10.13.3.1 et ::/0 → 2001:660:5402:4F10::1 (FortiGate). FortiGate : 10.13.0.0/16 et 2001:660:5402:4000::/52 (sauf DMZ) → 10.13.3.2 / 2001:660:5402:4F10::2.</p>
+<h2>6. Bordure : BGP et choix du lien</h2>
+<table><tr><th></th><th>EL-RTR1 (FAI 1)</th><th>EL-RTR2 (FAI 2)</th></tr><tr><td>Voisin</td><td>AS2457, 139.124.112.1 et 2001:660:5402:4FF0::</td><td>AS64496, 203.0.113.1 et 2001:db8:ffff::</td></tr><tr><td>Annonce</td><td>139.124.112.0/24, 2001:660:5402:4000::/52</td><td>139.124.112.0/24 (prepend ×3, LOA de l'AMU), 2001:db8:2000::/48 non annoncé (PA)</td></tr><tr><td>Reçu</td><td>route par défaut seulement (v4 + v6)</td><td>route par défaut seulement</td></tr><tr><td>Préférence sortante</td><td>local-pref 200</td><td>local-pref 100</td></tr><tr><td>Filtres</td><td>prefix-list sortante stricte (pas de transit), entrée : bogons refusés, max-prefix</td><td>idem</td></tr><tr><td>Protection</td><td>TTL security (GTSM), MD5/TCP-AO avec l'opérateur, uRPF strict côté opérateur</td><td>idem</td></tr><tr><td>Vers le FortiGate</td><td>statiques 139.124.112.32/27 et .64/26 → .14 ; ::/0 côté LAN → 4F00::e</td><td>statiques → .22 ; 4F01::e</td></tr></table>
+<p><b>FortiGate SD-WAN</b> : deux membres (OUT-A via 139.124.112.9, OUT-B via .17), règle « priorité au FAI 1 » avec sonde SLA (ping et HTTP toutes les 500 ms vers deux cibles). Si OUT-A perd la sonde, le trafic passe sur OUT-B en quelques secondes. Les flux publiés (VIP) restent possibles par les deux chemins.</p><p><b>IPv6 en secours</b> : le /52 AMU n'est routé que par l'AMU. Si le FAI 1 tombe, le FortiGate traduit le préfixe interne vers le préfixe du FAI 2 (<b>NPTv6</b>, RFC 6296, 2001:db8:2000::/48) sans état, puis revient au natif quand le FAI 1 revient.</p>
+<h2 class='saut'>7. NAT et publication</h2>
+<table><tr><th>Type</th><th>Source / adresse interne</th><th>Adresse publique</th><th>Remarque</th></tr><tr><td>SNAT (PAT)</td><td class='m'>VRF USR</td><td class='m'>139.124.112.64/28</td><td>pool overload, journaux conservés 1 an</td></tr><tr><td>SNAT (PAT)</td><td class='m'>VRF SRV, ADM</td><td class='m'>139.124.112.80/29</td><td></td></tr><tr><td>SNAT (PAT)</td><td class='m'>VRF GST</td><td class='m'>139.124.112.88/29</td><td>séparé pour la traçabilité</td></tr><tr><td>VIP 1:1</td><td class='m'>172.16.13.10 (VIP Caddy)</td><td class='m'>139.124.112.33</td><td>80, 443 ; IPv6 : 2001:660:5402:4400::10 sans NAT</td></tr><tr><td>VIP port</td><td class='m'>172.16.13.21 (MAIL1)</td><td class='m'>139.124.112.34</td><td>25, 465, 587, 993</td></tr><tr><td>VIP port</td><td class='m'>172.16.13.20 (DNS1)</td><td class='m'>139.124.112.35</td><td>53 TCP/UDP (DNS public faisant autorité)</td></tr><tr><td>Local</td><td class='m'>FortiGate</td><td class='m'>139.124.112.36</td><td>VPN SSL/IPsec des administrateurs, puis Teleport</td></tr><tr><td>IPv6</td><td class='m'>tout le site</td><td class='m'>—</td><td>aucun NAT (adresses globales), sauf NPTv6 en secours sur le FAI 2</td></tr></table>
+<h2>8. IPv6 : détails</h2>
+<table><tr><th>VLAN</th><th>Attribution</th><th>Drapeaux RA</th><th>Détail</th></tr><tr><td>Usagers filaires et Wi-Fi (USR)</td><td>SLAAC + DHCPv6 sans état</td><td>A=1, M=0, O=1</td><td>DNS par RDNSS (RFC 8106) et DHCPv6 ; adresses temporaires autorisées</td></tr><tr><td>Invités (GST)</td><td>SLAAC</td><td>A=1, M=0, O=0</td><td>DNS par RDNSS</td></tr><tr><td>Objets (IOT)</td><td>DHCPv6 avec état (Kea, réservations DUID) ou IPv4 seul</td><td>A=0, M=1</td><td>selon le support des équipements</td></tr><tr><td>Serveurs, admin, DMZ</td><td>statique</td><td>A=0, M=0</td><td>terminaison identique à l'IPv4</td></tr><tr><td>Liens point à point</td><td>/127</td><td>RA supprimées</td><td>RFC 6164 ; un /64 réservé par lien</td></tr></table>
+<p>ICMPv6 indispensable autorisé sur les pare-feu (RFC 4890 : Packet Too Big, ND, échos limités). RA guard et DHCPv6 guard sur l'accès (voir L2).</p>
+<h2>9. Services IP</h2>
+<table><tr><th>Service</th><th>Serveurs</th><th>Configuration réseau</th></tr><tr><td>DHCPv4 usagers</td><td>DT-DHCP1/2 10.13.48.31-32 (basculement)</td><td>ip helper-address sur les SVI USR des DL (le relais traverse le Stormshield USR → SRV)</td></tr><tr><td>DHCP IOT, GST, ADM</td><td>Kea 10.13.59.11-12 (haute dispo hot-standby)</td><td>ip helper-address ; option 43 pour les bornes (adresse du WLC 10.13.59.60)</td></tr><tr><td>DHCPv6</td><td>DT-DHCP (USR, sans état), Kea (IOT)</td><td>ipv6 dhcp relay destination</td></tr><tr><td>DNS</td><td>AD 10.13.48.11-12 pour les usagers ; Unbound 10.13.59.31-32 pour l'infrastructure ; DM-DNS1 public</td><td>résolution Internet par les Unbound uniquement</td></tr><tr><td>NTP</td><td>chrony 10.13.59.21-22 (sources : ntp RENATER et GPS/NTS)</td><td>tous les équipements, authentifié</td></tr><tr><td>Journaux et supervision</td><td>VM supervision 10.13.59.50 (syslog, traps, LibreNMS)</td><td>source = Loopback0 ou interface de gestion</td></tr><tr><td>AAA équipements</td><td>DT-RAD1/2 (RADIUS) ou TACACS+</td><td>source Loopback0, VRF ADM</td></tr></table>
+<h2 class='saut'>10. Extraits de configuration</h2>
+<pre>! ===== CL (cœur, IOS-XE) : VRF et route par défaut vers le Stormshield
+vrf definition USR
+ address-family ipv4
+ address-family ipv6
+!
+interface Vlan1010
+ description TR-USR vers EL-SNS
+ vrf forwarding USR
+ ip address 10.13.2.1 255.255.255.248
+ ipv6 address 2001:660:5402:4F21::1/64
+!
+interface Port-channel101.10
+ description DL-B1 VRF USR
+ encapsulation dot1Q 10
+ vrf forwarding USR
+ ip address 10.13.1.0 255.255.255.254
+ ipv6 address 2001:660:5402:4F31::/127
+ ip ospf network point-to-point
+ bfd interval 300 min_rx 300 multiplier 3
+!
+ip route vrf USR 0.0.0.0 0.0.0.0 10.13.2.2 name SNS
+ipv6 route vrf USR ::/0 2001:660:5402:4F21::2
+!
+router ospfv3 10
+ router-id 10.13.0.1
+ address-family ipv4 unicast vrf USR
+  passive-interface default
+  no passive-interface Port-channel101.10
+  no passive-interface Port-channel102.10
+  default-information originate
+ address-family ipv6 unicast vrf USR
+  passive-interface default
+  no passive-interface Port-channel101.10
+  no passive-interface Port-channel102.10
+  default-information originate</pre><pre>! ===== DL-B1 : passerelle d'un VLAN usager
+interface Vlan111
+ description ETU-B1
+ vrf forwarding USR
+ ip address 10.13.16.1 255.255.254.0
+ ip helper-address 10.13.48.31
+ ip helper-address 10.13.48.32
+ ipv6 address FE80::1 link-local
+ ipv6 address 2001:660:5402:4111::1/64
+ ipv6 nd other-config-flag
+ ipv6 nd router-preference High
+ ipv6 dhcp relay destination 2001:660:5402:4300::31
+ ip access-group ETU-VERS-PERS in</pre><pre>! ===== EL-RTR1 : BGP vers AMU / RENATER
+router bgp 65013
+ bgp router-id 139.124.112.2
+ neighbor 139.124.112.1 remote-as 2457
+ neighbor 139.124.112.1 ttl-security hops 1
+ neighbor 139.124.112.1 password 7 ********
+ neighbor 2001:660:5402:4FF0:: remote-as 2457
+ address-family ipv4
+  network 139.124.112.0 mask 255.255.255.0
+  neighbor 139.124.112.1 prefix-list SORTIE-V4 out
+  neighbor 139.124.112.1 prefix-list DEFAUT-SEUL in
+  neighbor 139.124.112.1 route-map LP200 in
+ address-family ipv6
+  network 2001:660:5402:4000::/52
+  neighbor 2001:660:5402:4FF0:: activate
+  neighbor 2001:660:5402:4FF0:: prefix-list SORTIE-V6 out
+!
+ip route 139.124.112.0 255.255.255.0 Null0 tag 666
+ip route 139.124.112.32 255.255.255.224 139.124.112.14
+ip route 139.124.112.64 255.255.255.192 139.124.112.14
+ip prefix-list SORTIE-V4 permit 139.124.112.0/24</pre><pre># ===== FortiGate : SD-WAN, FAI 1 prioritaire
+config system sdwan
+    set status enable
+    config members
+        edit 1  set interface "OUT-A"  set gateway 139.124.112.9   next
+        edit 2  set interface "OUT-B"  set gateway 139.124.112.17  next
+    end
+    config health-check
+        edit "internet"  set server "193.51.24.1" "9.9.9.9"  set members 1 2  set interval 500  next
+    end
+    config service
+        edit 1  set name "FAI1-prioritaire"  set mode priority  set priority-members 1 2  set health-check "internet"  next
+    end
+end</pre>
+<h2>11. Tests de validation (maquette GNS3, point 06)</h2>
+<table><tr><th>Test</th><th>Résultat attendu</th></tr><tr><td>Couper un membre du cœur (CL-SW1)</td><td>aucune perte de route ; &lt; 1 s de coupure (agrégats)</td></tr><tr><td>Couper DL-SW1</td><td>le bloc 1 reste joignable par DL-SW2, passerelle inchangée</td></tr><tr><td>Couper le FAI 1</td><td>SD-WAN bascule sur OUT-B en &lt; 3 s ; IPv6 sort en NPTv6</td></tr><tr><td>Basculer le FortiGate ou le Stormshield actif</td><td>sessions conservées (synchronisation des sessions)</td></tr><tr><td>Un poste étudiant tente SSH vers 10.13.56.0/24</td><td>refusé et journalisé par le Stormshield (pas de route USR → ADM au cœur)</td></tr><tr><td>Un invité tente d'atteindre 10.13.48.11</td><td>refusé</td></tr><tr><td>Éteindre NM-PVE1</td><td>Kea, NTP, DNS, Teleport toujours servis par NM-PVE2 ; VM supervision et WLC redémarrées en ~2 min</td></tr><tr><td>traceroute et ping v4/v6 de chaque VLAN vers Internet</td><td>sortie par l'adresse SNAT prévue ; IPv6 sans NAT</td></tr></table>
+<h2>12. Points à valider avec la DSI AMU</h2><ul><li>Attribution du /24 public (139.124.112.0/24 est une proposition) et du /52 IPv6 dans 2001:660:5402::/48.</li><li>Raccordement au réseau du campus : eBGP avec AS privé, ou routage statique fourni par l'AMU (dans ce cas EL-RTR1 garde une route statique).</li><li>Lettre d'autorisation (LOA) pour annoncer le /24 par le FAI 2, ou à défaut un préfixe du FAI 2 en NAT de secours.</li><li>Site jumeau : MPLS L3VPN avec une VPN par VRF (route-target), point 07.</li></ul></body></html>

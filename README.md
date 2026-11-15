@@ -14,7 +14,8 @@ Projet BUT3 R&T (R5.08 Gestion de projets / SAÉ 5.02) : concevoir le réseau co
 | `docs/plans_batiment/` | Plans du bâtiment : sous-sol, RDC, étage 1, toiture |
 | `docs/anssi/` | Référentiel des guides ANSSI applicables, reliés aux points du CdC et au schéma |
 | `docs/references_prix/` | `cisco-price-list.pdf` (ancienne, gammes des années 2000) |
-| `architecture/` | Schéma `Projet_Marseille_site.drawio` (version du 9 oct.) + `archives/` |
+| `maquette/` | Point 06 : TP pour construire la maquette du LAN sous containerlab avec **deux switchs de cœur** (cl1/cl2 : ECMP, VRRP, STP, BFD) : `TP_maquette_LAN_containerlab.md`. Images : `images/construire.sh`. Vos fichiers vont dans `maquette/lan/`. Corrigé testé : `corrige/` (à ouvrir après avoir cherché). Tests automatiques : `bash maquette/tests/verifier.sh --pannes`. Ancienne version à 1 cœur : `archives/` |
+| `architecture/` | Schéma `Projet_Marseille_site.drawio` (zone Net Management refaite le 13 nov. : 2 nœuds Proxmox + témoin), schémas logiques `architecture_l2.drawio` et `architecture_l3.drawio`, `archives/`. **`architecture/reseau/`** : source unique du plan d'adressage et des VLAN (`donnees.py`) et script `build.py` → `livrables/plan_adressage/`, `livrables/architecture_l2/`, `livrables/architecture_l3/` |
 | `chiffrage/` | Estimation budgétaire de l'infra : `estimation_infra.md`, `.csv`, script `estimation.py` (reprend les quantités du plan de câblage) |
 | `communication/` | Scripts du point 02 (société fictive **RudyLink Infrastructure**) : logo, charte, plaquette, organisation MOA/MOE, modèles Office → `livrables/communication/` (copie des PDF dans `livrables/site_web/documents/`) |
 | `energie/` | Script du point 14 (énergie, onduleurs, climatisation, PUE, finances) → `livrables/energie_refroidissement/` |
