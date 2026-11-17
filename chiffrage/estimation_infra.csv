@@ -7,8 +7,8 @@ DMZ;DM-SW1, DM-SW2;Cisco Catalyst C9200L-24T-4X-E + DNA-E 3 ans;2;2300;4600;
 DMZ;DM-RP1/2 (Caddy), DM-DNS1, DM-WEB1, DM-MAIL1, DM-SRV1;Dell PowerEdge R260 (Xeon E-2434, 32 Go, 2x960 Go SSD RAID1, double alim);6;2900;17400;6 serveurs physiques comme sur le schéma
 Cœur;CL-SW1, CL-SW2;Cisco Catalyst C9500-16X-E + DNA-E 3 ans + modules 40G SVL;2;9500;19000;StackWise Virtual
 Distribution;DL-SW1 à DL-SW4;Cisco Catalyst C9500-16X-E + DNA-E 3 ans;4;9500;38000;2 blocs StackWise Virtual (le SVL impose la gamme 9500)
-Accès;AL-SW1 à AL-SW4;Cisco Catalyst C9200L-48P-4X-E PoE+ + DNA-E 3 ans;8;3900;31200;Le schéma en montre 4. Il en faut 8 pour ~400 prises + 20 % de réserve
-Accès;AL-AP1;Borne Wi-Fi 6E Cisco CW9164I + licence DNA AP 3 ans;30;1300;39000;Environ 1 borne par salle de cours/TP + amphi, foyer, couloirs. Contrôleur 9800-CL en VM
+Accès;AL-SW1 à AL-SW4;Cisco Catalyst C9200L-48P-4X-E PoE+ + DNA-E 3 ans;15;3900;58500;Le schéma en montre 4. Plan de câblage : 15 switchs pour 484 prises (+10 % de ports libres) et le budget PoE, répartis dans les 6 L.TECH
+Accès;AL-AP1;Borne Wi-Fi 6E Cisco CW9164I + licence DNA AP 3 ans;38;1300;49400;Nombre fixé par l'étude RSSI prédictive (≥ −67 dBm à 5 GHz, livrables/plan_cablage/wifi). Contrôleur 9800-CL en VM
 Net Management;NM-SW1, NM-SW2;Cisco Catalyst C9200L-24T-4X-E + DNA-E 3 ans;2;2300;4600;
 Net Management;NM-PVE1 à NM-PVE3;Dell PowerEdge R660xs (2x Xeon Silver 4510, 256 Go, 4x1,92 To SSD Ceph, 2x25 GbE);3;9500;28500;Cluster Proxmox HA : LXC Kea/chrony/DNS, VM Docker (LibreNMS, Grafana, syslog, snmptrapd), Teleport
 Net Management;Services NM (LXC + Docker);Kea, chrony, Bind/Unbound, LibreNMS, Grafana, rsyslog, snmptrapd, Teleport Community;1;0;0;Logiciels libres, 0 € de licence
@@ -18,14 +18,18 @@ Datacenter;Licences serveurs Windows;Windows Server 2025 Standard 16 cœurs (AD,
 Datacenter;Licences d'accès;CAL utilisateur Windows Server (tarif Éducation);600;10;6000;~100 personnels + ~500 étudiants
 Datacenter;DT-BKP1;Serveur de sauvegarde Proxmox Backup Server (Dell R760xd2, ~100 To bruts);1;12000;12000;Règle 3-2-1 avec copie externalisée (voir OPEX)
 Énergie / locaux;Salle serveur;Baie 42U 800x1000 avec portes ventilées;2;1500;3000;
-Énergie / locaux;Locaux techniques (6 L.TECH);Baie 24U murale/sol;6;700;4200;2 L.TECH par niveau d'après les plans
+Énergie / locaux;Locaux techniques (6 L.TECH);Baie 24U murale/sol;5;700;3500;2 L.TECH par niveau d'après les plans
+Énergie / locaux;Locaux techniques;Baie 42U 600x800 au sol;1;1200;1200;L.TECH dont la baie dépasse 22U (plan de câblage)
 Énergie / locaux;Salle serveur;Onduleur APC Smart-UPS SRT 6 kVA (en ligne);2;4800;9600;Alimentation A/B
 Énergie / locaux;Locaux techniques;Onduleur 1,5 kVA rackable;6;900;5400;
 Énergie / locaux;Salle serveur;PDU managées et métrées;4;700;2800;Mesure de consommation (Green IT)
 Énergie / locaux;Salle serveur;Climatisation de précision ~7 kW, redondance N+1;1;12000;12000;
 Énergie / locaux;Salle serveur + L.TECH;Contrôle d'accès par badge;1;5000;5000;
-Câblage;Prises utilisateurs;Prise RJ45 Cat6A fournie, posée et recettée;400;140;56000;10 Gb/s, durée de vie 15 ans (CdC)
-Câblage;Rocades verticales;Fibre OM4 12 brins L.TECH vers salle serveur;6;1500;9000;
+Câblage;Prises;Prise RJ45 Cat6A fournie, posée et recettée;484;140;67760;10 Gb/s, durée de vie 15 ans (CdC). Usagers + bornes + caméras + badgeuses (plan de câblage)
+Câblage;Rocades;Fibre OM4 12 brins L.TECH vers salle serveur;12;1500;18000;2 câbles par local, par deux chemins disjoints (colonnes Nord et Sud)
+Câblage;Chemins de câbles;Chemin de câbles fil 100×50 mm, posé;636;35;22260;Métré du plan de câblage (circulations et locaux)
+Câblage;Chemins de câbles;Chemin de câbles fil 200×60 mm, posé;17;45;765;Métré du plan de câblage (circulations et locaux)
+Câblage;Chemins de câbles;Chemin de câbles fil 300×100 mm, posé;7;60;420;Métré du plan de câblage (circulations et locaux)
 Câblage;Optiques;Modules SFP+/SFP28/QSFP compatibles;80;70;5600;Optiques Cisco d'origine : x4 environ
 Câblage;Brassage;Panneaux, cordons, passe-câbles;1;4000;4000;Forfait
 Prestations;Intégration;Ingénierie, intégration et configuration (jours);45;650;29250;

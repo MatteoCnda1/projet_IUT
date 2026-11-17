@@ -15,17 +15,18 @@ Projet BUT3 R&T (R5.08 Gestion de projets / SAÉ 5.02) : concevoir le réseau co
 | `docs/anssi/` | Référentiel des guides ANSSI applicables, reliés aux points du CdC et au schéma |
 | `docs/references_prix/` | `cisco-price-list.pdf` (ancienne, gammes des années 2000) |
 | `architecture/` | Schéma `Projet_Marseille_site.drawio` (version du 9 oct.) + `archives/` |
-| `chiffrage/` | Estimation budgétaire de l'infra : `estimation_infra.md`, `.csv`, script `estimation.py` |
+| `chiffrage/` | Estimation budgétaire de l'infra : `estimation_infra.md`, `.csv`, script `estimation.py` (reprend les quantités du plan de câblage) |
+| `cablage/` | Scripts du plan de câblage et de l'étude Wi-Fi RSSI, à partir des plans PDF (voir `cablage/README.md`) |
 | `roadmap/` | Source de la roadmap (`roadmap.template.html`, `build.py`, `seed_points.json`). `build.py` y injecte le chiffrage et le référentiel ANSSI |
-| `livrables/` | Rapport, présentation, maquette GNS3, site web, journal de bord, vidéo en anglais |
+| `livrables/` | Rapport, présentation, maquette GNS3, site web, journal de bord, vidéo en anglais. **`livrables/plan_cablage/`** : plan de câblage (point 04) et étude Wi-Fi |
 
 ## Chiffrage (résumé)
 
 | | HT |
 |---|---:|
-| CAPEX (avec 10 % d'aléas) | 476 355 € |
+| CAPEX (avec 10 % d'aléas) | 567 001 € |
 | OPEX annuel (années 1 à 3) | 39 181 € |
-| Coût total sur 5 ans | 723 260 € |
+| Coût total sur 5 ans | 818 620 € |
 
 Détail et hypothèses : [`chiffrage/estimation_infra.md`](chiffrage/estimation_infra.md). Après une modification de `estimation.py` ou de `docs/anssi/referentiel_anssi.md` : `python3 chiffrage/estimation.py && python3 roadmap/build.py`, puis republier la page.
 

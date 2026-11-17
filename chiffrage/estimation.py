@@ -9,6 +9,23 @@ import csv, json, pathlib
 
 HERE = pathlib.Path(__file__).parent
 
+# Quantités issues du plan de câblage (cablage/plan_cablage.py) et de l'étude Wi-Fi (cablage/etude_rssi.py)
+_PLAN = HERE.parent / "livrables" / "plan_cablage" / "resume.json"
+PLAN = json.loads(_PLAN.read_text(encoding="utf-8")) if _PLAN.exists() else None
+if PLAN:
+    NB_PRISES = PLAN["prises"]
+    NB_BORNES = PLAN["par_type"]["wifi"]
+    NB_AL_SW = sum(b["switchs_48p"] for b in PLAN["baies"])
+    NB_ROCADES = len(PLAN["rocades"])
+    BAIES_42 = sum(b["baie"].startswith("42U") for b in PLAN["baies"])
+    CHEMINS = {}
+    for niv in PLAN["chemins_de_cables_m"].values():
+        for dim, m in niv.items():
+            CHEMINS[dim] = CHEMINS.get(dim, 0) + m
+else:
+    NB_PRISES, NB_BORNES, NB_AL_SW, NB_ROCADES, BAIES_42, CHEMINS = 400, 30, 8, 6, 0, {}
+PRIX_CHEMIN = {"100×50": 35, "200×60": 45, "300×100": 60}  # €/m posé, avec supports
+
 # (catégorie, éléments du schéma, solution proposée, quantité, prix unitaire HT, note)
 CAPEX = [
     ("Egress / WAN", "EL-RTR1, EL-RTR2", "Cisco Catalyst C8200L-1N-4T + DNA Essentials 3 ans", 2, 2200, "Routeurs de bordure, 1 par FAI"),
@@ -19,8 +36,10 @@ CAPEX = [
     ("DMZ", "DM-RP1/2 (Caddy), DM-DNS1, DM-WEB1, DM-MAIL1, DM-SRV1", "Dell PowerEdge R260 (Xeon E-2434, 32 Go, 2x960 Go SSD RAID1, double alim)", 6, 2900, "6 serveurs physiques comme sur le schéma"),
     ("Cœur", "CL-SW1, CL-SW2", "Cisco Catalyst C9500-16X-E + DNA-E 3 ans + modules 40G SVL", 2, 9500, "StackWise Virtual"),
     ("Distribution", "DL-SW1 à DL-SW4", "Cisco Catalyst C9500-16X-E + DNA-E 3 ans", 4, 9500, "2 blocs StackWise Virtual (le SVL impose la gamme 9500)"),
-    ("Accès", "AL-SW1 à AL-SW4", "Cisco Catalyst C9200L-48P-4X-E PoE+ + DNA-E 3 ans", 8, 3900, "Le schéma en montre 4. Il en faut 8 pour ~400 prises + 20 % de réserve"),
-    ("Accès", "AL-AP1", "Borne Wi-Fi 6E Cisco CW9164I + licence DNA AP 3 ans", 30, 1300, "Environ 1 borne par salle de cours/TP + amphi, foyer, couloirs. Contrôleur 9800-CL en VM"),
+    ("Accès", "AL-SW1 à AL-SW4", "Cisco Catalyst C9200L-48P-4X-E PoE+ + DNA-E 3 ans", NB_AL_SW, 3900,
+     f"Le schéma en montre 4. Plan de câblage : {NB_AL_SW} switchs pour {NB_PRISES} prises (+10 % de ports libres) et le budget PoE, répartis dans les 6 L.TECH"),
+    ("Accès", "AL-AP1", "Borne Wi-Fi 6E Cisco CW9164I + licence DNA AP 3 ans", NB_BORNES, 1300,
+     "Nombre fixé par l'étude RSSI prédictive (≥ −67 dBm à 5 GHz, livrables/plan_cablage/wifi). Contrôleur 9800-CL en VM"),
     ("Net Management", "NM-SW1, NM-SW2", "Cisco Catalyst C9200L-24T-4X-E + DNA-E 3 ans", 2, 2300, ""),
     ("Net Management", "NM-PVE1 à NM-PVE3", "Dell PowerEdge R660xs (2x Xeon Silver 4510, 256 Go, 4x1,92 To SSD Ceph, 2x25 GbE)", 3, 9500, "Cluster Proxmox HA : LXC Kea/chrony/DNS, VM Docker (LibreNMS, Grafana, syslog, snmptrapd), Teleport"),
     ("Net Management", "Services NM (LXC + Docker)", "Kea, chrony, Bind/Unbound, LibreNMS, Grafana, rsyslog, snmptrapd, Teleport Community", 1, 0, "Logiciels libres, 0 € de licence"),
@@ -30,14 +49,21 @@ CAPEX = [
     ("Datacenter", "Licences d'accès", "CAL utilisateur Windows Server (tarif Éducation)", 600, 10, "~100 personnels + ~500 étudiants"),
     ("Datacenter", "DT-BKP1", "Serveur de sauvegarde Proxmox Backup Server (Dell R760xd2, ~100 To bruts)", 1, 12000, "Règle 3-2-1 avec copie externalisée (voir OPEX)"),
     ("Énergie / locaux", "Salle serveur", "Baie 42U 800x1000 avec portes ventilées", 2, 1500, ""),
-    ("Énergie / locaux", "Locaux techniques (6 L.TECH)", "Baie 24U murale/sol", 6, 700, "2 L.TECH par niveau d'après les plans"),
+    ("Énergie / locaux", "Locaux techniques (6 L.TECH)", "Baie 24U murale/sol", 6 - BAIES_42, 700, "2 L.TECH par niveau d'après les plans"),
+    ("Énergie / locaux", "Locaux techniques", "Baie 42U 600x800 au sol", BAIES_42, 1200, "L.TECH dont la baie dépasse 22U (plan de câblage)"),
     ("Énergie / locaux", "Salle serveur", "Onduleur APC Smart-UPS SRT 6 kVA (en ligne)", 2, 4800, "Alimentation A/B"),
     ("Énergie / locaux", "Locaux techniques", "Onduleur 1,5 kVA rackable", 6, 900, ""),
     ("Énergie / locaux", "Salle serveur", "PDU managées et métrées", 4, 700, "Mesure de consommation (Green IT)"),
     ("Énergie / locaux", "Salle serveur", "Climatisation de précision ~7 kW, redondance N+1", 1, 12000, ""),
     ("Énergie / locaux", "Salle serveur + L.TECH", "Contrôle d'accès par badge", 1, 5000, ""),
-    ("Câblage", "Prises utilisateurs", "Prise RJ45 Cat6A fournie, posée et recettée", 400, 140, "10 Gb/s, durée de vie 15 ans (CdC)"),
-    ("Câblage", "Rocades verticales", "Fibre OM4 12 brins L.TECH vers salle serveur", 6, 1500, ""),
+    ("Câblage", "Prises", "Prise RJ45 Cat6A fournie, posée et recettée", NB_PRISES, 140,
+     "10 Gb/s, durée de vie 15 ans (CdC). Usagers + bornes + caméras + badgeuses (plan de câblage)"),
+    ("Câblage", "Rocades", "Fibre OM4 12 brins L.TECH vers salle serveur", NB_ROCADES, 1500,
+     "2 câbles par local, par deux chemins disjoints (colonnes Nord et Sud)"),
+] + [
+    ("Câblage", "Chemins de câbles", f"Chemin de câbles fil {dim} mm, posé", round(m), PRIX_CHEMIN.get(dim.split()[0], 60),
+     "Métré du plan de câblage (circulations et locaux)") for dim, m in sorted(CHEMINS.items())
+] + [
     ("Câblage", "Optiques", "Modules SFP+/SFP28/QSFP compatibles", 80, 70, "Optiques Cisco d'origine : x4 environ"),
     ("Câblage", "Brassage", "Panneaux, cordons, passe-câbles", 1, 4000, "Forfait"),
     ("Prestations", "Intégration", "Ingénierie, intégration et configuration (jours)", 45, 650, ""),
@@ -60,7 +86,7 @@ OPEX = [
 RENOUV = [
     ("FortiGuard UTP + FortiCare", "2 FortiGate 120G", 2 * 2100),
     ("Stormshield Premium UTM", "2 SN710", 2 * 1500),
-    ("Cisco DNA Essentials / AP", "~26 switchs + 30 bornes", 12000),
+    ("Cisco DNA Essentials / AP", f"~{NB_AL_SW + 14} switchs + {NB_BORNES} bornes", round(12000 * (NB_AL_SW + 14 + NB_BORNES) / 56)),
     ("Support matériel serveurs", "Extension garantie 18 serveurs", 18 * 350),
 ]
 
@@ -115,7 +141,9 @@ def main():
     md += [f"| {a} | {b} | {e(c) if c else 'variable'} |" for a, b, c in OPTIM]
     md += ["", "## Hypothèses de dimensionnement", "",
            "- Bâtiment IUT Génie Télécom (Luminy) : sous-sol, RDC, étage 1, 6 locaux techniques (plans `docs/plans_batiment/`).",
-           "- ~400 prises : ~17 bureaux x 2, ~10 salles info/TP/réseaux x 24, ~12 salles TD/cours/réunion x 3, 30 bornes, ~15 caméras IP, ~10 badgeuses.",
+           (f"- {NB_PRISES} prises d'après le plan de câblage (`livrables/plan_cablage/`) : bureaux 2 par poste, salles de TP 1 par poste + 2, "
+            f"salles de TD/cours/réunion 3, {NB_BORNES} bornes Wi-Fi (étude RSSI), 15 caméras IP, 11 badgeuses." if PLAN else
+            "- ~400 prises : ~17 bureaux x 2, ~10 salles info/TP/réseaux x 24, ~12 salles TD/cours/réunion x 3, 30 bornes, ~15 caméras IP, ~10 badgeuses."),
            "- Postes clients, imprimantes, téléphones IP et caméras exclus (budget poste de travail à part).",
            "- La `cisco-price-list.pdf` du Drive date du début des années 2000 (gammes Aironet 340/350, VPN 3000) : elle n'est pas utilisable pour des prix actuels.",
            f"- Électricité : {IT_KW} kW de charge IT moyenne, PUE {PUE}, {KWH:.2f} €/kWh HT.", ""]

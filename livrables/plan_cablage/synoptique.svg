@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="937.332pt" height="596.52pt" viewBox="0 0 937.332 596.52" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-12T15:44:54.700629</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.1+dfsg1, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 596.52 
+L 937.332 596.52 
+L 937.332 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 7.2 183.6 
+L 930.132 183.6 
+L 930.132 95.4 
+L 7.2 95.4 
+z
+" clip-path="url(#p03b802f56c)" style="fill: #f6f4ef"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 7.2 324.72 
+L 930.132 324.72 
+L 930.132 236.52 
+L 7.2 236.52 
+z
+" clip-path="url(#p03b802f56c)" style="fill: #f6f4ef"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 7.2 545.22 
+L 930.132 545.22 
+L 930.132 377.64 
+L 7.2 377.64 
+z
+" clip-path="url(#p03b802f56c)" style="fill: #f6f4ef"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 315.459288 395.28 
+L 363.451752 395.28 
+L 363.451752 95.4 
+L 315.459288 95.4 
+z
+" clip-path="url(#p03b802f56c)" style="fill: #dce6f3"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 573.880248 395.28 
+L 621.872712 395.28 
+L 621.872712 95.4 
+L 573.880248 95.4 
+z
+" clip-path="url(#p03b802f56c)" style="fill: #dce6f3"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Serif'; text-anchor: start" x="7.2" y="23.007656" transform="rotate(-0 7.2 23.007656)">Synoptique des rocades et adductions</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3833" x="7.2" y="43.58675" transform="rotate(-0 7.2 43.58675)">Fibre OM4 12 brins. Deux câbles par local, par deux chemins disjoints : voie A par la colonne montante la plus proche, voie B par l'autre colonne. Total ≈ 732 m de fibre.</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #6c6861" x="468.666" y="112.566094" transform="rotate(-0 468.666 112.566094)">Étage 1</text>
+   </g>
+   <g id="text_4">
+    <text style="font-weight: 700; font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #6c6861" x="468.666" y="252.178594" transform="rotate(-0 468.666 252.178594)">Rez-de-chaussée</text>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #6c6861" x="468.666" y="393.298594" transform="rotate(-0 468.666 393.298594)">Sous-sol</text>
+   </g>
+   <g id="text_6">
+    <text style="font-weight: 700; font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #1f4e8c" x="339.45552" y="82.17" transform="rotate(-0 339.45552 82.17)">Colonne Nord</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #1f4e8c" x="597.87648" y="82.17" transform="rotate(-0 597.87648 82.17)">Colonne Sud</text>
+   </g>
+   <g id="line2d_1">
+    <path d="M 452.053224 436.734 
+L 452.053224 413.802 
+L 333.917928 400.572 
+L 333.917928 128.916 
+L 250.854048 128.916 
+" clip-path="url(#p03b802f56c)" style="fill: none; stroke: #1f4e8c; stroke-width: 1.3; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 452.053224 436.734 
+L 452.053224 417.33 
+L 592.338888 404.1 
+L 592.338888 150.084 
+L 250.854048 150.084 
+" clip-path="url(#p03b802f56c)" style="fill: none; stroke-dasharray: 5.2,2.6; stroke-dashoffset: 0; stroke: #1f4e8c; stroke-width: 1.3"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 518.504328 436.734 
+L 518.504328 413.802 
+L 614.489256 400.572 
+L 614.489256 128.916 
+L 686.477952 128.916 
+" clip-path="url(#p03b802f56c)" style="fill: none; stroke: #1f4e8c; stroke-width: 1.3; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 518.504328 436.734 
+L 518.504328 417.33 
+L 356.068296 404.1 
+L 356.068296 150.084 
+L 686.477952 150.084 
+" clip-path="url(#p03b802f56c)" style="fill: none; stroke-dasharray: 5.2,2.6; stroke-dashoffset: 0; stroke: #1f4e8c; stroke-width: 1.3"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 418.827672 436.734 
+L 418.827672 413.802 
+L 322.842744 400.572 
+L 322.842744 270.036 
+L 250.854048 270.036 
+" clip-path="url(#p03b802f56c)" style="fill: none; stroke: #1f4e8c; stroke-width: 1.3; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 418.827672 436.734 
+L 418.827672 417.33 
+L 581.263704 404.1 
+L 581.263704 291.204 
+L 250.854048 291.204 
+" clip-path="url(#p03b802f56c)" style="fill: none; stroke-dasharray: 5.2,2.6; stroke-dashoffset: 0; stroke: #1f4e8c; stroke-width: 1.3"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 485.278776 436.734 
+L 485.278776 413.802 
+L 603.414072 400.572 
+L 603.414072 270.036 
+L 686.477952 270.036 
+" clip-path="url(#p03b802f56c)" style="fill: none; stroke: #1f4e8c; stroke-width: 1.3; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 485.278776 436.734 
+L 485.278776 417.33 
+L 344.993112 404.1 
+L 344.993112 291.204 
+L 686.477952 291.204 
+" clip-path="url(#p03b802f56c)" style="fill: none; stroke-dasharray: 5.2,2.6; stroke-dashoffset: 0; stroke: #1f4e8c; stroke-width: 1.3"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 345.916044 474.66 
+L 250.854048 474.66 
+" clip-path="url(#p03b802f56c)" style="fill: none; stroke: #1f4e8c; stroke-width: 1.3; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 345.916044 492.3 
+L 250.854048 492.3 
+" clip-path="url(#p03b802f56c)" style="fill: none; stroke-dasharray: 5.2,2.6; stroke-dashoffset: 0; stroke: #1f4e8c; stroke-width: 1.3"/>
+   </g>
+   <g id="line2d_11">
+    <path d="M 591.415956 474.66 
+L 686.477952 474.66 
+" clip-path="url(#p03b802f56c)" style="fill: none; stroke: #1f4e8c; stroke-width: 1.3; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_12">
+    <path d="M 591.415956 492.3 
+L 686.477952 492.3 
+" clip-path="url(#p03b802f56c)" style="fill: none; stroke-dasharray: 5.2,2.6; stroke-dashoffset: 0; stroke: #1f4e8c; stroke-width: 1.3"/>
+   </g>
+   <g id="text_8">
+    <text style="font-weight: 700; font-size: 7.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #1d7a4e" x="25.65864" y="584.028" transform="rotate(-0 25.65864 584.028)">FAI 1 · façade ouest, chambre de tirage côté chaufferie · 58 m jusqu'à la salle serveur</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 7.5px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #1d7a4e" x="911.67336" y="584.028" transform="rotate(-0 911.67336 584.028)">FAI 2 · façade est, par le parking · 55 m jusqu'à la salle serveur</text>
+   </g>
+   <g id="patch_7">
+    <path d="M 27.627996 566.944579 
+Q 185.783684 540.810605 341.512605 515.077633 
+" style="fill: none; stroke: #1d7a4e; stroke-width: 2.2; stroke-linecap: round"/>
+    <path d="M 338.521822 514.152852 
+L 341.512605 515.077633 
+L 338.97831 516.91539 
+z
+" style="fill: #1d7a4e; stroke: #1d7a4e; stroke-width: 2.2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 909.704004 566.944579 
+Q 751.548316 540.810605 595.819395 515.077633 
+" style="fill: none; stroke: #1d7a4e; stroke-width: 2.2; stroke-linecap: round"/>
+    <path d="M 598.35369 516.91539 
+L 595.819395 515.077633 
+L 598.810178 514.152852 
+z
+" style="fill: #1d7a4e; stroke: #1d7a4e; stroke-width: 2.2; stroke-linecap: round"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 348.68484 530.226 
+L 588.64716 530.226 
+Q 591.415956 530.226 591.415956 527.58 
+L 591.415956 439.38 
+Q 591.415956 436.734 588.64716 436.734 
+L 348.68484 436.734 
+Q 345.916044 436.734 345.916044 439.38 
+L 345.916044 527.58 
+Q 345.916044 530.226 348.68484 530.226 
+z
+" clip-path="url(#p03b802f56c)" style="fill: #eaf0f8; stroke: #1f4e8c; stroke-width: 1.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 25.65864 181.836 
+L 247.16232 181.836 
+Q 249.931116 181.836 249.931116 179.19 
+L 249.931116 99.81 
+Q 249.931116 97.164 247.16232 97.164 
+L 25.65864 97.164 
+Q 22.889844 97.164 22.889844 99.81 
+L 22.889844 179.19 
+Q 22.889844 181.836 25.65864 181.836 
+z
+" clip-path="url(#p03b802f56c)" style="fill: #ffffff; stroke: #2c6e8c; stroke-width: 1.6; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 690.16968 181.836 
+L 911.67336 181.836 
+Q 914.442156 181.836 914.442156 179.19 
+L 914.442156 99.81 
+Q 914.442156 97.164 911.67336 97.164 
+L 690.16968 97.164 
+Q 687.400884 97.164 687.400884 99.81 
+L 687.400884 179.19 
+Q 687.400884 181.836 690.16968 181.836 
+z
+" clip-path="url(#p03b802f56c)" style="fill: #ffffff; stroke: #8c682c; stroke-width: 1.6; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 25.65864 322.956 
+L 247.16232 322.956 
+Q 249.931116 322.956 249.931116 320.31 
+L 249.931116 240.93 
+Q 249.931116 238.284 247.16232 238.284 
+L 25.65864 238.284 
+Q 22.889844 238.284 22.889844 240.93 
+L 22.889844 320.31 
+Q 22.889844 322.956 25.65864 322.956 
+z
+" clip-path="url(#p03b802f56c)" style="fill: #ffffff; stroke: #2c6e8c; stroke-width: 1.6; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 690.16968 322.956 
+L 911.67336 322.956 
+Q 914.442156 322.956 914.442156 320.31 
+L 914.442156 240.93 
+Q 914.442156 238.284 911.67336 238.284 
+L 690.16968 238.284 
+Q 687.400884 238.284 687.400884 240.93 
+L 687.400884 320.31 
+Q 687.400884 322.956 690.16968 322.956 
+z
+" clip-path="url(#p03b802f56c)" style="fill: #ffffff; stroke: #8c682c; stroke-width: 1.6; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 25.65864 525.816 
+L 247.16232 525.816 
+Q 249.931116 525.816 249.931116 523.17 
+L 249.931116 443.79 
+Q 249.931116 441.144 247.16232 441.144 
+L 25.65864 441.144 
+Q 22.889844 441.144 22.889844 443.79 
+L 22.889844 523.17 
+Q 22.889844 525.816 25.65864 525.816 
+z
+" clip-path="url(#p03b802f56c)" style="fill: #ffffff; stroke: #8c682c; stroke-width: 1.6; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 690.16968 525.816 
+L 911.67336 525.816 
+Q 914.442156 525.816 914.442156 523.17 
+L 914.442156 443.79 
+Q 914.442156 441.144 911.67336 441.144 
+L 690.16968 441.144 
+Q 687.400884 441.144 687.400884 443.79 
+L 687.400884 523.17 
+Q 687.400884 525.816 690.16968 525.816 
+z
+" clip-path="url(#p03b802f56c)" style="fill: #ffffff; stroke: #2c6e8c; stroke-width: 1.6; stroke-linejoin: miter"/>
+   </g>
+   <g id="legend_1">
+    <g id="line2d_13">
+     <path d="M 668.308172 26.055628 
+L 675.808172 26.055628 
+L 683.308172 26.055628 
+" style="fill: none; stroke: #1f4e8c; stroke-width: 1.3; stroke-linecap: square"/>
+    </g>
+    <g id="text_10">
+     <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="689.308172" y="28.680628" transform="rotate(-0 689.308172 28.680628)">fibre voie A</text>
+    </g>
+    <g id="line2d_14">
+     <path d="M 746.946844 26.055628 
+L 754.446844 26.055628 
+L 761.946844 26.055628 
+" style="fill: none; stroke-dasharray: 5.2,2.6; stroke-dashoffset: 0; stroke: #1f4e8c; stroke-width: 1.3"/>
+    </g>
+    <g id="text_11">
+     <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="767.946844" y="28.680628" transform="rotate(-0 767.946844 28.680628)">fibre voie B</text>
+    </g>
+    <g id="line2d_15">
+     <path d="M 825.60075 26.055628 
+L 833.10075 26.055628 
+L 840.60075 26.055628 
+" style="fill: none; stroke: #1d7a4e; stroke-width: 2.2; stroke-linecap: square"/>
+    </g>
+    <g id="text_12">
+     <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="846.60075" y="28.680628" transform="rotate(-0 846.60075 28.680628)">adduction opérateur</text>
+    </g>
+   </g>
+   <g id="text_13">
+    <text style="font-weight: 700; font-size: 9.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #1f4e8c" x="468.666" y="457.02" transform="rotate(-0 468.666 457.02)">SALLE SERVEUR · partie sud de J05</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; text-anchor: middle" x="468.666" y="476.424" transform="rotate(-0 468.666 476.424)">cœur CL-SW1/2, distribution DL-SW1 à 4</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 7.5px; font-family: 'DejaVu Sans'; text-anchor: middle" x="468.666" y="492.3" transform="rotate(-0 468.666 492.3)">egress, DMZ, datacenter, Net Management</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #6c6861" x="468.666" y="509.94" transform="rotate(-0 468.666 509.94)">2 baies 42U · onduleurs A/B · clim N+1</text>
+   </g>
+   <g id="text_17">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2c6e8c" x="136.41048" y="111.276" transform="rotate(-0 136.41048 111.276)">N1-LT01 · L.TECH 01 (4 m²)</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle" x="136.41048" y="127.152" transform="rotate(-0 136.41048 127.152)">58 prises · 2 switch(s) 48p PoE+ · PoE 192 W</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #6c6861" x="136.41048" y="142.146" transform="rotate(-0 136.41048 142.146)">baie 24U murale (13U occupés)</text>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #1f4e8c" x="136.41048" y="158.022" transform="rotate(-0 136.41048 158.022)">voie A : colonne Nord · 57 m</text>
+   </g>
+   <g id="text_21">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #1f4e8c" x="136.41048" y="172.134" transform="rotate(-0 136.41048 172.134)">voie B : colonne Sud · 104 m</text>
+   </g>
+   <g id="text_22">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #8c682c" x="800.92152" y="111.276" transform="rotate(-0 800.92152 111.276)">N1-LT02 · L.TECH 02 (7 m²)</text>
+   </g>
+   <g id="text_23">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle" x="800.92152" y="127.152" transform="rotate(-0 800.92152 127.152)">210 prises · 5 switch(s) 48p PoE+ · PoE 262 W</text>
+   </g>
+   <g id="text_24">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #6c6861" x="800.92152" y="142.146" transform="rotate(-0 800.92152 142.146)">baie 42U au sol (27U occupés)</text>
+   </g>
+   <g id="text_25">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #1f4e8c" x="800.92152" y="158.022" transform="rotate(-0 800.92152 158.022)">voie A : colonne Sud · 42 m</text>
+   </g>
+   <g id="text_26">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #1f4e8c" x="800.92152" y="172.134" transform="rotate(-0 800.92152 172.134)">voie B : colonne Nord · 114 m</text>
+   </g>
+   <g id="text_27">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2c6e8c" x="136.41048" y="252.396" transform="rotate(-0 136.41048 252.396)">N0-LT01 · L.TECH (2 m²)</text>
+   </g>
+   <g id="text_28">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle" x="136.41048" y="268.272" transform="rotate(-0 136.41048 268.272)">53 prises · 2 switch(s) 48p PoE+ · PoE 333 W</text>
+   </g>
+   <g id="text_29">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #6c6861" x="136.41048" y="283.266" transform="rotate(-0 136.41048 283.266)">baie 24U murale (13U occupés)</text>
+   </g>
+   <g id="text_30">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #1f4e8c" x="136.41048" y="299.142" transform="rotate(-0 136.41048 299.142)">voie A : colonne Nord · 48 m</text>
+   </g>
+   <g id="text_31">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #1f4e8c" x="136.41048" y="313.254" transform="rotate(-0 136.41048 313.254)">voie B : colonne Sud · 93 m</text>
+   </g>
+   <g id="text_32">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #8c682c" x="800.92152" y="252.396" transform="rotate(-0 800.92152 252.396)">N0-LT02 · L.TECH 02 (7 m²)</text>
+   </g>
+   <g id="text_33">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle" x="800.92152" y="268.272" transform="rotate(-0 800.92152 268.272)">136 prises · 4 switch(s) 48p PoE+ · PoE 385 W</text>
+   </g>
+   <g id="text_34">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #6c6861" x="800.92152" y="283.266" transform="rotate(-0 800.92152 283.266)">baie 24U murale (20U occupés)</text>
+   </g>
+   <g id="text_35">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #1f4e8c" x="800.92152" y="299.142" transform="rotate(-0 800.92152 299.142)">voie A : colonne Sud · 36 m</text>
+   </g>
+   <g id="text_36">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #1f4e8c" x="800.92152" y="313.254" transform="rotate(-0 800.92152 313.254)">voie B : colonne Nord · 105 m</text>
+   </g>
+   <g id="text_37">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #8c682c" x="136.41048" y="455.256" transform="rotate(-0 136.41048 455.256)">N-1-LT02 · L.TECH 02 (16 m²)</text>
+   </g>
+   <g id="text_38">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle" x="136.41048" y="471.132" transform="rotate(-0 136.41048 471.132)">17 prises · 1 switch(s) 48p PoE+ · PoE 70 W</text>
+   </g>
+   <g id="text_39">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #6c6861" x="136.41048" y="486.126" transform="rotate(-0 136.41048 486.126)">baie 24U murale (9U occupés)</text>
+   </g>
+   <g id="text_40">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #1f4e8c" x="136.41048" y="502.002" transform="rotate(-0 136.41048 502.002)">voie A : sous-sol (chemin direct) · 51 m</text>
+   </g>
+   <g id="text_41">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #1f4e8c" x="136.41048" y="516.114" transform="rotate(-0 136.41048 516.114)">voie B : sous-sol (second chemin) · 53 m</text>
+   </g>
+   <g id="text_42">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #2c6e8c" x="800.92152" y="455.256" transform="rotate(-0 800.92152 455.256)">N-1-LT01 · L.TECH 01 (7 m²)</text>
+   </g>
+   <g id="text_43">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: middle" x="800.92152" y="471.132" transform="rotate(-0 800.92152 471.132)">10 prises · 1 switch(s) 48p PoE+ · PoE 103 W</text>
+   </g>
+   <g id="text_44">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #6c6861" x="800.92152" y="486.126" transform="rotate(-0 800.92152 486.126)">baie 24U murale (9U occupés)</text>
+   </g>
+   <g id="text_45">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #1f4e8c" x="800.92152" y="502.002" transform="rotate(-0 800.92152 502.002)">voie A : sous-sol (chemin direct) · 14 m</text>
+   </g>
+   <g id="text_46">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #1f4e8c" x="800.92152" y="516.114" transform="rotate(-0 800.92152 516.114)">voie B : sous-sol (second chemin) · 14 m</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p03b802f56c">
+   <rect x="7.2" y="7.2" width="922.932" height="582.12"/>
+  </clipPath>
+ </defs>
+</svg>
