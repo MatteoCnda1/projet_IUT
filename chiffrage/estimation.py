@@ -24,6 +24,9 @@ if PLAN:
             CHEMINS[dim] = CHEMINS.get(dim, 0) + m
 else:
     NB_PRISES, NB_BORNES, NB_AL_SW, NB_ROCADES, BAIES_42, CHEMINS = 400, 30, 8, 6, 0, {}
+# Point 14 (energie/energie.py) : électricité, éléments ajoutés au lot énergie, entretien
+_ENERGIE = HERE.parent / "livrables" / "energie_refroidissement" / "resume.json"
+ENERGIE = json.loads(_ENERGIE.read_text(encoding="utf-8")) if _ENERGIE.exists() else None
 PRIX_CHEMIN = {"100×50": 35, "200×60": 45, "300×100": 60}  # €/m posé, avec supports
 
 # (catégorie, éléments du schéma, solution proposée, quantité, prix unitaire HT, note)
@@ -56,6 +59,9 @@ CAPEX = [
     ("Énergie / locaux", "Salle serveur", "PDU managées et métrées", 4, 700, "Mesure de consommation (Green IT)"),
     ("Énergie / locaux", "Salle serveur", "Climatisation de précision ~7 kW, redondance N+1", 1, 12000, ""),
     ("Énergie / locaux", "Salle serveur + L.TECH", "Contrôle d'accès par badge", 1, 5000, ""),
+] + [
+    (l["categorie"], l["schema"], l["solution"], l["quantite"], l["pu_ht"], l["note"] + " (point 14)") for l in (ENERGIE or {}).get("capex_nouveaux", [])
+] + [
     ("Câblage", "Prises", "Prise RJ45 Cat6A fournie, posée et recettée", NB_PRISES, 140,
      "10 Gb/s, durée de vie 15 ans (CdC). Usagers + bornes + caméras + badgeuses (plan de câblage)"),
     ("Câblage", "Rocades", "Fibre OM4 12 brins L.TECH vers salle serveur", NB_ROCADES, 1500,
@@ -79,7 +85,9 @@ OPEX = [
     ("Interconnexion WAN", "VPN MPLS vers le site jumeau (Digne/Gap)", 12 * 700),
     ("Proxmox VE", "Souscription Standard, 3 nœuds x 2 sockets x 550 €", 3 * 2 * 550),
     ("Sauvegarde externalisée", "Stockage objet ~20 To hors site", 12 * 120),
+] + ([
     ("Électricité", f"{IT_KW} kW IT x PUE {PUE} x 8 760 h x {KWH:.2f} €/kWh", round(IT_KW * PUE * 8760 * KWH)),
+] if not ENERGIE else [(o["poste"], o["detail"], o["montant"]) for o in ENERGIE["opex"]]) + [
     ("Nom de domaine", "Domaine + DNS secondaire", 30),
 ]
 # Renouvellements à partir de l'année 4
@@ -146,7 +154,8 @@ def main():
             "- ~400 prises : ~17 bureaux x 2, ~10 salles info/TP/réseaux x 24, ~12 salles TD/cours/réunion x 3, 30 bornes, ~15 caméras IP, ~10 badgeuses."),
            "- Postes clients, imprimantes, téléphones IP et caméras exclus (budget poste de travail à part).",
            "- La `cisco-price-list.pdf` du Drive date du début des années 2000 (gammes Aironet 340/350, VPN 3000) : elle n'est pas utilisable pour des prix actuels.",
-           f"- Électricité : {IT_KW} kW de charge IT moyenne, PUE {PUE}, {KWH:.2f} €/kWh HT.", ""]
+           (f"- Électricité, onduleurs, climatisation : bilan du point 14 (`livrables/energie_refroidissement/`), PUE {ENERGIE['energie']['pue']}, "
+            f"{ENERGIE['energie']['kwh']} kWh/an, {KWH:.2f} €/kWh HT." if ENERGIE else f"- Électricité : {IT_KW} kW de charge IT moyenne, PUE {PUE}, {KWH:.2f} €/kWh HT."), ""]
     (HERE / "estimation_infra.md").write_text("\n".join(md), encoding="utf-8")
     print(f"sous-total {sous_total}  aleas {aleas}  CAPEX {capex}  OPEX/an {opex}  renouv/an {renouv}  TCO5 {tco5}")
     for c, v in cats.items(): print(f"  {c:20s} {v}")

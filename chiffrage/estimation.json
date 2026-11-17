@@ -235,6 +235,60 @@
    "note": ""
   },
   {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur",
+   "solution": "Pack batterie externe APC SRT192RMBP (1 par onduleur)",
+   "quantite": 2,
+   "pu_ht": 1400,
+   "total_ht": 2800,
+   "note": "Autonomie si un onduleur tombe : 7.9 min sans pack, 24 min avec (point 14)"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur + L.TECH",
+   "solution": "Tableau électrique informatique (TD-INFO) et circuits dédiés",
+   "quantite": 1,
+   "pu_ht": 6000,
+   "total_ht": 6000,
+   "note": "2 départs 32 A onduleurs, 2 départs clim, 6 départs 16 A L.TECH, protections différentielles (point 14)"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur",
+   "solution": "Confinement d'allée froide (obturateurs, rideaux)",
+   "quantite": 1,
+   "pu_ht": 1200,
+   "total_ht": 1200,
+   "note": "Green IT : -10 % sur la clim (point 14)"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur + L.TECH",
+   "solution": "Sondes température/humidité et détection de fuite d'eau",
+   "quantite": 1,
+   "pu_ht": 1200,
+   "total_ht": 1200,
+   "note": "Remontées dans LibreNMS ; fuite : salle au sous-sol (point 14)"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur",
+   "solution": "Détection incendie raccordée au SSI + extincteurs CO2",
+   "quantite": 1,
+   "pu_ht": 1500,
+   "total_ht": 1500,
+   "note": "Sécurité minimale, sans extinction automatique (point 14)"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Locaux techniques",
+   "solution": "Extracteur d'air avec thermostat",
+   "quantite": 4,
+   "pu_ht": 450,
+   "total_ht": 1800,
+   "note": "Locaux les plus chargés ou les plus petits (point 14)"
+  },
+  {
    "categorie": "Câblage",
    "schema": "Prises",
    "solution": "Prise RJ45 Cat6A fournie, posée et recettée",
@@ -325,13 +379,13 @@
   "Accès": 107900,
   "Net Management": 33100,
   "Datacenter": 61000,
-  "Énergie / locaux": 42500,
+  "Énergie / locaux": 57000,
   "Câblage": 118805,
   "Prestations": 35750
  },
- "sous_total": 515455,
- "aleas": 51546,
- "capex": 567001,
+ "sous_total": 529955,
+ "aleas": 52996,
+ "capex": 582951,
  "opex": [
   {
    "poste": "Accès Internet FAI 1",
@@ -359,9 +413,19 @@
    "montant": 1440
   },
   {
-   "poste": "Électricité",
-   "detail": "3.5 kW IT x PUE 1.6 x 8 760 h x 0.20 €/kWh",
-   "montant": 9811
+   "poste": "Électricité du réseau",
+   "detail": "61 557 kWh/an × 0.20 € (salle serveur, PUE 1.34, 6 locaux techniques)",
+   "montant": 12311
+  },
+  {
+   "poste": "Maintenance de la climatisation",
+   "detail": "Contrat d'entretien, 2 unités",
+   "montant": 900
+  },
+  {
+   "poste": "Provision batteries d'onduleurs",
+   "detail": "Remplacement tous les 5 ans, lissé par an",
+   "montant": 1500
   },
   {
    "poste": "Nom de domaine",
@@ -369,7 +433,7 @@
    "montant": 30
   }
  ],
- "opex_total": 39181,
+ "opex_total": 44081,
  "renouvellement": [
   {
    "poste": "FortiGuard UTP + FortiCare",
@@ -393,7 +457,7 @@
   }
  ],
  "renouvellement_total": 27857,
- "tco5": 818620,
+ "tco5": 859070,
  "optimisations": [
   {
    "piste": "Cœur replié (collapsed core)",

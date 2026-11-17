@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="704.059141pt" height="373.912143pt" viewBox="0 0 704.059141 373.912143" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-12T16:20:44.966017</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.1+dfsg1, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 373.912143 
+L 704.059141 373.912143 
+L 704.059141 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 42.33148 77.46296 
+L 414.139641 77.46296 
+L 414.139641 308.159677 
+L 42.33148 308.159677 
+z
+" clip-path="url(#pec4961aa10)" style="fill: #fbfaf7; stroke: #211f1c; stroke-width: 3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 159.436413 130.160179 
+L 206.278386 130.160179 
+L 206.278386 188.712646 
+L 159.436413 188.712646 
+z
+" clip-path="url(#pec4961aa10)" style="fill: #eaf0f8; stroke: #1f4e8c; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 206.278386 130.160179 
+L 253.120359 130.160179 
+L 253.120359 188.712646 
+L 206.278386 188.712646 
+z
+" clip-path="url(#pec4961aa10)" style="fill: #eaf0f8; stroke: #1f4e8c; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 136.015426 188.712646 
+L 276.541345 188.712646 
+L 276.541345 258.975605 
+L 136.015426 258.975605 
+z
+" clip-path="url(#pec4961aa10)" style="fill: #2c6e8c; fill-opacity: 0.133333; stroke-dasharray: 3.7,1.6; stroke-dashoffset: 0; stroke: #2c6e8c; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 136.015426 80.390583 
+L 276.541345 80.390583 
+L 276.541345 130.160179 
+L 136.015426 130.160179 
+z
+" clip-path="url(#pec4961aa10)" style="fill: #b3261e; fill-opacity: 0.078431; stroke-dasharray: 3.7,1.6; stroke-dashoffset: 0; stroke: #b3261e; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 45.259103 136.015426 
+L 77.46296 136.015426 
+L 77.46296 171.146906 
+L 45.259103 171.146906 
+z
+" clip-path="url(#pec4961aa10)" style="fill: #1d7a4e; fill-opacity: 0.133333; stroke: #1d7a4e; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 45.259103 235.554619 
+L 77.46296 235.554619 
+L 77.46296 270.686099 
+L 45.259103 270.686099 
+z
+" clip-path="url(#pec4961aa10)" style="fill: #1d7a4e; fill-opacity: 0.133333; stroke: #1d7a4e; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 384.863408 89.173453 
+L 408.284395 89.173453 
+L 408.284395 118.449686 
+L 384.863408 118.449686 
+z
+" clip-path="url(#pec4961aa10)" style="fill: #eaf0f8; stroke: #1f4e8c; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 449.271121 97.956323 
+L 462.152664 97.956323 
+L 462.152664 110.837865 
+L 449.271121 110.837865 
+z
+" clip-path="url(#pec4961aa10)" style="fill: #1f4e8c; opacity: 0.8"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 449.271121 122.548359 
+L 462.152664 122.548359 
+L 462.152664 135.429901 
+L 449.271121 135.429901 
+z
+" clip-path="url(#pec4961aa10)" style="fill: #1d7a4e; opacity: 0.8"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 449.271121 147.140395 
+L 462.152664 147.140395 
+L 462.152664 160.021937 
+L 449.271121 160.021937 
+z
+" clip-path="url(#pec4961aa10)" style="fill: #2c6e8c; opacity: 0.8"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 449.271121 171.73243 
+L 462.152664 171.73243 
+L 462.152664 184.613973 
+L 449.271121 184.613973 
+z
+" clip-path="url(#pec4961aa10)" style="fill: #b3261e; opacity: 0.8"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 449.271121 196.324466 
+L 462.152664 196.324466 
+L 462.152664 209.206009 
+L 449.271121 209.206009 
+z
+" clip-path="url(#pec4961aa10)" style="fill: #5c2c8c; opacity: 0.8"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 449.271121 220.916502 
+L 462.152664 220.916502 
+L 462.152664 233.798045 
+L 449.271121 233.798045 
+z
+" clip-path="url(#pec4961aa10)" style="fill: #a85a07; opacity: 0.8"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 449.271121 245.508538 
+L 462.152664 245.508538 
+L 462.152664 258.390081 
+L 449.271121 258.390081 
+z
+" clip-path="url(#pec4961aa10)" style="fill: #b3261e; opacity: 0.8"/>
+   </g>
+   <g id="patch_17">
+    <path d="M 449.271121 270.100574 
+L 462.152664 270.100574 
+L 462.152664 282.982117 
+L 449.271121 282.982117 
+z
+" clip-path="url(#pec4961aa10)" style="fill: #3a3833; opacity: 0.8"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 42.33148 77.46296 
+L 414.139641 77.46296 
+" clip-path="url(#pec4961aa10)" style="fill: none; stroke: #ffffff; stroke-width: 3; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 42.33148 77.46296 
+L 414.139641 77.46296 
+" clip-path="url(#pec4961aa10)" style="fill: none; stroke-dasharray: 13.2,6.6; stroke-dashoffset: 0; stroke: #211f1c; stroke-width: 2.2"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 414.139641 215.061256 
+L 414.139641 267.758475 
+" clip-path="url(#pec4961aa10)" style="fill: none; stroke: #fbfaf7; stroke-width: 4; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 206.278386 256.047982 
+" clip-path="url(#pec4961aa10)" style="fill: none; stroke: #1f77b4; stroke-width: 1.5; stroke-linecap: square"/>
+    <defs>
+     <path id="m757708e6a3" d="M 0 3 
+C 0.795609 3 1.55874 2.683901 2.12132 2.12132 
+C 2.683901 1.55874 3 0.795609 3 0 
+C 3 -0.795609 2.683901 -1.55874 2.12132 -2.12132 
+C 1.55874 -2.683901 0.795609 -3 0 -3 
+C -0.795609 -3 -1.55874 -2.683901 -2.12132 -2.12132 
+C -2.683901 -1.55874 -3 -0.795609 -3 0 
+C -3 0.795609 -2.683901 1.55874 -2.12132 2.12132 
+C -1.55874 2.683901 -0.795609 3 0 3 
+z
+" style="stroke: #5c2c8c; stroke-width: 1.6"/>
+    </defs>
+    <g clip-path="url(#pec4961aa10)">
+     <use xlink:href="#m757708e6a3" x="206.278386" y="256.047982" style="fill: #ffffff; stroke: #5c2c8c; stroke-width: 1.6"/>
+    </g>
+   </g>
+   <g id="line2d_5">
+    <path d="M 118.449686 188.712646 
+" clip-path="url(#pec4961aa10)" style="fill: none; stroke: #ff7f0e; stroke-width: 1.5; stroke-linecap: square"/>
+    <g clip-path="url(#pec4961aa10)">
+     <use xlink:href="#m757708e6a3" x="118.449686" y="188.712646" style="fill: #ffffff; stroke: #5c2c8c; stroke-width: 1.6"/>
+    </g>
+   </g>
+   <g id="line2d_6">
+    <path d="M 61.653794 282.396592 
+" clip-path="url(#pec4961aa10)" style="fill: none; stroke: #2ca02c; stroke-width: 1.5; stroke-linecap: square"/>
+    <defs>
+     <path id="m01e05dae40" d="M 0 3 
+C 0.795609 3 1.55874 2.683901 2.12132 2.12132 
+C 2.683901 1.55874 3 0.795609 3 0 
+C 3 -0.795609 2.683901 -1.55874 2.12132 -2.12132 
+C 1.55874 -2.683901 0.795609 -3 0 -3 
+C -0.795609 -3 -1.55874 -2.683901 -2.12132 -2.12132 
+C -2.683901 -1.55874 -3 -0.795609 -3 0 
+C -3 0.795609 -2.683901 1.55874 -2.12132 2.12132 
+C -1.55874 2.683901 -0.795609 3 0 3 
+z
+" style="stroke: #a85a07; stroke-width: 1.6"/>
+    </defs>
+    <g clip-path="url(#pec4961aa10)">
+     <use xlink:href="#m01e05dae40" x="61.653794" y="282.396592" style="fill: #ffffff; stroke: #a85a07; stroke-width: 1.6"/>
+    </g>
+   </g>
+   <g id="line2d_7">
+    <path d="M 61.653794 127.232556 
+" clip-path="url(#pec4961aa10)" style="fill: none; stroke: #d62728; stroke-width: 1.5; stroke-linecap: square"/>
+    <g clip-path="url(#pec4961aa10)">
+     <use xlink:href="#m01e05dae40" x="61.653794" y="127.232556" style="fill: #ffffff; stroke: #a85a07; stroke-width: 1.6"/>
+    </g>
+   </g>
+   <g id="line2d_8">
+    <path d="M 396.573901 285.324215 
+" clip-path="url(#pec4961aa10)" style="fill: none; stroke: #9467bd; stroke-width: 1.5; stroke-linecap: square"/>
+    <defs>
+     <path id="m4483d660fe" d="M 0 3 
+C 0.795609 3 1.55874 2.683901 2.12132 2.12132 
+C 2.683901 1.55874 3 0.795609 3 0 
+C 3 -0.795609 2.683901 -1.55874 2.12132 -2.12132 
+C 1.55874 -2.683901 0.795609 -3 0 -3 
+C -0.795609 -3 -1.55874 -2.683901 -2.12132 -2.12132 
+C -2.683901 -1.55874 -3 -0.795609 -3 0 
+C -3 0.795609 -2.683901 1.55874 -2.12132 2.12132 
+C -1.55874 2.683901 -0.795609 3 0 3 
+z
+" style="stroke: #b3261e; stroke-width: 1.6"/>
+    </defs>
+    <g clip-path="url(#pec4961aa10)">
+     <use xlink:href="#m4483d660fe" x="396.573901" y="285.324215" style="fill: #ffffff; stroke: #b3261e; stroke-width: 1.6"/>
+    </g>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Serif'; text-anchor: start" x="7.2" y="20.765436" transform="rotate(-0 7.2 20.765436)">Salle serveur : implantation et circulation de l'air</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3833" x="7.2" y="41.383934" transform="rotate(-0 7.2 41.383934)">Partie sud de la salle J05 (sous-sol), 6.35 × 3.94 m ≈ 25 m². Vue de dessus.</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #6c6861" x="228.235561" y="69.084867" transform="rotate(-0 228.235561 69.084867)">cloison nouvelle (reste de J05 au nord)</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 6.5px; font-family: 'DejaVu Sans'" transform="translate(419.994888 239.40817)">porte vers CIRC 02</text>
+    <text style="font-size: 6.5px; font-family: 'DejaVu Sans'" transform="translate(419.994888 246.998748)">badge B1 · caméra C3</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #6c6861" x="228.235561" y="322.797794" transform="rotate(-0 228.235561 322.797794)">mur sud : local technique N-1-LT01 (passage des fibres)</text>
+   </g>
+   <g id="text_6">
+    <text style="font-weight: 700; font-size: 6.3px; font-family: 'DejaVu Sans'; fill: #1f4e8c" transform="translate(171.826001 157.647508)">Baie 1</text>
+    <text style="font-weight: 700; font-size: 6.3px; font-family: 'DejaVu Sans'; fill: #1f4e8c" transform="translate(154.098391 164.70213)">réseau, sécurité</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 6.3px; font-family: 'DejaVu Sans'; fill: #1f4e8c" transform="translate(218.667974 157.647508)">Baie 2</text>
+    <text style="font-weight: 700; font-size: 6.3px; font-family: 'DejaVu Sans'; fill: #1f4e8c" transform="translate(214.274216 164.70213)">serveurs</text>
+   </g>
+   <g id="text_8">
+    <text style="font-weight: 700; font-size: 6.6px; font-family: 'DejaVu Sans'; fill: #2c6e8c" transform="translate(159.908745 225.199299)">ALLÉE FROIDE (confinée)</text>
+    <text style="font-weight: 700; font-size: 6.6px; font-family: 'DejaVu Sans'; fill: #2c6e8c" transform="translate(149.38587 232.589855)">air à 24-27 °C devant les baies</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 6.3px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #b3261e" x="206.278386" y="106.721025" transform="rotate(-0 206.278386 106.721025)">allée chaude (arrière des baies)</text>
+   </g>
+   <g id="text_10">
+    <text style="font-weight: 700; font-size: 6px; font-family: 'DejaVu Sans'; fill: #1d7a4e" transform="translate(63.309419 164.927728) rotate(-90)">CLIM 1</text>
+   </g>
+   <g id="patch_18">
+    <path d="M 81.591902 155.182925 
+Q 106.740314 188.71414 130.949577 220.993157 
+" style="fill: none; stroke: #2c6e8c; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 130.309577 217.473157 
+L 130.949577 220.993157 
+L 127.749577 219.393157 
+z
+" style="fill: #2c6e8c; stroke: #2c6e8c; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="text_11">
+    <text style="font-weight: 700; font-size: 6px; font-family: 'DejaVu Sans'; fill: #1d7a4e" transform="translate(63.309419 264.466921) rotate(-90)">CLIM 2</text>
+   </g>
+   <g id="patch_19">
+    <path d="M 82.137079 252.150083 
+Q 106.737036 238.48344 129.968721 225.576949 
+" style="fill: none; stroke: #2c6e8c; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 126.394389 225.732354 
+L 129.968721 225.576949 
+L 127.948446 228.529658 
+z
+" style="fill: #2c6e8c; stroke: #2c6e8c; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_20">
+    <path d="M 131.135458 101.317801 
+Q 106.740194 106.73897 83.872904 111.82059 
+" style="fill: none; stroke: #b3261e; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 87.343791 112.688312 
+L 83.872904 111.82059 
+L 86.649614 109.564514 
+z
+" style="fill: #b3261e; stroke: #b3261e; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #b3261e" x="95.0287" y="89.173453" transform="rotate(-0 95.0287 89.173453)">reprise d'air chaud</text>
+   </g>
+   <g id="text_13">
+    <text style="font-weight: 700; font-size: 6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="396.573901" y="105.467195" transform="rotate(-0 396.573901 105.467195)">TD</text>
+   </g>
+   <g id="text_14">
+    <text style="font-weight: 700; font-size: 5.8px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #5c2c8c" x="213.304682" y="250.192735" transform="rotate(-0 213.304682 250.192735)">T/H</text>
+   </g>
+   <g id="text_15">
+    <text style="font-weight: 700; font-size: 5.8px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #5c2c8c" x="125.475982" y="182.857399" transform="rotate(-0 125.475982 182.857399)">T/H</text>
+   </g>
+   <g id="text_16">
+    <text style="font-weight: 700; font-size: 5.8px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #a85a07" x="68.68009" y="276.541345" transform="rotate(-0 68.68009 276.541345)">fuite</text>
+   </g>
+   <g id="text_17">
+    <text style="font-weight: 700; font-size: 5.8px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #a85a07" x="68.68009" y="121.377309" transform="rotate(-0 68.68009 121.377309)">fuite</text>
+   </g>
+   <g id="text_18">
+    <text style="font-weight: 700; font-size: 5.8px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #b3261e" x="403.600197" y="279.468969" transform="rotate(-0 403.600197 279.468969)">CO2</text>
+   </g>
+   <g id="patch_21">
+    <path d="M 45.22576 343.291157 
+Q 228.235296 343.291157 411.244832 343.291157 
+" style="fill: none; stroke: #6c6861; stroke-width: 0.8; stroke-linecap: round"/>
+    <path d="M 48.42576 344.891157 
+L 45.22576 343.291157 
+L 48.42576 341.691157 
+" style="fill: none; stroke: #6c6861; stroke-width: 0.8; stroke-linecap: round"/>
+    <path d="M 408.044832 341.691157 
+L 411.244832 343.291157 
+L 408.044832 344.891157 
+" style="fill: none; stroke: #6c6861; stroke-width: 0.8; stroke-linecap: round"/>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #6c6861" x="228.235561" y="352.074027" transform="rotate(-0 228.235561 352.074027)">6.35 m</text>
+   </g>
+   <g id="patch_22">
+    <path d="M 21.838117 80.360354 
+Q 21.838117 192.813034 21.838117 305.265715 
+" style="fill: none; stroke: #6c6861; stroke-width: 0.8; stroke-linecap: round"/>
+    <path d="M 20.238117 83.560354 
+L 21.838117 80.360354 
+L 23.438117 83.560354 
+" style="fill: none; stroke: #6c6861; stroke-width: 0.8; stroke-linecap: round"/>
+    <path d="M 23.438117 302.065715 
+L 21.838117 305.265715 
+L 20.238117 302.065715 
+" style="fill: none; stroke: #6c6861; stroke-width: 0.8; stroke-linecap: round"/>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; fill: #6c6861" transform="translate(14.527089 205.12585) rotate(-90)">3.94 m</text>
+   </g>
+   <g id="text_21">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: start" x="449.271121" y="80.390583" transform="rotate(-0 449.271121 80.390583)">LÉGENDE</text>
+   </g>
+   <g id="text_22">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans'; text-anchor: start" x="469.764484" y="106.935806" transform="rotate(-0 469.764484 106.935806)">Baie 42U 800×1000 : onduleur et pack en bas, PDU A et B à l'arrière</text>
+   </g>
+   <g id="text_23">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans'; text-anchor: start" x="469.764484" y="131.395842" transform="rotate(-0 469.764484 131.395842)">Climatiseur technique 7.1 kW (1 en marche, 1 en secours)</text>
+   </g>
+   <g id="text_24">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans'; text-anchor: start" x="469.764484" y="155.987878" transform="rotate(-0 469.764484 155.987878)">Air froid soufflé dans l'allée froide</text>
+   </g>
+   <g id="text_25">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans'; text-anchor: start" x="469.764484" y="180.711914" transform="rotate(-0 469.764484 180.711914)">Air chaud repris derrière les baies</text>
+   </g>
+   <g id="text_26">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans'; text-anchor: start" x="469.764484" y="205.30395" transform="rotate(-0 469.764484 205.30395)">T/H : sonde température/humidité (supervision)</text>
+   </g>
+   <g id="text_27">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans'; text-anchor: start" x="469.764484" y="229.763986" transform="rotate(-0 469.764484 229.763986)">fuite : détecteur de fuite d'eau au sol</text>
+   </g>
+   <g id="text_28">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans'; text-anchor: start" x="469.764484" y="254.488022" transform="rotate(-0 469.764484 254.488022)">CO2 : extincteur près de la porte</text>
+   </g>
+   <g id="text_29">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans'; text-anchor: start" x="469.764484" y="279.080057" transform="rotate(-0 469.764484 279.080057)">TD : tableau électrique informatique</text>
+   </g>
+   <g id="text_30">
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(449.271121 317.271731)">Chaleur à évacuer : 4.39 kW (pointe 6.0 kW).</text>
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(449.271121 325.1102)">Un seul climatiseur suffit ; le second prend le relais</text>
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(449.271121 332.948669)">en cas de panne ou d'entretien.</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pec4961aa10">
+   <rect x="7.2" y="7.2" width="652.86" height="359.512143"/>
+  </clipPath>
+ </defs>
+</svg>

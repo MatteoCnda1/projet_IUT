@@ -25,6 +25,12 @@ Datacenter;DT-BKP1;Serveur de sauvegarde Proxmox Backup Server (Dell R760xd2, ~1
 Énergie / locaux;Salle serveur;PDU managées et métrées;4;700;2800;Mesure de consommation (Green IT)
 Énergie / locaux;Salle serveur;Climatisation de précision ~7 kW, redondance N+1;1;12000;12000;
 Énergie / locaux;Salle serveur + L.TECH;Contrôle d'accès par badge;1;5000;5000;
+Énergie / locaux;Salle serveur;Pack batterie externe APC SRT192RMBP (1 par onduleur);2;1400;2800;Autonomie si un onduleur tombe : 7.9 min sans pack, 24 min avec (point 14)
+Énergie / locaux;Salle serveur + L.TECH;Tableau électrique informatique (TD-INFO) et circuits dédiés;1;6000;6000;2 départs 32 A onduleurs, 2 départs clim, 6 départs 16 A L.TECH, protections différentielles (point 14)
+Énergie / locaux;Salle serveur;Confinement d'allée froide (obturateurs, rideaux);1;1200;1200;Green IT : -10 % sur la clim (point 14)
+Énergie / locaux;Salle serveur + L.TECH;Sondes température/humidité et détection de fuite d'eau;1;1200;1200;"Remontées dans LibreNMS ; fuite : salle au sous-sol (point 14)"
+Énergie / locaux;Salle serveur;Détection incendie raccordée au SSI + extincteurs CO2;1;1500;1500;Sécurité minimale, sans extinction automatique (point 14)
+Énergie / locaux;Locaux techniques;Extracteur d'air avec thermostat;4;450;1800;Locaux les plus chargés ou les plus petits (point 14)
 Câblage;Prises;Prise RJ45 Cat6A fournie, posée et recettée;484;140;67760;10 Gb/s, durée de vie 15 ans (CdC). Usagers + bornes + caméras + badgeuses (plan de câblage)
 Câblage;Rocades;Fibre OM4 12 brins L.TECH vers salle serveur;12;1500;18000;2 câbles par local, par deux chemins disjoints (colonnes Nord et Sud)
 Câblage;Chemins de câbles;Chemin de câbles fil 100×50 mm, posé;636;35;22260;Métré du plan de câblage (circulations et locaux)
