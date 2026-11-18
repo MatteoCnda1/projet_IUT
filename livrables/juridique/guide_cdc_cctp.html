@@ -1,0 +1,68 @@
+<!doctype html><html lang='fr'><head><meta charset='utf-8'><title>Construire un cahier des charges et un CCTP</title><style>
+@page { size: A4; margin: 14mm 13mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'DejaVu Sans', 'Liberation Sans', sans-serif; font-size: 9.2pt; color: #211F1C; line-height: 1.45; margin: 0; }
+h1 { font-family: 'DejaVu Serif', serif; font-size: 22pt; margin: 0 0 2mm; }
+h2 { font-family: 'DejaVu Serif', serif; font-size: 14pt; margin: 8mm 0 2.5mm; padding-bottom: 1.5mm; border-bottom: 1.5px solid #1F4E8C; color: #1F4E8C; }
+h3 { font-size: 10.5pt; margin: 5mm 0 2mm; }
+p { margin: 1.5mm 0; }
+.sous { color: #6C6861; font-size: 9pt; }
+.cles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; margin: 4mm 0; }
+.cle { border: 1px solid #DEDAD1; border-radius: 2mm; padding: 2.5mm 3mm; background: #F6F4EF; }
+.cle b { display: block; font-size: 15pt; color: #1F4E8C; }
+table { width: 100%; border-collapse: collapse; margin: 2mm 0 3mm; font-size: 8.2pt; }
+th { text-align: left; background: #EAF0F8; color: #0E2240; font-weight: bold; padding: 1.4mm 1.8mm; border-bottom: 1px solid #C9D8EC; }
+td { padding: 1.2mm 1.8mm; border-bottom: 1px solid #E8E5DE; vertical-align: top; }
+tr { page-break-inside: avoid; }
+td.n, th.n { text-align: right; white-space: nowrap; }
+.chemin { color: #3A3833; font-size: 7.6pt; }
+.lt01 { color: #2C6E8C; font-weight: bold; } .lt02 { color: #8C682C; font-weight: bold; }
+img { width: 100%; border: 1px solid #DEDAD1; margin: 2mm 0; }
+.saut { page-break-before: always; }
+.note { border-left: 3px solid #A85A07; background: #FBF4EA; padding: 2mm 3mm; margin: 3mm 0; }
+ul { margin: 1mm 0 2mm 5mm; padding: 0; } li { margin: 0.6mm 0; }
+
+code { font-family: 'DejaVu Sans Mono', monospace; font-size: 7.4pt; }
+td.m { font-family: 'DejaVu Sans Mono', monospace; font-size: 7pt; }
+.z { display: inline-block; padding: 0 1.3mm; border-radius: 1mm; color: #fff; font-size: 7pt; font-weight: bold; white-space: nowrap; }
+.ok { color: #05893e; font-weight: bold; } .ko { color: #c13c3b; font-weight: bold; }
+.st { display: inline-block; padding: 0 1.2mm; border-radius: 1mm; font-size: 6.8pt; font-weight: bold; white-space: nowrap; }
+.st-ecart { background: #FBE9E7; color: #B3261E; } .st-conf { background: #FBF4EA; color: #8C4A06; }
+table.grille td, table.grille th { text-align: center; font-size: 7pt; padding: 1mm; }
+table.grille td.vide { background: #F6F4EF; color: #B9B4AA; }
+table.grille td.diag { background: #EEF0F3; }
+table.regles { font-size: 7.3pt; } table.regles td { padding: 1mm 1.4mm; }
+.pourquoi { color: #3A3833; } .ref { color: #6C6861; font-size: 6.8pt; }
+@page paysage { size: A4 landscape; margin: 10mm 11mm 12mm; }
+.paysage { page: paysage; page-break-before: always; page-break-after: always; }
+h2, h3 { page-break-after: avoid; }
+.fiche { border: 1px solid #DEDAD1; border-radius: 2mm; padding: 2.5mm 3.5mm; margin: 3mm 0; page-break-inside: avoid; }
+.fiche h3 { margin: 0 0 1.5mm; }
+
+table.carte { width: auto; margin: 3mm auto; page-break-inside: avoid; }
+.bloc { page-break-inside: avoid; }
+td:first-child b { white-space: nowrap; } table.carte td, table.carte th { width: 30mm; height: 15mm; text-align: center; vertical-align: middle; font-size: 8pt; border: 1px solid #fff; }
+.r1 { background: #DCEFE3; } .r2 { background: #FBF0C9; } .r3 { background: #F7D2B5; } .r4 { background: #F2B8B0; }
+.ini { font-weight: bold; color: #3A3833; } .res { font-weight: bold; color: #05893e; }
+.etat { display: inline-block; padding: 0 1.2mm; border-radius: 1mm; font-size: 6.8pt; font-weight: bold; white-space: nowrap; }
+.e-place { background: #DCEFE3; color: #1D5E3A; } .e-prop { background: #E5EDF8; color: #1F4E8C; } .e-org { background: #F1EEE8; color: #5C574F; }
+.n-couverte { color: #05893e; font-weight: bold; } .n-partielle { color: #A85A07; font-weight: bold; } .n-client { color: #6C6861; font-weight: bold; }
+ol.chemin { margin: 0; padding-left: 4mm; } ol.chemin li { margin: 0; }
+
+.charte h2 { font-size: 12pt; } .charte p { text-align: justify; }
+.art { page-break-inside: avoid; margin-bottom: 2mm; }
+.alerte { border-left: 3px solid #B3261E; background: #FBE9E7; padding: 2mm 3mm; margin: 3mm 0; }
+.note-dpo { border-left: 3px solid #1F4E8C; background: #EEF3FA; padding: 2mm 3mm; margin: 3mm 0; }
+.signature { margin-top: 10mm; display: grid; grid-template-columns: 1fr 1fr; gap: 10mm; }
+.signature div { border-top: 1px solid #6C6861; padding-top: 2mm; font-size: 8pt; color: #6C6861; }
+</style></head><body>
+<h1>Construire un cahier des charges et un CCTP</h1>
+<p class='sous'>Site de Marseille · IUT Génie Télécom, Luminy · RudyLink Infrastructure · point 19 du cahier des charges · version 1.0 · 18/11/2026<br>Guide pour le client : quelles pièces écrire, dans quel ordre, et comment utiliser les modèles de CCTP de ce dossier.</p>
+<h2>1. Les pièces d'un marché</h2>
+<table class=''><tr><th>Pièce</th><th>Rôle</th></tr><tr><td><b>Cahier des charges fonctionnel</b></td><td>Le besoin, en termes de services rendus et de contraintes, sans solution imposée. Il précède le marché et sert à le préparer (et au sourçage auprès des fournisseurs).</td></tr><tr><td><b>Règlement de la consultation (RC)</b></td><td>Comment répondre : procédure, pièces à fournir, critères de choix et leur pondération.</td></tr><tr><td><b>CCAP</b></td><td>Clauses administratives : prix, délais, pénalités, garanties, réception. Renvoie au CCAG-TIC (fournitures et services informatiques) ou au CCAG-Travaux (câblage).</td></tr><tr><td><b>CCTP</b></td><td>Clauses techniques : ce qui doit être livré et comment on le vérifie. C&#x27;est l&#x27;objet des modèles de ce dossier.</td></tr><tr><td><b>BPU et DQE</b></td><td>Bordereau des prix unitaires et détail quantitatif estimatif : la grille de prix que remplissent les candidats.</td></tr></table>
+<h2>2. Démarche</h2><ol><li>Partir du besoin et de l&#x27;architecture (dossier de conception RudyLink), pas d&#x27;un catalogue de produits.</li><li>Allotir : un lot par métier (câblage, réseau, sécurité, serveurs, sûreté) ouvre la concurrence et évite qu&#x27;un seul titulaire maîtrise tout le SI.</li><li>Faire un sourçage avant la consultation (rencontres fournisseurs, UGAP et centrales d&#x27;achat) pour vérifier que le besoin trouve preneur.</li><li>Fixer les critères et leur poids, par exemple : valeur technique 45 %, prix 40 %, performance environnementale 15 % (un critère environnemental est obligatoire depuis la loi Climat et résilience).</li><li>Choisir la procédure selon le montant estimé et les seuils européens en vigueur (révisés tous les deux ans), avec les services achats de l&#x27;AMU.</li><li>Écrire des exigences vérifiables (« certifiées à 100 % au testeur », pas « de bonne qualité »), chacune reliée à un test de recette.</li><li>Citer une marque seulement à titre d&#x27;exemple, suivie de « ou équivalent ».</li></ol>
+<h2>3. Sommaire type d'un cahier des charges</h2><ol><li>Contexte et objectifs (enseignement, recherche, site jumeau)</li><li>Périmètre (bâtiment, salles, nombre d&#x27;usagers, services)</li><li>Besoins fonctionnels par service (réseau filaire, Wi-Fi, téléphonie, serveurs, sécurité, sûreté, IA)</li><li>Exigences non fonctionnelles : disponibilité, performances, sécurité (PSSI), conformité (RGPD, conservation des journaux), développement durable</li><li>Contraintes : bâtiment occupé, calendrier universitaire, existant à reprendre, compétences de l&#x27;équipe</li><li>Organisation : MOA, MOE, comité de pilotage, recette</li><li>Budget prévisionnel et calendrier</li></ol>
+<h2>4. Les quatre modèles de CCTP</h2>
+<table class=''><tr><th>Lot</th><th>Objet</th><th>Fichier</th></tr><tr><td>1</td><td>Câblage structuré et équipements actifs du réseau</td><td><code>cctp_lot1.pdf</code></td></tr><tr><td>2</td><td>Sécurité périmétrique : routeurs de bordure, pare-feu, VPN</td><td><code>cctp_lot2.pdf</code></td></tr><tr><td>3</td><td>Datacenter : serveurs, virtualisation, sauvegarde, plateforme d&#x27;IA</td><td><code>cctp_lot3.pdf</code></td></tr><tr><td>4</td><td>Sûreté : vidéoprotection et contrôle d&#x27;accès</td><td><code>cctp_lot4.pdf</code></td></tr></table>
+<p>Le lot énergie et locaux techniques (onduleurs, climatisation, extinction, baies) reprend l'étude du point 14 ; les prestations d'intégration et de recette du chiffrage sont réparties dans les lots.</p>
+<h2>5. Où sont les exigences de sécurité</h2><p>Les clauses communes reprennent la PSSI : M-ADM-2 (Accès distant d&#x27;administration), M-ADM-3 (Secrets d&#x27;administration), M-POS-2 (Mises à jour), M-FOU-1 (Sécurité dans les marchés). Les tests de recette du filtrage sont ceux de la matrice des flux. Une exigence de sécurité écrite dans le CCTP coûte peu ; la même, ajoutée après la livraison, coûte un avenant.</p></body></html>

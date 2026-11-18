@@ -1,0 +1,80 @@
+<!doctype html><html lang='fr'><head><meta charset='utf-8'><title>CCTP · Lot 1 : Câblage structuré et équipements actifs du réseau</title><style>
+@page { size: A4; margin: 14mm 13mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'DejaVu Sans', 'Liberation Sans', sans-serif; font-size: 9.2pt; color: #211F1C; line-height: 1.45; margin: 0; }
+h1 { font-family: 'DejaVu Serif', serif; font-size: 22pt; margin: 0 0 2mm; }
+h2 { font-family: 'DejaVu Serif', serif; font-size: 14pt; margin: 8mm 0 2.5mm; padding-bottom: 1.5mm; border-bottom: 1.5px solid #1F4E8C; color: #1F4E8C; }
+h3 { font-size: 10.5pt; margin: 5mm 0 2mm; }
+p { margin: 1.5mm 0; }
+.sous { color: #6C6861; font-size: 9pt; }
+.cles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; margin: 4mm 0; }
+.cle { border: 1px solid #DEDAD1; border-radius: 2mm; padding: 2.5mm 3mm; background: #F6F4EF; }
+.cle b { display: block; font-size: 15pt; color: #1F4E8C; }
+table { width: 100%; border-collapse: collapse; margin: 2mm 0 3mm; font-size: 8.2pt; }
+th { text-align: left; background: #EAF0F8; color: #0E2240; font-weight: bold; padding: 1.4mm 1.8mm; border-bottom: 1px solid #C9D8EC; }
+td { padding: 1.2mm 1.8mm; border-bottom: 1px solid #E8E5DE; vertical-align: top; }
+tr { page-break-inside: avoid; }
+td.n, th.n { text-align: right; white-space: nowrap; }
+.chemin { color: #3A3833; font-size: 7.6pt; }
+.lt01 { color: #2C6E8C; font-weight: bold; } .lt02 { color: #8C682C; font-weight: bold; }
+img { width: 100%; border: 1px solid #DEDAD1; margin: 2mm 0; }
+.saut { page-break-before: always; }
+.note { border-left: 3px solid #A85A07; background: #FBF4EA; padding: 2mm 3mm; margin: 3mm 0; }
+ul { margin: 1mm 0 2mm 5mm; padding: 0; } li { margin: 0.6mm 0; }
+
+code { font-family: 'DejaVu Sans Mono', monospace; font-size: 7.4pt; }
+td.m { font-family: 'DejaVu Sans Mono', monospace; font-size: 7pt; }
+.z { display: inline-block; padding: 0 1.3mm; border-radius: 1mm; color: #fff; font-size: 7pt; font-weight: bold; white-space: nowrap; }
+.ok { color: #05893e; font-weight: bold; } .ko { color: #c13c3b; font-weight: bold; }
+.st { display: inline-block; padding: 0 1.2mm; border-radius: 1mm; font-size: 6.8pt; font-weight: bold; white-space: nowrap; }
+.st-ecart { background: #FBE9E7; color: #B3261E; } .st-conf { background: #FBF4EA; color: #8C4A06; }
+table.grille td, table.grille th { text-align: center; font-size: 7pt; padding: 1mm; }
+table.grille td.vide { background: #F6F4EF; color: #B9B4AA; }
+table.grille td.diag { background: #EEF0F3; }
+table.regles { font-size: 7.3pt; } table.regles td { padding: 1mm 1.4mm; }
+.pourquoi { color: #3A3833; } .ref { color: #6C6861; font-size: 6.8pt; }
+@page paysage { size: A4 landscape; margin: 10mm 11mm 12mm; }
+.paysage { page: paysage; page-break-before: always; page-break-after: always; }
+h2, h3 { page-break-after: avoid; }
+.fiche { border: 1px solid #DEDAD1; border-radius: 2mm; padding: 2.5mm 3.5mm; margin: 3mm 0; page-break-inside: avoid; }
+.fiche h3 { margin: 0 0 1.5mm; }
+
+table.carte { width: auto; margin: 3mm auto; page-break-inside: avoid; }
+.bloc { page-break-inside: avoid; }
+td:first-child b { white-space: nowrap; } table.carte td, table.carte th { width: 30mm; height: 15mm; text-align: center; vertical-align: middle; font-size: 8pt; border: 1px solid #fff; }
+.r1 { background: #DCEFE3; } .r2 { background: #FBF0C9; } .r3 { background: #F7D2B5; } .r4 { background: #F2B8B0; }
+.ini { font-weight: bold; color: #3A3833; } .res { font-weight: bold; color: #05893e; }
+.etat { display: inline-block; padding: 0 1.2mm; border-radius: 1mm; font-size: 6.8pt; font-weight: bold; white-space: nowrap; }
+.e-place { background: #DCEFE3; color: #1D5E3A; } .e-prop { background: #E5EDF8; color: #1F4E8C; } .e-org { background: #F1EEE8; color: #5C574F; }
+.n-couverte { color: #05893e; font-weight: bold; } .n-partielle { color: #A85A07; font-weight: bold; } .n-client { color: #6C6861; font-weight: bold; }
+ol.chemin { margin: 0; padding-left: 4mm; } ol.chemin li { margin: 0; }
+
+.charte h2 { font-size: 12pt; } .charte p { text-align: justify; }
+.art { page-break-inside: avoid; margin-bottom: 2mm; }
+.alerte { border-left: 3px solid #B3261E; background: #FBE9E7; padding: 2mm 3mm; margin: 3mm 0; }
+.note-dpo { border-left: 3px solid #1F4E8C; background: #EEF3FA; padding: 2mm 3mm; margin: 3mm 0; }
+.signature { margin-top: 10mm; display: grid; grid-template-columns: 1fr 1fr; gap: 10mm; }
+.signature div { border-top: 1px solid #6C6861; padding-top: 2mm; font-size: 8pt; color: #6C6861; }
+</style></head><body>
+<h1>CCTP · Lot 1 : Câblage structuré et équipements actifs du réseau</h1>
+<p class='sous'>Site de Marseille · IUT Génie Télécom, Luminy · RudyLink Infrastructure · point 19 du cahier des charges · version 1.0 · 18/11/2026<br>Modèle de cahier des clauses techniques particulières, à compléter par les services achats de l'AMU (CCAP, règlement de la consultation, bordereau de prix).</p>
+<div class='note-dpo'><b>Modèle.</b> Les références de produits sont celles du chiffrage du projet, données à titre indicatif : dans le marché, chacune est suivie de « ou équivalent ». Les exigences numérotées sont vérifiées à la recette.</div>
+<h2>1. Objet</h2>
+<p>Fourniture, pose et recette du câblage du bâtiment (cuivre Cat6A, fibre OM4, chemins de câbles, panneaux et cordons de brassage) et fourniture, installation et configuration des switchs, des bornes Wi-Fi et des contrôleurs Wi-Fi.</p>
+<p><b>Hors du lot</b> : Pare-feu (lot 2), serveurs (lot 3), caméras et badgeuses (lot 4) ; énergie et locaux techniques (lot séparé, point 14).</p>
+<h2>2. Documents de référence</h2><p>Dossier de conception RudyLink Infrastructure, version 2 de l'infrastructure : plan_cablage (point 04), plan_adressage (point 05), architecture_l2 et architecture_l3 (points 03 et 06), étude Wi-Fi (point 10).</p>
+<h2>3. Quantités</h2>
+<table class=''><tr><th>Repère</th><th>Désignation (indicative)</th><th>Quantité</th><th>Remarque</th></tr><tr><td>CL-SW1, CL-SW2</td><td>Cisco Catalyst C9500-16X-E + DNA-E 3 ans + modules 40G SVL <i>ou équivalent</i></td><td>2</td><td>StackWise Virtual</td></tr><tr><td>DL-SW1 à DL-SW4</td><td>Cisco Catalyst C9500-16X-E + DNA-E 3 ans <i>ou équivalent</i></td><td>4</td><td>2 blocs StackWise Virtual (le SVL impose la gamme 9500)</td></tr><tr><td>AL-SW1 à AL-SW4</td><td>Cisco Catalyst C9200L-48P-4X-E PoE+ + DNA-E 3 ans <i>ou équivalent</i></td><td>15</td><td>Le schéma en montre 4. Plan de câblage : 15 switchs pour 484 prises (+10 % de ports libres) et le budget PoE, répartis dans les 6 L.TECH</td></tr><tr><td>AL-AP1</td><td>Borne Wi-Fi 6E Cisco CW9164I + licence DNA AP 3 ans <i>ou équivalent</i></td><td>38</td><td>Nombre fixé par l&#x27;étude RSSI prédictive (≥ −67 dBm à 5 GHz, livrables/plan_cablage/wifi)</td></tr><tr><td>WLC1, WLC2</td><td>Contrôleur Wi-Fi Cisco Catalyst 9800-L-F (4x10G SFP+), HA SSO <i>ou équivalent</i></td><td>2</td><td>v2 (NET-01) : bornes en mode local, itinérance sans coupure dans tout le bâtiment. Remplace la VM 9800-CL</td></tr><tr><td>Prises</td><td>Prise RJ45 Cat6A fournie, posée et recettée <i>ou équivalent</i></td><td>484</td><td>10 Gb/s, durée de vie 15 ans (CdC). Usagers + bornes + caméras + badgeuses (plan de câblage)</td></tr><tr><td>Rocades</td><td>Fibre OM4 12 brins L.TECH vers salle serveur <i>ou équivalent</i></td><td>12</td><td>2 câbles par local, par deux chemins disjoints (colonnes Nord et Sud)</td></tr><tr><td>Chemins de câbles</td><td>Chemin de câbles fil 100×50 mm, posé <i>ou équivalent</i></td><td>636</td><td>Métré du plan de câblage (circulations et locaux)</td></tr><tr><td>Chemins de câbles</td><td>Chemin de câbles fil 200×60 mm, posé <i>ou équivalent</i></td><td>17</td><td>Métré du plan de câblage (circulations et locaux)</td></tr><tr><td>Chemins de câbles</td><td>Chemin de câbles fil 300×100 mm, posé <i>ou équivalent</i></td><td>7</td><td>Métré du plan de câblage (circulations et locaux)</td></tr><tr><td>Optiques</td><td>Modules SFP+/SFP28/QSFP compatibles et câbles DAC <i>ou équivalent</i></td><td>96</td><td>Optiques Cisco d&#x27;origine : x4 environ. v2 : +16 (Stormshield, WLC, DAC de réplication)</td></tr><tr><td>Brassage</td><td>Panneaux, cordons, passe-câbles <i>ou équivalent</i></td><td>1</td><td>Forfait</td></tr><tr><td>EL-SW1, EL-SW2</td><td>Cisco Catalyst C9200L-24T-4X-E + DNA-E 3 ans <i>ou équivalent</i></td><td>2</td><td></td></tr><tr><td>DM-SW1, DM-SW2</td><td>Cisco Catalyst C9200L-24T-4X-E + DNA-E 3 ans <i>ou équivalent</i></td><td>2</td><td></td></tr><tr><td>NM-SW1, NM-SW2</td><td>Cisco Catalyst C9200L-24T-4X-E + DNA-E 3 ans <i>ou équivalent</i></td><td>2</td><td></td></tr><tr><td>EL-SW, NM-SW, DM-SW</td><td>Kit de pile StackWise-80 C9200L (2 modules + câbles) <i>ou équivalent</i></td><td>3</td><td>v2 : oubli de la v1 (piles prévues dans l&#x27;architecture L2)</td></tr><tr><td>DT-SW1, DT-SW2</td><td>Cisco Catalyst C9300X-12Y-E (10/25G) + DNA-E 3 ans <i>ou équivalent</i></td><td>2</td><td></td></tr></table>
+<h2>4. Exigences techniques</h2>
+<h3>Câblage</h3>
+<table class=''><tr><th>N°</th><th>Exigence</th><th>Conforme</th></tr><tr><td><b>L1-01</b></td><td>484 prises RJ45 catégorie 6A (classe EA), liaisons de 90 m au plus (la plus longue fait 57 m), certifiées à 100 % au testeur de niveau IV ou supérieur, rapports de test remis.</td><td>☐</td></tr><tr><td><b>L1-02</b></td><td>Rocades en fibre OM4, 12 brins, doublées par deux chemins différents entre chaque local technique et la salle serveur.</td><td>☐</td></tr><tr><td><b>L1-03</b></td><td>Repérage conforme à TIA-606 (étiquette identique à la prise et au panneau), plans de récolement par niveau.</td><td>☐</td></tr><tr><td><b>L1-04</b></td><td>Mise en œuvre selon EN 50174 ; cheminements séparés des courants forts ; respect du classement au feu des câbles (Euroclasse Cca-s1,d1,a1 au minimum dans les circulations).</td><td>☐</td></tr></table>
+<h3>Switchs</h3>
+<table class=''><tr><th>N°</th><th>Exigence</th><th>Conforme</th></tr><tr><td><b>L1-05</b></td><td>Couches cœur et distribution en paires virtualisées (une seule entité logique, de type StackWise Virtual ou équivalent), liens montants 10G au minimum, 40G entre les membres du cœur.</td><td>☐</td></tr><tr><td><b>L1-06</b></td><td>Switchs d&#x27;accès PoE+ (802.3at) sur tous les ports, budget PoE suffisant pour les bornes Wi-Fi, téléphones, caméras.</td><td>☐</td></tr><tr><td><b>L1-07</b></td><td>Fonctions de sécurité exigées : 802.1X et MAB avec VLAN dynamique, ACL téléchargeables, changement d&#x27;autorisation (CoA, RFC 5176), DHCP snooping, inspection ARP dynamique, IP source guard, protection BPDU et root guard (PSSI M-RES-2 et M-RES-3).</td><td>☐</td></tr><tr><td><b>L1-08</b></td><td>VRF-lite, OSPFv3 IPv4 et IPv6 avec authentification, BFD, IPv6 complet (RA guard, DHCPv6 guard).</td><td>☐</td></tr><tr><td><b>L1-09</b></td><td>Administration par SSH v2, NETCONF/RESTCONF et SNMPv3 seulement ; Telnet, HTTP et SNMPv1/v2c désactivables.</td><td>☐</td></tr></table>
+<h3>Wi-Fi</h3>
+<table class=''><tr><th>N°</th><th>Exigence</th><th>Conforme</th></tr><tr><td><b>L1-10</b></td><td>Bornes Wi-Fi 6E au minimum, WPA3-Entreprise et WPA2/WPA3 de transition pour eduroam, 802.11r/k/v.</td><td>☐</td></tr><tr><td><b>L1-11</b></td><td>Deux contrôleurs en haute disponibilité avec reprise des sessions ; détection des bornes pirates ; portail invités avec isolation des clients (PSSI M-RES-4).</td><td>☐</td></tr><tr><td><b>L1-12</b></td><td>Étude de couverture après pose (mesures sur site) remise avec la recette.</td><td>☐</td></tr></table>
+<h2 class='saut'>5. Clauses communes à tous les lots</h2>
+<h3>Sécurité</h3><ul><li>Accès distant du titulaire uniquement par le VPN d&#x27;administration et le bastion de l&#x27;IUT, avec un compte nominatif par intervenant, ouvert pour la durée de l&#x27;intervention (PSSI M-ADM-2). Aucun accès permanent, aucun boîtier de télémaintenance du titulaire sur le réseau.</li><li>Comptes et mots de passe par défaut changés ou désactivés à l&#x27;installation, secrets remis dans le coffre de l&#x27;IUT (M-ADM-3).</li><li>Correctifs de sécurité : le titulaire signale sous 48 h toute vulnérabilité critique publiée sur un produit livré et fournit le correctif ou une mesure de contournement ; installation sous 72 h pour les équipements exposés (M-POS-2).</li><li>Notification à l&#x27;IUT, sous 24 h, de tout incident de sécurité touchant le titulaire et pouvant affecter le marché.</li><li>Durée de support des logiciels et micrologiciels d&#x27;au moins 7 ans après la livraison, date de fin de support indiquée dans l&#x27;offre.</li><li>Aucune fonction de connexion à un service en nuage du fabricant activée par défaut ; toute fonction de ce type est décrite et désactivable.</li><li>Confidentialité : le titulaire et ses sous-traitants sont tenus au secret sur les informations du SI (schémas, adresses, configurations), y compris après le marché.</li></ul>
+<h3>Environnement (obligatoire : loi Climat et résilience)</h3><ul><li>Consommation électrique mesurée et déclarée (fiche constructeur), alimentations certifiées 80 PLUS Platinum au moins pour les serveurs.</li><li>Équipements réparables : disponibilité des pièces détachées pendant la durée du support, indice de réparabilité quand il existe ; le matériel reconditionné garanti est accepté en variante.</li><li>Reprise et traitement des emballages et des équipements remplacés par une filière agréée (DEEE), avec certificat.</li><li>Livraisons regroupées, emballages réduits et recyclables.</li></ul>
+<h3>Documentation et transfert de compétences</h3><ul><li>Dossier des ouvrages exécutés (DOE) : plans de récolement, configurations finales, schémas, mots de passe dans le coffre, procédures d&#x27;exploitation, en français.</li><li>Formation des administrateurs de l&#x27;IUT sur chaque produit (durée indiquée dans l&#x27;offre).</li><li>Réversibilité : à la fin du marché, le titulaire remet tout ce qui permet à l&#x27;IUT ou à un autre prestataire de reprendre l&#x27;exploitation (configurations, licences, documentation), sans surcoût.</li></ul>
+<h3>Recette</h3><ul><li>Vérification d&#x27;aptitude (VA) : tests décrits dans le plan de recette proposé par le titulaire et validé par l&#x27;IUT, dont les tests de recette de la matrice des flux (matrice_flux.pdf, section 7) pour les lots qui touchent au filtrage.</li><li>Vérification de service régulier (VSR) : un mois d&#x27;exploitation sans anomalie bloquante avant l&#x27;admission.</li><li>Les anomalies sont classées bloquantes, majeures ou mineures ; l&#x27;admission est prononcée sans anomalie bloquante ni majeure.</li></ul>
+<h2>6. Réponse attendue du candidat</h2><ul><li>Un mémoire technique qui reprend chaque exigence numérotée et indique comment elle est satisfaite (ou l'écart proposé).</li><li>Les fiches techniques, la consommation électrique, les dates de fin de support et la politique de correctifs.</li><li>Le plan de recette proposé et le planning d'intervention, compatible avec le calendrier universitaire.</li></ul></body></html>

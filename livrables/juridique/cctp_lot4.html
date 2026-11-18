@@ -1,0 +1,81 @@
+<!doctype html><html lang='fr'><head><meta charset='utf-8'><title>CCTP · Lot 4 : Sûreté : vidéoprotection et contrôle d&#x27;accès</title><style>
+@page { size: A4; margin: 14mm 13mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'DejaVu Sans', 'Liberation Sans', sans-serif; font-size: 9.2pt; color: #211F1C; line-height: 1.45; margin: 0; }
+h1 { font-family: 'DejaVu Serif', serif; font-size: 22pt; margin: 0 0 2mm; }
+h2 { font-family: 'DejaVu Serif', serif; font-size: 14pt; margin: 8mm 0 2.5mm; padding-bottom: 1.5mm; border-bottom: 1.5px solid #1F4E8C; color: #1F4E8C; }
+h3 { font-size: 10.5pt; margin: 5mm 0 2mm; }
+p { margin: 1.5mm 0; }
+.sous { color: #6C6861; font-size: 9pt; }
+.cles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; margin: 4mm 0; }
+.cle { border: 1px solid #DEDAD1; border-radius: 2mm; padding: 2.5mm 3mm; background: #F6F4EF; }
+.cle b { display: block; font-size: 15pt; color: #1F4E8C; }
+table { width: 100%; border-collapse: collapse; margin: 2mm 0 3mm; font-size: 8.2pt; }
+th { text-align: left; background: #EAF0F8; color: #0E2240; font-weight: bold; padding: 1.4mm 1.8mm; border-bottom: 1px solid #C9D8EC; }
+td { padding: 1.2mm 1.8mm; border-bottom: 1px solid #E8E5DE; vertical-align: top; }
+tr { page-break-inside: avoid; }
+td.n, th.n { text-align: right; white-space: nowrap; }
+.chemin { color: #3A3833; font-size: 7.6pt; }
+.lt01 { color: #2C6E8C; font-weight: bold; } .lt02 { color: #8C682C; font-weight: bold; }
+img { width: 100%; border: 1px solid #DEDAD1; margin: 2mm 0; }
+.saut { page-break-before: always; }
+.note { border-left: 3px solid #A85A07; background: #FBF4EA; padding: 2mm 3mm; margin: 3mm 0; }
+ul { margin: 1mm 0 2mm 5mm; padding: 0; } li { margin: 0.6mm 0; }
+
+code { font-family: 'DejaVu Sans Mono', monospace; font-size: 7.4pt; }
+td.m { font-family: 'DejaVu Sans Mono', monospace; font-size: 7pt; }
+.z { display: inline-block; padding: 0 1.3mm; border-radius: 1mm; color: #fff; font-size: 7pt; font-weight: bold; white-space: nowrap; }
+.ok { color: #05893e; font-weight: bold; } .ko { color: #c13c3b; font-weight: bold; }
+.st { display: inline-block; padding: 0 1.2mm; border-radius: 1mm; font-size: 6.8pt; font-weight: bold; white-space: nowrap; }
+.st-ecart { background: #FBE9E7; color: #B3261E; } .st-conf { background: #FBF4EA; color: #8C4A06; }
+table.grille td, table.grille th { text-align: center; font-size: 7pt; padding: 1mm; }
+table.grille td.vide { background: #F6F4EF; color: #B9B4AA; }
+table.grille td.diag { background: #EEF0F3; }
+table.regles { font-size: 7.3pt; } table.regles td { padding: 1mm 1.4mm; }
+.pourquoi { color: #3A3833; } .ref { color: #6C6861; font-size: 6.8pt; }
+@page paysage { size: A4 landscape; margin: 10mm 11mm 12mm; }
+.paysage { page: paysage; page-break-before: always; page-break-after: always; }
+h2, h3 { page-break-after: avoid; }
+.fiche { border: 1px solid #DEDAD1; border-radius: 2mm; padding: 2.5mm 3.5mm; margin: 3mm 0; page-break-inside: avoid; }
+.fiche h3 { margin: 0 0 1.5mm; }
+
+table.carte { width: auto; margin: 3mm auto; page-break-inside: avoid; }
+.bloc { page-break-inside: avoid; }
+td:first-child b { white-space: nowrap; } table.carte td, table.carte th { width: 30mm; height: 15mm; text-align: center; vertical-align: middle; font-size: 8pt; border: 1px solid #fff; }
+.r1 { background: #DCEFE3; } .r2 { background: #FBF0C9; } .r3 { background: #F7D2B5; } .r4 { background: #F2B8B0; }
+.ini { font-weight: bold; color: #3A3833; } .res { font-weight: bold; color: #05893e; }
+.etat { display: inline-block; padding: 0 1.2mm; border-radius: 1mm; font-size: 6.8pt; font-weight: bold; white-space: nowrap; }
+.e-place { background: #DCEFE3; color: #1D5E3A; } .e-prop { background: #E5EDF8; color: #1F4E8C; } .e-org { background: #F1EEE8; color: #5C574F; }
+.n-couverte { color: #05893e; font-weight: bold; } .n-partielle { color: #A85A07; font-weight: bold; } .n-client { color: #6C6861; font-weight: bold; }
+ol.chemin { margin: 0; padding-left: 4mm; } ol.chemin li { margin: 0; }
+
+.charte h2 { font-size: 12pt; } .charte p { text-align: justify; }
+.art { page-break-inside: avoid; margin-bottom: 2mm; }
+.alerte { border-left: 3px solid #B3261E; background: #FBE9E7; padding: 2mm 3mm; margin: 3mm 0; }
+.note-dpo { border-left: 3px solid #1F4E8C; background: #EEF3FA; padding: 2mm 3mm; margin: 3mm 0; }
+.signature { margin-top: 10mm; display: grid; grid-template-columns: 1fr 1fr; gap: 10mm; }
+.signature div { border-top: 1px solid #6C6861; padding-top: 2mm; font-size: 8pt; color: #6C6861; }
+</style></head><body>
+<h1>CCTP · Lot 4 : Sûreté : vidéoprotection et contrôle d&#x27;accès</h1>
+<p class='sous'>Site de Marseille · IUT Génie Télécom, Luminy · RudyLink Infrastructure · point 19 du cahier des charges · version 1.0 · 18/11/2026<br>Modèle de cahier des clauses techniques particulières, à compléter par les services achats de l'AMU (CCAP, règlement de la consultation, bordereau de prix).</p>
+<div class='note-dpo'><b>Modèle.</b> Les références de produits sont celles du chiffrage du projet, données à titre indicatif : dans le marché, chacune est suivie de « ou équivalent ». Les exigences numérotées sont vérifiées à la recette.</div>
+<div class='alerte'><b>Avant la consultation</b> : Avant la consultation : retirer la caméra prévue au foyer des étudiants (N0-LT01-P050) et demander l&#x27;autorisation préfectorale pour les caméras qui filment des lieux ouverts au public (entrées, hall, parkings), selon la position du DPO.</div>
+<h2>1. Objet</h2>
+<p>Fourniture, installation et mise en service des caméras IP, du logiciel d&#x27;enregistrement, des lecteurs de badge, des unités de traitement locales et du logiciel de contrôle d&#x27;accès.</p>
+<p><b>Hors du lot</b> : Câblage et switchs (lot 1), serveurs qui hébergent les logiciels (lot 3).</p>
+<h2>2. Documents de référence</h2><p>Dossier de conception RudyLink Infrastructure, version 2 de l'infrastructure : plan_cablage (emplacements des caméras et des badgeuses), volet juridique (point 19) : AIPD, durées, matrice_flux (règles F24 à F27).</p>
+<h2>3. Quantités</h2>
+<table class=''><tr><th>Repère</th><th>Désignation (indicative)</th><th>Quantité</th><th>Remarque</th></tr><tr><td>Caméras IP</td><td>Caméras fixes PoE, intérieur et extérieur selon l&#x27;emplacement <i>ou équivalent</i></td><td>15</td><td></td></tr><tr><td>Lecteurs de badge</td><td>Lecteurs sans contact + unités de traitement locales (UTL) <i>ou équivalent</i></td><td>11</td><td></td></tr><tr><td>Logiciel de vidéo</td><td>VMS installé sur une VM du datacenter (zone SRV) <i>ou équivalent</i></td><td>1</td><td></td></tr><tr><td>Logiciel de contrôle d&#x27;accès</td><td>Installé sur une VM du datacenter (zone SRV) <i>ou équivalent</i></td><td>1</td><td></td></tr><tr><td>Salle serveur + L.TECH</td><td>Contrôle d&#x27;accès par badge <i>ou équivalent</i></td><td>1</td><td>ligne du chiffrage (point 18), qui ne couvre que la salle serveur et les locaux techniques : à réévaluer pour les 11 lecteurs</td></tr></table>
+<h2>4. Exigences techniques</h2>
+<h3>Cybersécurité des équipements</h3>
+<table class=''><tr><th>N°</th><th>Exigence</th><th>Conforme</th></tr><tr><td><b>L4-01</b></td><td>Caméras et UTL compatibles 802.1X EAP-TLS (à défaut MAB), HTTPS et chiffrement des flux, SNMPv3, journaux en syslog ; aucun service en nuage ni connexion pair à pair, Telnet et UPnP désactivés (guide ANSSI PA-072).</td><td>☐</td></tr><tr><td><b>L4-02</b></td><td>Produits certifiés CSPN ou qualifiés par l&#x27;ANSSI quand l&#x27;offre existe (contrôle d&#x27;accès, VMS) ; sinon, le candidat décrit sa politique de correctifs.</td><td>☐</td></tr><tr><td><b>L4-03</b></td><td>Caméras conformes ONVIF (profils S et T) : c&#x27;est l&#x27;enregistreur qui ouvre les flux (règle F24), la caméra n&#x27;initie aucune connexion.</td><td>☐</td></tr><tr><td><b>L4-04</b></td><td>Badges et lecteurs : technologie sans contact à chiffrement robuste (de type MIFARE DESFire EV2/EV3 ou équivalent, pas de MIFARE Classic) ; liaison lecteur-UTL en OSDP v2 canal sécurisé, pas de Wiegand ; pas de biométrie.</td><td>☐</td></tr></table>
+<h3>Protection des données (RGPD)</h3>
+<table class=''><tr><th>N°</th><th>Exigence</th><th>Conforme</th></tr><tr><td><b>L4-05</b></td><td>Masquage dynamique des zones privatives et de la voie publique dans l&#x27;image ; champ de chaque caméra validé par l&#x27;IUT avant la mise en service (voir l&#x27;AIPD du volet juridique).</td><td>☐</td></tr><tr><td><b>L4-06</b></td><td>Durées paramétrables et appliquées automatiquement : images 30 jours au plus, journal des passages 3 mois.</td><td>☐</td></tr><tr><td><b>L4-07</b></td><td>Comptes nominatifs pour la consultation, journal des consultations et des exports, export chiffré.</td><td>☐</td></tr><tr><td><b>L4-08</b></td><td>Panneaux d&#x27;information fournis et posés à chaque entrée.</td><td>☐</td></tr></table>
+<h3>Exploitation</h3>
+<table class=''><tr><th>N°</th><th>Exigence</th><th>Conforme</th></tr><tr><td><b>L4-09</b></td><td>Intervention du titulaire à distance uniquement par le bastion de l&#x27;IUT (clauses communes) ; le prestataire du lot n&#x27;a aucun accès direct au réseau des objets.</td><td>☐</td></tr><tr><td><b>L4-10</b></td><td>Correctifs des micrologiciels pendant toute la durée du support, appliqués depuis l&#x27;administration de l&#x27;IUT.</td><td>☐</td></tr></table>
+<h2 class='saut'>5. Clauses communes à tous les lots</h2>
+<h3>Sécurité</h3><ul><li>Accès distant du titulaire uniquement par le VPN d&#x27;administration et le bastion de l&#x27;IUT, avec un compte nominatif par intervenant, ouvert pour la durée de l&#x27;intervention (PSSI M-ADM-2). Aucun accès permanent, aucun boîtier de télémaintenance du titulaire sur le réseau.</li><li>Comptes et mots de passe par défaut changés ou désactivés à l&#x27;installation, secrets remis dans le coffre de l&#x27;IUT (M-ADM-3).</li><li>Correctifs de sécurité : le titulaire signale sous 48 h toute vulnérabilité critique publiée sur un produit livré et fournit le correctif ou une mesure de contournement ; installation sous 72 h pour les équipements exposés (M-POS-2).</li><li>Notification à l&#x27;IUT, sous 24 h, de tout incident de sécurité touchant le titulaire et pouvant affecter le marché.</li><li>Durée de support des logiciels et micrologiciels d&#x27;au moins 7 ans après la livraison, date de fin de support indiquée dans l&#x27;offre.</li><li>Aucune fonction de connexion à un service en nuage du fabricant activée par défaut ; toute fonction de ce type est décrite et désactivable.</li><li>Confidentialité : le titulaire et ses sous-traitants sont tenus au secret sur les informations du SI (schémas, adresses, configurations), y compris après le marché.</li></ul>
+<h3>Environnement (obligatoire : loi Climat et résilience)</h3><ul><li>Consommation électrique mesurée et déclarée (fiche constructeur), alimentations certifiées 80 PLUS Platinum au moins pour les serveurs.</li><li>Équipements réparables : disponibilité des pièces détachées pendant la durée du support, indice de réparabilité quand il existe ; le matériel reconditionné garanti est accepté en variante.</li><li>Reprise et traitement des emballages et des équipements remplacés par une filière agréée (DEEE), avec certificat.</li><li>Livraisons regroupées, emballages réduits et recyclables.</li></ul>
+<h3>Documentation et transfert de compétences</h3><ul><li>Dossier des ouvrages exécutés (DOE) : plans de récolement, configurations finales, schémas, mots de passe dans le coffre, procédures d&#x27;exploitation, en français.</li><li>Formation des administrateurs de l&#x27;IUT sur chaque produit (durée indiquée dans l&#x27;offre).</li><li>Réversibilité : à la fin du marché, le titulaire remet tout ce qui permet à l&#x27;IUT ou à un autre prestataire de reprendre l&#x27;exploitation (configurations, licences, documentation), sans surcoût.</li></ul>
+<h3>Recette</h3><ul><li>Vérification d&#x27;aptitude (VA) : tests décrits dans le plan de recette proposé par le titulaire et validé par l&#x27;IUT, dont les tests de recette de la matrice des flux (matrice_flux.pdf, section 7) pour les lots qui touchent au filtrage.</li><li>Vérification de service régulier (VSR) : un mois d&#x27;exploitation sans anomalie bloquante avant l&#x27;admission.</li><li>Les anomalies sont classées bloquantes, majeures ou mineures ; l&#x27;admission est prononcée sans anomalie bloquante ni majeure.</li></ul>
+<h2>6. Réponse attendue du candidat</h2><ul><li>Un mémoire technique qui reprend chaque exigence numérotée et indique comment elle est satisfaite (ou l'écart proposé).</li><li>Les fiches techniques, la consommation électrique, les dates de fin de support et la politique de correctifs.</li><li>Le plan de recette proposé et le planning d'intervention, compatible avec le calendrier universitaire.</li></ul></body></html>
