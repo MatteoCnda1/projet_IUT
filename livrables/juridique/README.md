@@ -5,6 +5,7 @@
 |---|---|
 | **[charte_informatique.pdf](charte_informatique.pdf)** | Charte des utilisateurs, annexe A administrateurs, annexe B usage de l'IA |
 | **[volet_juridique.pdf](volet_juridique.pdf)** | Cadre légal, registre des traitements, AIPD (vidéoprotection, IA, géolocalisation), politique de journalisation, AI Act, gestion de crise (volet gouvernance du PRA) |
+| **[pra_juridique.pdf](pra_juridique.pdf)** | PRA, volet juridique : obligations de continuité, DMIA et PDMA exigées par service (entrée du point 15), règles de restauration, contrats, calendrier légal des 72 premières heures |
 | **[guide_cdc_cctp.pdf](guide_cdc_cctp.pdf)** | Construire un cahier des charges et un CCTP |
 | [cctp_lot1.pdf](cctp_lot1.pdf) | CCTP lot 1 : Câblage structuré et équipements actifs du réseau |
 | [cctp_lot2.pdf](cctp_lot2.pdf) | CCTP lot 2 : Sécurité périmétrique : routeurs de bordure, pare-feu, VPN |

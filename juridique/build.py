@@ -2,10 +2,11 @@
 """Point 19 · Aspects juridiques et chartes : produit livrables/juridique/.
 
 Usage : python3 juridique/build.py   (après securite/build.py et cablage/plan_cablage.py)
-Entrées : juridique/donnees.py (registre, AIPD, journaux, crise), charte.py, cctp.py ; securite/pssi.py (mesures M-xx)
+Entrées : juridique/donnees.py (registre, AIPD, journaux, crise), pra.py, charte.py, cctp.py ; securite/pssi.py (mesures M-xx)
 Sorties : livrables/juridique/
   charte_informatique.pdf   charte des utilisateurs + annexe administrateurs + annexe IA
   volet_juridique.pdf       cadre légal, registre des traitements, AIPD, politique de journalisation, IA, gestion de crise
+  pra_juridique.pdf         PRA, volet juridique : obligations, exigences de reprise pour le point 15, contrats, preuves, calendrier
   cctp_lot1..4.pdf          modèles de CCTP pour le client
   guide_cdc_cctp.pdf        construire un cahier des charges et un CCTP
 """
@@ -22,6 +23,7 @@ sys.path.insert(0, str(ROOT / "securite"))
 import charte as CH  # noqa: E402
 import cctp as CC  # noqa: E402
 import donnees as J  # noqa: E402
+import pra as PRA  # noqa: E402
 import pssi as PP  # noqa: E402
 
 _spec = importlib.util.spec_from_file_location("securite_build", ROOT / "securite" / "build.py")
@@ -38,6 +40,9 @@ CSS = SB.CSS + SB.CSS_RISQUE + """
 .alerte { border-left: 3px solid #B3261E; background: #FBE9E7; padding: 2mm 3mm; margin: 3mm 0; }
 .note-dpo { border-left: 3px solid #1F4E8C; background: #EEF3FA; padding: 2mm 3mm; margin: 3mm 0; }
 .signature { margin-top: 10mm; display: grid; grid-template-columns: 1fr 1fr; gap: 10mm; }
+.reprise { table-layout: fixed; width: 100%; } .reprise td:first-child b, .pra td:first-child b { white-space: normal; }
+.reprise th:nth-child(1) { width: 15%; } .reprise th:nth-child(2) { width: 12%; } .reprise th:nth-child(3) { width: 8%; }
+.reprise th:nth-child(4) { width: 20%; } .reprise th:nth-child(5), .reprise th:nth-child(6) { width: 9%; } .reprise th:nth-child(7) { width: 27%; }
 .signature div { border-top: 1px solid #6C6861; padding-top: 2mm; font-size: 8pt; color: #6C6861; }
 """
 PSSI = {m[0]: m for m in PP.MESURES}
@@ -179,7 +184,9 @@ def doc_volet():
     # 6. Crise
     H += ["<h2 class='saut'>6. Gestion d'une crise d'origine cyber (volet gouvernance du PRA)</h2>",
           "<p>Le PRA technique (sauvegardes, RPO/RTO, ordre de restauration) est au point 15. Ici : qui décide, qui prévient qui, et dans "
-          "quels délais. Inspiré des guides de l'ANSSI sur la gestion de crise et du kit d'exercice dédié à l'enseignement supérieur.</p>",
+          "quels délais. Inspiré des guides de l'ANSSI sur la gestion de crise et du kit d'exercice dédié à l'enseignement supérieur. "
+          "Le document <b>PRA, volet juridique</b> (pra_juridique.pdf) complète cette section : obligations de continuité, exigences de "
+          "reprise par service données au point 15, contrats, preuves et calendrier légal des premières heures.</p>",
           "<h3>Cellule de crise</h3>", tableau(["Rôle", "Qui", "Mission"], [[f"<b>{e(a)}</b>", e(b), e(c)] for a, b, c in J.CELLULE]),
           "<p>Elle se réunit hors du SI touché : liste de contacts imprimée, téléphones portables, une salle prévue à l'avance, une messagerie "
           "de secours qui ne dépend pas de l'annuaire.</p>",
@@ -196,6 +203,52 @@ def doc_volet():
           "<li>Abandon de la géolocalisation des étudiants (T10) au profit d'un émargement en salle.</li>"
           "<li>Calendrier de consultation du CSA pour la charte et la vidéoprotection.</li>"
           "<li>Statut NIS 2 de l'établissement une fois la loi promulguée, et désignation des contacts auprès de l'ANSSI.</li></ul>",
+          "</body></html>"]
+    return "\n".join(H)
+
+
+# ---------------------------------------------------------------------------
+# PRA, volet juridique
+# ---------------------------------------------------------------------------
+def doc_pra():
+    H = entete("Plan de reprise d'activité · volet juridique", "Ce que le droit impose à la reprise du site après un sinistre ou une "
+               "cyberattaque, et ce que le PRA technique du point 15 doit donc garantir.")
+    H.append(AVERTISSEMENT)
+    H += ["<div class='cles'>", f"<div class='cle'><b>{len(PRA.OBLIGATIONS)}</b>obligations de continuité</div>",
+          f"<div class='cle'><b>{len(PRA.SERVICES)}</b>services avec DMIA et PDMA</div>",
+          f"<div class='cle'><b>{len(PRA.CONTRATS)}</b>contrats à clauses de reprise</div>",
+          "<div class='cle'><b>72 h</b>CNIL, ANSSI et plainte</div></div>",
+          "<h2>1. Partage avec le point 15</h2>",
+          tableau(["", "Ce document (point 19)", "PRA technique (point 15)"], [
+              ["<b>Question</b>", "Qu'est-ce que la loi et les contrats exigent ?", "Comment on sauvegarde et on restaure ?"],
+              ["<b>Contenu</b>", "obligations, DMIA et PDMA exigées, règles de restauration, contrats, preuves, notifications, gouvernance",
+               "sauvegardes, réplication vers le site jumeau, ordre et procédures de restauration, tests"],
+              ["<b>Valide</b>", "DPO, service juridique, direction", "RSSI, administrateurs"]]),
+          "<p><b>DMIA</b> : durée maximale d'interruption admissible (RTO). <b>PDMA</b> : perte de données maximale admissible (RPO).</p>",
+          "<h2>2. Obligations de continuité</h2>",
+          tableau(["Obligation", "Texte", "Ce qu'il impose", "Conséquence pour le PRA"],
+                  [[f"<b>{e(a)}</b>", e(b), e(c), e(d)] for a, b, c, d in PRA.OBLIGATIONS], cls="pra"),
+          "<h2 class='saut'>3. Exigences de reprise par service</h2>",
+          "<p>Pour chaque service, l'enjeu juridique fixe une durée d'interruption et une perte de données admissibles. Ce sont les "
+          "exigences d'entrée du PRA technique. Les codes Txx renvoient au registre des traitements (volet juridique, section 2).</p>",
+          tableau(["Service", "Serveurs", "Registre", "Enjeu juridique", "DMIA", "PDMA", "Mode dégradé"],
+                  [[f"<b>{e(a)}</b>", e(b), e(c), e(d), e(f), e(g), e(m)] for a, b, c, d, f, g, m in PRA.SERVICES], cls="reprise"),
+          f"<p class='sous'>{e(PRA.NOTE_SERVICES)}</p>",
+          "<h2>4. Restaurer sans enfreindre le droit</h2>"]
+    for titre, texte in PRA.REGLES_RESTAURATION:
+        H.append(f"<div class='fiche'><h3>{e(titre)}</h3><p>{e(texte)}</p></div>")
+    H += ["<h2 class='saut'>5. Contrats : clauses de reprise à prévoir</h2>",
+          tableau(["Contrat", "Clause", "Pourquoi", "Où"], [[f"<b>{e(a)}</b>", e(b), e(c), e(d)] for a, b, c, d in PRA.CONTRATS], cls="pra"),
+          "<h2>6. Calendrier légal d'une crise</h2>",
+          "<p>H0 : le moment où l'incident est connu. Les délais courent dès cette heure-là, y compris la nuit et le week-end.</p>",
+          tableau(["Échéance", "Action", "Qui", "Texte"], [[f"<b>{e(a)}</b>", e(b), e(c), e(d)] for a, b, c, d in PRA.CALENDRIER]),
+          "<h3>Cellule de crise</h3>",
+          tableau(["Rôle", "Qui", "Mission"], [[f"<b>{e(a)}</b>", e(b), e(c)] for a, b, c in J.CELLULE]),
+          "<p>Détail des notifications et fiches réflexes : volet juridique, section 6.</p>",
+          "<h2 class='saut'>7. Ce que le point 15 doit livrer</h2><ul>" + "".join(f"<li>{e(x)}</li>" for x in PRA.EXIGENCES_P15) + "</ul>",
+          "<h2>8. Faire vivre le PRA</h2>",
+          tableau(["Quoi", "Qui", "Quand"], [[f"<b>{e(a)}</b>", e(b), e(c)] for a, b, c in PRA.GOUVERNANCE]),
+          "<h2>9. Points à faire valider</h2><ul>" + "".join(f"<li>{e(x)}</li>" for x in PRA.A_VALIDER) + "</ul>",
           "</body></html>"]
     return "\n".join(H)
 
@@ -256,7 +309,7 @@ def doc_guide():
 def main():
     PP.verifier()
     OUT.mkdir(parents=True, exist_ok=True)
-    docs = [("charte_informatique", doc_charte), ("volet_juridique", doc_volet), ("guide_cdc_cctp", doc_guide)]
+    docs = [("charte_informatique", doc_charte), ("volet_juridique", doc_volet), ("pra_juridique", doc_pra), ("guide_cdc_cctp", doc_guide)]
     docs += [(f"cctp_lot{l['num']}", (lambda l=l: doc_cctp(l))) for l in CC.LOTS]
     for nom, f in docs:
         page = OUT / f"{nom}.html"
@@ -269,6 +322,8 @@ def main():
         "| **[charte_informatique.pdf](charte_informatique.pdf)** | Charte des utilisateurs, annexe A administrateurs, annexe B usage de l'IA |\n"
         "| **[volet_juridique.pdf](volet_juridique.pdf)** | Cadre légal, registre des traitements, AIPD (vidéoprotection, IA, géolocalisation), "
         "politique de journalisation, AI Act, gestion de crise (volet gouvernance du PRA) |\n"
+        "| **[pra_juridique.pdf](pra_juridique.pdf)** | PRA, volet juridique : obligations de continuité, DMIA et PDMA exigées par service "
+        "(entrée du point 15), règles de restauration, contrats, calendrier légal des 72 premières heures |\n"
         "| **[guide_cdc_cctp.pdf](guide_cdc_cctp.pdf)** | Construire un cahier des charges et un CCTP |\n"
         + "".join(f"| [cctp_lot{l['num']}.pdf](cctp_lot{l['num']}.pdf) | CCTP lot {l['num']} : {l['titre']} |\n" for l in CC.LOTS)
         + "\nRégénérer : `python3 juridique/build.py` (sources : `juridique/donnees.py`, `charte.py`, `cctp.py`). "
