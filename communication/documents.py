@@ -1,16 +1,22 @@
 """Documents imprimables de RudyLink Infrastructure (HTML -> PDF A4).
 
 charte_graphique, plaquette, organisation_projet, modeles/modele_rapport, modeles/signature_mail.
-Tous partagent modeles/rudylink-document.css, réutilisable pour les autres livrables.
+Tous partagent modeles/rudylink-document.css. Les livrables techniques appliquent la même charte par commun/charte.py,
+qui reprend cette feuille de style ; la version et la date affichées sont celles du dossier (commun/charte.py).
+Les chiffres du projet (plaquette, exemples de la charte) sont lus dans les JSON du câblage, de l'énergie et du chiffrage.
 """
-import json, pathlib
+import json, pathlib, sys
 import marque
 from marque import C, AXES, NOM, SIGNATURE, CONTACT, DOMAINE
 
-RACINE = pathlib.Path(__file__).parent.parent
+RACINE = pathlib.Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(RACINE))
+from commun import charte as CH  # noqa: E402
+
 SORTIE = RACINE / "livrables" / "communication"
-DATE = "12/11/2026"
-VERSION = "1.0"
+DATE = CH.DATE_VERSION
+VERSION = CH.VERSION
+N = CH.nombre
 
 CSS = marque.css_polices("../fonts") + """
 /* Charte « Console » de RudyLink : angles droits, traits de 1 px, une seule couleur d'accent. */
@@ -76,14 +82,17 @@ def contraste(a, b):
     return (l1 + .05) / (l2 + .05)
 
 
-def page(titre, corps, css_rel="modeles/rudylink-document.css"):
-    return (f"<!doctype html><html lang='fr'><head><meta charset='utf-8'><title>{titre}</title>"
-            f"<link rel='stylesheet' href='{css_rel}'></head><body>{corps}</body></html>")
+def page(titre, corps, titre_court, css_rel="modeles/rudylink-document.css"):
+    """Page complète : feuille de la charte, pied de page « RUDYLINK INFRASTRUCTURE · <titre court> · n / N », typographie française."""
+    pied = (f"<style>@page {{ @bottom-left {{ content: \"RUDYLINK INFRASTRUCTURE · {titre_court.upper()}\"; }} }}"
+            "@page couverture { @bottom-left { content: none } @bottom-right { content: none } }</style>")
+    return CH.typo_fr(f"<!doctype html><html lang='fr'><head><meta charset='utf-8'><title>{titre} · {NOM}</title>"
+                      f"<link rel='stylesheet' href='{css_rel}'>{pied}</head><body>{corps}</body></html>")
 
 
 def entete(ref, titre, logo="logo/rudylink-infrastructure-couleur.svg"):
     return (f"<div class='entete'><img src='{logo}' alt='{NOM}'>"
-            f"<div class='label'>{titre}<br>{ref} · v{VERSION} · {DATE}</div></div>")
+            f"<div class='label'>{titre}<br>{ref} · {VERSION} — {DATE}</div></div>")
 
 
 def trame(largeur=520, hauteur=420):
@@ -108,7 +117,7 @@ def couverture(titre, sous_titre, ref):
     return f"""<section class='couverture'>
 <img class='logo' src='logo/rudylink-infrastructure-inverse.svg' alt='{NOM}' style='margin:-24px'>
 {trame()}
-<div class='label' style='margin-top:auto;margin-bottom:5mm'>{ref} · version {VERSION} · {DATE}</div>
+<div class='label' style='margin-top:auto;margin-bottom:5mm'>{ref} · {VERSION} — {DATE}</div>
 <h1 style='margin-top:0'>{titre}</h1>
 <p class='chapo'>{sous_titre}</p>
 <div class='bas'><span class='label'>Projet SAÉ 5.02 · IUT Aix-Marseille, R&amp;T Luminy</span><span class='label'>{DOMAINE}</span></div>
@@ -135,12 +144,12 @@ def nuancier():
         sur_blanc = contraste(h, "#ffffff")
         rows.append(f"<tr><td><span style='display:inline-block;width:8mm;height:4mm;background:{h};border:1px solid {C['trait']};vertical-align:middle'></span></td>"
                     f"<td style='white-space:nowrap'><b>{nom}</b></td><td class='mono'>{h.upper()}</td><td class='mono' style='white-space:nowrap'>{r}&nbsp;{g}&nbsp;{b}</td>"
-                    f"<td class='n'>{sur_blanc:.1f}:1</td><td>{usage}</td></tr>")
+                    f"<td class='n'>{N(sur_blanc, 1)}:1</td><td>{usage}</td></tr>")
     return ("<table><tr><th></th><th>Nom</th><th>HEX</th><th>RVB</th><th class='n'>Contraste / blanc</th><th>Usage</th></tr>"
             + "".join(rows) + "</table>")
 
 
-def charte():
+def charte(cab, nrj, est):
     ax = "".join(f"<div style='display:flex;gap:2mm;align-items:center;border:1px solid {C['trait_doux']};padding:1.5mm 2mm'>"
                  f"<span style='width:5mm;height:5mm;background:{c};flex:none'></span><span class='mono' style='color:{c};font-weight:600'>{k}</span>"
                  f"<span style='flex:1'>{n}</span><span class='mono' style='color:#6d727b'>{c.upper()}</span></div>"
@@ -150,7 +159,7 @@ def charte():
 {entete("RLI-COM-001", "Charte graphique")}
 <span class='label accent'>1 · La société</span>
 <h1 style='margin:2mm 0'>{NOM}</h1>
-<p class='chapo'>Société de conseil et d'ingénierie des réseaux. Pour le projet, elle joue la maîtrise d'œuvre du réseau du bâtiment R&amp;T de Luminy et de son site jumeau.</p>
+<p class='chapo'>Société de conseil et d'ingénierie des réseaux. Pour le projet, elle joue la maîtrise d'œuvre du réseau du bâtiment Génie des Télécommunications de l'IUT, campus de Luminy (Marseille), et du site jumeau de Digne.</p>
 <h2>D'où vient le nom</h2>
 <p><b>RudyLink existe vraiment.</b> C'est la micro-entreprise de Mattéo Canada, immatriculée le 20 octobre 2026 (activité 62.01Z, programmation informatique). Elle publie déjà deux services sous <span class='mono'>rudylink.eu</span> : <i>RudyLink Nutrition</i> (01) et <i>RudyLink Knowledge</i> (02), une base de fiches de cours réseaux et cybersécurité.</p>
 <p>Pour le projet, nous imaginons sa troisième branche : <b>RudyLink Infrastructure</b> (03), le pôle de conseil réseau. Le nom se prête au métier, puisque <i>link</i> désigne un lien réseau. L'identité s'appuie sur une charte qui existe déjà et que tout le groupe peut consulter en ligne, et le nom de domaine nous appartient.</p>
@@ -206,7 +215,7 @@ def charte():
 <h2 style='margin-top:2mm'>Une palette de neutres et un seul accent</h2>
 <p>Les couleurs viennent de la charte « Console » de RudyLink, définies en OKLCH puis converties pour l'impression et la bureautique. Règle de dosage : <b>neutres sur l'essentiel de la page, encre pour le texte et les titres, émeraude en touche</b> (un lien, un chiffre clé, le cœur du symbole). L'émeraude n'est jamais une couleur de fond étendue.</p>
 {nuancier()}
-<p class='label'>Contraste calculé selon WCAG 2.1. Le texte en émeraude utilise la variante foncée ({e_txt:.1f}:1 sur blanc, niveau AAA) ; l'émeraude standard est réservé aux aplats, aux traits et au texte de grande taille.</p>
+<p class='label'>Contraste calculé selon WCAG 2.1. Le texte en émeraude utilise la variante foncée ({N(e_txt, 1)}:1 sur blanc, niveau AAA) ; l'émeraude standard est réservé aux aplats, aux traits et au texte de grande taille.</p>
 <h3>Couleurs des axes du cahier des charges</h3>
 <p>Dans la roadmap, le rapport et les schémas, chaque axe garde sa teinte. Ces couleurs servent aux pastilles, aux légendes et aux traits de schéma, jamais au texte courant.</p>
 <div class='grille g3' style='gap:2mm;font-size:8.3pt'>{ax}</div><p class='label'>Toutes ces teintes dépassent 4,5:1 sur blanc.</p>
@@ -255,19 +264,19 @@ def charte():
 <p>Nous écrivons comme un consultant qui doit être compris par un directeur de composante autant que par un administrateur réseau : clair, précis, sans jargon gratuit.</p>
 <table><tr><th style='width:30%'>Règle</th><th>Écrire</th><th>Éviter</th></tr>
 <tr><td>Vouvoyer le client, parler au « nous » de l'équipe</td><td>Nous vous proposons deux onduleurs en voies A et B.</td><td>Il est proposé de mettre en place une solution d'onduleurs.</td></tr>
-<tr><td>Chiffrer chaque affirmation</td><td>24 min d'autonomie si un onduleur tombe en panne.</td><td>Une autonomie confortable.</td></tr>
-<tr><td>Expliquer un sigle à sa première apparition</td><td>PUE (rapport entre l'énergie de la salle et celle des équipements)</td><td>Un PUE de 1,34.</td></tr>
-<tr><td>Dire ce qui reste à valider</td><td>À valider avec le client : passages en vide sanitaire.</td><td>Passer sous silence une hypothèse.</td></tr>
+<tr><td>Chiffrer chaque affirmation</td><td>{nrj['onduleurs']['autonomie_degrade']} min d'autonomie si un onduleur tombe en panne.</td><td>Une autonomie confortable.</td></tr>
+<tr><td>Expliquer un sigle à sa première apparition</td><td>PUE (rapport entre l'énergie de la salle et celle des équipements)</td><td>Un PUE de {N(nrj['energie']['pue'], 2)}.</td></tr>
+<tr><td>Dire ce qui reste à vérifier</td><td>À vérifier sur site : réserve de puissance du TGBT.</td><td>Passer sous silence une hypothèse.</td></tr>
 <tr><td>Phrases courtes, voix active</td><td>La fibre monte par deux colonnes.</td><td>Il a été procédé à la mise en place de deux cheminements verticaux.</td></tr></table>
 <h3>Conventions d'écriture</h3>
 <div class='grille g2'>
-<ul><li>Nombres : <span class='mono'>582 951 €</span> (espace insécable), virgule décimale <span class='mono'>4,2 kW</span>.</li>
+<ul><li>Nombres : <span class='mono'>{CH.euros(est['capex'])}</span> (espace insécable, aussi entre le nombre et l'unité), virgule décimale <span class='mono'>{N(nrj['salle']['it_typ'] / 1000, 2)} kW</span>, signe moins <span class='mono'>−</span>, multiplication <span class='mono'>×</span>.</li>
 <li>Montants : toujours préciser <b>HT</b> ou <b>TTC</b>.</li>
-<li>Dates : <span class='mono'>12/11/2026</span> ou « 12 novembre 2026 ».</li>
+<li>Dates : <span class='mono'>{DATE}</span> ou « 20 novembre 2026 » ; la date d'un document est celle de la version du dossier, pas celle de sa génération.</li>
 <li>Équipements : nom du schéma en mono (<code>CL-SW1</code>), puis le modèle.</li></ul>
-<ul><li>Références : <span class='mono'>RLI-&lt;TYPE&gt;-&lt;n°&gt;</span> : COM communication, RAP rapport, CR compte rendu, ETU étude, CCTP.</li>
-<li>Fichiers : <span class='mono'>RLI-RAP-001_rapport-technique_v1.2.pdf</span>.</li>
-<li>Versions : <span class='mono'>0.x</span> brouillon, <span class='mono'>1.0</span> première version livrée au client.</li>
+<ul><li>Références : <span class='mono'>RLI-&lt;TYPE&gt;-&lt;n°&gt;</span> : COM communication, RAP rapport, CR compte rendu, ETU étude, CCTP, AUD audit, SUI suivi.</li>
+<li>Fichiers : <span class='mono'>snake_case</span> dans le dépôt (<span class='mono'>plan_adressage.pdf</span>, suffixe ISO pour un fichier daté : <span class='mono'>rapport_audit_2026-11-15.pdf</span>) ; <span class='mono'>RLI-Pxx-sujet.ext</span> au dépôt GesTT (<span class='mono'>RLI-P09-matrice-flux.pdf</span>). La référence et la version sont dans le cartouche, jamais dans le nom.</li>
+<li>Versions : une seule, celle du dossier, <span class='mono'>{VERSION} — {DATE}</span>, dans le cartouche de chaque document ; ce qui change est repéré par un badge <span class='mono'>{VERSION}</span> et résumé dans le bloc « Suivi des versions ».</li>
 <li>Signature : prénom, nom, rôle, puis le bloc RudyLink Infrastructure.</li></ul>
 </div>
 
@@ -279,14 +288,18 @@ def charte():
 <tr><td>Compte rendu de réunion</td><td class='mono'>modeles/modele_compte_rendu.docx</td><td>Participants, décisions, actions avec responsable et échéance</td></tr>
 <tr><td>Site vitrine</td><td class='mono'>livrables/site_web/</td><td>Pages HTML simples aux couleurs et polices de la charte, journal de bord intégré</td></tr>
 <tr><td>Courriel</td><td class='mono'>modeles/signature_mail.html</td><td>Signature à coller dans le client de messagerie</td></tr>
-<tr><td>Feuille de style</td><td class='mono'>modeles/rudylink-document.css</td><td>Pour tout document HTML imprimé en PDF (comme les livrables des points 04 et 14)</td></tr></table>
+<tr><td>Feuille de style</td><td class='mono'>modeles/rudylink-document.css</td><td>Pour tout document HTML imprimé en PDF. Tous les livrables techniques l'appliquent depuis la v2.1, par le module <span class='mono'>commun/charte.py</span> (en-tête, cartouche, pied de page numéroté, suivi des versions, typographie)</td></tr></table>
 </section>"""
-    return page("Charte graphique · RudyLink Infrastructure", corps)
+    corps += "<section class='saut'>" + CH.bloc_suivi("RLI-COM-001", statut="Livré", changements="Version et date du dossier, règle de nommage des fichiers alignée sur GesTT, "
+                                                    "types AUD et SUI, exemples chiffrés lus dans les livrables, charte appliquée à tous les livrables techniques (commun/charte.py).") + "</section>"
+    return page("Charte graphique", corps, "Charte graphique")
 
 
 # ---------------------------------------------------------------- plaquette commerciale
 def plaquette(cab, nrj, est):
-    eur = lambda v: f"{v:,.0f}".replace(",", " ") + " €"
+    eur = CH.euros
+    ge = nrj.get("bet", {}).get("groupe_electrogene")
+    secours = (f"avec un onduleur en panne, puis groupe électrogène ({ge['autonomie_h']} h)" if ge else "d'autonomie avec un onduleur en panne")
     corps = f"""{entete("RLI-COM-002", "Présentation de la société")}
 <span class='label accent'>Conseil et ingénierie des réseaux d'établissement</span>
 <h1 style='font-size:30pt;margin:2mm 0 3mm;max-width:150mm'>Des réseaux conçus pour durer quinze ans.</h1>
@@ -309,23 +322,23 @@ def plaquette(cab, nrj, est):
 <section class='saut'>
 {entete("RLI-COM-002", "Présentation de la société")}
 <span class='label accent'>Référence en cours</span>
-<h2 style='margin-top:2mm'>Le bâtiment Génie des Télécommunications, IUT de Luminy</h2>
-<p>Réseau complet d'un bâtiment de trois niveaux, relié à un site jumeau à Digne ou Gap. Premiers résultats remis au client :</p>
+<h2 style='margin-top:2mm'>Le bâtiment Génie des Télécommunications de l'IUT, campus de Luminy</h2>
+<p>Réseau complet d'un bâtiment de trois niveaux à Marseille, relié au site jumeau de Digne. Résultats remis au client (dossier {VERSION} du {DATE}) :</p>
 <div class='grille g4' style='margin:4mm 0'>
 <div class='bloc'><span class='label'>Câblage</span><span class='chiffre'>{cab['prises']}</span>prises Cat6A 10 Gb/s</div>
 <div class='bloc'><span class='label'>Wi-Fi</span><span class='chiffre'>{cab['par_type']['wifi']}</span>bornes placées par étude de couverture</div>
 <div class='bloc'><span class='label'>Locaux</span><span class='chiffre'>{len(cab['baies'])} + 1</span>locaux techniques et salle serveur</div>
-<div class='bloc'><span class='label'>Fibre</span><span class='chiffre'>{cab['fibre_m']} m</span>de rocades OM4 doublées</div>
-<div class='bloc'><span class='label'>Énergie</span><span class='chiffre'>{str(nrj['energie']['pue']).replace('.', ',')}</span>PUE visé de la salle serveur</div>
-<div class='bloc'><span class='label'>Secours</span><span class='chiffre'>{nrj['onduleurs']['autonomie_degrade']} min</span>d'autonomie avec un onduleur en panne</div>
-<div class='bloc'><span class='label'>Investissement</span><span class='chiffre'>{eur(est['capex'])}</span>HT, aléas de 10 % compris</div>
-<div class='bloc'><span class='label'>Sur 5 ans</span><span class='chiffre'>{eur(est['tco5'])}</span>HT, exploitation comprise</div>
+<div class='bloc'><span class='label'>Fibre</span><span class='chiffre'>{N(cab['fibre_m'])} m</span>de rocades OM4 doublées</div>
+<div class='bloc'><span class='label'>Énergie</span><span class='chiffre'>{N(nrj['energie']['pue'], 2)}</span>PUE visé de la salle serveur</div>
+<div class='bloc'><span class='label'>Secours</span><span class='chiffre'>{nrj['onduleurs']['autonomie_degrade']} min</span>{secours}</div>
+<div class='bloc'><span class='label'>Investissement</span><span class='chiffre'>{eur(est['capex'], ht=False)}</span>HT, aléas de 10 % compris</div>
+<div class='bloc'><span class='label'>Sur 5 ans</span><span class='chiffre'>{eur(est['tco5'], ht=False)}</span>HT, exploitation comprise</div>
 </div>
 <h3>Les choix structurants</h3>
 <ul><li>Architecture en trois couches avec cœur et distribution redondés (StackWise Virtual).</li>
 <li>Double barrière de sécurité : FortiGate en bordure, Stormshield en interne, DMZ pour les services publiés.</li>
 <li>Double accès Internet par deux opérateurs arrivant par deux façades opposées.</li>
-<li>Salle serveur alimentée par deux onduleurs indépendants, climatisation doublée, allée froide.</li></ul>
+<li>Salle serveur alimentée par deux onduleurs indépendants et un groupe électrogène dédié, climatisation doublée, allée froide, protection contre l'eau et extinction automatique.</li></ul>
 <h2>L'équipe</h2>
 <p>RudyLink Infrastructure est la maîtrise d'œuvre du projet. Chaque pôle a un responsable ; la direction de projet est l'interlocuteur unique du client. L'organisation complète et la répartition des 21 points sont décrites dans le document <span class='mono'>RLI-COM-003</span>.</p>
 <p><b>Équipe</b> : {', '.join(f'{n} ({t.lower()})' if r else n for n, t, r in EQUIPE)}.</p>
@@ -338,7 +351,7 @@ def plaquette(cab, nrj, est):
 <div class='note' style='margin-top:6mm'><span class='label accent'>Contact</span><br><b>{NOM}</b> · {SIGNATURE}<br><span class='mono'>{DOMAINE}</span> · <span class='mono'>{CONTACT}</span></div>
 <p class='label' style='margin-top:4mm'>Société fictive créée pour la SAÉ 5.02 (BUT R&amp;T, IUT Aix-Marseille). Le nom est emprunté à la micro-entreprise RudyLink ; la branche Infrastructure n'a pas d'existence juridique.</p>
 </section>"""
-    return page("Présentation · RudyLink Infrastructure", corps)
+    return page("Présentation de la société", corps, "Présentation de la société")
 
 
 # ---------------------------------------------------------------- organisation MOA / MOE
@@ -467,22 +480,24 @@ def organisation(points):
 <tr><td><span class='pastille' style='color:#0079b5'>En relecture</span></td><td>Relecteur d'un autre pôle</td><td>Cohérence avec les autres points (quantités, noms d'équipements, chiffrage)</td></tr>
 <tr><td><span class='pastille' style='color:#ab7400'>Validé en interne</span></td><td>Direction de projet (A)</td><td>Charte respectée, référence et version à jour</td></tr>
 <tr><td><span class='pastille' style='color:#101217'>Livré</span></td><td>Direction de projet</td><td>Envoyé ou présenté à la MOA, réserves notées</td></tr>
-<tr><td><span class='pastille oui'>Validé client</span></td><td>MOA</td><td>Réserves levées ; le document passe en version 1.x</td></tr></table>
+<tr><td><span class='pastille oui'>Validé client</span></td><td>MOA</td><td>Réserves levées ; la validation est notée dans le suivi des versions du document</td></tr></table>
 <h2>Gestion documentaire</h2>
 <ul><li><b>Dépôt Git</b> : source de vérité pour les scripts, les schémas et les livrables. Une modification = un commit qui dit ce qui change.</li>
 <li><b>Roadmap partagée</b> : avancement des 21 points, responsables, échéances et journal.</li>
-<li><b>Références</b> : <span class='mono'>RLI-COM</span> communication, <span class='mono'>RLI-RAP</span> rapport, <span class='mono'>RLI-CR</span> compte rendu, <span class='mono'>RLI-ETU</span> étude, <span class='mono'>RLI-CCTP</span>.</li>
+<li><b>Références</b> : <span class='mono'>RLI-COM</span> communication, <span class='mono'>RLI-RAP</span> rapport, <span class='mono'>RLI-CR</span> compte rendu, <span class='mono'>RLI-ETU</span> étude, <span class='mono'>RLI-CCTP</span>, <span class='mono'>RLI-AUD</span> audit, <span class='mono'>RLI-SUI</span> suivi. Version unique, celle du dossier ({VERSION} — {DATE}).</li>
 <li><b>Rendu final</b> : tous les supports sur AMETICE 8 à 10 jours avant la soutenance.</li></ul>
 <div class='note alerte'><span class='label' style='color:#ab7400'>À décider en réunion de suivi</span><br>Attribuer les rôles ARC, PHY, SYS, SEC et COM, puis reporter les noms dans la roadmap (champ « Responsable(s) » de chaque point).</div>
 </section>"""
-    return page("Organisation du projet · RudyLink Infrastructure", corps)
+    corps += "<section class='saut'>" + CH.bloc_suivi("RLI-COM-003", statut="Livré", changements="Version et date du dossier, types de référence AUD et SUI, "
+                                                    "circuit de validation sans numéro de version propre au document.") + "</section>"
+    return page("Organisation du projet", corps, "Organisation du projet")
 
 
 # ---------------------------------------------------------------- modèle de rapport (HTML)
-def modele_rapport():
+def modele_rapport(nrj):
     corps = f"""<section class='couverture'>
 <img class='logo' src='../logo/rudylink-infrastructure-inverse.svg' alt='{NOM}' style='margin:-24px'>
-<div class='label' style='margin-top:auto;margin-bottom:5mm'>RLI-RAP-001 · version 0.1 · JJ/MM/AAAA</div>
+<div class='label' style='margin-top:auto;margin-bottom:5mm'>RLI-RAP-001 · vX.Y — JJ/MM/AAAA</div>
 <h1 style='margin-top:0'>Titre du document</h1>
 <p class='chapo'>Sous-titre : une phrase qui dit ce que le lecteur trouvera dans le document.</p>
 <div class='bas'><span class='label'>Client : IUT Aix-Marseille, R&amp;T Luminy</span><span class='label'>Diffusion : client et équipe pédagogique</span></div>
@@ -490,22 +505,22 @@ def modele_rapport():
 {entete("RLI-RAP-001", "Titre du document", "../logo/rudylink-infrastructure-couleur.svg")}
 <div class='cartouche'>
 <div><span class='label'>Référence</span><b class='mono'>RLI-RAP-001</b></div>
-<div><span class='label'>Version</span><b class='mono'>0.1</b></div>
+<div><span class='label'>Version</span><b class='mono'>vX.Y — JJ/MM/AAAA</b></div>
 <div><span class='label'>Statut</span><b>Brouillon</b></div>
 <div><span class='label'>Rédigé par</span><b>Prénom Nom (rôle)</b></div></div>
-<h3>Historique des versions</h3>
+<h3>Suivi des versions</h3>
 <table><tr><th>Version</th><th>Date</th><th>Auteur</th><th>Modifications</th></tr>
-<tr><td class='mono'>0.1</td><td>JJ/MM/AAAA</td><td>Prénom Nom</td><td>Création du document</td></tr></table>
+<tr><td class='mono'>vX.Y</td><td>JJ/MM/AAAA</td><td>Prénom Nom</td><td>Version du dossier dans laquelle le document est créé ou modifié</td></tr></table>
 <span class='label accent' style='display:block;margin-top:8mm'>Point 04 · Architecture physique</span>
 <h2 style='margin-top:2mm'>1. Titre de partie</h2>
-<p>Texte courant en Space Grotesk 9,5 pt. Une affirmation, un chiffre : la salle serveur consomme <b>4,2 kW</b> en fonctionnement normal. Les équipements sont nommés comme sur le schéma, en mono : <code>CL-SW1</code>, <code>EL-FGT1</code>.</p>
+<p>Texte courant en Space Grotesk 9,5 pt. Une affirmation, un chiffre : la salle serveur consomme <b>{N(nrj['salle']['it_typ'] / 1000, 2)} kW</b> en fonctionnement normal. Les équipements sont nommés comme sur le schéma, en mono : <code>CL-SW1</code>, <code>EL-FGT1</code>.</p>
 <h3>1.1 Intertitre</h3>
 <table><tr><th>Équipement</th><th>Modèle</th><th class='n'>Qté</th><th class='n'>Total HT</th></tr>
-<tr><td class='mono'>CL-SW1, CL-SW2</td><td>Cisco C9500-16X</td><td class='n'>2</td><td class='n'>00 000 €</td></tr></table>
+<tr><td class='mono'>CL-SW1, CL-SW2</td><td>Cisco C9500-16X</td><td class='n'>2</td><td class='n'>00 000 € HT</td></tr></table>
 <p class='label'>Tableau 1 · Légende du tableau, source des chiffres.</p>
 <div class='note'><span class='label accent'>Recommandation</span><br>Une recommandation au client, en une ou deux phrases.</div>
 <div class='note alerte'><span class='label' style='color:#ab7400'>À valider avec le client</span><br>Hypothèse retenue faute d'information, à confirmer en réunion.</div>"""
-    return page("Modèle de rapport · RudyLink Infrastructure", corps, "rudylink-document.css")
+    return page("Modèle de rapport", corps, "Titre du document", "rudylink-document.css")
 
 
 def signature():
@@ -525,7 +540,6 @@ def signature():
 
 
 def produire(rendu):
-    import shutil
     (SORTIE / "modeles").mkdir(parents=True, exist_ok=True)
     rendu.copier_polices(SORTIE / "fonts")
     (SORTIE / "modeles" / "rudylink-document.css").write_text(CSS, encoding="utf-8")
@@ -551,7 +565,7 @@ def produire(rendu):
     }
     (SORTIE / "societe.json").write_text(json.dumps(societe, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     docs = {
-        "charte_graphique": charte(),
+        "charte_graphique": charte(cab, nrj, est),
         "plaquette_rudylink_infrastructure": plaquette(cab, nrj, est),
         "organisation_projet": organisation(points),
     }
@@ -560,7 +574,7 @@ def produire(rendu):
         f.write_text(html, encoding="utf-8")
         rendu.pdf(f, SORTIE / f"{nom}.pdf")
     f = SORTIE / "modeles" / "modele_rapport.html"
-    f.write_text(modele_rapport(), encoding="utf-8")
+    f.write_text(modele_rapport(nrj), encoding="utf-8")
     rendu.pdf(f, SORTIE / "modeles" / "modele_rapport.pdf")
     (SORTIE / "modeles" / "signature_mail.html").write_text(signature(), encoding="utf-8")
     return list(docs)

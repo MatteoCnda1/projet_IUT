@@ -13,12 +13,12 @@
 #   architecture/reseau/build.py resume.json          -> plan d'adressage, architectures L2 et L3, schémas drawio
 #   energie/energie.py           resume.json + lignes fixes de chiffrage/estimation.json -> livrables/energie_refroidissement/
 #   chiffrage/estimation.py      resume.json + energie_refroidissement/resume.json        -> chiffrage/estimation.*
-#   communication/build.py       chiffrage, énergie, câblage (copie leurs PDF dans site_web/documents/)
 #   roadmap/build.py             chiffrage/estimation.json -> roadmap/index.html
 #   securite/build.py            architecture/reseau/donnees.py -> livrables/securite/
 #   juridique/build.py           securite/, chiffrage, plan de câblage -> livrables/juridique/
 #   architecture/audit/generer_rapport_audit.py   rapport d'audit du 15/11/2026 (texte figé)
 #   architecture/audit/traitement_audit.py        relit plan d'adressage, énergie et chiffrage -> livrables/audit/
+#   communication/build.py       chiffrage, énergie, câblage -> livrables/communication/ (le site vitrine n'est pas touché)
 #
 # Boucle connue : cablage/plan_cablage.py (implantation.html) relit la liste des équipements de chiffrage/estimation.json,
 # qui dépend elle-même du plan de câblage. Partant d'un état cohérent (celui de git), un seul passage suffit ; après une
@@ -63,12 +63,12 @@ ETAPES=(
     architecture/reseau/build.py
     energie/energie.py
     chiffrage/estimation.py
-    communication/build.py
     roadmap/build.py
     securite/build.py
     juridique/build.py
     architecture/audit/generer_rapport_audit.py
     architecture/audit/traitement_audit.py
+    communication/build.py
 )
 
 total=$SECONDS

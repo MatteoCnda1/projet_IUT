@@ -26,9 +26,3 @@ select = ["E9", "F", "W605", "PLE"]
 # Dette existante au 20/11/2026, à corriger dans le code puis à retirer d'ici (voir outils/ci/README.md).
 # Chaque ligne ne neutralise que les règles déjà en défaut dans ce fichier.
 "architecture/audit/generer_rapport_audit.py" = ["W605"]   # l. 630 : « \ge » dans une chaîne non brute
-"architecture/reseau/schemas.py" = ["F541", "F841"]        # l. 98 vm, l. 246 f-string, l. 420 base
-"cablage/document.py" = ["F541"]                           # l. 75
-"cablage/etude_rssi.py" = ["F841"]                         # l. 227 ordre
-"cablage/rapport.py" = ["F401", "F541", "F841"]            # l. 9 regles, l. 19 data, l. 66 f-string
-"communication/bureautique.py" = ["F401"]                  # l. 8 WD_SECTION, l. 13 Emu, l. 15 PEmu
-"communication/documents.py" = ["F401"]                    # l. 528 shutil

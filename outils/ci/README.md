@@ -7,7 +7,7 @@ Trois jobs en parallèle, **environ 5 minutes** en tout (la génération est le 
 | Job | Ce qu'il vérifie | Bloquant | Durée |
 |---|---|---|---|
 | **Python** | `python -m compileall` sur tous les scripts ; `ruff check` avec `ruff.toml` : erreurs de syntaxe, noms indéfinis (F821), imports et variables inutiles (F401, F841), f-strings vides (F541), séquences d'échappement invalides (W605). Puis le style (E, W, B, SIM), affiché pour information | oui (sauf le style) | < 1 min |
-| **Cohérence** | `verifier_coherence.py` : plan d'adressage, matrice des flux, montants cités dans les README, liens, règles GesTT, fichiers interdits et secrets, copies du site web. Puis `orthographe.py` (fautes fréquentes) pour information | oui (sauf l'orthographe) | < 1 min |
+| **Cohérence** | `verifier_coherence.py` : plan d'adressage, matrice des flux, montants cités dans les README, liens, règles GesTT, fichiers interdits et secrets. Puis `orthographe.py` (fautes fréquentes) pour information | oui (sauf l'orthographe) | < 1 min |
 | **Génération** | installe poppler, les polices DejaVu, Chrome (déjà sur le runner), la CLI draw.io (sous Xvfb) et les paquets Python, lance toute la chaîne (`generer_tout.sh`), puis `verifier_a_jour.py` : les livrables texte suivis par git doivent être ceux que produit la chaîne, et les PDF/PNG doivent avoir été produits. Les livrables régénérés sont publiés en artefact `livrables-regeneres` (14 jours) | oui | 4 à 6 min |
 
 Si le job **Génération** échoue sur « Livrables à jour » : quelqu'un a modifié une source (script, `donnees.py`, `flux.py`…)
@@ -47,9 +47,10 @@ de câblage, dont il lit pourtant `resume.json`) :
 1. `cablage/salles.py`, `etude_rssi.py`, `plan_cablage.py`, `rapport.py` : le plan de câblage, lu par presque tout le reste ;
 2. `architecture/reseau/build.py` : plan d'adressage, architectures L2 et L3, schémas draw.io ;
 3. `energie/energie.py` puis `chiffrage/estimation.py` : le chiffrage reprend le lot énergie ;
-4. `communication/build.py` (copie des PDF dans `livrables/site_web/documents/`), `roadmap/build.py` ;
+4. `roadmap/build.py` ;
 5. `securite/build.py`, puis `juridique/build.py` (qui reprend la PSSI) ;
-6. `architecture/audit/generer_rapport_audit.py` et `traitement_audit.py` (relit adressage, énergie et chiffrage).
+6. `architecture/audit/generer_rapport_audit.py` et `traitement_audit.py` (relit adressage, énergie et chiffrage) ;
+7. `communication/build.py` : charte, plaquette, organisation et modèles Office (le site vitrine `livrables/site_web/` est maintenu à la main par son auteur, hors de la chaîne).
 
 Boucle connue : `cablage/plan_cablage.py` relit la liste des équipements de `chiffrage/estimation.json` pour
 `implantation.html`. Après l'ajout ou le retrait d'un équipement dans `chiffrage/estimation.py`, lancer la chaîne deux fois.
@@ -77,7 +78,6 @@ relancer la chaîne, vérifier les écarts de `livrables/plan_cablage/*.csv` et 
 | `liens` | liens relatifs des Markdown du dépôt et des HTML de `livrables/` : la cible existe (avertissement si elle n'est pas suivie par git) |
 | `gestt` | règles de dépôt (CLAUDE.md) : aucun fichier de `livrables/` au-delà de 20 Mo ; dans `livrables/depots/pxx/` : extensions acceptées, 20 fichiers et 20 Mo au plus, pas de sous-dossier, nommage `RLI-Pxx-…` (avertissement) |
 | `hygiene` | aucun `__pycache__`, `.pyc`, `.bkp`, `.dtmp`, verrou `.$…`, `keys_vault`, clé ou certificat suivi par git ; pas de clé privée PEM ni de jeton (GitHub, AWS, Slack, Vault) dans le contenu |
-| `copies` | `livrables/site_web/documents/*.pdf` et `assets/` identiques à leurs originaux (`communication/build.py`) |
 
 ### Ajouter un contrôle
 

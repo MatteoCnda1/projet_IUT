@@ -187,7 +187,7 @@ def bloc_suivi(ref, statut="En relecture", redige_par=EQUIPE, relu_par="toute l'
         if v == VERSION and changements:
             txt = changements
         lignes.append(f"<tr><td>{v}</td><td>{d}</td><td>{txt}</td></tr>")
-    return (f"<h2>Suivi des versions</h2><table class='suivi'><tr><th>Version</th><th>Date</th><th>Changements</th></tr>"
+    return ("<h2>Suivi des versions</h2><table class='suivi'><tr><th>Version</th><th>Date</th><th>Changements</th></tr>"
             + "".join(lignes) + "</table>"
             f"<table><tr><th>Référence</th><th>Version</th><th>Statut</th><th>Rédigé par</th><th>Relu par</th></tr>"
             f"<tr><td>{ref}</td><td>{MENTION}</td><td>{statut}</td><td>{redige_par}</td><td>{relu_par}</td></tr></table>")
@@ -196,11 +196,11 @@ def bloc_suivi(ref, statut="En relecture", redige_par=EQUIPE, relu_par="toute l'
 # ---------------------------------------------------------------------------
 # Typographie française : espaces insécables (U+00A0), hors code et hors balises
 # ---------------------------------------------------------------------------
-NBSP = " "
+NBSP = "\u00a0"  # espace insécable
 _UNITES = (r"%|€|k€|M€|kW|kVA|kWh|MWh|kWc|W|VA|BTU/h|m²|m³/h|m³|mm|cm|km|m|min|h|°C|K|Go|To|Mo|Ko|Gb/s|Mb/s|"
            r"U|A|mA|V|kV|l/h|L/h|l|L|dB\(A\)|dBA|dBm|dB|MHz|GHz|ms|µs|s|t|kg|ans?|jours?|mois|postes?|ports?")
 _RE_UNITE = re.compile(rf"(\d) ({_UNITES})(?![\w/])")
-_RE_MILLIERS = re.compile(r"(?<![\d.,:/-])(\d{1,3})((?: \d{3})+)(?![\d])")
+_RE_MILLIERS = re.compile(r"(?<![\w.,:/-])(\d{1,3})((?: \d{3})+)(?!\d|[.,]\d)")
 _RE_PONCT = re.compile(r" ([:;!?»])")
 _RE_GUILL = re.compile(r"« ")
 _PROTEGES = re.compile(r"(<(code|pre|script|style|svg)\b.*?</\2>|<[^>]+>)", re.S | re.I)
@@ -228,8 +228,6 @@ def typo_fr(html):
 def nombre(x, decimales=0):
     """Nombre au format français : virgule décimale, insécable comme séparateur de milliers (dès 4 chiffres)."""
     s = f"{x:,.{decimales}f}".replace(",", NBSP).replace(".", ",")
-    if decimales == 0 and abs(x) < 10000 and abs(x) >= 1000:
-        s = s.replace(NBSP, NBSP)
     return s.replace("-", "−")
 
 

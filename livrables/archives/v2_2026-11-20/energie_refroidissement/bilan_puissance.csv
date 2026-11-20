@@ -1,0 +1,17 @@
+reperes,modele,nombre,baie,alimentations,w_typ,w_max,u,total_typ,total_max
+"EL-RTR1, EL-RTR2",Cisco C8200L-1N-4T,2,1,1,20,30,2,40,60
+"EL-FGT1, EL-FGT2",FortiGate 120G,2,1,2,40,65,2,80,130
+"EL-SW1, EL-SW2",Cisco C9200L-24T-4X,2,1,1,40,60,2,80,120
+"EL-SNS1, EL-SNS2",Stormshield SN710,2,1,1,45,70,2,90,140
+"DM-SW1, DM-SW2",Cisco C9200L-24T-4X,2,1,1,40,60,2,80,120
+"CL-SW1, CL-SW2",Cisco C9500-16X,2,1,2,160,260,2,320,520
+DL-SW1 à DL-SW4,Cisco C9500-16X,4,1,2,160,260,4,640,1040
+"NM-SW1, NM-SW2",Cisco C9200L-24T-4X,2,1,1,40,60,2,80,120
+"WLC1, WLC2",Cisco Catalyst 9800-L-F,2,1,1,55,90,2,110,180
+Tiroirs optiques,Rocades et adductions,3,1,0,0,0,3,0,0
+"DM-PVE1, DM-PVE2 (VM de la DMZ)",Dell PowerEdge R360,2,2,2,120,200,2,240,400
+"NM-WITNESS, DM-WITNESS",Dell PowerEdge R260 (entrée de gamme),2,2,2,60,110,2,120,220
+"DT-SW1, DT-SW2",Cisco C9300X-12Y,2,2,2,130,220,2,260,440
+"DT-PVE1, DT-PVE2 (VM AD, NPS, DHCP)",Dell PowerEdge R660xs,2,2,2,240,400,2,480,800
+"NM-PVE1, NM-PVE2",Dell PowerEdge R660xs,2,2,2,260,420,2,520,840
+DT-BKP1,Dell PowerEdge R760xd2,1,2,2,320,480,2,320,480

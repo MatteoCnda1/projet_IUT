@@ -62,7 +62,7 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: Plan d'adressage, flux, montants, liens, GesTT, hygiène, copies du site
+      - name: Plan d'adressage, flux, montants, liens, GesTT, hygiène
         run: python outils/ci/verifier_coherence.py
 
       - name: Orthographe, fautes fréquentes (pour information)

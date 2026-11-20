@@ -407,6 +407,7 @@ def controle_flux(r):
 # ---------------------------------------------------------------------------
 CHIFFRAGE = "chiffrage/estimation.json"
 CHIFFRAGE_V1 = "livrables/archives/v1_2026-11-15/chiffrage/estimation.json"
+CHIFFRAGE_V2 = "livrables/archives/v2_2026-11-20/chiffrage/estimation.json"
 ENERGIE = "livrables/energie_refroidissement/resume.json"
 N = rf"{MONTANT}{ESPACES}?€"  # un montant quelconque
 M = rf"(?P<m>{MONTANT}){ESPACES}?€"  # le montant contrôlé
@@ -419,16 +420,22 @@ CITATIONS = [
     ("README.md", rf"Version 1\s*:\s*{M}", CHIFFRAGE_V1, "capex", "CAPEX v1"),
     ("README.md", rf"Version 1\s*:\s*{N}\s*/\s*{M}", CHIFFRAGE_V1, "opex_total", "OPEX v1"),
     ("README.md", rf"Version 1\s*:\s*{N}\s*/\s*{N}\s*/\s*{M}", CHIFFRAGE_V1, "tco5", "coût sur 5 ans v1"),
+    ("README.md", rf"Version 2\s*:\s*{M}", CHIFFRAGE_V2, "capex", "CAPEX v2"),
+    ("README.md", rf"Version 2\s*:\s*{N}\s*/\s*{M}", CHIFFRAGE_V2, "opex_total", "OPEX v2"),
+    ("README.md", rf"Version 2\s*:\s*{N}\s*/\s*{N}\s*/\s*{M}", CHIFFRAGE_V2, "tco5", "coût sur 5 ans v2"),
     ("livrables/energie_refroidissement/README.md", rf"Investissement {M}", ENERGIE, "capex_lot", "investissement du lot"),
     ("livrables/energie_refroidissement/README.md", rf"{M} HT/an", ENERGIE, "opex_total", "coûts annuels du lot"),
     ("livrables/energie_refroidissement/README.md", rf"{M} HT sur 5 ans", ENERGIE, "cout_5ans", "coût du lot sur 5 ans"),
     ("livrables/energie_refroidissement/README.md", rf"(?P<m>{MONTANT}) kWh/an", ENERGIE, "energie.kwh", "consommation annuelle"),
     ("livrables/audit/README.md", rf"\|\s*CAPEX[^|\n]*\|\s*{M}", CHIFFRAGE_V1, "capex", "CAPEX v1"),
-    ("livrables/audit/README.md", rf"\|\s*CAPEX[^|\n]*\|\s*{N}\s*\|\s*{M}", CHIFFRAGE, "capex", "CAPEX v2"),
+    ("livrables/audit/README.md", rf"\|\s*CAPEX[^|\n]*\|\s*{N}\s*\|\s*{M}", CHIFFRAGE_V2, "capex", "CAPEX v2"),
+    ("livrables/audit/README.md", rf"\|\s*CAPEX[^|\n]*\|\s*{N}\s*\|\s*{N}\s*\|\s*{M}", CHIFFRAGE, "capex", "CAPEX v2.1"),
     ("livrables/audit/README.md", rf"\|\s*OPEX annuel\s*\|\s*{M}", CHIFFRAGE_V1, "opex_total", "OPEX v1"),
-    ("livrables/audit/README.md", rf"\|\s*OPEX annuel\s*\|\s*{N}\s*\|\s*{M}", CHIFFRAGE, "opex_total", "OPEX v2"),
+    ("livrables/audit/README.md", rf"\|\s*OPEX annuel\s*\|\s*{N}\s*\|\s*{M}", CHIFFRAGE_V2, "opex_total", "OPEX v2"),
+    ("livrables/audit/README.md", rf"\|\s*OPEX annuel\s*\|\s*{N}\s*\|\s*{N}\s*\|\s*{M}", CHIFFRAGE, "opex_total", "OPEX v2.1"),
     ("livrables/audit/README.md", rf"\|\s*Coût sur 5 ans\s*\|\s*{M}", CHIFFRAGE_V1, "tco5", "coût sur 5 ans v1"),
-    ("livrables/audit/README.md", rf"\|\s*Coût sur 5 ans\s*\|\s*{N}\s*\|\s*{M}", CHIFFRAGE, "tco5", "coût sur 5 ans v2"),
+    ("livrables/audit/README.md", rf"\|\s*Coût sur 5 ans\s*\|\s*{N}\s*\|\s*{M}", CHIFFRAGE_V2, "tco5", "coût sur 5 ans v2"),
+    ("livrables/audit/README.md", rf"\|\s*Coût sur 5 ans\s*\|\s*{N}\s*\|\s*{N}\s*\|\s*{M}", CHIFFRAGE, "tco5", "coût sur 5 ans v2.1"),
 ]
 
 
@@ -635,32 +642,6 @@ def controle_hygiene(r):
                 r.erreur(f"{quoi} probable dans le contenu : le retirer et le révoquer", p, ligne_de(texte, m.start()))
     if r.erreurs == err0:
         r.ok(f"{len(liste)} fichiers suivis : ni cache, ni sauvegarde, ni secret évident ({n} fichiers texte lus)")
-
-
-# ---------------------------------------------------------------------------
-# 7. Copies du site web à jour
-# ---------------------------------------------------------------------------
-@controle("copies", "Copies du site web identiques à leurs originaux")
-def controle_copies(r):
-    paires = []
-    site_docs = noeud_global("communication/build.py", "SITE_DOCS")
-    for src, nom in (ast.literal_eval(site_docs).items() if site_docs is not None else ()):
-        paires.append((src, f"livrables/site_web/documents/{nom}", "python3 communication/build.py"))
-    for f in sorted(p for p in suivis() if p.startswith("livrables/site_web/assets/")):
-        nom = Path(f).name
-        for d in ("livrables/communication/logo", "livrables/communication/fonts", "communication/fonts"):
-            if (RACINE / d / nom).exists():
-                paires.append((f"{d}/{nom}", f, f"copier {d}/{nom}"))
-                break
-    err0 = r.erreurs
-    for src, copie, remede in paires:
-        a, b = RACINE / src, RACINE / copie
-        if not a.exists() or not b.exists():
-            r.erreur(f"copie ou original absent ({src})", copie)
-        elif a.read_bytes() != b.read_bytes():
-            r.erreur(f"différente de {src} : {remede}", copie)
-    if r.erreurs == err0:
-        r.ok(f"{len(paires)} copies identiques (documents PDF, logos, polices)")
 
 
 # ---------------------------------------------------------------------------
