@@ -32,11 +32,13 @@ VARIABLES = [
     (re.compile(r"^livrables/plan_cablage/README\.md$"), re.compile(r"Généré le \d{2}/\d{2}/\d{4}"), "Généré le <date>",
      "date de génération du README du plan de câblage"),
 ]
-# SVG produits par matplotlib : date et identifiants aléatoires à chaque rendu (svg.hashsalt non fixé) -> non comparables
-MATPLOTLIB = re.compile(rb"Created with matplotlib|<dc:date>")
+# SVG produits par matplotlib : non comparables d'une machine à l'autre (version de matplotlib inscrite dans le
+# fichier, métrique des polices, arrondis), même avec svg.hashsalt fixé et sans date -> seulement vérifiés comme produits
+MATPLOTLIB = re.compile(rb"Created with matplotlib|<dc:date>|https://matplotlib\.org")
 
-# Fichiers binaires que la chaîne doit réécrire à chaque passage (contrôle --repere)
-PRODUITS = re.compile(r"^(livrables/(?!archives/|depots/|site_web/assets/).*\.(pdf|png|svg|docx|pptx)"
+# Fichiers binaires que la chaîne doit réécrire à chaque passage (contrôle --repere).
+# Le site vitrine (livrables/site_web/) est maintenu à la main par son auteur : la chaîne n'y écrit rien.
+PRODUITS = re.compile(r"^(livrables/(?!archives/|depots/|site_web/).*\.(pdf|png|svg|docx|pptx)"
                       r"|architecture/[^/]+\.png|architecture/audit/[^/]+\.pdf)$")
 SIGNATURES = {".pdf": b"%PDF-", ".png": b"\x89PNG", ".docx": b"PK\x03\x04", ".pptx": b"PK\x03\x04"}
 
