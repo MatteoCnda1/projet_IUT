@@ -1,0 +1,586 @@
+{
+ "_source": "GesTT, projet proj_iut_marseille, lu le 20/11/2026 (lecture seule) : statut, dates, responsable, dossier du repo, checklist",
+ "points": {
+  "P01": {
+   "statut": "en cours",
+   "debut": "2026-09-24",
+   "echeance": "2027-03-02",
+   "responsable": "Mattéo Canada",
+   "dossier": "livrables/journal_de_bord/",
+   "checklist": [
+    {
+     "etape": "Mettre en place la roadmap partagée et le repo GitHub",
+     "faite": true
+    },
+    {
+     "etape": "Tenir le journal à chaque réunion de suivi hebdomadaire",
+     "faite": false
+    },
+    {
+     "etape": "Bilan de rotation académique (format attente/objectif)",
+     "faite": false
+    },
+    {
+     "etape": "Comptes rendus des réunions client (S. Sanchez, D. Manoukian, R. Depeyre)",
+     "faite": false
+    },
+    {
+     "etape": "Exporter le journal vers le site web",
+     "faite": false
+    }
+   ]
+  },
+  "P02": {
+   "statut": "en cours",
+   "debut": "2026-09-24",
+   "echeance": "2026-11-27",
+   "responsable": "Solal Kruczinsky",
+   "dossier": "livrables/communication/",
+   "checklist": [
+    {
+     "etape": "Choisir le nom et le logo de la société",
+     "faite": true
+    },
+    {
+     "etape": "Définir les rôles MOA / MOE dans l'équipe",
+     "faite": true
+    },
+    {
+     "etape": "Attribuer les rôles ARC, PHY, SYS, SEC, COM aux membres",
+     "faite": false
+    },
+    {
+     "etape": "Charte graphique commune (rapport, slides, site)",
+     "faite": true
+    },
+    {
+     "etape": "Mettre en ligne le site vitrine du projet",
+     "faite": false
+    }
+   ]
+  },
+  "P03": {
+   "statut": "terminé",
+   "debut": "2026-10-01",
+   "echeance": "2026-11-27",
+   "responsable": "Mattéo Canada",
+   "dossier": "architecture/",
+   "checklist": [
+    {
+     "etape": "Modèle 3 couches accès / distribution / cœur",
+     "faite": true
+    },
+    {
+     "etape": "Redondance : StackWise Virtual, HA des pare-feu, double FAI",
+     "faite": true
+    },
+    {
+     "etape": "Convention de nommage (EL, CL, DL, AL, DM, DT, NM)",
+     "faite": true
+    },
+    {
+     "etape": "Justifier 3 couches vs cœur replié pour un seul bâtiment",
+     "faite": true
+    },
+    {
+     "etape": "Schéma logique des VLAN et des flux",
+     "faite": true
+    },
+    {
+     "etape": "Segmentation couche 3 VRF",
+     "faite": true
+    }
+   ]
+  },
+  "P04": {
+   "statut": "terminé",
+   "debut": "2026-11-12",
+   "echeance": "2026-12-04",
+   "responsable": "Mattéo Canada",
+   "dossier": "livrables/plan_cablage",
+   "checklist": [
+    {
+     "etape": "Recenser salles et prises par niveau (sous-sol, RDC, étage 1)",
+     "faite": true
+    },
+    {
+     "etape": "Choix du câble Cat6A 10 Gb/s et des rocades fibre OM4",
+     "faite": true
+    },
+    {
+     "etape": "Placer les 6 locaux techniques et les baies",
+     "faite": true
+    },
+    {
+     "etape": "Dessiner les cheminements sur les plans",
+     "faite": true
+    },
+    {
+     "etape": "Tableau de brassage et étiquetage",
+     "faite": true
+    }
+   ]
+  },
+  "P05": {
+   "statut": "terminé",
+   "debut": "2026-11-16",
+   "echeance": "2026-12-04",
+   "responsable": "Mattéo Canada",
+   "dossier": "livrables/plan_adressage/",
+   "checklist": [
+    {
+     "etape": "Liste des VLAN par usage (admin, étudiants, ToIP, Wi-Fi, caméras, gestion, DMZ)",
+     "faite": true
+    },
+    {
+     "etape": "Sous-réseaux IPv4 (VLSM) et réserves",
+     "faite": true
+    },
+    {
+     "etape": "Préfixes IPv6 (/48 site, /64 par VLAN)",
+     "faite": true
+    },
+    {
+     "etape": "Cohérence avec le site jumeau (Digne/Gap)",
+     "faite": true
+    }
+   ]
+  },
+  "P06": {
+   "statut": "à faire",
+   "debut": "2026-12-01",
+   "echeance": "2027-01-15",
+   "responsable": "Mattéo Canada",
+   "dossier": "livrables/maquette_gns3/",
+   "checklist": [
+    {
+     "etape": "Configs accès : VLAN, 802.1X, PoE, port-security",
+     "faite": false
+    },
+    {
+     "etape": "Configs distribution et cœur : SVL, passerelles, OSPF",
+     "faite": false
+    },
+    {
+     "etape": "Maquette LAN dans GNS3 / Packet Tracer",
+     "faite": false
+    },
+    {
+     "etape": "Tests de bascule (perte d'un lien, d'un switch)",
+     "faite": false
+    }
+   ]
+  },
+  "P07": {
+   "statut": "à faire",
+   "debut": "2026-12-07",
+   "echeance": "2027-01-22",
+   "responsable": "Rafael Maunier",
+   "dossier": "",
+   "checklist": [
+    {
+     "etape": "Choix MPLS L3VPN / L2VPN (voir RAIMU)",
+     "faite": false
+    },
+    {
+     "etape": "Extension VLAN et authentification inter-sites",
+     "faite": false
+    },
+    {
+     "etape": "Routage inter-sites",
+     "faite": false
+    },
+    {
+     "etape": "Maquette WAN avec le site jumeau",
+     "faite": false
+    }
+   ]
+  },
+  "P08": {
+   "statut": "en cours",
+   "debut": "2026-12-07",
+   "echeance": "2027-01-22",
+   "responsable": "Rafael Maunier",
+   "dossier": "",
+   "checklist": [
+    {
+     "etape": "Double FAI sur EL-RTR1 / EL-RTR2",
+     "faite": false
+    },
+    {
+     "etape": "BGP ou routes par défaut pondérées + SLA",
+     "faite": false
+    },
+    {
+     "etape": "NAT/PAT et publication de la DMZ",
+     "faite": false
+    },
+    {
+     "etape": "Test de bascule FAI",
+     "faite": false
+    }
+   ]
+  },
+  "P09": {
+   "statut": "en cours",
+   "debut": "2026-12-01",
+   "echeance": "2027-01-29",
+   "responsable": "Mattéo Canada",
+   "dossier": "livrables/securite/",
+   "checklist": [
+    {
+     "etape": "Double barrière : FortiGate (externe) + Stormshield (interne)",
+     "faite": true
+    },
+    {
+     "etape": "DMZ : reverse proxy Caddy, DNS public, web, mail",
+     "faite": true
+    },
+    {
+     "etape": "Matrice de flux entre zones",
+     "faite": true
+    },
+    {
+     "etape": "802.1X / NAC sur l'accès filaire et Wi-Fi",
+     "faite": true
+    },
+    {
+     "etape": "Bastion Teleport pour l'administration",
+     "faite": true
+    },
+    {
+     "etape": "Sécurité physique : badges, caméras IP",
+     "faite": true
+    }
+   ]
+  },
+  "P10": {
+   "statut": "en cours",
+   "debut": "2026-12-01",
+   "echeance": "2027-01-08",
+   "responsable": "Mattéo Canada",
+   "dossier": "",
+   "checklist": [
+    {
+     "etape": "Étude de couverture et placement des bornes",
+     "faite": true
+    },
+    {
+     "etape": "WPA3-Enterprise via RADIUS (DT-RAD1/2)",
+     "faite": true
+    },
+    {
+     "etape": "SSID et VLAN : personnel, étudiants, invités, BYOD",
+     "faite": true
+    },
+    {
+     "etape": "Contrôleur Wi-Fi et itinérance",
+     "faite": true
+    },
+    {
+     "etape": "Wifi vérifier la couverture avec la sonde",
+     "faite": false
+    }
+   ]
+  },
+  "P11": {
+   "statut": "à faire",
+   "debut": "2026-12-01",
+   "echeance": "2027-01-15",
+   "responsable": "Raphael Hovsepian",
+   "dossier": "",
+   "checklist": [
+    {
+     "etape": "AD redondé (DT-AD1/2) et GPO",
+     "faite": false
+    },
+    {
+     "etape": "DHCP redondé et RADIUS",
+     "faite": false
+    },
+    {
+     "etape": "Cluster Proxmox NM-PVE1/2/3 et services LXC",
+     "faite": false
+    },
+    {
+     "etape": "Implantation de la salle serveur (PMCO)",
+     "faite": false
+    },
+    {
+     "etape": "Inventaire des postes clients",
+     "faite": false
+    }
+   ]
+  },
+  "P12": {
+   "statut": "à faire",
+   "debut": "2026-12-14",
+   "echeance": "2027-01-29",
+   "responsable": "",
+   "dossier": "",
+   "checklist": [
+    {
+     "etape": "Choix de l'IPBX (Asterisk / FreePBX ou autre)",
+     "faite": false
+    },
+    {
+     "etape": "VLAN voix, QoS et PoE",
+     "faite": false
+    },
+    {
+     "etape": "Plan de numérotation et lien avec le site jumeau",
+     "faite": false
+    },
+    {
+     "etape": "Vidéosurveillance et visioconférence",
+     "faite": false
+    }
+   ]
+  },
+  "P13": {
+   "statut": "en cours",
+   "debut": "2027-01-04",
+   "echeance": "2027-02-05",
+   "responsable": "Solal Kruczinsky",
+   "dossier": "",
+   "checklist": [
+    {
+     "etape": "Service web de réservation de salles",
+     "faite": false
+    },
+    {
+     "etape": "Outil utile au département (absences, géotrack…)",
+     "faite": false
+    },
+    {
+     "etape": "Outils collaboratifs (messagerie, partage de fichiers)",
+     "faite": false
+    },
+    {
+     "etape": "Politique BYOD",
+     "faite": false
+    }
+   ]
+  },
+  "P14": {
+   "statut": "en cours",
+   "debut": "2026-11-23",
+   "echeance": "2027-01-08",
+   "responsable": "Mattéo Canada",
+   "dossier": "livrables/energie_refroidissement",
+   "checklist": [
+    {
+     "etape": "Bilan de puissance par baie",
+     "faite": true
+    },
+    {
+     "etape": "Dimensionner les onduleurs",
+     "faite": true
+    },
+    {
+     "etape": "Climatisation de la salle serveur",
+     "faite": true
+    },
+    {
+     "etape": "Mesure de consommation, PUE et Green IT",
+     "faite": true
+    },
+    {
+     "etape": "comparaison sonde wifi vs ce qu'on a actuellement à l'iut via sonde ekahau",
+     "faite": false
+    }
+   ]
+  },
+  "P15": {
+   "statut": "à faire",
+   "debut": "2026-12-14",
+   "echeance": "2027-01-29",
+   "responsable": "",
+   "dossier": "",
+   "checklist": [
+    {
+     "etape": "Politique 3-2-1 et périmètre sauvegardé",
+     "faite": false
+    },
+    {
+     "etape": "DT-BKP1 (Proxmox Backup Server)",
+     "faite": false
+    },
+    {
+     "etape": "Sauvegarde externalisée",
+     "faite": false
+    },
+    {
+     "etape": "PRA : RPO / RTO et test de restauration",
+     "faite": false
+    }
+   ]
+  },
+  "P16": {
+   "statut": "à faire",
+   "debut": "2026-12-14",
+   "echeance": "2027-01-29",
+   "responsable": "",
+   "dossier": "",
+   "checklist": [
+    {
+     "etape": "LibreNMS et traps SNMP (snmptrapd)",
+     "faite": false
+    },
+    {
+     "etape": "Syslog centralisé",
+     "faite": false
+    },
+    {
+     "etape": "Tableaux de bord Grafana",
+     "faite": false
+    },
+    {
+     "etape": "NTP chrony et alerting",
+     "faite": false
+    }
+   ]
+  },
+  "P17": {
+   "statut": "à faire",
+   "debut": "2027-01-04",
+   "echeance": "2027-02-05",
+   "responsable": "Raphael Hovsepian",
+   "dossier": "",
+   "checklist": [
+    {
+     "etape": "Bâtiment intelligent (badgeuses, capteurs, caméras)",
+     "faite": false
+    },
+    {
+     "etape": "Green IT",
+     "faite": false
+    },
+    {
+     "etape": "Perspectives : EVPN/VXLAN, Wi-Fi 7",
+     "faite": false
+    },
+    {
+     "etape": "Veille technologique",
+     "faite": false
+    },
+    {
+     "etape": "SAS de décontamination : Vitrification, Diode",
+     "faite": false
+    }
+   ]
+  },
+  "P18": {
+   "statut": "en cours",
+   "debut": "2026-11-12",
+   "echeance": "2027-02-12",
+   "responsable": "Mattéo Canada",
+   "dossier": "chiffrage/",
+   "checklist": [
+    {
+     "etape": "Estimation de l'infra du schéma (CAPEX)",
+     "faite": true
+    },
+    {
+     "etape": "OPEX annuel et TCO sur 5 ans",
+     "faite": true
+    },
+    {
+     "etape": "Pistes d'optimisation pour le client",
+     "faite": true
+    },
+    {
+     "etape": "Devis revendeurs (Stormshield, Fortinet, Cisco)",
+     "faite": false
+    },
+    {
+     "etape": "Intégrer les tarifs Éducation",
+     "faite": false
+    }
+   ]
+  },
+  "P19": {
+   "statut": "en cours",
+   "debut": "2027-01-11",
+   "echeance": "2027-02-12",
+   "responsable": "Mattéo Canada",
+   "dossier": "livrables/depots/p19/",
+   "checklist": [
+    {
+     "etape": "RGPD : registre, caméras, journaux",
+     "faite": true
+    },
+    {
+     "etape": "Conservation des logs de connexion",
+     "faite": true
+    },
+    {
+     "etape": "Charte informatique des utilisateurs",
+     "faite": true
+    },
+    {
+     "etape": "Rédiger CdC et CCTP pour le client",
+     "faite": true
+    },
+    {
+     "etape": "PRA : volet juridique et gouvernance de crise",
+     "faite": true
+    }
+   ]
+  },
+  "P20": {
+   "statut": "à faire",
+   "debut": "2027-01-25",
+   "echeance": "2027-02-26",
+   "responsable": "",
+   "dossier": "livrables/video_anglais/",
+   "checklist": [
+    {
+     "etape": "Script de la vidéo en anglais",
+     "faite": false
+    },
+    {
+     "etape": "Tournage et montage",
+     "faite": false
+    },
+    {
+     "etape": "Résumé (abstract) anglais du rapport",
+     "faite": false
+    }
+   ]
+  },
+  "P21": {
+   "statut": "à faire",
+   "debut": "2027-01-25",
+   "echeance": "2027-03-02",
+   "responsable": "",
+   "dossier": "livrables/",
+   "checklist": [
+    {
+     "etape": "Rapport technique de 30 pages + annexes",
+     "faite": false
+    },
+    {
+     "etape": "Présentation orale (type PowerPoint)",
+     "faite": false
+    },
+    {
+     "etape": "Maquette GNS3 / Packet Tracer livrée",
+     "faite": false
+    },
+    {
+     "etape": "Site web avec journal de bord",
+     "faite": false
+    },
+    {
+     "etape": "Vidéo en anglais",
+     "faite": false
+    },
+    {
+     "etape": "Dépôt de tous les supports sur AMETICE",
+     "faite": false
+    }
+   ]
+  }
+ }
+}

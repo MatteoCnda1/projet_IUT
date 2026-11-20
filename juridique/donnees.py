@@ -1,6 +1,6 @@
 """Point 19 : données du volet juridique (registre RGPD, durées, AIPD, journalisation, crise).
 
-Repris par juridique/build.py -> livrables/juridique/ (volet_juridique.pdf, RLI-ETU-010). La version et la date viennent de
+Repris par juridique/build.py -> livrables/depots/p19/ (volet_juridique.pdf, RLI-ETU-010). La version et la date viennent de
 commun/charte.py (une seule version pour tout le dossier). Les éléments changés en v2.1 portent le repère « [v2.1] », que
 build.py rend en badge. Les mesures M-xx renvoient à la PSSI (securite/pssi.py), les règles Fxx à la matrice des flux
 (securite/flux.py). Ce n'est pas un avis juridique : chaque choix est à valider par le DPO et le service juridique de l'AMU

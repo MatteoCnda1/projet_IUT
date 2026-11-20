@@ -5,7 +5,7 @@ Les deux audits du dossier et leur traitement : l'audit du 15/11/2026 (version 1
 
 | Document | Réf. | Contenu |
 |---|---|---|
-| **[traitement_audit.pdf](traitement_audit.pdf)** | RLI-AUD-001 | Partie A : vérification et correction des 9 constats du 15/11/2026, livrables touchés, réponses aux 14 questions du jury. Partie B : audit v2.1 (méthode, constats par audit, bloquants et majeurs avec leur traitement, BET et groupe électrogène, intégration continue, décisions D1 à D6, chiffres des trois versions, points ouverts) |
+| **[traitement_audit.pdf](traitement_audit.pdf)** | RLI-AUD-001 | Partie A : vérification et correction des 9 constats du 15/11/2026, livrables touchés, réponses aux 14 questions du jury. Partie B : audit v2.1 (méthode, constats par audit, bloquants et majeurs avec leur traitement, BET et groupe électrogène, intégration continue, décisions D1 à D7, chiffres des trois versions, points ouverts) |
 | **[rapport_audit_2026-11-15.pdf](rapport_audit_2026-11-15.pdf)** | — | Rapport d'audit d'origine du 15/11/2026, texte figé (aussi en `.html`) |
 | [`constats_v21.json`](../../architecture/audit/constats_v21.json) | — | Les 175 constats de l'audit v2.1, hors dépôt compris (4 bloquants et 48 majeurs dans le dépôt), leur traitement et leur statut (146 traités sur 155 dans le dépôt), les décisions et les points ouverts : source de la partie B |
 

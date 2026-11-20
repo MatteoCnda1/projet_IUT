@@ -3,7 +3,7 @@
 
 Partie A : audit du 15/11/2026 (version 1 -> version 2), 9 constats vérifiés puis corrigés.
 Partie B : audit v2.1 du 20/11/2026 (version 2 -> version 2.1) : quatre audits en parallèle, BET, groupe électrogène,
-intégration continue, décisions D1 à D6, points ouverts.
+intégration continue, décisions D1 à D7, points ouverts.
 
 Usage : python3 architecture/audit/traitement_audit.py
         (dernière étape de la chaîne, après l'énergie et le chiffrage : bash outils/ci/generer_tout.sh)
@@ -480,7 +480,7 @@ def partie_b(vs, C):
     H += section_bet(en, ch, bet, ge)
     H += section_ci()
     # 14. Décisions
-    H.append("<h2>14. Décisions communes D1 à D6</h2><p>Prises par la direction de projet le "
+    H.append("<h2>14. Décisions communes D1 à D7</h2><p>Prises par la direction de projet le "
              f"{C['date']} pour trancher les points soulevés par plusieurs audits ; elles s'imposent à tous les documents.</p>"
              "<table><tr><th>Décision</th><th>Contenu</th><th>Constats réglés</th></tr>")
     H += [f"<tr><td class='id'>{d['id']}<br><span style='font-family:var(--sans);font-weight:600'>{e(d['titre'])}</span></td><td>{e(d['resume'])}</td>"
@@ -621,7 +621,7 @@ def document(C):
     corps += partie_a(vs)
     corps += partie_b(vs, C)
     corps.append(CH.bloc_suivi(REF, changements="Partie B ajoutée : audit v2.1 du 20/11/2026 (quatre audits, BET, groupe électrogène, CI, "
-                                                "décisions D1 à D6, points ouverts) ; partie A complétée (SYS-03, transits, reste à faire) ; charte commune."))
+                                                "décisions D1 à D7, points ouverts) ; partie A complétée (SYS-03, transits, reste à faire) ; charte commune."))
     return CH.page(titre="Traitement des audits de l'infrastructure", titre_court="Traitement des audits", ref=REF, points=POINTS, dossier=OUT,
                    chapo=f"Les deux audits du dossier et ce que nous en avons fait : l'audit du {DATE_AUDIT_1} (version 1, 9 constats), qui a produit "
                          f"la version 2, puis l'audit v2.1 du {C['date']} ({len(C['audits'])} audits en parallèle, {total_txt(k)}), qui a "
@@ -641,7 +641,7 @@ def readme(C):
         "| Document | Réf. | Contenu |", "|---|---|---|",
         f"| **[traitement_audit.pdf](traitement_audit.pdf)** | {REF} | Partie A : vérification et correction des 9 constats du 15/11/2026, livrables "
         "touchés, réponses aux 14 questions du jury. Partie B : audit v2.1 (méthode, constats par audit, bloquants et majeurs avec leur traitement, "
-        "BET et groupe électrogène, intégration continue, décisions D1 à D6, chiffres des trois versions, points ouverts) |",
+        "BET et groupe électrogène, intégration continue, décisions D1 à D7, chiffres des trois versions, points ouverts) |",
         "| **[rapport_audit_2026-11-15.pdf](rapport_audit_2026-11-15.pdf)** | — | Rapport d'audit d'origine du 15/11/2026, texte figé (aussi en `.html`) |",
         f"| [`constats_v21.json`](../../architecture/audit/constats_v21.json) | — | Les {len(C['constats'])} constats de l'audit v2.1, hors dépôt compris "
         f"({g.get('bloquant', 0)} bloquants et {g.get('majeur', 0)} majeurs dans le dépôt), leur traitement et leur statut ({k['traites']} traités sur "

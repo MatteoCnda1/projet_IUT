@@ -159,7 +159,7 @@ def charte(cab, nrj, est):
 {entete("RLI-COM-001", "Charte graphique")}
 <span class='label accent'>1 · La société</span>
 <h1 style='margin:2mm 0'>{NOM}</h1>
-<p class='chapo'>Société de conseil et d'ingénierie des réseaux. Pour le projet, elle joue la maîtrise d'œuvre du réseau du bâtiment Génie des Télécommunications de l'IUT, campus de Luminy (Marseille), et du site jumeau de Digne.</p>
+<p class='chapo'>Société de conseil et d'ingénierie des réseaux. Pour le projet, elle joue la maîtrise d'œuvre du réseau du bâtiment Génie des Télécommunications de l'IUT, campus de Luminy (Marseille), et du site jumeau (Digne ou Gap).</p>
 <h2>D'où vient le nom</h2>
 <p><b>RudyLink existe vraiment.</b> C'est la micro-entreprise de Mattéo Canada, immatriculée le 20 octobre 2026 (activité 62.01Z, programmation informatique). Elle publie déjà deux services sous <span class='mono'>rudylink.eu</span> : <i>RudyLink Nutrition</i> (01) et <i>RudyLink Knowledge</i> (02), une base de fiches de cours réseaux et cybersécurité.</p>
 <p>Pour le projet, nous imaginons sa troisième branche : <b>RudyLink Infrastructure</b> (03), le pôle de conseil réseau. Le nom se prête au métier, puisque <i>link</i> désigne un lien réseau. L'identité s'appuie sur une charte qui existe déjà et que tout le groupe peut consulter en ligne, et le nom de domaine nous appartient.</p>
@@ -323,7 +323,7 @@ def plaquette(cab, nrj, est):
 {entete("RLI-COM-002", "Présentation de la société")}
 <span class='label accent'>Référence en cours</span>
 <h2 style='margin-top:2mm'>Le bâtiment Génie des Télécommunications de l'IUT, campus de Luminy</h2>
-<p>Réseau complet d'un bâtiment de trois niveaux à Marseille, relié au site jumeau de Digne. Résultats remis au client (dossier {VERSION} du {DATE}) :</p>
+<p>Réseau complet d'un bâtiment de trois niveaux à Marseille, relié au site jumeau (Digne ou Gap). Résultats remis au client (dossier {VERSION} du {DATE}) :</p>
 <div class='grille g4' style='margin:4mm 0'>
 <div class='bloc'><span class='label'>Câblage</span><span class='chiffre'>{cab['prises']}</span>prises Cat6A 10 Gb/s</div>
 <div class='bloc'><span class='label'>Wi-Fi</span><span class='chiffre'>{cab['par_type']['wifi']}</span>bornes placées par étude de couverture</div>

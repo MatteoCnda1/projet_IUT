@@ -34,7 +34,7 @@ VRAISEMBLANCE = {
 # Atelier 1 : socle, valeurs métier, biens supports, événements redoutés
 # ---------------------------------------------------------------------------
 MISSION = ("Former les étudiants de l'IUT Génie Télécom (BUT R&T, licences professionnelles) et soutenir la recherche des laboratoires "
-           "de Luminy, sur deux sites reliés (Marseille, Digne), avec un datacenter qui héberge aussi une plateforme d'IA locale.")
+           "de Luminy, sur deux sites reliés (Marseille et le site jumeau, Digne ou Gap), avec un datacenter qui héberge aussi une plateforme d'IA locale.")
 
 VALEURS = [  # code, valeur métier, responsable, biens supports
     ("VM1", "Continuité pédagogique : cours, TP, examens", "Direction de l'IUT",
@@ -42,7 +42,7 @@ VALEURS = [  # code, valeur métier, responsable, biens supports
     ("VM2", "Données personnelles des étudiants et des personnels (scolarité, absences, géolocalisation des outils du point 13)",
      "Direction + DPO de l'AMU", "AD, application d'absences et de réservation, messagerie, journaux"),
     ("VM3", "Travaux et données de recherche, calculs du datacenter", "Directeurs des laboratoires",
-     "Datacenter (clusters DT, stockage), comptes des chercheurs, lien avec Digne"),
+     "Datacenter (clusters DT, stockage), comptes des chercheurs, lien avec le site jumeau"),
     ("VM4", "Service d'IA locale et confidentialité des requêtes", "Direction + DSI",
      "Nœuds GPU, passerelle IA, modèles, journaux des requêtes"),
     ("VM5", "Sécurité des personnes et des biens (contrôle d'accès, vidéoprotection, salle serveur)", "Direction + chargé de sécurité",
@@ -66,7 +66,7 @@ EVENEMENTS = [  # code, valeur, événement redouté, impacts, gravité
      "image publique, hameçonnage des étudiants avec la marque de l'IUT", 2),
     ("ER7", "VM1", "Fraude aux examens : modification de notes ou accès aux sujets", "valeur des diplômes, recours, crise interne", 3),
     ("ER8", "VM1", "Arrêt du datacenter et du cœur de réseau pendant une coupure prolongée du secteur",
-     "services en ligne, authentification, Wi-Fi, sûreté, VPN et liaison avec Digne arrêtés jusqu'au retour du secteur ; redémarrage à risque", 3),
+     "services en ligne, authentification, Wi-Fi, sûreté, VPN et liaison avec le site jumeau arrêtés jusqu'au retour du secteur ; redémarrage à risque", 3),
 ]
 
 # Socle de sécurité : référentiels applicables et état dans l'architecture v2.1
@@ -110,7 +110,7 @@ PARTIES = [
     ("PP1", "Prestataire de maintenance (lot sûreté : caméras, badgeuses)", 3, 3, 2, 2),
     ("PP2", "Éditeurs des pare-feu (Fortinet, Stormshield) : mises à jour", 4, 2, 3, 3),
     ("PP3", "DSI de l'AMU (annuaire fédéré, RENATER, messagerie)", 4, 3, 3, 3),
-    ("PP4", "Site jumeau de Digne (même domaine)", 3, 4, 2, 3),
+    ("PP4", "Site jumeau (Digne ou Gap) (même domaine)", 3, 4, 2, 3),
     ("PP5", "Fournisseurs des modèles d'IA (poids téléchargés)", 3, 2, 1, 2),
     ("PP6", "Hébergeur de la sauvegarde externalisée", 3, 1, 3, 3),
     ("PP7", "Étudiants et leurs appareils personnels (BYOD)", 2, 3, 1, 1),

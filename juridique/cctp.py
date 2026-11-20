@@ -186,7 +186,7 @@ COMMUNES = {
         "l'exploitation (configurations, licences, documentation), sans surcoût."],
     "Recette": [
         "Vérification d'aptitude (VA) : tests décrits dans le plan de recette proposé par le titulaire et validé par l'IUT, dont les "
-        "tests de recette de la matrice des flux (matrice_flux.pdf, section 7) pour les lots qui touchent au filtrage.",
+        "tests de recette de la matrice des flux (RLI-P09-matrice-flux.pdf, section 7) pour les lots qui touchent au filtrage.",
         "Vérification de service régulier (VSR) : un mois d'exploitation sans anomalie bloquante avant l'admission.",
         "Les anomalies sont classées bloquantes, majeures ou mineures ; l'admission est prononcée sans anomalie bloquante ni majeure."],
 }
@@ -254,7 +254,7 @@ LOTS = [
                 "nombre maximal de préfixes, validation RPKI si l'opérateur la propose, plan de contrôle protégé (CoPP), BFD seulement "
                 "vers les voisins configurés (guide ANSSI de configuration de BGP). " + V21]),
             ("Filtrage", [
-                "Mise en œuvre de la matrice des flux du point 09 (toutes les règles Fxx de matrice_flux.csv), chaque règle nommée par son "
+                "Mise en œuvre de la matrice des flux du point 09 (toutes les règles Fxx de RLI-P09-matrice-flux.csv), chaque règle nommée par son "
                 "identifiant Fxx et commentée ; ordre de déploiement : autorisations, puis refus explicites, puis refus par défaut ; "
                 "politique par défaut : tout refuser et journaliser. " + V21,
                 "Profils d'inspection par flux (IPS, antivirus, filtrage d'URL, inspection TLS avec liste d'exclusion : banques, santé, "
@@ -272,7 +272,7 @@ LOTS = [
                 "Revue annuelle des règles avec l'IUT (compteurs, règles inutilisées) comprise dans le marché."]),
             maintenance("routeurs EL-RTR, pare-feu EL-FGT et EL-SNS", None, supports="configuration"),
         ],
-        "hors_lot": "Switchs de la zone Egress (lot 1), accès Internet et liaison avec le site jumeau de Digne (marchés opérateurs).",
+        "hors_lot": "Switchs de la zone Egress (lot 1), accès Internet et liaison avec le site jumeau (Digne ou Gap) (marchés opérateurs).",
     },
     {
         "num": 3, "titre": "Datacenter : serveurs, virtualisation, sauvegarde, plateforme d'IA",
@@ -518,7 +518,7 @@ DEMARCHE = [
 ]
 
 SOMMAIRE_CDC = [
-    "Contexte et objectifs (enseignement, recherche, site jumeau de Digne)",
+    "Contexte et objectifs (enseignement, recherche, site jumeau (Digne ou Gap))",
     "Périmètre (bâtiment, salles, nombre d'usagers, services)",
     "Besoins fonctionnels par service (réseau filaire, Wi-Fi, téléphonie, serveurs, sécurité, sûreté, IA)",
     "Exigences non fonctionnelles : disponibilité (DMIA, PDMA, garanties de rétablissement), performances, sécurité (PSSI), conformité "

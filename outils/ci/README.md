@@ -73,7 +73,7 @@ relancer la chaîne, vérifier les écarts de `livrables/plan_cablage/*.csv` et 
 | Nom | Contrôle |
 |---|---|
 | `adressage` | `livrables/plan_adressage/*.csv` : numéros et noms de VLAN uniques, réseaux valides et sans chevauchement, passerelle = première adresse, préfixe IPv6 `4nnn::/64` du VLAN *n*, adresses des équipements dans leur sous-réseau, sans doublon, même terminaison IPv4/IPv6, passerelle IPv6 identique dans les deux fichiers |
-| `flux` | `securite/flux.py` et `livrables/securite/matrice_flux.csv` : objets et zones connus, chaque VLAN ou hôte cité existe au plan d'adressage, chaque VRF a sa zone, services bien formés ; les zones proposées (IA) sont signalées |
+| `flux` | `securite/flux.py` et `livrables/securite/RLI-P09-matrice-flux.csv` : objets et zones connus, chaque VLAN ou hôte cité existe au plan d'adressage, chaque VRF a sa zone, services bien formés ; les zones proposées (IA) sont signalées |
 | `montants` | montants cités dans `README.md`, `livrables/energie_refroidissement/README.md` et `livrables/audit/README.md` = `chiffrage/estimation.json`, `livrables/energie_refroidissement/resume.json` (et la v1 archivée) ; totaux du chiffrage, lot énergie et quantités du plan de câblage repris à l'identique |
 | `liens` | liens relatifs des Markdown du dépôt et des HTML de `livrables/` : la cible existe (avertissement si elle n'est pas suivie par git) |
 | `gestt` | règles de dépôt (CLAUDE.md) : aucun fichier de `livrables/` au-delà de 20 Mo ; dans `livrables/depots/pxx/` : extensions acceptées, 20 fichiers et 20 Mo au plus, pas de sous-dossier, nommage `RLI-Pxx-…` (avertissement) |

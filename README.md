@@ -1,8 +1,10 @@
 # Projet IUT – Infrastructure réseau du site de Marseille
 
-Projet BUT3 R&T (R5.08 Gestion de projets / SAÉ 5.02) : concevoir le réseau complet du bâtiment IUT Génie Télécom (Luminy), relié au site jumeau de Digne, dans le rôle d'une SS2I de conseil réseau.
+Projet BUT3 R&T (R5.08 Gestion de projets / SAÉ 5.02) : concevoir le réseau complet du bâtiment IUT Génie Télécom (Luminy), relié au site jumeau (Digne ou Gap), dans le rôle d'une SS2I de conseil réseau.
 
-**Roadmap interactive (suivi partagé des 21 points, journal de bord, chiffrage)** : https://claude.ai/artifact/KP4Dycvm54F3N8PZLvhXbW
+**Source de vérité : GesTT** (https://gestion-projet-iut.tail4df302.ts.net/?project=proj_iut_marseille). Statut, dates, responsables, décisions et livrables déposés de chaque point y font foi : en cas d'écart, c'est le dépôt qu'on aligne sur GesTT. Les livrables se déposent depuis GesTT, qui crée la pull request ; `roadmap/gestt_2026-11-20.json` en garde un instantané.
+
+**Roadmap interactive (vue des 21 points alignée sur GesTT, journal de bord, chiffrage)** : https://claude.ai/artifact/KP4Dycvm54F3N8PZLvhXbW
 (privée : la partager avec les membres du groupe avec le niveau *Contributeur* depuis le menu Partager.)
 
 ## Arborescence
@@ -20,8 +22,8 @@ Projet BUT3 R&T (R5.08 Gestion de projets / SAÉ 5.02) : concevoir le réseau co
 | `cablage/` | Scripts du plan de câblage et de l'étude Wi-Fi RSSI, à partir des plans PDF (voir `cablage/README.md`) → `livrables/plan_cablage/` |
 | `energie/` | Scripts du point 14 : `energie.py` (énergie, onduleurs, groupe électrogène, climatisation, PUE, finances) et `bet.py` (étude BET des locaux techniques) → `livrables/energie_refroidissement/` |
 | `chiffrage/` | Estimation budgétaire de l'infra : `estimation_infra.md`, `.csv`, `.json`, script `estimation.py` (reprend le plan de câblage et le lot énergie) |
-| `securite/` | Scripts du point 09 (matrice des flux, analyse de risque EBIOS RM, PSSI) → `livrables/securite/` |
-| `juridique/` | Scripts du point 19 (charte informatique, volet juridique, PRA, guide CdC/CCTP, CCTP des lots 1 à 5) → `livrables/juridique/` |
+| `securite/` | Scripts du point 09 (matrice des flux, analyse de risque EBIOS RM, PSSI) → `livrables/securite/` (noms `RLI-P09-*` du dépôt GesTT) |
+| `juridique/` | Scripts du point 19 (charte informatique, volet juridique, PRA, guide CdC/CCTP, CCTP des lots 1 à 5) → `livrables/depots/p19/` (dossier et noms du dépôt GesTT de P19, voir `juridique/README.md`) |
 | `communication/` | Scripts du point 02 (société fictive **RudyLink Infrastructure**) : logo, charte, plaquette, organisation MOA/MOE, modèles Office → `livrables/communication/` |
 | `roadmap/` | Source de la roadmap (`roadmap.template.html`, `build.py`, `seed_points.json`). `build.py` y injecte le chiffrage, le référentiel ANSSI et la version du dossier, et met à jour les notes du point 14 |
 | `outils/ci/` | Intégration continue (`.github/workflows/ci.yml`) : `generer_tout.sh` (chaîne complète), `verifier_coherence.py`, `verifier_a_jour.py`, `orthographe.py`, `ruff.toml` (voir `outils/ci/README.md`) |

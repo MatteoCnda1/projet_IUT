@@ -124,7 +124,7 @@ def doc_adressage(plan, dossier):
           "<li><b>Pas de VLAN étendu entre les blocs</b> : la frontière L2/L3 est sur la distribution. Un VLAN filaire n'existe que dans son bloc. "
           "Les VLAN Wi-Fi 5xx " + V2 + " ne passent pas non plus par les blocs : le trafic des clients arrive en tunnel CAPWAP sur les contrôleurs, "
           "raccordés au cœur, qui portent leurs passerelles. Un client garde donc son adresse dans tout le bâtiment.</li>",
-          "<li><b>Site jumeau de Digne</b> : 10.4.0.0/16 réservé (04 = Alpes-de-Haute-Provence), même découpage, pour que l'interconnexion "
+          "<li><b>Site jumeau</b> (Digne ou Gap) : 10.4.0.0/16 réservé, même découpage, pour que l'interconnexion "
           "(point 07) se résume à une route par site et par VRF.</li></ul>",
           "<h2>2. Blocs attribués</h2>"]
     H.append(tableau(["Bloc", "Origine", "Usage dans le projet"], [
@@ -806,7 +806,7 @@ def doc_l3(plan, dossier):
                 return e(x[:-len(suffixe)]) + " " + b
         return e(x)
     H.append(tableau(["Source", "Destination", "Autorisé"], [[marque(a), marque(b), c] for a, b, c in FLUX]))
-    H.append("<p class='sous'>Ce tableau résume la matrice des flux du point 09 (<code>livrables/securite/matrice_flux.pdf</code>), qui "
+    H.append("<p class='sous'>Ce tableau résume la matrice des flux du point 09 (<code>livrables/securite/RLI-P09-matrice-flux.pdf</code>), qui "
              "détaille chaque règle jusqu'au port ; en cas de différence, c'est la matrice qui fait foi.</p>")
     H.append(politique_inspection(plan))
     H.append("<h2 class='saut'>5. Routage interne</h2><h3>Cœur ↔ distribution : OSPF par VRF</h3>")

@@ -199,7 +199,7 @@ def rapport_docx(sortie, nrj):
     doc = Document()
     _styles(doc)
     _couverture(doc, "RLI-RAP-001 · vX.Y — JJ/MM/AAAA", "Rapport technique",
-                "Réseau du bâtiment Génie des Télécommunications de l'IUT, campus de Luminy, et du site jumeau de Digne",
+                "Réseau du bâtiment Génie des Télécommunications de l'IUT, campus de Luminy, et du site jumeau (Digne ou Gap)",
                 [("Client", "IUT Aix-Marseille, R&T"), ("Référence", "RLI-RAP-001"), ("Version", "vX.Y · brouillon"), ("Date", "JJ/MM/AAAA")])
     doc.add_paragraph("Suivi des versions", style="Étiquette")
     _tableau(doc, ["Version", "Date", "Auteur", "Modifications"], [["vX.Y", "JJ/MM/AAAA", "Prénom Nom", "Version du dossier dans laquelle le document change"]], [20, 28, 40, 82])

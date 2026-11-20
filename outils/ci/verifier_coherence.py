@@ -313,11 +313,11 @@ def controle_adressage(r):
 # 2. Matrice des flux
 # ---------------------------------------------------------------------------
 FLUX = "securite/flux.py"
-MATRICE = "livrables/securite/matrice_flux.csv"
+MATRICE = "livrables/securite/RLI-P09-matrice-flux.csv"
 SERVICE = re.compile(r"(tcp|udp)/(\d+)(?:-(\d+))?|(icmp|icmpv6)/[a-z-]+|tout")
 
 
-@controle("flux", "Matrice des flux (livrables/securite/matrice_flux.csv)")
+@controle("flux", "Matrice des flux (livrables/securite/RLI-P09-matrice-flux.csv)")
 def controle_flux(r):
     c = constantes(FLUX, "ZONES", "INTERNES", "PROPOSITIONS")
     zones, internes, propositions = c["ZONES"] or {}, set(c["INTERNES"] or ()), c["PROPOSITIONS"] or {}
@@ -396,7 +396,7 @@ def controle_flux(r):
         if lg["action"] not in ("autoriser", "refuser"):
             r.erreur(f"{lg['id']} : action « {lg['action']} » (attendu autoriser ou refuser)", MATRICE, i)
     if r.erreurs == err0:
-        r.ok(f"matrice_flux.csv : {len(lignes)} lignes, zones {', '.join(sorted(zones_vues))} et objets connus, services valides")
+        r.ok(f"{Path(MATRICE).name} : {len(lignes)} lignes, zones {', '.join(sorted(zones_vues))} et objets connus, services valides")
     for z in sorted(zones_vues & vrf_proposees - vrf_plan):
         vids = ", ".join(str(k) for k, p in propositions.items() if p["vrf"] == z)
         r.avert(f"zone « {z} » : proposition (VLAN {vids} de flux.py), pas encore au plan d'adressage", MATRICE)

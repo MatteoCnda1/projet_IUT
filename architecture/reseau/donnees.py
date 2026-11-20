@@ -15,7 +15,7 @@ Tout ce qui suit est repris par build.py pour produire :
 
 Conventions
 -----------
-IPv4 privé : 10.13.0.0/16 (13 = Bouches-du-Rhône). Site jumeau : 10.4.0.0/16 (Digne) réservé.
+IPv4 privé : 10.13.0.0/16 (13 = Bouches-du-Rhône). Site jumeau : 10.4.0.0/16 (Digne ou Gap) réservé.
 IPv4 public : 139.124.112.0/24, pris dans le bloc AMU 139.124.0.0/16 (affectation fictive, à demander à la DSI AMU).
 IPv6 : 2001:660:5402:4000::/52, pris dans le /48 de Luminy 2001:660:5402::/48 (bloc AMU 2001:660:5400::/40, dans le /32 de
        RENATER 2001:660::/32, AS2200).

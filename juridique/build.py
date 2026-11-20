@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Point 19 · Aspects juridiques et chartes : produit livrables/juridique/ (charte commune commun/charte.py).
+"""Point 19 · Aspects juridiques et chartes : produit livrables/depots/p19/ (charte commune commun/charte.py).
 
 Usage : python3 juridique/build.py   (après cablage/plan_cablage.py, energie/energie.py, chiffrage/estimation.py et securite/build.py)
 Entrées : juridique/donnees.py (registre, AIPD, journaux, crise), pra.py, charte.py, cctp.py ; securite/pssi.py (mesures M-xx) ;
           chiffrage/estimation.json, livrables/plan_cablage/resume.json et prises.csv, livrables/energie_refroidissement/resume.json
-Sorties : livrables/juridique/ (HTML + PDF, README.md)
+Sorties : livrables/depots/p19/*.pdf (dossier et noms du dépôt GesTT de la tâche P19, PR #10), juridique/README.md ;
+  pages HTML intermédiaires dans juridique/build/
   charte_informatique   RLI-ETU-009   charte des utilisateurs + annexe administrateurs + annexe IA
   volet_juridique       RLI-ETU-010   cadre légal, registre, AIPD, politique de journalisation, IA, crise, clauses des CCTP
   pra_juridique         RLI-ETU-011   PRA, volet juridique : obligations, exigences de reprise, moyens, contrats, calendrier
@@ -27,7 +28,8 @@ import donnees as J  # noqa: E402
 import pra as PRA  # noqa: E402
 import pssi as PP  # noqa: E402
 
-OUT = ROOT / "livrables" / "juridique"
+OUT = ROOT / "livrables" / "depots" / "p19"   # dossier du dépôt GesTT de la tâche P19 (PR #10), mêmes noms de fichiers
+BUILD = ICI / "build"                          # pages HTML intermédiaires (non suivies par git)
 e = html.escape
 PSSI = {m[0]: m for m in PP.MESURES}
 REFS = {"charte_informatique": "RLI-ETU-009", "volet_juridique": "RLI-ETU-010", "pra_juridique": "RLI-ETU-011",
@@ -88,10 +90,10 @@ AVERTISSEMENT = ("<div class='note'><b>Nature du document.</b> Proposition du co
 
 def produire(nom, titre, titre_court, chapo, corps, changements):
     ref = REFS[nom]
-    page = CH.page(titre=titre, corps="".join(corps) + CH.bloc_suivi(ref, changements=changements), dossier=OUT, ref=ref,
+    page = CH.page(titre=titre, corps="".join(corps) + CH.bloc_suivi(ref, changements=changements), dossier=BUILD, ref=ref,
                    titre_court=titre_court, points="19", chapo=chapo, css_extra=css_extra(titre_court))
-    CH.ecrire_et_imprimer(page, OUT / f"{nom}.html", OUT / f"{nom}.pdf")
-    print(f"  livrables/juridique/{nom}.html -> .pdf ({ref})")
+    CH.ecrire_et_imprimer(page, BUILD / f"{nom}.html", OUT / f"{nom}.pdf")
+    print(f"  livrables/depots/p19/{nom}.pdf ({ref})")
 
 
 # ---------------------------------------------------------------------------
@@ -300,7 +302,7 @@ def doc_pra():
              ["<b>Question</b>", "Qu'exigent la loi et les contrats ?", "Comment sauvegarder et restaurer ?"],
              ["<b>Contenu</b>", "obligations, DMIA et PDMA exigées, moyens qui les tiennent, règles de restauration, contrats, preuves, "
               "notifications, gouvernance",
-              f"sauvegardes, ordre et procédures de restauration, tests ; réplication vers le site jumeau de Digne (piste du point 15 ; "
+              f"sauvegardes, ordre et procédures de restauration, tests ; réplication vers le site jumeau (Digne ou Gap) (piste du point 15 ; "
               f"flux de sauvegarde à ajouter à la matrice si elle est retenue) {BADGE}"],
              ["<b>Valide</b>", "DPO, service juridique, direction", "RSSI, administrateurs"]]),
          "<p><b>DMIA</b> : durée maximale d'interruption admissible (RTO). <b>PDMA</b> : perte de données maximale admissible (RPO). "
@@ -443,20 +445,21 @@ def readme():
          "sauvegardes et continuité électrique qui les tiennent, garanties de rétablissement, contrats, calendrier légal des 72 premières heures"),
         ("guide_cdc_cctp", True, f"Construire un cahier des charges et un CCTP ; les {len(CC.LOTS)} lots"),
     ] + [(f"cctp_lot{l['num']}", False, f"CCTP lot {l['num']} : {l['titre']}") for l in CC.LOTS]
-    tab = "".join(f"| {'**' if gras else ''}[{n}.pdf]({n}.pdf){'**' if gras else ''} | {REFS[n]} | {c} |\n" for n, gras, c in lignes)
-    texte = ("# Aspects juridiques et chartes (point 19)\n<!-- onglet: Juridique -->\n\n"
-             "Charte informatique, volet juridique (RGPD, journaux, IA, crise), PRA juridique et modèles de CCTP pour les marchés du client.\n\n"
+    tab = "".join(f"| {'**' if gras else ''}[{n}.pdf](../livrables/depots/p19/{n}.pdf){'**' if gras else ''} | {REFS[n]} | {c} |\n" for n, gras, c in lignes)
+    texte = ("# Aspects juridiques et chartes (point 19) : sources\n\n"
+             "Charte informatique, volet juridique (RGPD, journaux, IA, crise), PRA juridique et modèles de CCTP pour les marchés du client. "
+             "Les PDF sont écrits dans `livrables/depots/p19/`, le dossier et les noms du dépôt GesTT de la tâche P19 (PR #10).\n\n"
              "| Document | Réf. | Contenu |\n|---|---|---|\n" + tab +
              f"\n**Version {CH.VERSION[1:]} — {CH.DATE_VERSION}** : lot 5 « Énergie et locaux techniques » (groupe électrogène, "
              "inverseur de source, onduleurs, climatisation, extinction), garanties de rétablissement 4 h et J+1, conservation des "
              "journaux en deux classes (connexion 1 an, navigation 6 mois), enregistreur vidéo VS-NVR1 et caméra du foyer retirée, "
              "règle SecNumCloud unique, quantités des CCTP lues dans le chiffrage sans ses notes internes, charte commune ; changements "
-             f"repérés « v2.1 » dans les documents. Version précédente : `{CH.ARCHIVE_PRECEDENTE}`.\n\n"
+             "repérés « v2.1 » dans les documents. Version précédente : le dépôt GesTT du 19/11/2026 (PR #10).\n\n"
              "Régénérer : `python3 juridique/build.py` (sources : `juridique/donnees.py`, `pra.py`, `charte.py`, `cctp.py` ; "
              "entrées : `chiffrage/estimation.json`, `livrables/plan_cablage/resume.json`, `livrables/energie_refroidissement/resume.json`). "
              "Propositions du concepteur, à valider par le DPO et le service juridique de l'AMU.\n")
-    (OUT / "README.md").write_text(texte, encoding="utf-8")
-    print("  livrables/juridique/README.md")
+    (ICI / "README.md").write_text(texte, encoding="utf-8")
+    print("  juridique/README.md")
 
 
 def controles():
@@ -479,6 +482,7 @@ def controles():
 
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
+    BUILD.mkdir(parents=True, exist_ok=True)
     controles()
     doc_charte()
     doc_volet()

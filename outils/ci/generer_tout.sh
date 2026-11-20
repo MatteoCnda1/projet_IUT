@@ -15,7 +15,7 @@
 #   chiffrage/estimation.py      resume.json + energie_refroidissement/resume.json        -> chiffrage/estimation.*
 #   roadmap/build.py             chiffrage/estimation.json -> roadmap/index.html
 #   securite/build.py            architecture/reseau/donnees.py -> livrables/securite/
-#   juridique/build.py           securite/, chiffrage, plan de câblage -> livrables/juridique/
+#   juridique/build.py           securite/, chiffrage, plan de câblage -> livrables/depots/p19/ (dossier du dépôt GesTT de P19)
 #   architecture/audit/generer_rapport_audit.py   rapport d'audit du 15/11/2026 (texte figé)
 #   architecture/audit/traitement_audit.py        relit plan d'adressage, énergie et chiffrage -> livrables/audit/
 #   communication/build.py       chiffrage, énergie, câblage -> livrables/communication/ (le site vitrine n'est pas touché)

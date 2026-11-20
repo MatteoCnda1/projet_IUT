@@ -3,7 +3,8 @@
 
 Usage : python3 securite/build.py   (après architecture/reseau/build.py)
 Entrées : securite/flux.py (matrice), securite/ebios.py (analyse de risque), securite/pssi.py (politique)
-Sorties : livrables/securite/matrice_flux.pdf, analyse_risque.pdf, pssi.pdf (+ .html), matrice_flux.csv, README.md
+Sorties (noms et dossier des dépôts GesTT du point 09, PR #12) : livrables/securite/RLI-P09-matrice-flux.pdf et .csv,
+  RLI-P09-analyse-risque-ebios.pdf, RLI-P09-pssi.pdf, RLI-P09-sources.zip, README.md ; pages HTML intermédiaires dans securite/build/
 Mise en page : charte commune (commun/charte.py) ; références RLI-ETU-006 (matrice), RLI-ETU-007 (analyse), RLI-ETU-008 (PSSI).
 """
 import csv
@@ -20,7 +21,12 @@ import ebios as EB  # noqa: E402
 import pssi as PP  # noqa: E402
 from commun import charte as CH  # noqa: E402
 
-OUT = ROOT / "livrables" / "securite"
+OUT = ROOT / "livrables" / "securite"   # dossier du repo de la tâche P09 dans GesTT
+BUILD = ICI / "build"                    # pages HTML intermédiaires (non suivies par git)
+# Noms des fichiers déposés depuis GesTT (règle RLI-Pxx-<sujet>.<ext>)
+NOMS = {"matrice_flux": "RLI-P09-matrice-flux", "analyse_risque": "RLI-P09-analyse-risque-ebios", "pssi": "RLI-P09-pssi"}
+CSV_MATRICE = "RLI-P09-matrice-flux.csv"
+SOURCES_ZIP = "RLI-P09-sources.zip"
 e = html.escape
 V21 = CH.badge("v2.1")
 # Classes propres à ces documents (repris aussi par juridique/build.py) ; le reste vient de la charte. Les couleurs des zones
@@ -161,7 +167,7 @@ def doc_matrice():
          "Stormshield, comme le tier 0) : entre deux zones, il n'existe <b>aucune route</b> qui ne traverse un pare-feu.</li>",
          "<li><b>Le pare-feu se déduit du chemin</b> : Internet, la DMZ et le VPN d'administration passent par le FortiGate, tout changement "
          "de zone interne par le Stormshield, et ce qui va de la DMZ vers l'intérieur traverse les deux (deux marques en cascade, guide "
-         "ANSSI PA-044). À l'intérieur d'une même zone, ce sont des ACL sur les passerelles (distribution ou cœur). La liaison avec Digne "
+         "ANSSI PA-044). À l'intérieur d'une même zone, ce sont des ACL sur les passerelles (distribution ou cœur). La liaison avec le site jumeau "
          "passe par un tunnel IPsec du FortiGate, puis par le Stormshield.</li>",
          f"<li>{V21} <b>Ordre de déploiement</b> : les règles sont présentées par thème, mais déployées dans cet ordre : sessions établies, "
          "puis toutes les autorisations (dans l'ordre des numéros), puis les refus explicites, puis le refus par défaut. Les pare-feu "
@@ -240,9 +246,9 @@ def doc_matrice():
     H.append("<div class='garde'>" + CH.bloc_suivi("RLI-ETU-006", changements="règles F56 à F70 (DNS, DHCP, CAPWAP, NUT, NTP, sauvegarde, bastion, alertes, groupe "
                                                       "électrogène), ordre de déploiement contrôlé, objet INTERNET par négation, "
                                                       "écarts E2 à E4 intégrés, journaux en deux durées") + "</div>")
-    return CH.page(titre="Matrice des flux entre zones", titre_court="Matrice des flux", ref="RLI-ETU-006", points="09", dossier=OUT,
+    return CH.page(titre="Matrice des flux entre zones", titre_court="Matrice des flux", ref="RLI-ETU-006", points="09", dossier=BUILD,
                    chapo="Qui parle à qui, sur quels ports, par quel pare-feu, avec quelle inspection, et pourquoi. Source unique : "
-                         "<code>securite/flux.py</code> ; tableur : <code>matrice_flux.csv</code>.",
+                         "<code>securite/flux.py</code> ; tableur : <code>RLI-P09-matrice-flux.csv</code>.",
                    corps="\n".join(H), css_extra=CSS)
 
 
@@ -286,7 +292,7 @@ def doc_ebios():
         "risques ; groupe électrogène et inverseur de source au socle ; mainteneur du groupe en partie prenante (PP8).",
         "<b>Plan de traitement</b> : la colonne « dont non déployées » sépare les mesures en place de celles qui restent à faire ; le "
         "risque résiduel affiché suppose ces propositions appliquées.",
-        "<b>Cohérence</b> : règle de sélection des sources de risque précisée (SR6), mesures propres à Digne, revue annuelle du cycle "
+        "<b>Cohérence</b> : règle de sélection des sources de risque précisée (SR6), mesures propres au site jumeau, revue annuelle du cycle "
         "opérationnel et cycle stratégique de 3 ans (M-GOU-1)."]),
          "<div class='cles'>", f"<div class='cle'><b>{len(EB.VALEURS)}</b>valeurs métier</div>",
          f"<div class='cle'><b>{len(EB.EVENEMENTS)}</b>événements redoutés</div>",
@@ -294,7 +300,7 @@ def doc_ebios():
          f"<div class='cle'><b>{len(EB.SCENARIOS)}</b>scénarios stratégiques</div></div>",
          "<h2>1. Atelier 1 : cadrage et socle de sécurité</h2>",
          f"<p><b>Mission.</b> {e(EB.MISSION)}</p><p><b>Périmètre.</b> Le SI du bâtiment conçu dans ce projet (réseau, datacenter, DMZ, "
-         "administration, sûreté, énergie) et son lien avec le site jumeau de Digne. Hors périmètre : les applications nationales de "
+         "administration, sûreté, énergie) et son lien avec le site jumeau (Digne ou Gap). Hors périmètre : les applications nationales de "
          "l'AMU (scolarité, RH), qui ont leur propre homologation.</p><h3>Valeurs métier et biens supports</h3>",
          tableau(["", "Valeur métier", "Responsable", "Biens supports"], [[f"<b>{c}</b>", e(v), e(r), e(b)] for c, v, r, b in EB.VALEURS]),
          "<h3>Échelle de gravité</h3>",
@@ -320,7 +326,7 @@ def doc_ebios():
                    f"<b class='{'ko' if EB.menace(p) > EB.SEUIL_MENACE else ''}'>{CH.nombre(EB.menace(p), 2)}</b>"] for p in EB.PARTIES]),
          "<p>Parties critiques : " + ", ".join(f"{p[0]} ({e(p[1].split(' (')[0])})" for p in EB.PARTIES if EB.menace(p) > EB.SEUIL_MENACE) +
          ". Mesures propres : accès des prestataires par le bastion uniquement (M-ADM-2), clauses des CCTP (M-FOU-1), modèles d'IA vérifiés "
-         "(M-IA-2), appareils personnels jamais admis dans les zones de confiance (M-RES-2, M-RES-4), liaison avec Digne limitée à la "
+         "(M-IA-2), appareils personnels jamais admis dans les zones de confiance (M-RES-2, M-RES-4), liaison avec le site jumeau limitée à la "
          "réplication entre contrôleurs de domaine, chiffrée et inspectée (F53, F54), " + V21 + " groupe électrogène supervisé en lecture "
          "seule, sans modem du mainteneur (M-PHY-5).</p>",
          "<h3>Échelle de vraisemblance</h3>",
@@ -376,7 +382,7 @@ def doc_ebios():
           "<li>Les services de l'AMU (applications nationales, messagerie fédérée) sont hors périmètre et relèvent de leur propre analyse.</li></ul>",
           "<div class='garde'>" + CH.bloc_suivi("RLI-ETU-007", changements="coupure électrique prolongée (ER8, RA1, PP8, socle), colonne des mesures non "
                                                    "déployées, règle de sélection des sources précisée, revue annuelle et cycle de 3 ans") + "</div>"]
-    return CH.page(titre="Analyse de risque EBIOS RM", titre_court="Analyse de risque", ref="RLI-ETU-007", points="09", dossier=OUT,
+    return CH.page(titre="Analyse de risque EBIOS RM", titre_court="Analyse de risque", ref="RLI-ETU-007", points="09", dossier=BUILD,
                    chapo="Méthode EBIOS Risk Manager (ANSSI, v1.5), version allégée : ateliers 1 à 3 détaillés, vraisemblance des "
                          "scénarios estimée directement, puis plan de traitement relié à la PSSI et à la matrice de flux.",
                    corps="\n".join(H), css_extra=CSS + CSS_RISQUE)
@@ -400,7 +406,7 @@ def doc_pssi():
          "<h2>1. Objet et périmètre</h2>",
          "<p>Le cahier des charges demande de « mettre l'accent sur la sécurité en général : des biens, des personnes, des réseaux ». Cette "
          "politique fixe les règles qui s'appliquent au SI du bâtiment (réseau, datacenter, DMZ, administration, systèmes de sûreté, "
-         "énergie, plateforme d'IA) et à ceux qui l'utilisent ou l'administrent. Elle s'applique aussi au site jumeau de Digne pour ce qui "
+         "énergie, plateforme d'IA) et à ceux qui l'utilisent ou l'administrent. Elle s'applique aussi au site jumeau (Digne ou Gap) pour ce qui "
          "est partagé (annuaire, liaison).</p>",
          "<p><b>Cadre.</b> PSSI de l'AMU ; RGPD ; conservation des données de connexion (CPCE L34-1, décrets n° 2021-1361 et 2021-1362) ; directive "
          "NIS 2, que la loi Résilience doit transposer : nous retenons l'hypothèse que l'établissement sera une entité concernée, et nous "
@@ -445,9 +451,9 @@ def doc_pssi():
              "<li>Le non-respect par un utilisateur relève de la charte informatique et du règlement intérieur (point 19).</li></ul>")
     H.append("<div class='garde'>" + CH.bloc_suivi("RLI-ETU-008", changements="groupe électrogène (M-PHY-4, M-PHY-5), extinction en place, travail isolé, "
                                                       "vidéoprotection, VPN IKEv2, journaux en deux durées, correctifs du tier 0") + "</div>")
-    return CH.page(titre="Politique de sécurité du SI", titre_court="PSSI", ref="RLI-ETU-008", points="09", dossier=OUT,
+    return CH.page(titre="Politique de sécurité du SI", titre_court="PSSI", ref="RLI-ETU-008", points="09", dossier=BUILD,
                    chapo="PSSI du bâtiment IUT Génie Télécom : déclinaison locale de la PSSI de l'AMU. Elle s'appuie sur l'analyse de "
-                         "risque (<code>analyse_risque.pdf</code>) et la matrice des flux (<code>matrice_flux.pdf</code>).",
+                         "risque (<code>RLI-P09-analyse-risque-ebios.pdf</code>) et la matrice des flux (<code>RLI-P09-matrice-flux.pdf</code>).",
                    corps="\n".join(H), css_extra=CSS + CSS_RISQUE)
 
 
@@ -465,32 +471,49 @@ def ecrire_csv(chemin):
                                 F.filtre(zs, zd), r["profil"], r["journal"], r["statut"], r["pourquoi"], r["ref"]])
 
 
+def ecrire_sources(chemin):
+    """Archive des sources du point 09, comme celle du dépôt GesTT (dates fixes : archive reproductible)."""
+    import zipfile
+    fichiers = ["securite/.gitignore", "securite/build.py", "securite/ebios.py", "securite/flux.py", "securite/pssi.py",
+                "commun/charte.py", "livrables/securite/README.md"]
+    with zipfile.ZipFile(chemin, "w", zipfile.ZIP_DEFLATED) as z:
+        for f in fichiers:
+            info = zipfile.ZipInfo(f, date_time=(2026, 11, 20, 0, 0, 0))
+            info.external_attr = 0o644 << 16
+            z.writestr(info, (ROOT / f).read_bytes())
+
+
 def main():
     F.verifier()
     print("Matrice de flux : contrôles OK (objets au plan, adresses dans leur sous-réseau, aucune autorisation masquée)")
     OUT.mkdir(parents=True, exist_ok=True)
-    ecrire_csv(OUT / "matrice_flux.csv")
+    BUILD.mkdir(parents=True, exist_ok=True)
+    ecrire_csv(OUT / CSV_MATRICE)
     docs = [("matrice_flux", doc_matrice), ("analyse_risque", doc_ebios), ("pssi", doc_pssi)]
     for nom, fonction in docs:
-        page = OUT / f"{nom}.html"
-        CH.ecrire_et_imprimer(fonction(), page, OUT / f"{nom}.pdf")
-        print(f"  {page.relative_to(ROOT)} -> .pdf")
+        page = BUILD / f"{NOMS[nom]}.html"
+        CH.ecrire_et_imprimer(fonction(), page, OUT / f"{NOMS[nom]}.pdf")
+        print(f"  livrables/securite/{NOMS[nom]}.pdf")
     (OUT / "README.md").write_text(
         "# Sécurité des réseaux (point 09)\n<!-- onglet: Sécurité -->\n\n"
-        "Politique de sécurité du réseau du bâtiment : flux autorisés entre zones, analyse de risque et PSSI.\n\n"
+        "Politique de sécurité du réseau du bâtiment : flux autorisés entre zones, analyse de risque et PSSI. "
+        "Noms et dossier identiques au dépôt GesTT de la tâche P09 (PR #12).\n\n"
         "| Document | Réf. | Contenu |\n|---|---|---|\n"
-        f"| **[matrice_flux.pdf](matrice_flux.pdf)** | RLI-ETU-006 | Matrice des flux entre zones : {len(F.R)} règles détaillées, pare-feu, "
-        "inspection, justification, ordre de déploiement, écarts avec l'architecture, tests de recette proposés. Tableur : `matrice_flux.csv` |\n"
-        "| **[analyse_risque.pdf](analyse_risque.pdf)** | RLI-ETU-007 | Analyse EBIOS RM allégée : valeurs métier, événements redoutés, "
+        f"| **[RLI-P09-matrice-flux.pdf](RLI-P09-matrice-flux.pdf)** | RLI-ETU-006 | Matrice des flux entre zones : {len(F.R)} règles détaillées, pare-feu, "
+        "inspection, justification, ordre de déploiement, écarts avec l'architecture, tests de recette proposés. Tableur : `RLI-P09-matrice-flux.csv` |\n"
+        "| **[RLI-P09-analyse-risque-ebios.pdf](RLI-P09-analyse-risque-ebios.pdf)** | RLI-ETU-007 | Analyse EBIOS RM allégée : valeurs métier, événements redoutés, "
         "sources de risque, écosystème, scénarios stratégiques, plan de traitement, risques non intentionnels et cartes des risques |\n"
-        "| **[pssi.pdf](pssi.pdf)** | RLI-ETU-008 | Politique de sécurité du SI du site : organisation, principes, mesures (biens, personnes, "
-        "réseaux, énergie, IA), conformité aux 42 mesures du guide d'hygiène |\n\n"
+        "| **[RLI-P09-pssi.pdf](RLI-P09-pssi.pdf)** | RLI-ETU-008 | Politique de sécurité du SI du site : organisation, principes, mesures (biens, personnes, "
+        "réseaux, énergie, IA), conformité aux 42 mesures du guide d'hygiène |\n"
+        "| [RLI-P09-sources.zip](RLI-P09-sources.zip) | — | Sources des trois documents (`securite/`, `commun/charte.py`) |\n\n"
         f"**Version {CH.VERSION[1:]} — {CH.DATE_VERSION}** : règles F56 à F70 (DNS, DHCP, CAPWAP, NUT, NTP, sauvegarde, bastion, alertes, "
         "groupe électrogène), ordre de déploiement contrôlé, écarts E2 à E4 intégrés, coupure électrique prolongée dans l'analyse de "
         "risque, mesures M-PHY-4 à M-PHY-6 dans la PSSI, journaux en deux durées (connexion 1 an, navigation 6 mois), repérés « v2.1 » "
-        f"dans les documents. Version précédente : `{CH.ARCHIVE_PRECEDENTE}`.\n\n"
+        "dans les documents. Version précédente : le dépôt GesTT du 19/11/2026 (PR #12).\n\n"
         "Régénérer : `python3 securite/build.py` (sources : `securite/flux.py`, `ebios.py`, `pssi.py`).\n",
         encoding="utf-8")
+    ecrire_sources(OUT / SOURCES_ZIP)
+    print(f"  livrables/securite/README.md, {SOURCES_ZIP}")
 
 
 if __name__ == "__main__":

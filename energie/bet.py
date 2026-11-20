@@ -684,7 +684,12 @@ def document(ctx, etd, fin):
           f"({', '.join(l['local'] for l in renf)}), les pertes réelles des onduleurs à faible charge (sous-estimées, PUE trop optimiste) et "
           f"l'absence de secours long (le client confirme qu'il n'y a pas de groupe électrogène sur le site). Ils sont corrigés dans les sources "
           f"et dans le chiffrage. Restent {n_av} points à vérifier sur site, surtout la réserve de puissance du TGBT et l'emplacement du groupe.</div>",
-          f"<div class='verdict reserve'><b>Réserve : tranche optionnelle « plateforme d'IA locale » du CCTP lot 3</b> {V21}. Servir un modèle ouvert d'au "
+          "<div class='note'><b>Base de l'étude.</b> L'inventaire de l'infrastructure v2 (salle serveur et 6 L.TECH), seul arrêté à ce jour. "
+          "La tâche P14 de GesTT prévoit ce BET « une fois les équipements définis » et le point 11 (systèmes et datacenter, "
+          "Raphael Hovsepian) est encore à faire : l'étude est à reprendre dès que ses équipements seront fixés, ce que le script "
+          "refait en une commande (<code>python3 energie/energie.py</code>).</div>",
+          f"<div class='verdict reserve'><b>Réserve : IA locale du point 11 (tranche optionnelle du CCTP lot 3)</b> {V21}. Le point 11 la veut conceptuelle mais "
+          "traitée comme une production (redondance électrique, haute disponibilité, règles de l'ANSSI). Servir un modèle ouvert d'au "
           f"moins 1 000 milliards de paramètres demande 0,5 à 1 To de mémoire GPU, soit un nœud d'environ {ia['gpu']} GPU et {fr(ia['kw'], 0)} kW. "
           + ("La salle actuelle le couvre." if ia["couvert"] else
              "La salle actuelle ne le couvre pas : ni un onduleur seul, ni un climatiseur, ni le groupe électrogène n'ont cette marge (tableau ci-dessous). "

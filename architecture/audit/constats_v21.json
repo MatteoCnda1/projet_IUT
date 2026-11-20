@@ -66,7 +66,7 @@
   {
    "id": "D1",
    "titre": "Charte commune et version",
-   "resume": "Module commun/charte.py : version v2.1 — 20/11/2026, cartouche, en-tête, pied de page numéroté, suivi des versions, typographie française, références RLI-ETU-001 à 013, RLI-CCTP-001 à 005, RLI-AUD-001 ; jamais la date du jour ; une seule forme par nom (site jumeau de Digne).",
+   "resume": "Module commun/charte.py : version v2.1 — 20/11/2026, cartouche, en-tête, pied de page numéroté, suivi des versions, typographie française, références RLI-ETU-001 à 013, RLI-CCTP-001 à 005, RLI-AUD-001 ; jamais la date du jour ; une seule forme par nom, celle de GesTT (site jumeau « Digne ou Gap »).",
    "constats": [
     "DOC-02",
     "DOC-03",
@@ -128,6 +128,16 @@
    "constats": [
     "QTE-04",
     "DOC-05"
+   ]
+  },
+  {
+   "id": "D7",
+   "titre": "GesTT, source de vérité",
+   "resume": "GesTT fait foi sur le projet : statut, dates, responsables et checklists des points, décisions des tâches, dossiers et noms des livrables déposés. La v2.1 s'y aligne : roadmap reprise de GesTT (instantané roadmap/gestt_2026-11-20.json), livrables P09 sous les noms RLI-P09-* de livrables/securite/ (PR #12) et P19 dans livrables/depots/p19/ (PR #10), site jumeau « Digne ou Gap », BET établi sur l'inventaire v2 et à reprendre quand le point 11 aura arrêté les équipements, onglet « Énergie et refroidissement » conservé.",
+   "constats": [
+    "DOC-10",
+    "DOC-13",
+    "RES-18"
    ]
   }
  ],
@@ -299,8 +309,28 @@
   },
   {
    "type": "choix d'équipe",
-   "sujet": "Site vitrine (PR #9, travail d'un collègue) : reporter les chiffres et documents v2.1 (BET, CCTP lot 5, sécurité, juridique, traitement de l'audit), la copie à jour de l'implantation, le site jumeau « Digne » et l'hébergement v2",
+   "sujet": "Site vitrine (PR #9, travail d'un collègue) : reporter les chiffres et documents v2.1 (BET, CCTP lot 5, sécurité, juridique, traitement de l'audit), la copie à jour de l'implantation, le site jumeau « Digne ou Gap » (forme de GesTT) et l'hébergement v2",
    "source": "QTE-03, DOC-08, DOC-09, DOC-13, DOC-23, DOC-25"
+  },
+  {
+   "type": "GesTT",
+   "sujet": "Onglet « Schéma réseau » encore en v1 (NM-PVE3, serveurs physiques DT-AD/RAD/DHCP et DM-RP/DNS/WEB/MAIL/SRV) : à mettre au niveau de l'architecture v2 de main",
+   "source": "D7, comparaison du 20/11/2026"
+  },
+  {
+   "type": "GesTT",
+   "sujet": "Checklist du point 11 : « Cluster Proxmox NM-PVE1/2/3 » (v1) à remplacer par 2 nœuds NM-PVE + témoin (v2)",
+   "source": "D7"
+  },
+  {
+   "type": "GesTT",
+   "sujet": "Notes du point 14 encore en v1 (24 min, 61 557 kWh, lot 57 000 €) et « groupe électrogène du campus à valider » : à mettre à jour une fois la PR 6 fusionnée (groupe dédié, BET RLI-ETU-013)",
+   "source": "D2, D7"
+  },
+  {
+   "type": "GesTT",
+   "sujet": "Redéposer depuis GesTT les livrables P09 et P19 de la v2.1 (mêmes noms et mêmes dossiers que les PR #12 et #10) ou fusionner la PR 6 avant elles",
+   "source": "D7"
   }
  ],
  "constats": [
@@ -575,7 +605,7 @@
    "gravite": "coquille",
    "hors_depot": false,
    "titre": "Site jumeau « Digne ou Gap » dans le plan d'adressage",
-   "traitement": "",
+   "traitement": "GesTT fait foi : le plan d'adressage garde « Digne ou Gap » et les autres documents s'alignent sur cette forme.",
    "responsables": [
     "reseau_securite"
    ],
@@ -1639,7 +1669,7 @@
    "gravite": "majeur",
    "hors_depot": false,
    "titre": "Site jumeau tantôt « Digne ou Gap », tantôt « Digne »",
-   "traitement": "Corrigé partout sauf dans le site vitrine (travail d'un collègue, PR #9).",
+   "traitement": "Aligné sur GesTT : « Digne ou Gap » (« Digne/Gap » dans les libellés courts) partout, sauf dans le site vitrine (PR #9).",
    "responsables": [
     "reseau_securite",
     "cablage_chiffrage_energie",

@@ -104,7 +104,7 @@ Coût sur 5 ans = CAPEX + 5 × OPEX + 2 × renouvellements. Lot énergie (Énerg
 |---|---|---:|
 | Accès Internet FAI 1 | Fibre dédiée FTTO 1 Gb/s symétrique, GTR 4 h | 10 800 € |
 | Accès Internet FAI 2 | Fibre dédiée 500 Mb/s, autre opérateur | 5 400 € |
-| Interconnexion WAN | VPN MPLS vers le site jumeau (Digne) | 8 400 € |
+| Interconnexion WAN | VPN MPLS vers le site jumeau (Digne/Gap) | 8 400 € |
 | Proxmox VE | Souscription Standard : NM 2 nœuds × 2 sockets, DT et DMZ 4 nœuds × 1 socket, 550 €/socket | 4 400 € |
 | Proxmox Backup Server | v2.1 : souscription Basic de DT-BKP1 (1 socket), à confirmer | 550 € |
 | Sauvegarde externalisée | Stockage objet ~20 To hors site, verrouillage S3 Object Lock en mode conformité (hébergeur qualifié SecNumCloud, données dans l'UE) | 2 160 € |

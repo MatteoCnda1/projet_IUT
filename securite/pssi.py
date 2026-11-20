@@ -83,9 +83,9 @@ MESURES = [
      "comptes par défaut changés ou désactivés à l'installation.", "proposé", "Guide d'hygiène, mesure 12 ; OpenSSH DAT-NT-007"),
     # Réseau
     ("M-RES-1", "Réseau", "Cloisonnement et matrice de flux",
-     "Zones et VRF de l'architecture v2.1, refus par défaut, matrice de flux détaillée (voir matrice_flux.pdf) déployée dans un "
+     "Zones et VRF de l'architecture v2.1, refus par défaut, matrice de flux détaillée (voir RLI-P09-matrice-flux.pdf) déployée dans un "
      "ordre fixé (autorisations, refus explicites, refus par défaut), revue semestrielle.",
-     "en place", "Guide d'hygiène, mesure 19 ; matrice_flux.pdf"),
+     "en place", "Guide d'hygiène, mesure 19 ; RLI-P09-matrice-flux.pdf"),
     ("M-RES-2", "Réseau", "Contrôle d'accès au réseau (NAC)",
      "802.1X EAP-TLS sur tous les ports d'accès pour les postes du domaine, MAB et profilage pour les objets, VLAN restreint (Internet "
      "seulement) en cas d'échec ; ports inutilisés désactivés (VLAN 998).", "en place", "ANSSI PA-043 ; note sur les commutateurs de desserte"),

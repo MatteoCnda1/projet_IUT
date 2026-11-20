@@ -15,7 +15,7 @@ dans le plan, que les propositions (zone IA) ne chevauchent rien, que chaque cou
 n'est masquée par un refus placé avant elle dans l'ordre de déploiement.
 
 Repris par :
-  securite/build.py    -> livrables/securite/ (matrice_flux.pdf, matrice_flux.csv, PSSI, analyse de risque)
+  securite/build.py    -> livrables/securite/ (RLI-P09-matrice-flux.pdf et .csv, PSSI, analyse de risque : noms du dépôt GesTT)
 """
 import importlib.util
 import ipaddress as ip
@@ -42,7 +42,7 @@ D = _plan()
 # ---------------------------------------------------------------------------
 ZONES = {
     "INTERNET": ("Internet", "aucune confiance", "#6C6861"),
-    "WAN":      ("Site jumeau (Digne), par l'opérateur", "confiance partielle (point 07)", "#6C6861"),
+    "WAN":      ("Site jumeau (Digne ou Gap), par l'opérateur", "confiance partielle (point 07)", "#6C6861"),
     "VPN":      ("Administrateurs nomades : pool du VPN IKEv2", "authentifiée (certificat + MFA), bastion seulement", "#4D525B"),
     "DMZ":      ("DMZ : services publiés", "exposée", "#a75c00"),
     "GST":      ("Invités et échecs 802.1X", "aucune confiance", "#97549b"),
@@ -187,7 +187,7 @@ OBJETS = {
     # Administrateurs nomades
     "VPN-ADM":     ("VPN", "Pool du VPN d'administration IKEv2 (certificat + MFA)", L(D.VPN_ADM["v4"], D.VPN_ADM["v6"])),
     # Site jumeau (point 07, à confirmer)
-    "SITE2-AD":    ("WAN", "Contrôleurs de domaine de Digne (adresses réservées, point 07)", L("10.4.52.0/27")),
+    "SITE2-AD":    ("WAN", "Contrôleurs de domaine du site jumeau (adresses réservées, point 07)", L("10.4.52.0/27")),
 }
 
 # ---------------------------------------------------------------------------
@@ -417,7 +417,7 @@ regle("F52", S, ["IA-GW", "IA-BACK"], "INTERNET", ["tout"], action="refuser", jo
 
 S = "Site jumeau (point 07)"
 regle("F53", S, "DT-AD", "SITE2-AD", AD_CLIENT + DNS, profil="IPS complet, lien chiffré (IPsec)", journal="refus",
-      pourquoi="Réplication de l'annuaire entre Marseille et Digne (un domaine, deux sites AD).", statut="à confirmer (P07)")
+      pourquoi="Réplication de l'annuaire entre Marseille et le site jumeau (un domaine, deux sites AD).", statut="à confirmer (P07)")
 regle("F54", S, "SITE2-AD", "DT-AD", AD_CLIENT + DNS, profil="IPS complet, lien chiffré (IPsec)", journal="refus",
       pourquoi="Sens retour de la réplication.", statut="à confirmer (P07)")
 
@@ -494,7 +494,7 @@ def filtre(zs, zd):
         return "FortiGate"
     if zs in externes or zd in externes:
         return "FortiGate + Stormshield"
-    if "WAN" in (zs, zd):  # v2.1 (SEC21-22) : la liaison avec Digne est un tunnel IPsec du FortiGate, puis le Stormshield
+    if "WAN" in (zs, zd):  # v2.1 (SEC21-22) : la liaison avec le site jumeau est un tunnel IPsec du FortiGate, puis le Stormshield
         return "FortiGate (tunnel IPsec) + Stormshield"
     return "Stormshield"
 

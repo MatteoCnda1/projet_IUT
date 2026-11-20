@@ -1,12 +1,10 @@
 # Énergie et refroidissement (point 14)
-<!-- onglet: Énergie -->
-
 Alimentation électrique, onduleurs, groupe électrogène, climatisation et ventilation des locaux techniques, consommation et coûts du lot énergie de l'infrastructure réseau, avec l'étude BET de chaque local technique.
 
 | Document | Réf. | Contenu |
 |---|---|---|
 | **[energie_refroidissement.pdf](energie_refroidissement.pdf)** | RLI-ETU-002 | Document principal : bilan de puissance, onduleurs, groupe électrogène, arrêt ordonné, climatisation et ventilation, PUE et Green IT, finances du lot |
-| **[bet_locaux_techniques.pdf](bet_locaux_techniques.pdf)** | RLI-ETU-013 | Étude BET : inventaire, chaleur, ventilation et circuits de chaque local, tableau informatique, TGBT, groupe électrogène, vérifications, réserve sur la plateforme d'IA |
+| **[bet_locaux_techniques.pdf](bet_locaux_techniques.pdf)** | RLI-ETU-013 | Étude BET : inventaire, chaleur, ventilation et circuits de chaque local, tableau informatique, TGBT, groupe électrogène, vérifications, réserve sur l'IA locale du point 11. Établie sur l'inventaire v2 : à reprendre quand le point 11 aura arrêté les équipements (tâche P14 de GesTT) |
 | `bet_dissipation.csv`, `bilan_puissance.csv` | — | Une ligne par équipement et par local (W absorbés, W dissipés, BTU/h) ; bilan de la salle serveur |
 | `schemas/`, `resume.json` | — | Alimentation électrique, plan de la salle serveur, montée en température ; synthèse reprise par le chiffrage |
 

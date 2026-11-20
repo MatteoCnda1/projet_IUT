@@ -176,7 +176,7 @@ IT_KW, PUE, KWH = 3.5, 1.6, 0.20
 OPEX = [
     ("Accès Internet FAI 1", "Fibre dédiée FTTO 1 Gb/s symétrique, GTR 4 h", 12 * 900),
     ("Accès Internet FAI 2", "Fibre dédiée 500 Mb/s, autre opérateur", 12 * 450),
-    ("Interconnexion WAN", "VPN MPLS vers le site jumeau (Digne)", 12 * 700),
+    ("Interconnexion WAN", "VPN MPLS vers le site jumeau (Digne/Gap)", 12 * 700),
     ("Proxmox VE", "Souscription Standard : NM 2 nœuds × 2 sockets, DT et DMZ 4 nœuds × 1 socket, 550 €/socket", (2 * 2 + 4 * 1) * 550),
     ("Proxmox Backup Server", "v2.1 : souscription Basic de DT-BKP1 (1 socket), à confirmer", 550),
     ("Sauvegarde externalisée", "Stockage objet ~20 To hors site, verrouillage S3 Object Lock en mode conformité (hébergeur qualifié SecNumCloud, données dans l'UE)", 12 * 180),
