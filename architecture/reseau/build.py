@@ -2,9 +2,10 @@
 """Points 03 et 05 : plan d'adressage IPv4/IPv6, architecture L2 et L3, zone Net Management du schéma.
 
 Usage : python3 architecture/reseau/build.py   (après cablage/plan_cablage.py)
-Entrées : donnees.py (source unique), architecture/Projet_Marseille_site.drawio, livrables/plan_cablage/resume.json
+Entrées : donnees.py (source unique), architecture/Projet_Marseille_site.png, livrables/plan_cablage/resume.json
+Le schéma principal architecture/Projet_Marseille_site.drawio (+ .png) n'est pas réécrit : c'est le schéma de référence de
+l'équipe, celui que GesTT référence (commit 7e1db0b). Il se modifie à la main dans draw.io, puis s'exporte en PNG.
 Sorties :
-  architecture/Projet_Marseille_site.drawio   zone Net Management redessinée (pve-1 / pve-2 / witness), piles précisées
   architecture/architecture_l2.drawio, architecture_l3.drawio   schémas logiques modifiables
   livrables/plan_adressage/   plan_adressage.pdf (+ .html), vlans.csv, equipements.csv, interconnexions.csv
   livrables/architecture_l2/  architecture_l2.pdf (+ .html, .png)
@@ -72,18 +73,15 @@ def readme(dossier, titre, onglet, corps):
 def main():
     D.verifier()
     print("Contrôles d'adressage : OK (aucun chevauchement, résumés exacts, chaque adresse dans son sous-réseau)")
-    principal = ARCHI / "Projet_Marseille_site.drawio"
     acces = {n: x["switchs_48p"] for n, x in documents.besoins(PLAN).items()}
-    n = schemas.patcher_principal(principal, principal, acces)
-    print(f"Schéma principal : zone Net Management redessinée ({n} anciens éléments retirés)")
     schemas.ecrire_schemas(ARCHI, acces)
     out = {k: LIV / k for k in ("plan_adressage", "architecture_l2", "architecture_l3")}
     for d in out.values():
         d.mkdir(parents=True, exist_ok=True)
     exporter(ARCHI / "architecture_l2.drawio", out["architecture_l2"] / "architecture_l2.png", echelle=1.5)
     exporter(ARCHI / "architecture_l3.drawio", out["architecture_l3"] / "architecture_l3.png", echelle=1.5)
-    exporter(principal, ARCHI / "Projet_Marseille_site.png", echelle=0.3)
-    from PIL import Image  # recadrage de la zone NM pour le document L2
+    # Schéma principal : référence de l'équipe et de GesTT, laissé tel quel ; seule la zone NM en est recadrée pour le L2
+    from PIL import Image
     im = Image.open(ARCHI / "Projet_Marseille_site.png")
     W, H = im.size
     x0, y0, x1, y1 = -2930, -1750, 8210, 4955

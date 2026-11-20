@@ -133,7 +133,7 @@
   {
    "id": "D7",
    "titre": "GesTT, source de vérité",
-   "resume": "GesTT fait foi sur le projet : statut, dates, responsables et checklists des points, décisions des tâches, dossiers et noms des livrables déposés. La v2.1 s'y aligne : roadmap reprise de GesTT (instantané roadmap/gestt_2026-11-20.json), livrables P09 sous les noms RLI-P09-* de livrables/securite/ (PR #12) et P19 dans livrables/depots/p19/ (PR #10), site jumeau « Digne ou Gap », BET établi sur l'inventaire v2 et à reprendre quand le point 11 aura arrêté les équipements, onglet « Énergie et refroidissement » conservé.",
+   "resume": "GesTT fait foi sur le projet : statut, dates, responsables et checklists des points, décisions des tâches, dossiers et noms des livrables déposés. La v2.1 s'y aligne : roadmap reprise de GesTT (instantané roadmap/gestt_2026-11-20.json), livrables P09 sous les noms RLI-P09-* de livrables/securite/ (PR #12) et P19 dans livrables/depots/p19/ (PR #10), site jumeau « Digne ou Gap », BET établi sur l'inventaire v2 et à reprendre quand le point 11 aura arrêté les équipements, onglet « Énergie et refroidissement » conservé, schéma principal identique à celui de GesTT (commit 7e1db0b), plus réécrit par la chaîne.",
    "constats": [
     "DOC-10",
     "DOC-13",
@@ -239,7 +239,7 @@
   },
   {
    "type": "choix d'équipe",
-   "sujet": "Nommage des WLC (CL-WLC1/2) et schéma principal (4 switchs d'accès dessinés pour 15)",
+   "sujet": "Nommage des WLC (CL-WLC1/2) ; schéma principal : 4 switchs d'accès dessinés pour 15 et enregistreur VS-NVR1 absent, à reprendre à la main dans draw.io si l'équipe le souhaite (le schéma de référence est celui de GesTT)",
    "source": "réseau, QTE, section 4"
   },
   {

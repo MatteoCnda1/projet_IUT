@@ -1,4 +1,5 @@
-"""Schémas : zone Net Management du schéma principal, schéma logique L2, schéma logique L3.
+"""Schémas : schéma logique L2, schéma logique L3 (et patcher_principal, qui a produit la zone Net Management du schéma
+principal en v2 ; plus appelé depuis la v2.1 : le schéma principal est la référence de l'équipe, celle de GesTT).
 
 Les couleurs des zones et des VRF servent de code et ne changent pas ; la mention de version vient de commun/charte.py.
 """

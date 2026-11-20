@@ -39,7 +39,7 @@ MATPLOTLIB = re.compile(rb"Created with matplotlib|<dc:date>|https://matplotlib\
 # Fichiers binaires que la chaîne doit réécrire à chaque passage (contrôle --repere).
 # Le site vitrine (livrables/site_web/) est maintenu à la main par son auteur : la chaîne n'y écrit rien.
 PRODUITS = re.compile(r"^(livrables/(?!archives/|depots/(?!p19/)|site_web/).*\.(pdf|png|svg|docx|pptx)"
-                      r"|architecture/[^/]+\.png|architecture/audit/[^/]+\.pdf)$")
+                      r"|architecture/audit/[^/]+\.pdf)$")  # schéma principal (architecture/*.png) : référence de GesTT, pas généré
 SIGNATURES = {".pdf": b"%PDF-", ".png": b"\x89PNG", ".docx": b"PK\x03\x04", ".pptx": b"PK\x03\x04"}
 
 
