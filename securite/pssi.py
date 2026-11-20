@@ -1,9 +1,19 @@
-"""Point 09 : politique de sécurité du système d'information (PSSI) du site de Marseille. Version 1, 18/11/2026.
+"""Point 09 : politique de sécurité du système d'information (PSSI) du site de Marseille (version du dossier : commun/charte.py).
 
 Déclinaison, pour le bâtiment IUT Génie Télécom, de la PSSI de l'AMU (établissement de rattachement). Chaque mesure M-xx dit
-ce qui est exigé, où en est l'architecture v2, et sur quoi elle s'appuie. Les mesures sont reprises par l'analyse de risque
+ce qui est exigé, où en est l'architecture v2.1, et sur quoi elle s'appuie. Les mesures sont reprises par l'analyse de risque
 (securite/ebios.py) et reliées aux 42 mesures du guide d'hygiène de l'ANSSI (tableau HYGIENE).
+v2.1 : groupe électrogène (M-PHY-4 réécrite, M-PHY-5), extinction en place et travail isolé séparé (M-PHY-6), VPN IKEv2 intégré
+(M-ADM-2), conservation des journaux en deux durées (M-DET-1), mises à jour des contrôleurs de domaine (M-POS-2).
+Les valeurs du groupe électrogène et des onduleurs sont lues dans livrables/energie_refroidissement/resume.json (point 14).
 """
+import json
+from pathlib import Path
+
+_ENERGIE = json.loads((Path(__file__).resolve().parent.parent / "livrables" / "energie_refroidissement" / "resume.json")
+                      .read_text(encoding="utf-8"))
+GE = _ENERGIE["bet"]["groupe_electrogene"]          # prp_kva, esp_kva, cuve_l, autonomie_h, autonomie_75_h, arret_nut_si_ge_absent_min
+AUTONOMIE_ONDULEUR = _ENERGIE["onduleurs"]["autonomie_degrade"]  # minutes avec un seul onduleur
 
 ROLES = [  # rôle, qui, responsabilités
     ("Autorité d'homologation", "Directeur de l'IUT, par délégation du président de l'AMU",
@@ -33,9 +43,9 @@ PRINCIPES = [
 ]
 
 # ---------------------------------------------------------------------------
-# Mesures : code, domaine, intitulé, exigence, état v2, références
-# états : « en place » (dans l'architecture v2), « proposé » (dans ce dossier, à intégrer en v3), « organisationnel » (à faire
-# par le client, la conception ne peut pas l'imposer)
+# Mesures : code, domaine, intitulé, exigence, état v2.1, références
+# états : « en place » (dans l'architecture v2.1), « proposé » (dans ce dossier, à intégrer dans une version ultérieure),
+# « organisationnel » (à faire par le client, la conception ne peut pas l'imposer)
 # ---------------------------------------------------------------------------
 MESURES = [
     # Gouvernance
@@ -65,15 +75,16 @@ MESURES = [
      "VRF ADM séparée, postes d'administration dédiés (VLAN 906) sans Internet ni messagerie (F47), administration uniquement "
      "par le bastion Teleport avec MFA (F38, F39) et enregistrement des sessions.", "en place", "ANSSI PA-022"),
     ("M-ADM-2", "Administration", "Accès distant d'administration",
-     "Depuis l'extérieur, seulement par le VPN d'administration IPsec IKEv2 (certificat + MFA) puis le bastion (F05). Les prestataires "
-     "(lot sûreté compris) passent par le même chemin, avec un compte nominatif ouvert pour la durée de l'intervention.",
-     "proposé", "ANSSI PA-054, PA-022 ; écart E2"),
+     "Depuis l'extérieur, seulement par le VPN d'administration IPsec IKEv2 (certificat + MFA), dont le pool n'atteint que le "
+     "bastion (F05, F38). Les prestataires (lot sûreté compris) passent par le même chemin, avec un compte nominatif ouvert pour la "
+     "durée de l'intervention (F67, F68).", "en place", "ANSSI PA-054, PA-022 ; écart E2 intégré en v2.1"),
     ("M-ADM-3", "Administration", "Secrets d'administration",
      "Mots de passe des équipements et clés SSH dans un coffre (Teleport émet des certificats SSH courts : pas de clé permanente) ; "
      "comptes par défaut changés ou désactivés à l'installation.", "proposé", "Guide d'hygiène, mesure 12 ; OpenSSH DAT-NT-007"),
     # Réseau
     ("M-RES-1", "Réseau", "Cloisonnement et matrice de flux",
-     "Zones et VRF de l'architecture v2, refus par défaut, matrice de flux détaillée (56 règles), revue semestrielle.",
+     "Zones et VRF de l'architecture v2.1, refus par défaut, matrice de flux détaillée (voir matrice_flux.pdf) déployée dans un "
+     "ordre fixé (autorisations, refus explicites, refus par défaut), revue semestrielle.",
      "en place", "Guide d'hygiène, mesure 19 ; matrice_flux.pdf"),
     ("M-RES-2", "Réseau", "Contrôle d'accès au réseau (NAC)",
      "802.1X EAP-TLS sur tous les ports d'accès pour les postes du domaine, MAB et profilage pour les objets, VLAN restreint (Internet "
@@ -87,7 +98,7 @@ MESURES = [
     ("M-RES-5", "Réseau", "Exposition sur Internet",
      "Seuls les services de la DMZ sont publiés, derrière le reverse proxy (TLS 1.2 minimum, en-têtes HSTS et CSP). DNS faisant "
      "autorité séparé des résolveurs, DNSSEC. Protection contre le déni de service demandée à RENATER et au FAI 2.",
-     "en place", "ANSSI passerelle Internet v3 ; PA-105 ; mesure 22 et 23"),
+     "en place", "ANSSI passerelle Internet v3 ; PA-105 ; mesures 22 et 23"),
     ("M-RES-6", "Réseau", "Messagerie",
      "SPF, DKIM et DMARC en mode rejet, antispam et antivirus sur le FortiGate et le relais. DM-MAIL1 devient un relais sans boîte "
      "aux lettres (écart E1).", "proposé", "Guide d'hygiène, mesure 24 ; écart E1"),
@@ -97,7 +108,9 @@ MESURES = [
      "contrôlés), EDR, BitLocker sur les portables.", "organisationnel", "Guide d'hygiène, mesures 14 à 17, 29 et 31"),
     ("M-POS-2", "Postes et serveurs", "Mises à jour",
      "Correctifs de sécurité critiques sur les équipements exposés (pare-feu, VPN, DMZ) sous 72 h, autres sous 30 jours ; inventaire "
-     "des versions et des fins de support suivi par la supervision.", "proposé", "Guide d'hygiène, mesures 34 et 35"),
+     "des versions et des fins de support suivi par la supervision. Contrôleurs de domaine : correctifs téléchargés par "
+     "l'administration, empreinte et signature vérifiées, puis copiés par le rôle Teleport tier 0 (aucun flux sortant du tier 0, F37, F40).",
+     "proposé", "Guide d'hygiène, mesures 34 et 35 ; ANSSI PA-099"),
     ("M-POS-3", "Postes et serveurs", "Durcissement des serveurs",
      "Debian et Proxmox selon le guide ANSSI GNU/Linux (niveau intermédiaire), conteneurs sans root, hyperviseurs DMZ séparés des "
      "hyperviseurs tier 0.", "en place", "ANSSI GNU/Linux v2.0 ; PG-040 ; FT-082"),
@@ -105,20 +118,37 @@ MESURES = [
     ("M-PHY-1", "Sécurité des biens et des personnes", "Accès aux locaux techniques",
      "Salle serveur et 6 locaux techniques fermés par badge + code, liste nominative des accès, journal des passages conservé, "
      "visiteurs accompagnés.", "en place", "Guide d'hygiène, mesure 26 ; plan de câblage"),
-    ("M-PHY-2", "Sécurité des biens et des personnes", "Sécurité des personnes en salle serveur",
-     "Extinction automatique par gaz inerte, avec temporisation et alarme avant déclenchement, et consigne d'évacuation affichée. "
-     "Personne n'entre seul la nuit sans dispositif d'alarme pour travailleur isolé (DATI). Habilitation électrique des intervenants.",
-     "proposé", "Code du travail (R4227, R4544) ; point 14"),
+    ("M-PHY-2", "Sécurité des biens et des personnes", "Extinction automatique de la salle serveur",
+     "Extinction automatique par gaz inerte (IG-541) avec détection précoce par aspiration, temporisation et alarme avant "
+     "déclenchement, consigne d'évacuation affichée.", "en place", "Code du travail (R4227) ; point 14, SYS-03"),
     ("M-PHY-3", "Sécurité des biens et des personnes", "Systèmes de sûreté cloisonnés",
-     "Caméras et badgeuses dans la VRF IOT, sans Internet, flux limités à l'enregistreur et au serveur de contrôle d'accès (F24 à F27) ; "
-     "équipements sûreté certifiés CSPN ou qualifiés quand c'est possible ; vidéoprotection déclarée et signalée (point 19).",
-     "en place", "ANSSI PA-072 ; objets connectés v1.0"),
+     "Caméras, badgeuses et GTB (dont le groupe électrogène) dans la VRF IOT, sans Internet, flux limités à l'enregistreur VS-NVR1, au "
+     "serveur de contrôle d'accès et à la supervision (F24 à F27, F70) ; équipements sûreté certifiés CSPN ou qualifiés quand c'est "
+     "possible ; aucune caméra dans les lieux de pause (foyer des étudiants) ; vidéoprotection autorisée par le préfet pour les lieux "
+     "ouverts au public, inscrite au registre des traitements et signalée (point 19).",
+     "en place", "ANSSI PA-072 ; objets connectés v1.0 ; CSI L252-1"),
     ("M-PHY-4", "Sécurité des biens et des personnes", "Énergie et climatisation",
-     "Double alimentation des baies, onduleurs et climatisation redondants, sondes supervisées (point 14).", "en place", "Point 14"),
+     "Double alimentation des baies (voies A et B), deux onduleurs en ligne 6 kVA avec pack batterie "
+     f"({AUTONOMIE_ONDULEUR} min avec un seul onduleur), climatisation redondante, sondes, onduleurs et PDU supervisés ; arrêt ordonné "
+     f"des serveurs par NUT seulement si l'onduleur est encore sur batterie {GE['arret_nut_si_ge_absent_min']} min après la coupure "
+     "(groupe électrogène absent), séquence testée une fois par an (point 14).", "en place", "Point 14 ; NF EN 62040"),
+    ("M-PHY-5", "Sécurité des biens et des personnes", "Groupe électrogène",
+     f"Groupe électrogène diesel dédié ({GE['esp_kva']} kVA ESP / {GE['prp_kva']} kVA PRP, cuve double paroi de {GE['cuve_l']} l, "
+     f"{GE['autonomie_h']} h d'autonomie à charge moyenne) et inverseur de source automatique en tête du TD-INFO : reprise de la salle "
+     "serveur et des locaux techniques sans intervention. Essai mensuel en charge et essai annuel sur banc de charge tracés, contrat "
+     "de maintenance et de livraison de gazole. Contrôleur du groupe et inverseur supervisés en lecture seule (VLAN GTB, F70), sans "
+     "modem ni service en nuage ; toute télémaintenance passe par le bastion (M-ADM-2).", "en place",
+     "NF EN ISO 8528 ; NF C 15-100 (section 551) ; NF EN IEC 60947-6-1 ; ANSSI GTB/GTC ; point 14"),
+    ("M-PHY-6", "Sécurité des biens et des personnes", "Travail isolé et habilitations",
+     "Personne n'entre seul la nuit en salle serveur sans dispositif d'alarme pour travailleur isolé (DATI) ; habilitation "
+     "électrique des intervenants (tableau informatique, inverseur, groupe électrogène).", "organisationnel",
+     "Code du travail (R4544) ; NF C 18-510"),
     # Journalisation, détection
     ("M-DET-1", "Journalisation et détection", "Chaîne de journalisation",
-     "Collecte centralisée (syslog TLS, F42), horloge commune (F44), archives scellées et conservées un an, accès restreint et tracé.",
-     "en place", "ANSSI journalisation v2.0 ; mesure 36"),
+     "Collecte centralisée (syslog TLS, F42), horloge commune (F44, F60), archives scellées. Données techniques de connexion (qui, "
+     "quand, adresses et ports source et destination, volumes) conservées 1 an, accès restreint ; journaux détaillés de navigation "
+     "(URL complètes du proxy de filtrage web) conservés 6 mois, pour la sécurité seulement, consultation tracée, sans contrôle individuel de l'activité.",
+     "en place", "ANSSI journalisation v2.0 ; mesure 36 ; CPCE art. L34-1 ; décrets n° 2021-1361 et 2021-1362"),
     ("M-DET-2", "Journalisation et détection", "Détection",
      "Corrélation des journaux (SIEM open source, par exemple Wazuh, dans la VRF ADM), alertes sur les refus explicites de la matrice "
      "(une caméra qui cherche un poste, un poste d'administration qui sort), sur les connexions d'administration hors heures et sur "

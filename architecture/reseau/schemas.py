@@ -1,8 +1,18 @@
-"""Schémas : zone Net Management du schéma principal, schéma logique L2, schéma logique L3."""
-import xml.etree.ElementTree as ET
+"""Schémas : zone Net Management du schéma principal, schéma logique L2, schéma logique L3.
 
-import donnees as D
-from drawio import Page, ecrire, h
+Les couleurs des zones et des VRF servent de code et ne changent pas ; la mention de version vient de commun/charte.py.
+"""
+import sys
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))  # racine du dépôt : commun/
+from commun import charte as CH  # noqa: E402
+
+import donnees as D  # noqa: E402
+from drawio import Page, ecrire, h  # noqa: E402
+
+VERSION_SCHEMA = f"Version {CH.VERSION[1:]} — {CH.DATE_VERSION}"
 
 ENCRE = "#101217"
 COUL = {nom: c for nom, _, c in D.NM_RESEAUX}
@@ -32,8 +42,9 @@ def _dans_zone(c, cells):
     return False
 
 
-def patcher_principal(source, sortie):
-    """Supprime l'ancienne zone NM (et l'icône Teleport isolée) puis redessine la zone façon pve-1 / pve-2 / witness."""
+def patcher_principal(source, sortie, acces=None):
+    """Supprime l'ancienne zone NM (et l'icône Teleport isolée) puis redessine la zone façon pve-1 / pve-2 / witness.
+    acces : nombre de switchs d'accès par bloc d'après le plan de câblage ({1: 8, 2: 7}), pour la légende des AL-SW."""
     arbre = ET.parse(source)
     racine = arbre.getroot().find("diagram/mxGraphModel/root")
     cells = {c.get("id"): c for c in racine.iter("mxCell")}
@@ -62,7 +73,7 @@ def patcher_principal(source, sortie):
     p.n = 0
     dessiner_nm(p)
     dessiner_piles(p)
-    dessiner_v2(p)
+    dessiner_v2(p, acces)
     for c in p.cellules:
         c.set("id", "nm2-" + c.get("id"))
         for k in ("source", "target"):
@@ -95,7 +106,7 @@ def dessiner_nm(p):
                                           ("LXC", f"Bastion Teleport {n}", 40 + n))):
             _guest(p, gx + j * 380, 2090, 360, 250, t, nm, f"10.13.59.{fin}")
         if n == 1:
-            vm = p.boite("<b>VM Debian – Docker Compose</b> <font style='font-size:28px'>10.13.59.50 · HA Proxmox, répliquée sur PVE2</font>",
+            p.boite("<b>VM Debian – Docker Compose</b> <font style='font-size:28px'>10.13.59.50 · HA Proxmox, répliquée sur PVE2</font>",
                          gx, 2380, 1130, 520, "rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#F4F4F4;strokeColor=#4d525b;"
                          "strokeWidth=4;verticalAlign=top;fontSize=32;spacingTop=10;")
             for j, nm in enumerate(("NMS LibreNMS", "Traps SNMP snmptrapd", "Loki (recherche journaux)", "Grafana")):
@@ -103,7 +114,7 @@ def dessiner_nm(p):
         else:
             _guest(p, gx, 2380, 1130, 520, "réplique ZFS (toutes les minutes)", "VM Docker supervision",
                    "démarrée ici par le HA si NM-PVE1 tombe", couleur="#FAFAFA", trait="#6d727b", pointille=True)
-        _guest(p, gx + 1160, 2380, 350, 520, "LXC (v2)", f"Journaux {n}\nrsyslog · archives LCEN",
+        _guest(p, gx + 1160, 2380, 350, 520, "LXC (v2)", f"Journaux {n}\nrsyslog · archives légales",
                f"10.13.59.5{5 + n}\nVIP .55", couleur="#EDE7F6", trait="#5b2c8c")
     # --- témoin ---------------------------------------------------------------------------------------
     wit = p.boite("NM-WITNESS<br><font style='font-size:28px;font-weight:normal'>QDevice clusters NM + DT<br>serveur NUT · Dell R260</font>",
@@ -214,12 +225,13 @@ def _hyperviseur(p, nom, detail, x, y, w, hh):
     return p.boite(f"{nom}<br><font style='font-size:30px;font-weight:normal'>{h(detail)}</font>", x, y, w, hh, st)
 
 
-def dessiner_v2(p):
+def dessiner_v2(p, acces=None):
     epais = "strokeWidth=10;strokeColor=#101217;"
     lien_l = lambda c: f"strokeWidth=8;strokeColor={c};fontSize=30;fontColor={c};labelBackgroundColor=#ffffff;fontStyle=1;"
-    # --- titre de version
-    p.texte("<b>Version 2</b> · après l'audit du 15/11/2026<br><font style='font-size:40px'>v1 : architecture/archives/v1_2026-11-15/</font>",
-            -1220, -430, 1050, 220, taille=56, couleur="#05893e")
+    # --- titre de version (v2.1 : mention de la charte commune)
+    p.texte(f"<b>{VERSION_SCHEMA}</b><br><font style='font-size:34px'>{CH.mention_figure(['03', '05'])}<br>"
+            f"v2 : {CH.ARCHIVE_PRECEDENTE} · v1 : architecture/archives/v1_2026-11-15/</font>",
+            -1760, -460, 1600, 260, taille=56, couleur="#05893e")
     # --- DMZ : 2 hyperviseurs + témoin à la place de 6 serveurs physiques et 2 Caddy
     dm = {}
     vms = {1: [("VM", "DM-RP1 Caddy", "172.16.13.11"), ("VM", "DM-DNS1 ns1", ".20"), ("VM", "DM-WEB1", ".51"), ("VM", "DM-SRV1", ".52")],
@@ -243,7 +255,7 @@ def dessiner_v2(p):
     dt = {}
     for n, x in ((1, 4330), (2, 5790)):
         dt[n] = _hyperviseur(p, f"DT-PVE{n}", f"Dell R660xs · Proxmox VE · tier 0 · mgmt 10.13.58.1{3 + n}", x, 380, 1300, 560)
-        for j, (t, nm, a, c, tr) in enumerate(((f"VM tier 0 · VLAN 310", f"DT-AD{n}", f"10.13.52.1{n}", "#EDE7F6", "#5b2c8c"),
+        for j, (t, nm, a, c, tr) in enumerate((("VM tier 0 · VLAN 310", f"DT-AD{n}", f"10.13.52.1{n}", "#EDE7F6", "#5b2c8c"),
                                                ("VM · VLAN 300", f"DT-RAD{n} (NPS)", f"10.13.48.2{n}", "#E6F4F4", "#008889"),
                                                ("VM · VLAN 300", f"DT-DHCP{n}", f"10.13.48.3{n}", "#E6F4F4", "#008889"))):
             _guest(p, x + 30 + j * 420, 530, 400, 260, t, nm, a, couleur=c, trait=tr)
@@ -251,6 +263,10 @@ def dessiner_v2(p):
         for k, sw in enumerate(("CVoWMKzBPITZB_2SDfIO-93", "dt-sw2")):
             p.lien(dt[n], sw, epais, "", sx=0.35 + 0.3 * k, sy=1, tx=0.3 + 0.4 * k, ty=0)
     p.lien(dt[1], dt[2], lien_l("#7B1FA2"), h("DT-REPL\n25G DAC"), sx=1, sy=0.15, tx=0, ty=0.15)
+    # --- v2.1 : enregistreur vidéo physique (D3), à côté de DT-BKP1, raccordé à la pile DT-SW en VLAN 300
+    nvr = p.boite("VS-NVR1<br><font style='font-size:26px;font-weight:normal'>enregistreur vidéo · VMS<br>VLAN 300 · 10.13.48.60</font>",
+                  7230, 900, 330, 190, "rounded=0;whiteSpace=wrap;html=1;fillColor=#E6F4F4;strokeColor=#008889;strokeWidth=6;fontSize=34;fontStyle=1;")
+    p.lien(nvr, "dt-sw2", epais.replace("10", "6"), "", sx=0, sy=0.7, tx=1, ty=0.5)
     # --- Stormshield sur le cœur, EL-SW réduit à la gestion
     p.texte("<b>v2 : Po2 / Po3</b> · Stormshield → cœur<br>2×10G MEC par nœud<br>transits 1010-1090 + tier 0 (310)",
             2600, 1080, 900, 200, taille=34, couleur="#2b2f8c", align="left")
@@ -270,6 +286,10 @@ def dessiner_v2(p):
     p.lien(w1, "cl-pair", epais, "", sx=0.5, sy=1, tx=0.05, ty=1, points=[(-920, 2090), (770, 2090)])
     p.lien(w1, "cl-pair", epais, "", sx=0.7, sy=1, tx=0.1, ty=1, points=[(-836, 2060), (860, 2060)])
     p.texte("Po30 / Po31 · 2×10G par WLC · trunk 514, 515, 530, 907", -1150, 2135, 1060, 50, taille=28, couleur="#05893e", align="left")
+    # --- v2.1 : les 4 AL-SW dessinés représentent tous les switchs d'accès du plan de câblage
+    if acces:
+        p.texte(f"Accès : 4 switchs représentés pour {acces[1] + acces[2]} au plan de câblage ({acces[1]} au bloc 1, {acces[2]} au bloc 2)",
+                150, 4680, 3200, 70, taille=40, couleur="#4d525b", align="left", extra="labelBackgroundColor=#ffffff;")
 
 
 # ===========================================================================
@@ -291,11 +311,12 @@ def _l(p, a, b, texte, coul=ENCRE, ep=2, pointille=False, **kw):
     return p.lien(a, b, st, h(texte), **kw)
 
 
-def schema_l2():
+def schema_l2(acces):
     p = Page("Architecture L2", "l2")
-    p.texte("Architecture de niveau 2 – VLAN, agrégats, piles · version 2 (après audit)", 20, 10, 1100, 30, taille=20, gras=True, align="left")
+    p.texte(f"Architecture de niveau 2 · VLAN, agrégats, piles · {VERSION_SCHEMA}", 20, 10, 1300, 30, taille=20, gras=True, align="left")
     p.texte("Trait plein : trunk 802.1Q (VLAN natif 999, VLAN 1 jamais utilisé) · trait épais : agrégat LACP multi-châssis (MEC) · "
             "pointillé : lien routé (pas de VLAN étendu entre les blocs)", 20, 40, 1500, 20, taille=11, couleur="#4d525b", align="left")
+    p.texte(CH.mention_figure(["03", "06"]), 20, 1390, 1500, 20, taille=11, couleur="#4d525b", align="left")
     # Bordure
     _groupe(p, "DMZ · pile DM-SW1/2 (StackWise-80)", 30, 90, 420, 300, "#a75c00")
     dm = _eq(p, "DM-SW1 / DM-SW2", "pile C9200L · VLAN 400, 401, 402, 403", 110, 130)
@@ -325,7 +346,9 @@ def schema_l2():
     _l(p, cl, dt, "Po20 · 4×10G MEC\ntrunk 300, 310, 900, 901, 902, 909", ENCRE, 5)
     dts = _eq(p, "DT-PVE1 / DT-PVE2 + DT-BKP1", "VM AD (310), NPS, DHCP (300) · bond1 2×25G · corosync 908 · PBS en 909", 1680, 560, 340, 70, "#EDE7F6", "#5b2c8c")
     _l(p, dt, dts, "Po21-23", ENCRE, 4)
-    nm = _eq(p, "NM-SW1 / NM-SW2", "pile C9200L StackWise-80 · VLAN 900-906", 1320, 760, 300, 70)
+    nvr = _eq(p, "VS-NVR1 (v2.1)", "enregistreur vidéo physique · access 300", 1680, 470, 340, 60, "#E6F4F4", D.VRF["SRV"]["couleur"])
+    _l(p, dt, nvr, "Po24", ENCRE, 3)
+    nm = _eq(p, "NM-SW1 / NM-SW2", "pile C9200L StackWise-80 · VLAN 900-904, 906", 1320, 760, 300, 70)
     _l(p, cl, nm, "Po10 · 4×10G MEC\ntrunk 900, 901, 902, 904, 906", ENCRE, 5)
     pv = _eq(p, "NM-PVE1 / NM-PVE2 / NM-WITNESS", "ipmi 901 · mgmt 902 · cluster 903 · workload 904 · repl 905 direct", 1680, 760, 340, 70)
     _l(p, nm, pv, "access + bond1 LACP", ENCRE, 3)
@@ -335,7 +358,7 @@ def schema_l2():
                 x - 40, 850, 760, 140, "#05893e")
         dl = _eq(p, f"DL-B{n}", "C9500-16X SVL · SVI passerelles des VLAN du bloc", x + 120, 890, 380, 70, "#E8F3E8", "#05893e")
         _l(p, dl, cl, f"Po10{n} · 4×10G L3 (routé)\nsous-interfaces .10 .20 .30 .90", "#05893e", 5, True)
-        _groupe(p, f"Accès bloc {n} · {8 if n == 1 else 7} switchs C9200L-48P-4X (1 ou 2 par local technique, piles locales)",
+        _groupe(p, f"Accès bloc {n} · {acces[n]} switchs C9200L-48P-4X (1 à 5 par local technique, piles locales)",
                 x - 40, 1040, 760, 120)
         al = _eq(p, f"AL-SW bloc {n}", ("N-1-LT01/LT02, N0-LT01/LT02" if n == 1 else "N1-LT01, N1-LT02") + " · gestion VLAN " + f"{n}90",
                  x + 120, 1075, 380, 70)
@@ -352,10 +375,10 @@ def schema_l2():
     p.boite("", lx, ly, 640, 500, "rounded=0;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#cfd2d8;")
     p.texte("Plages de VLAN", lx + 10, ly + 6, 600, 22, taille=13, gras=True, align="left")
     lignes = [("x10-x13", "USR : personnel, étudiants, voix, impression", D.VRF["USR"]["couleur"]),
-              ("x20-x22", "IOT : caméras, badgeuses, GTB", D.VRF["IOT"]["couleur"]),
+              ("x20-x22", "IOT : caméras, badgeuses, GTB (groupe électrogène en 122)", D.VRF["IOT"]["couleur"]),
               ("x30", "GST : VLAN restreint (échec 802.1X filaire)", D.VRF["GST"]["couleur"]),
               ("x90-x91", "ADM du bloc : gestion des switchs, bornes", D.VRF["ADM"]["couleur"]),
-              ("300", "SRV : serveurs tier 1 (VM NPS, DHCP)", D.VRF["SRV"]["couleur"]),
+              ("300", "SRV : serveurs tier 1 (VM NPS, DHCP), enregistreur VS-NVR1", D.VRF["SRV"]["couleur"]),
               ("310", "Tier 0 : contrôleurs de domaine (passerelle SNS)", "#5b2c8c"),
               ("400-403", "DMZ (derrière le FortiGate)", "#a75c00"),
               ("514-530", "Wi-Fi du bâtiment (WLC, passerelle CL)", D.VRF["USR"]["couleur"]),
@@ -373,19 +396,20 @@ def schema_l2():
 # ===========================================================================
 def schema_l3():
     p = Page("Architecture L3", "l3")
-    p.texte("Architecture de niveau 3 – VRF, routage, NAT, IPv4 et IPv6 · version 2 (après audit)", 20, 10, 1200, 30, taille=20, gras=True, align="left")
+    p.texte(f"Architecture de niveau 3 · VRF, routage, NAT, IPv4 et IPv6 · {VERSION_SCHEMA}", 20, 10, 1300, 30, taille=20, gras=True, align="left")
+    p.texte(CH.mention_figure(["03", "05", "07"]), 20, 1390, 1500, 20, taille=11, couleur="#4d525b", align="left")
     p.texte("Le cœur sépare 5 VRF sans route entre elles : tout flux d'une VRF à l'autre, et tout flux vers le tier 0, traverse le Stormshield. "
             "Le FortiGate porte Internet, la DMZ et le NAT.", 20, 40, 1500, 20, taille=11, couleur="#4d525b", align="left")
     nuage = "ellipse;shape=cloud;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;"
-    f1 = p.boite("FAI 1 · AMU / RENATER<br><font style='font-size:10px;font-weight:normal'>AS2457</font>", 380, 70, 260, 110, nuage)
+    f1 = p.boite(f"FAI 1 · AMU / RENATER<br><font style='font-size:10px;font-weight:normal'>{D.FAI1['as']} (RAIMU)</font>", 380, 70, 260, 110, nuage)
     f2 = p.boite(f"FAI 2 · opérateur commercial<br><font style='font-size:10px;font-weight:normal'>{D.FAI2['as']} (exemple)</font>",
                  1060, 70, 260, 110, nuage)
-    r1 = _eq(p, "EL-RTR1", f"eBGP AS{D.AS_SITE} → AS2457 · local-pref 200", 380, 230, 260, 60)
+    r1 = _eq(p, "EL-RTR1", f"eBGP AS{D.AS_SITE} → {D.FAI1['as']} · local-pref 200", 380, 230, 260, 60)
     r2 = _eq(p, "EL-RTR2", f"eBGP AS{D.AS_SITE} → {D.FAI2['as']} · annonce conditionnelle", 1060, 230, 260, 60)
     _l(p, r1, r2, "v2 : iBGP 139.124.112.4/30 (BFD vers les FAI)", ENCRE, 2, True)
     _l(p, f1, r1, "139.124.112.0/30 (.2)\n2001:660:5402:4FF0::/127")
     _l(p, f2, r2, f"{D.FAI2['lien4']} (.2)\n{D.FAI2['lien6']}")
-    fgt = _eq(p, "Cluster FortiGate (EL-FGT1/2)", "SD-WAN OUT-A prioritaire · SNAT par VRF · VIP DMZ · NPTv6 sur FAI 2", 640, 360, 420, 70,
+    fgt = _eq(p, "Cluster FortiGate (EL-FGT1/2)", f"SD-WAN OUT-A prioritaire · SNAT par VRF · VIP DMZ · NPTv6 sur FAI 2 · VPN IKEv2 (pool {D.VPN_ADM['v4']})", 640, 360, 420, 70,
               "#FDECEC", "#c13c3b")
     _l(p, r1, fgt, "OUT-A 139.124.112.8/29\nRTR1 .9 · FGT .14\n2001:660:5402:4F00::/64")
     _l(p, r2, fgt, "OUT-B 139.124.112.16/29\nRTR2 .17 · FGT .22\n2001:660:5402:4F01::/64")
@@ -393,20 +417,21 @@ def schema_l3():
             f"secours IPv6 FAI 2 : {D.FAI2['pa6']} (NPTv6)", 680, 280, 340, 70, taille=10, couleur="#4d525b")
     dmz = _eq(p, "DMZ (VM sur DM-PVE1/2)", "400 FRONT 172.16.13.0/27 · 4400::/64\n401 BACK 172.16.13.32/27 · 4401::/64\n402 GEST 172.16.13.64/27 · 403 cluster",
               60, 360, 380, 90, "#FFF4E5", "#a75c00")
-    _l(p, fgt, dmz, "VIP 139.124.112.32/27\n(.33 web · .34 mail · .35 ns1)", "#a75c00", 2)
+    _l(p, fgt, dmz, "VIP 139.124.112.32/27\n(.33 web · .34 mail · .35 ns1 · .37 ns2)", "#a75c00", 2)
     sns = _eq(p, "Cluster Stormshield (EL-SNS1/2)", "filtrage inter-VRF · passerelle du tier 0 · défaut vers 10.13.3.1", 640, 520, 420, 70,
               "#ECECFB", "#2b2f8c")
     t0 = _eq(p, "Tier 0 (v2)", "310 SRV-T0 10.13.52.0/27 · 4310::/64\nDT-AD1 .11 · DT-AD2 .12 · pas d'Internet", 1180, 520, 330, 60, "#EDE7F6", "#5b2c8c")
     _l(p, sns, t0, "passerelle .1", "#5b2c8c", 2)
     _l(p, fgt, sns, "TR-FW 10.13.3.0/29 · FGT .1 · SNS .2\n2001:660:5402:4F10::/64", "#2b2f8c", 2)
     cl = _eq(p, "Cœur CL (VRF-lite : USR · IOT · GST · SRV · ADM)",
-             "défaut statique par VRF vers le SNS · OSPFv2 + OSPFv3 par VRF vers les blocs · Lo0 10.13.0.1", 520, 760, 660, 70,
+             "défaut statique par VRF vers le SNS · OSPFv3 (AF IPv4 + IPv6) par VRF vers les blocs · Lo0 10.13.0.1", 520, 760, 660, 70,
              "#E6F1F8", "#0079b5")
     for k, (vid, nom, vrf, v4, a, b, p6) in enumerate(D.TRANSITS[:5]):
         c = D.VRF[vrf]["couleur"]
         x = 0.1 + 0.2 * k
-        _l(p, sns, cl, f"{nom} ({vid})\n{v4}\nCL .{a[1] % 8} · SNS .{b[1] % 8}", c, 2, sx=x, sy=1, tx=x, ty=0)
-    srv = _eq(p, "VRF SRV (SVI sur CL)", "300 SRV-INFRA 10.13.48.0/24 · 4300::/64 (VM NPS, DHCP)", 1280, 690, 400, 50, "#E6F4F4", D.VRF["SRV"]["couleur"])
+        ga, gb = (D.VLANS[vid][k][1].rsplit(".", 1)[1] for k in ("a", "b"))
+        _l(p, sns, cl, f"{nom} ({vid})\n{v4}\nCL .{ga} · SNS .{gb}", c, 2, sx=x, sy=1, tx=x, ty=0)
+    srv = _eq(p, "VRF SRV (SVI sur CL)", "300 SRV-INFRA 10.13.48.0/24 · 4300::/64 (VM NPS, DHCP · VS-NVR1)", 1280, 690, 400, 50, "#E6F4F4", D.VRF["SRV"]["couleur"])
     adm = _eq(p, "VRF ADM (SVI sur CL)",
               "900 GEST-RESEAU 10.13.56.0/24 · 901 IPMI 10.13.57.0/24\n902 PVE-MGMT 10.13.58.0/27 · 904 WORKLOAD 10.13.59.0/24\n"
               "906 PAW 10.13.60.0/26 · 907 WLC 10.13.60.64/28 · 909 PBS 10.13.60.128/27\n(903, 905, 908 non routés)",
@@ -417,7 +442,6 @@ def schema_l3():
     _l(p, cl, adm, "", D.VRF["ADM"]["couleur"])
     _l(p, cl, wifi, "", D.VRF["USR"]["couleur"])
     for n, x in ((1, 120), (2, 900)):
-        base = 16 if n == 1 else 32
         dl = _eq(p, f"DL-B{n} (DL-SW{2 * n - 1}/{2 * n}, StackWise Virtual)",
                  f"passerelle unique .1 / ::1 (pas de HSRP/VRRP) · Lo0 10.13.0.{n + 1} · relais DHCP", x, 960, 620, 60, "#E8F3E8", "#05893e")
         p2p = [q for q in D.P2P if q["bloc"] == n]
@@ -442,6 +466,7 @@ def schema_l3():
     return p
 
 
-def ecrire_schemas(dossier):
-    ecrire([schema_l2()], dossier / "architecture_l2.drawio", largeur=2400, hauteur=1400)
+def ecrire_schemas(dossier, acces):
+    """acces : nombre de switchs d'accès par bloc d'après le plan de câblage ({1: 8, 2: 7})."""
+    ecrire([schema_l2(acces)], dossier / "architecture_l2.drawio", largeur=2400, hauteur=1400)
     ecrire([schema_l3()], dossier / "architecture_l3.drawio", largeur=2400, hauteur=1400)

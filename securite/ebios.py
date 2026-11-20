@@ -1,11 +1,20 @@
-"""Point 09 : analyse de risque EBIOS Risk Manager allégée (ateliers 1 à 3 et plan de traitement). Version 1, 18/11/2026.
+"""Point 09 : analyse de risque EBIOS Risk Manager allégée (ateliers 1 à 3 et plan de traitement).
 
-Méthode : guide ANSSI EBIOS RM v1.5 (09/2024). Allégée : les scénarios opérationnels (atelier 4) ne sont pas détaillés
-technique par technique ; leur vraisemblance est estimée directement, à partir de l'architecture v2 et de la menace
-décrite par le CERT-FR pour l'enseignement supérieur (CERTFR-2024-CTI-008).
+Version du dossier : commun/charte.py. Méthode : guide ANSSI EBIOS RM v1.5 (09/2024). Allégée : les scénarios opérationnels
+(atelier 4) ne sont pas détaillés technique par technique ; leur vraisemblance est estimée directement, à partir de
+l'architecture v2.1 et de la menace décrite par le CERT-FR pour l'enseignement supérieur (CERTFR-2024-CTI-008).
+v2.1 : coupure électrique prolongée (ER8, risque non intentionnel RA1 placé sur la carte des risques), mainteneur du groupe
+électrogène (PP8), socle de continuité électrique. Valeurs du groupe et des onduleurs lues dans le résumé du point 14.
 
 Les mesures citées (M-xx) sont celles de la PSSI (securite/pssi.py), les règles (Fxx) celles de la matrice (securite/flux.py).
 """
+import json
+from pathlib import Path
+
+_ENERGIE = json.loads((Path(__file__).resolve().parent.parent / "livrables" / "energie_refroidissement" / "resume.json")
+                      .read_text(encoding="utf-8"))
+_GE = _ENERGIE["bet"]["groupe_electrogene"]
+_OND = _ENERGIE["onduleurs"]
 
 # Échelles (guide EBIOS RM, adaptées au client)
 GRAVITE = {
@@ -37,7 +46,7 @@ VALEURS = [  # code, valeur métier, responsable, biens supports
     ("VM4", "Service d'IA locale et confidentialité des requêtes", "Direction + DSI",
      "Nœuds GPU, passerelle IA, modèles, journaux des requêtes"),
     ("VM5", "Sécurité des personnes et des biens (contrôle d'accès, vidéoprotection, salle serveur)", "Direction + chargé de sécurité",
-     "Badgeuses, caméras, enregistreur, serveur de contrôle d'accès, GTB, alimentation et climatisation"),
+     "Badgeuses, caméras, enregistreur VS-NVR1, serveur de contrôle d'accès, GTB, alimentation (onduleurs, groupe électrogène) et climatisation"),
     ("VM6", "Image de l'IUT et services publics en ligne (site, messagerie, réservation)", "Direction + service communication",
      "DMZ (Caddy, DNS publics, messagerie), noms de domaine, accès Internet"),
 ]
@@ -56,17 +65,23 @@ EVENEMENTS = [  # code, valeur, événement redouté, impacts, gravité
     ("ER6", "VM6", "Défiguration du site ou usurpation de la messagerie (hameçonnage au nom de l'IUT)",
      "image publique, hameçonnage des étudiants avec la marque de l'IUT", 2),
     ("ER7", "VM1", "Fraude aux examens : modification de notes ou accès aux sujets", "valeur des diplômes, recours, crise interne", 3),
+    ("ER8", "VM1", "Arrêt du datacenter et du cœur de réseau pendant une coupure prolongée du secteur",
+     "services en ligne, authentification, Wi-Fi, sûreté, VPN et liaison avec Digne arrêtés jusqu'au retour du secteur ; redémarrage à risque", 3),
 ]
 
-# Socle de sécurité : référentiels applicables et état dans l'architecture v2
+# Socle de sécurité : référentiels applicables et état dans l'architecture v2.1
 SOCLE = [
     ("Guide d'hygiène informatique (42 mesures)", "ANSSI v2 2017", "appliqué : voir le tableau de conformité de la PSSI"),
-    ("RGPD et loi Informatique et libertés", "obligatoire", "à formaliser au point 19 (registre, AIPD)"),
-    ("Conservation des données de connexion (CPCE L34-1, R10-13)", "obligatoire", "chaîne de journalisation v2, conservation 1 an"),
+    ("RGPD et loi Informatique et libertés", "obligatoire", "formalisé au point 19 (volet juridique : registre, AIPD)"),
+    ("Conservation des données de connexion (CPCE L34-1, R10-13, décrets n° 2021-1361 et 2021-1362)", "obligatoire",
+     "chaîne de journalisation : données de connexion 1 an, URL complètes de navigation 6 mois"),
     ("Directive NIS 2 / loi Résilience, ReCyF", "à venir : entité concernée (hypothèse retenue)", "anticipé : gouvernance, notification, mesures du ReCyF"),
     ("PSSI de l'AMU", "obligatoire (établissement de rattachement)", "la PSSI du site en est une déclinaison"),
     ("Administration sécurisée (PA-022), tiering AD (PA-099)", "recommandations ANSSI", "appliqué en v2 (PAW, Teleport, tier 0)"),
     ("Sécurité de l'IA générative (ANSSI, 2024)", "recommandations ANSSI", "appliqué à la zone IA proposée (E5)"),
+    ("Continuité électrique : NF C 15-100 (section 551), NF EN ISO 8528, NF EN 62040", "normes d'installation",
+     f"v2 : deux onduleurs 6 kVA avec packs ({_OND['autonomie_degrade']} min avec un seul onduleur), arrêt ordonné NUT, pas de groupe ; "
+     f"v2.1 : groupe électrogène {_GE['esp_kva']} kVA ESP et inverseur de source automatique sur le TD-INFO"),
 ]
 
 # ---------------------------------------------------------------------------
@@ -84,7 +99,7 @@ SOURCES = [  # code, source, objectif visé, motivation (1-3), ressources (1-3),
     ("SR5", "Personnel ou prestataire négligent", "Aucun (erreur) : mauvaise manipulation, mot de passe réutilisé", 1, 2, True,
      "Source d'incidents la plus fréquente ; pas de motivation, mais des accès privilégiés."),
     ("SR6", "Fraudeur à la téléphonie", "Revendre des appels vers des numéros surtaxés", 2, 2, False,
-     "Couvert par les mesures ToIP du point 12 (SIP-TLS, comptes par poste, limites) : non détaillé ici."),
+     "Pertinence 4, mais traité entièrement par les mesures ToIP du point 12 (SIP-TLS, comptes par poste, limites) : non détaillé ici."),
 ]
 
 # ---------------------------------------------------------------------------
@@ -99,6 +114,7 @@ PARTIES = [
     ("PP5", "Fournisseurs des modèles d'IA (poids téléchargés)", 3, 2, 1, 2),
     ("PP6", "Hébergeur de la sauvegarde externalisée", 3, 1, 3, 3),
     ("PP7", "Étudiants et leurs appareils personnels (BYOD)", 2, 3, 1, 1),
+    ("PP8", "Mainteneur du groupe électrogène (maintenance, télémaintenance éventuelle)", 3, 2, 1, 2),
 ]
 
 
@@ -149,6 +165,21 @@ TRAITEMENT = {  # scénario : (mesures PSSI, règles de flux, vraisemblance rés
 }
 
 
+# ---------------------------------------------------------------------------
+# Risques non intentionnels (socle, atelier 1). EBIOS RM traite les sources de risque intentionnelles ; les événements
+# accidentels relèvent du socle. Ils sont notés avec les mêmes échelles pour être placés sur la carte des risques.
+# ---------------------------------------------------------------------------
+ACCIDENTELS = [  # code, événement, ER, gravité, vraisemblance v2, mesures PSSI, vraisemblance v2.1, accepté par, commentaire
+    ("RA1", "Coupure du secteur de plus de quelques minutes (orage, épisode méditerranéen, incident du réseau public)", "ER8", 3, 3,
+     ["M-PHY-4", "M-PHY-5", "M-DET-2"], 1, "direction de l'IUT",
+     "v2 : pas de groupe électrogène ; passé quelques minutes, la séquence NUT arrête les VM puis les hyperviseurs : les données sont "
+     "protégées, pas la continuité, jusqu'au retour du secteur. v2.1 : le groupe et l'inverseur reprennent le TD-INFO ; NUT n'arrête "
+     f"la salle que si l'onduleur est encore sur batterie {_GE['arret_nut_si_ge_absent_min']} min après la coupure. Restent un échec de "
+     f"démarrage ou une panne sèche ({_GE['autonomie_h']} h à charge moyenne), couverts par l'essai mensuel, la jauge supervisée, le "
+     "contrat de gazole et, en dernier recours, l'arrêt ordonné."),
+]
+
+
 def verifier(mesures_pssi):
     codes_er = {e[0] for e in EVENEMENTS}
     codes_sr = {s[0] for s in SOURCES if s[5]}
@@ -161,4 +192,7 @@ def verifier(mesures_pssi):
         assert vr <= v, code
         for m in mes:
             assert m in mesures_pssi, f"{code} : mesure {m} absente de la PSSI"
+    for code, _, er, g, v, mes, vr, _, _ in ACCIDENTELS:
+        assert er in codes_er and g == next(e[4] for e in EVENEMENTS if e[0] == er), code
+        assert vr <= v and all(m in mesures_pssi for m in mes), code
     return True

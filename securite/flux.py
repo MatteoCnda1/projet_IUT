@@ -1,26 +1,41 @@
-"""Point 09 : matrice des flux, source unique. Version 1 (18/11/2026), sur l'infrastructure v2.
+"""Point 09 : matrice des flux, source unique (version du dossier : commun/charte.py).
+
+v2.1 (audit du 20/11/2026) : DNS de sortie des résolveurs et de la DMZ, relais DHCP des objets et de l'administration, CAPWAP,
+NUT (onduleurs, clients internes et de la DMZ), NTP externe, DT-BKP1 et postes d'administration, administration des serveurs et
+des objets par le bastion, alertes par courriel, groupe électrogène (supervision en lecture seule), pool du VPN d'administration ;
+ordre de déploiement explicite et contrôle des autorisations masquées ; objet INTERNET par négation des préfixes du site.
 
 Chaque règle dit qui parle à qui, sur quels ports, avec quel profil d'inspection, et pourquoi. Le pare-feu qui l'applique
 n'est pas écrit à la main : il se déduit des zones (fonction `filtre`), comme dans le réseau réel où l'on ne change de VRF
 qu'en traversant le Stormshield, et où l'on n'atteint Internet ou la DMZ qu'en traversant le FortiGate.
 
-Les adresses viennent de architecture/reseau/donnees.py (plan d'adressage v2). `verifier()` contrôle que chaque objet existe
-dans le plan, que les propositions (zone IA) ne chevauchent rien, et que chaque couple de zones du résumé de l'architecture L3
-(documents.FLUX) est bien détaillé ici.
+Les adresses viennent de architecture/reseau/donnees.py (plan d'adressage). `verifier()` contrôle que chaque objet existe
+dans le plan, que les propositions (zone IA) ne chevauchent rien, que chaque couple de zones du résumé de l'architecture L3
+(documents.FLUX) est bien détaillé ici, qu'aucun objet « Internet » ne contient d'adresse du site, et qu'aucune autorisation
+n'est masquée par un refus placé avant elle dans l'ordre de déploiement.
 
 Repris par :
   securite/build.py    -> livrables/securite/ (matrice_flux.pdf, matrice_flux.csv, PSSI, analyse de risque)
 """
+import importlib.util
 import ipaddress as ip
 import sys
 from pathlib import Path
 
 ICI = Path(__file__).resolve().parent
-sys.path.insert(0, str(ICI.parent / "architecture" / "reseau"))
-import donnees as D  # noqa: E402
 
-VERSION = "1.0"
-DATE = "18/11/2026"
+
+def _plan():
+    """Plan d'adressage chargé sous un nom propre (« reseau_donnees ») : juridique/ a aussi un module « donnees » (SEC21-24)."""
+    if "reseau_donnees" not in sys.modules:
+        spec = importlib.util.spec_from_file_location("reseau_donnees", ICI.parent / "architecture" / "reseau" / "donnees.py")
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules["reseau_donnees"] = mod
+        spec.loader.exec_module(mod)
+    return sys.modules["reseau_donnees"]
+
+
+D = _plan()
 
 # ---------------------------------------------------------------------------
 # Zones de sécurité (une zone = un niveau de confiance ; on ne passe d'une zone à l'autre que par un pare-feu)
@@ -28,6 +43,7 @@ DATE = "18/11/2026"
 ZONES = {
     "INTERNET": ("Internet", "aucune confiance", "#6C6861"),
     "WAN":      ("Site jumeau (Digne), par l'opérateur", "confiance partielle (point 07)", "#6C6861"),
+    "VPN":      ("Administrateurs nomades : pool du VPN IKEv2", "authentifiée (certificat + MFA), bastion seulement", "#4D525B"),
     "DMZ":      ("DMZ : services publiés", "exposée", "#a75c00"),
     "GST":      ("Invités et échecs 802.1X", "aucune confiance", "#97549b"),
     "IOT":      ("Objets : caméras, badgeuses, GTB", "faible (équipements peu durcis)", "#a75c00"),
@@ -82,8 +98,14 @@ def H(vid, *fins):
 
 
 def L(v4, v6=None):
-    """Adresse ou préfixe littéral (hors plan interne : Internet, adresses publiques, site jumeau)."""
+    """Adresse ou préfixe littéral (hors plan interne : Internet, adresses publiques, site jumeau, pool VPN, boucles)."""
     return [("litteral", v4, v6)]
+
+
+# Préfixes du site, exclus des objets « Internet » : sur le Stormshield, objet par négation ; sur le FortiGate, interface externe.
+# Sans cette exclusion, 0.0.0.0/0 contiendrait aussi les zones internes (SEC21-04, SEC21-05).
+SITE = [(str(D.P4_PRIVE), str(D.P6_SITE)), ("172.16.13.0/24", None), ("10.4.0.0/16", None)]
+HORS_SITE = [("sauf", v4, v6) for v4, v6 in SITE]
 
 
 # ---------------------------------------------------------------------------
@@ -92,12 +114,13 @@ def L(v4, v6=None):
 GW_USR = [("passerelle", vid) for vid in (110, 111, 112, 113, 210, 211, 212, 213)]
 OBJETS = {
     # Internet et adresses publiques (VIP du FortiGate)
-    "INTERNET":    ("INTERNET", "Toute adresse hors du site", L("0.0.0.0/0", "::/0")),
-    "NOMADES":     ("INTERNET", "Personnels en déplacement, authentifiés par le VPN IPsec (certificat + MFA)", L("0.0.0.0/0", "::/0")),
+    "INTERNET":    ("INTERNET", "Toute adresse hors des préfixes du site (10.13.0.0/16, 172.16.13.0/24, 10.4.0.0/16, "
+                                "2001:660:5402:4000::/52)", L("0.0.0.0/0", "::/0") + HORS_SITE),
+    "NOMADES":     ("INTERNET", "Postes nomades des administrateurs sur Internet, avant l'établissement du VPN", L("0.0.0.0/0", "::/0") + HORS_SITE),
     "EDUROAM-FLR": ("INTERNET", "Proxys RADIUS nationaux eduroam (RENATER)", L("193.49.159.0/24")),
     "VIP-WEB":     ("DMZ", "139.124.112.33 → VIP Caddy 172.16.13.10", L("139.124.112.33")),
     "VIP-MX":      ("DMZ", "139.124.112.34 → DM-MAIL1", L("139.124.112.34")),
-    "VIP-DNS":     ("DMZ", "139.124.112.35 → DM-DNS1/2 (ns1, ns2)", L("139.124.112.35")),
+    "VIP-DNS":     ("DMZ", "139.124.112.35 → DM-DNS1 (ns1), 139.124.112.37 → DM-DNS2 (ns2)", L("139.124.112.35") + L("139.124.112.37")),
     "VIP-VPN":     ("DMZ", "139.124.112.36 : passerelle VPN d'administration du FortiGate", L("139.124.112.36")),
     # DMZ
     "DM-RP":       ("DMZ", "Reverse proxies Caddy (VIP et deux VM)", H(400, 10, 11, 12) + H(401, 41, 42)),
@@ -108,6 +131,8 @@ OBJETS = {
     "DM-PVE":      ("DMZ", "Hyperviseurs DM-PVE1/2 (réseau de gestion de la DMZ)", H(402, 67, 68)),
     "DMZ-TOUT":    ("DMZ", "Toute la DMZ", V(400, 401, 402)),
     "DMZ-GEST":    ("DMZ", "Gestion de la DMZ : switchs, hyperviseurs, témoin, iDRAC", V(402)),
+    "FGT-DMZ":     ("DMZ", "Interfaces du FortiGate dans la DMZ (relais DNS récursif pour la DMZ)", H(400, 1) + H(401, 33) + H(402, 65)),
+    "NUT-CLI-DMZ": ("DMZ", "Clients NUT de la DMZ : DM-PVE1/2, DM-WITNESS", H(402, 67, 68, 69)),
     # Utilisateurs
     "POSTES":      ("USR", "Postes du domaine : personnel et salles de TP (filaire, 802.1X)", V(110, 111, 210, 211)),
     "PERS":        ("USR", "Postes fixes du personnel", V(110, 210)),
@@ -121,15 +146,16 @@ OBJETS = {
     # Objets
     "CAM":         ("IOT", "Caméras IP", V(120, 220)),
     "BADGE":       ("IOT", "Lecteurs et UTL du contrôle d'accès", V(121, 221)),
-    "GTB":         ("IOT", "Gestion technique du bâtiment (réservé)", V(122, 222)),
+    "GE":          ("IOT", "Contrôleur du groupe électrogène et inverseur de source (VLAN GTB du bloc 1)", H(122, 110, 111)),
     "IOT-TOUT":    ("IOT", "Tous les objets", V(120, 121, 122, 220, 221, 222)),
+    "RELAIS-IOT":  ("IOT", "Passerelles des VLAN objets (relais DHCP vers Kea)", [("passerelle", vid) for vid in (120, 121, 122, 220, 221, 222)]),
     # Invités
     "GST-TOUT":    ("GST", "Wi-Fi invités et VLAN restreint (échec 802.1X)", V(130, 230, 530)),
     "RELAIS-GST":  ("GST", "Passerelles des VLAN invités (relais DHCP vers Kea)", [("passerelle", 130), ("passerelle", 230), ("passerelle", 530)]),
     # Serveurs tier 1 et tier 0
     "DT-RAD":      ("SRV", "Serveurs RADIUS NPS", H(300, 21, 22)),
     "DT-DHCP":     ("SRV", "Serveurs DHCP Windows (utilisateurs)", H(300, 31, 32)),
-    "NVR":         ("SRV", "Enregistreur vidéo (lot sûreté)", H(300, 60)),
+    "VS-NVR1":     ("SRV", "Enregistreur vidéo physique VS-NVR1 (lot sûreté)", H(300, 60)),
     "CTRL-ACCES":  ("SRV", "Serveur de contrôle d'accès (lot sûreté)", H(300, 61)),
     "SRV-TOUT":    ("SRV", "Tous les serveurs tier 1", V(300)),
     "DT-AD":       ("T0", "Contrôleurs de domaine DT-AD1/2", H(310, 11, 12)),
@@ -146,11 +172,22 @@ OBJETS = {
     "PAW":         ("ADM", "Postes d'administration dédiés", V(906)),
     "BKP":         ("ADM", "Proxmox Backup Server DT-BKP1", H(909, 130)),
     "GEST-EQUIP":  ("ADM", "Interfaces de gestion : réseau, pare-feu, iDRAC, hyperviseurs, bornes, WLC", V(190, 191, 290, 291, 900, 901, 902, 907)),
-    "EQUIP-AAA":   ("ADM", "Clients RADIUS : switchs d'accès et WLC", V(190, 290, 907)),
+    "BOUCLES":     ("ADM", "Loopback0 du cœur et de la distribution (source de l'AAA et des journaux)",
+                    [("litteral", a4, a6) for _, a4, a6 in D.BOUCLES]),
+    "EQUIP-AAA":   ("ADM", "Clients RADIUS : switchs (gestion et Loopback0), pare-feu, WLC",
+                    V(190, 290, 900, 907) + [("litteral", a4, a6) for _, a4, a6 in D.BOUCLES]),
     "ADM-SERVICES": ("ADM", "VM et conteneurs de services de l'administration", V(904)),
+    "PVE-ADM":     ("ADM", "Hyperviseurs NM et DT (réseau de gestion)", H(902, 11, 12, 14, 15)),
+    "NUT-SRV":     ("ADM", "Serveur NUT (upsd) sur NM-WITNESS", H(902, 13)),
+    "ONDULEURS":   ("ADM", "Cartes réseau des onduleurs A et B et sondes de la salle serveur", H(900, 45, 46, 47)),
+    "BORNES":      ("ADM", "Bornes Wi-Fi", V(191, 291)),
+    "WLC":         ("ADM", "WLC : interface de gestion sans fil (WMI, CAPWAP)", H(907, 70)),
+    "RELAIS-ADM":  ("ADM", "Passerelles des VLAN d'administration des blocs et des PAW (relais DHCP vers Kea)",
+                    [("passerelle", vid) for vid in (190, 191, 290, 291, 906)]),
+    # Administrateurs nomades
+    "VPN-ADM":     ("VPN", "Pool du VPN d'administration IKEv2 (certificat + MFA)", L(D.VPN_ADM["v4"], D.VPN_ADM["v6"])),
     # Site jumeau (point 07, à confirmer)
     "SITE2-AD":    ("WAN", "Contrôleurs de domaine de Digne (adresses réservées, point 07)", L("10.4.52.0/27")),
-    "SITE2-USR":   ("WAN", "Utilisateurs de Digne (point 07)", L("10.4.16.0/20")),
 }
 
 # ---------------------------------------------------------------------------
@@ -164,7 +201,8 @@ DNS = ["udp/53", "tcp/53"]
 ICMP_ECHO = ["icmp/echo-request", "icmpv6/echo-request"]
 
 # ---------------------------------------------------------------------------
-# Règles. Ordre = ordre d'évaluation. Champs :
+# Règles, dans l'ordre de présentation (par thème). Ordre de déploiement sur les pare-feu (voir deploiement()) : sessions
+# établies, puis toutes les autorisations (ordre Fxx), puis les refus explicites (ordre Fxx), puis F99. Champs :
 #   id, section, source(s), destination(s), services, action, profil d'inspection, journal, justification, références,
 #   statut ("" = retenu ; "à confirmer (Pxx)" ; "écart Ex" = règle actuelle à faire évoluer, voir ECARTS)
 #   tests : cas de recette proposés [(poste de la maquette, objet, service)] ; le résultat attendu découle de l'action
@@ -188,12 +226,12 @@ regle("F02", S, "INTERNET", "VIP-MX", ["tcp/25"], profil="IPS + antispam + antiv
 regle("F03", S, "INTERNET", "VIP-DNS", DNS, profil="IPS, limitation de débit (RRL)", journal="refus",
       pourquoi="DNS faisant autorité, sans récursion : pas d'amplification possible. Zones signées DNSSEC.",
       ref="ANSSI PA-105 (architectures DNS) ; noms de domaine v1.3")
-regle("F04", S, "NOMADES", "DM-MAIL", ["tcp/465", "tcp/587", "tcp/993"], profil="IPS", journal="tout",
-      pourquoi="Messagerie des personnels hors du site : soumission authentifiée et IMAPS, chiffrés de bout en bout.",
-      ref="ANSSI TLS v1.2", statut="écart E1")
+regle("F04", S, "INTERNET", "DM-MAIL", ["tcp/465", "tcp/587", "tcp/993"], profil="IPS", journal="tout",
+      pourquoi="Messagerie des personnels hors du site, depuis Internet (sans VPN) : soumission authentifiée (MFA, M-IDA-2) et IMAPS, "
+               "chiffrés de bout en bout.", ref="ANSSI TLS v1.2", statut="écart E1")
 regle("F05", S, "NOMADES", "VIP-VPN", ["udp/500", "udp/4500"], profil="IKEv2, certificat machine + MFA", journal="tout",
-      pourquoi="VPN d'administration en IPsec IKEv2 (et non en VPN SSL) : il ne donne accès qu'au bastion Teleport (F38).",
-      ref="ANSSI PA-054 (nomadisme) ; PA-022 (administration)", statut="écart E2")
+      pourquoi="VPN d'administration en IPsec IKEv2 (plus de VPN SSL : écart E2 intégré en v2.1). Il attribue une adresse du pool "
+               "VPN-ADM, qui n'atteint que le bastion Teleport (F38).", ref="ANSSI PA-054 (nomadisme) ; PA-022 (administration)")
 
 S = "DMZ → Internet"
 regle("F06", S, "DM-MAIL", "INTERNET", ["tcp/25"], journal="tout", pourquoi="Envoi du courrier sortant (MTA).")
@@ -203,10 +241,14 @@ regle("F08", S, ["DM-RP", "DM-DNS", "DM-MAIL", "DM-APP", "DM-PVE"], "INTERNET", 
       profil="filtrage d'URL (dépôts Debian et Proxmox)", journal="tout",
       pourquoi="Mises à jour des VM et des hyperviseurs de la DMZ, limitées aux dépôts officiels.",
       ref="Guide d'hygiène, mesure 34 (mises à jour)")
+regle("F56", S, ["DM-RP", "DM-DNS", "DM-MAIL", "DM-APP", "DM-PVE"], "FGT-DMZ", DNS, profil="relais DNS récursif du FortiGate, filtrage DNS",
+      journal="refus", pourquoi="Résolution des noms Internet pour la DMZ (MX et SPF, DKIM, DMARC du courrier, autorité ACME, dépôts), sans "
+      "les résolveurs internes (F12) et sans mêler autorité (DM-DNS) et récursion.", ref="ANSSI PA-105")
 
 S = "DMZ → interne (exceptions)"
 regle("F09", S, "DM-PVE", "BKP", ["tcp/8007"], journal="tout",
-      pourquoi="Sauvegarde des VM de la DMZ vers DT-BKP1. Seul flux de la DMZ vers l'intérieur qui ne dépende pas d'un service applicatif.",
+      pourquoi="Sauvegarde des VM de la DMZ vers DT-BKP1. Les flux d'infrastructure de la DMZ vers l'intérieur se limitent à F09 "
+               "(sauvegarde), F42 à F44 (journaux, traps, heure) et F57 (arrêt ordonné), jamais vers le tier 0 ni les utilisateurs.",
       ref="ANSSI BP-100 (sauvegarde)")
 regle("F10", S, "DM-MAIL", "DT-AD", ["tcp/636"], profil="IPS complet", journal="tout",
       pourquoi="Authentification des boîtes aux lettres sur l'annuaire. Un serveur exposé qui parle au tier 0 : à supprimer (voir E1).",
@@ -214,6 +256,9 @@ regle("F10", S, "DM-MAIL", "DT-AD", ["tcp/636"], profil="IPS complet", journal="
 regle("F11", S, "DM-SRV1", "SRV-TOUT", ["tcp/5432"], profil="IPS complet", journal="tout",
       pourquoi="Base de données de l'application de réservation de salles (port et serveur à fixer avec le point 13).",
       statut="à confirmer (P13)")
+regle("F57", S, "NUT-CLI-DMZ", "NUT-SRV", ["tcp/3493"], profil="filtrage à états, NUT sur TLS", journal="tout",
+      pourquoi="Arrêt ordonné de la DMZ si le groupe électrogène n'a pas repris : DM-PVE1/2 et DM-WITNESS écoutent le serveur NUT de "
+               "NM-WITNESS (document énergie, séquence NUT).", ref="Point 14")
 regle("F12", S, "DMZ-TOUT", ["USR-TOUT", "IOT-TOUT", "GST-TOUT", "SRV-TOUT", "DT-AD", "IA-GW", "ADM-SERVICES"], ["tout"],
       action="refuser", journal="tout + alerte",
       pourquoi="Une machine de la DMZ compromise ne doit pas pouvoir rebondir vers l'intérieur.", ref="ANSSI passerelle Internet v3")
@@ -222,13 +267,16 @@ S = "Utilisateurs"
 regle("F13", S, "POSTES", "DT-AD", AD_CLIENT, profil="IPS complet, protocoles contrôlés", journal="refus",
       pourquoi="Ouverture de session, GPO, partages SYSVOL. Seuls les postes du domaine (filaire, 802.1X EAP-TLS) parlent à l'annuaire.",
       ref="ANSSI PA-099", tests=[("pers-b1", "DT-AD", "tcp/636"), ("pers-b1", "DT-AD", "tcp/88"), ("etu-b1", "DT-AD", "tcp/445")])
-regle("F14", S, ["RELAIS-USR", "RELAIS-WIFI"], "DT-DHCP", ["udp/67"], pourquoi="Relais DHCP des passerelles vers DT-DHCP1/2.")
+regle("F14", S, ["RELAIS-USR", "RELAIS-WIFI"], "DT-DHCP", ["udp/67", "udp/547"],
+      pourquoi="Relais DHCPv4 et DHCPv6 (sans état) des passerelles des blocs et des SVI Wi-Fi du cœur vers DT-DHCP1/2.")
 regle("F15", S, ["USR-TOUT", "GST-TOUT"], "DNS-INT", DNS, profil="filtrage DNS (domaines malveillants)", journal="refus",
       pourquoi="Seuls les résolveurs internes répondent aux clients. Le DNS direct vers Internet est refusé (F18) : "
                "le filtrage DNS ne se contourne pas.", ref="ANSSI PA-105")
 regle("F16", S, "USR-TOUT", "INTERNET", WEB, profil="postes gérés : inspection TLS (liste d'exclusion) ; Wi-Fi : SNI et réputation",
-      journal="tout (NAT, conservation 1 an)", pourquoi="Navigation. Journal NAT conservé un an (identification de l'auteur d'une connexion).",
-      ref="CPCE L34-1 et R10-13 ; ANSSI analyse des flux HTTPS")
+      journal="tout : données de connexion 1 an ; URL complètes 6 mois",
+      pourquoi="Navigation. Données techniques de connexion (qui, quand, adresses et ports source et destination, volumes) conservées "
+               "1 an ; URL complètes du proxy de filtrage web du FortiGate 6 mois, pour la sécurité seulement, consultation tracée.",
+      ref="CPCE L34-1 et R10-13 ; décrets n° 2021-1361 et 2021-1362 ; ANSSI analyse des flux HTTPS")
 regle("F17", S, "POSTES", "INTERNET", ["udp/443"], action="refuser", journal="non",
       pourquoi="QUIC refusé sur les postes gérés : le navigateur revient en TCP 443, que le FortiGate sait inspecter.")
 regle("F18", S, ["USR-TOUT", "GST-TOUT", "IOT-TOUT"], "INTERNET", ["udp/53", "tcp/53", "tcp/853"], action="refuser", journal="tout",
@@ -244,26 +292,31 @@ regle("F22", S, "ETU", "PERS", ["tout"], action="refuser", profil="ACL de la dis
       pourquoi="Les postes des salles de TP n'atteignent pas ceux du personnel (même VRF : ACL sur les passerelles).")
 regle("F23", S, "USR-TOUT", ["IOT-TOUT", "GST-TOUT", "SRV-TOUT", "ADM-SERVICES", "GEST-EQUIP"], ["tout"], action="refuser",
       journal="tout", pourquoi="Les utilisateurs n'atteignent ni les objets, ni les serveurs hors services listés, ni l'administration.",
-      tests=[("etu-b1", "GEST-EQUIP", "tcp/22"), ("pers-b1", "SUPERV", "tcp/22"), ("pers-b1", "DT-DHCP", "tcp/22")])
+      tests=[("etu-b1", "GEST-EQUIP", "tcp/22"), ("pers-b1", "SUPERV", "tcp/22"), ("pers-b1", "DT-DHCP", "tcp/22"),
+             ("etu-b1", "TELEPORT", "tcp/443")])
 
 S = "Objets"
-regle("F24", S, "NVR", "CAM", ["tcp/554", "tcp/443"], profil="filtrage à états, IPS léger (RTSP)", journal="refus",
-      pourquoi="L'enregistreur va chercher les flux des caméras (RTSP) et les pilote (ONVIF sur HTTPS). La caméra n'initie rien.",
-      ref="ANSSI PA-072 (vidéoprotection)", statut="écart E3")
+regle("F24", S, "VS-NVR1", "CAM", ["tcp/554", "tcp/443"], profil="filtrage à états, IPS léger (RTSP)", journal="refus",
+      pourquoi="L'enregistreur VS-NVR1 va chercher les flux des caméras (RTSP) et les pilote (ONVIF sur HTTPS). La caméra n'initie "
+               "rien (écart E3 intégré en v2.1).", ref="ANSSI PA-072 (vidéoprotection)")
 regle("F25", S, "BADGE", "CTRL-ACCES", ["tcp/443"], profil="IPS complet", journal="tout",
       pourquoi="Remontée des événements des UTL et lecteurs vers le serveur de contrôle d'accès (TLS ; port exact du lot sûreté).",
       ref="ANSSI PA-072", statut="à confirmer (lot sûreté)")
 regle("F26", S, "IOT-TOUT", "NTP", ["udp/123"], journal="refus",
       pourquoi="Horloge juste sur les caméras et badgeuses : l'horodatage des images et des passages a une valeur de preuve.")
+regle("F58", S, "RELAIS-IOT", "KEA", ["udp/67", "udp/547"], journal="refus",
+      pourquoi="Relais DHCPv4 et DHCPv6 (réservations) des caméras, badgeuses et automates de la GTB vers Kea.")
 regle("F27", S, "IOT-TOUT", ["INTERNET", "USR-TOUT", "SRV-TOUT", "DT-AD", "ADM-SERVICES"], ["tout"], action="refuser",
-      journal="tout + alerte", pourquoi="Un objet compromis reste enfermé : pas d'Internet, pas de rebond. Mises à jour poussées depuis l'administration.",
+      journal="tout + alerte", pourquoi="Un objet compromis reste enfermé : pas d'Internet, pas de rebond. Micrologiciels poussés depuis "
+      "l'administration par le bastion (F68). Groupe électrogène compris : ni modem ni télésurveillance en nuage (M-PHY-5).",
       ref="ANSSI sécurité des objets connectés v1.0", tests=[("cam-b1", "PERS", "icmp/echo-request"), ("cam-b1", "DT-AD", "tcp/636")])
 
 S = "Invités"
 regle("F28", S, "RELAIS-GST", "KEA", ["udp/67"], pourquoi="Relais DHCP des VLAN invités vers Kea (bail 1 h).")
 regle("F29", S, "GST-TOUT", "INTERNET", WEB + ["udp/443"], profil="SNI et réputation, débit limité à 10 Mb/s par client",
-      journal="tout (NAT, conservation 1 an)", pourquoi="Internet seulement, par une plage NAT séparée (.88/29).",
-      ref="CPCE L34-1")
+      journal="tout : données de connexion 1 an", pourquoi="Internet seulement, par une plage NAT séparée (.88/29). Données techniques "
+      "de connexion (qui, quand, adresses et ports, volumes) conservées 1 an ; pas de déchiffrement, donc pas d'URL complète.",
+      ref="CPCE L34-1 ; décrets n° 2021-1361 et 2021-1362")
 regle("F30", S, "GST-TOUT", ["USR-TOUT", "IOT-TOUT", "SRV-TOUT", "DT-AD", "IA-GW", "ADM-SERVICES", "GEST-EQUIP", "DMZ-TOUT"], ["tout"],
       action="refuser", journal="tout", pourquoi="Un invité n'atteint aucune ressource interne, pas même la DMZ par son adresse privée.",
       tests=[("inv-b1", "DT-AD", "icmp/echo-request"), ("inv-b1", "DT-AD", "tcp/636"), ("inv-b1", "PERS", "icmp/echo-request")])
@@ -277,35 +330,73 @@ regle("F33", S, "EQUIP-AAA", "DT-RAD", ["udp/1812", "udp/1813"], journal="refus"
       pourquoi="802.1X et MAB : les switchs d'accès et les WLC interrogent NPS. Clé partagée par client, longue et unique.",
       ref="ANSSI PA-043 (802.1X)")
 regle("F34", S, "DT-RAD", "EQUIP-AAA", ["udp/3799"], journal="refus", pourquoi="Changement d'autorisation (CoA) : NPS change le VLAN ou coupe une session.")
-regle("F35", S, "DT-RAD", "EDUROAM-FLR", ["tcp/2083"], journal="tout", pourquoi="eduroam : les comptes des autres établissements sont relayés en RadSec (RADIUS sur TLS).")
+regle("F35", S, "DT-RAD", "EDUROAM-FLR", ["udp/1812", "udp/1813"], journal="tout",
+      pourquoi="eduroam : les comptes des autres établissements sont relayés vers les proxys de RENATER. NPS ne parle pas RadSec : "
+               "RADIUS sur UDP avec un secret partagé long, vers ces seuls proxys ; un relais radsecproxy en zone SRV si RENATER impose RadSec.")
 regle("F36", S, ["SRV-TOUT"], "INTERNET", ["tcp/443"], profil="filtrage d'URL (éditeurs, Windows Update)", journal="tout",
-      pourquoi="Mises à jour des serveurs tier 1. Les contrôleurs de domaine passent par ce même canal, jamais en direct (F37).")
+      pourquoi="Mises à jour des serveurs tier 1. Les contrôleurs de domaine n'ont aucun accès Internet (F37) : leurs correctifs sont "
+               "téléchargés par l'administration (F46), vérifiés, puis copiés par le rôle Teleport tier 0 (F40).")
 regle("F37", S, "DT-AD", "INTERNET", ["tout"], action="refuser", journal="tout + alerte",
       pourquoi="Un contrôleur de domaine ne sort jamais sur Internet.", ref="ANSSI PA-099")
 
 S = "Administration"
-regle("F38", S, ["PAW", "NOMADES"], "TELEPORT", ["tcp/443"], profil="MFA matériel (FIDO2)", journal="tout",
-      pourquoi="On n'administre qu'en passant par le bastion, depuis un poste d'administration ou le VPN d'administration.",
+regle("F38", S, ["PAW", "VPN-ADM"], "TELEPORT", ["tcp/443"], profil="MFA matériel (FIDO2)", journal="tout",
+      pourquoi="On n'administre qu'en passant par le bastion, depuis un poste d'administration ou le pool du VPN d'administration.",
       ref="ANSSI PA-022 (administration sécurisée)")
-regle("F39", S, "TELEPORT", ["GEST-EQUIP", "DMZ-GEST", "ADM-SERVICES"], ["tcp/22", "tcp/443", "tcp/830", "tcp/8006"], journal="tout",
-      pourquoi="SSH, HTTPS, NETCONF et interface Proxmox de tous les équipements, sessions enregistrées par Teleport.",
+regle("F39", S, "TELEPORT", ["GEST-EQUIP", "DMZ-TOUT", "ADM-SERVICES"], ["tcp/22", "tcp/443", "tcp/830", "tcp/8006"], journal="tout",
+      pourquoi="SSH, HTTPS, NETCONF et interface Proxmox de tous les équipements et des VM de la DMZ, sessions enregistrées par Teleport.",
       ref="ANSSI PA-022 ; OpenSSH DAT-NT-007")
 regle("F40", S, "TELEPORT", "DT-AD", ["tcp/3389", "tcp/5986"], profil="IPS complet", journal="tout",
-      pourquoi="Administration des contrôleurs de domaine par le rôle Teleport « tier 0 » seulement (RDP, WinRM sur HTTPS).",
-      ref="ANSSI PA-099")
-regle("F41", S, "SUPERV", ["GEST-EQUIP", "SRV-TOUT", "DT-AD", "DMZ-GEST", "IA-GW", "IA-BACK"], ICMP_ECHO + ["udp/161", "tcp/9100"],
+      pourquoi="Administration des contrôleurs de domaine par le rôle Teleport « tier 0 » seulement (RDP, WinRM sur HTTPS), y compris la "
+               "copie de leurs correctifs, téléchargés par l'administration et vérifiés.", ref="ANSSI PA-099")
+regle("F63", S, "TELEPORT", "BKP", ["tcp/22", "tcp/8007"], journal="tout",
+      pourquoi="Administration de DT-BKP1 (SSH, interface PBS) par le rôle Teleport tier 0 (SEC-02, SEC-03).", ref="ANSSI PA-099 ; BP-100")
+regle("F67", S, "TELEPORT", "SRV-TOUT", ["tcp/22", "tcp/443", "tcp/3389", "tcp/5986"], profil="IPS", journal="tout",
+      pourquoi="Administration des serveurs tier 1 (NPS, DHCP, VS-NVR1, contrôle d'accès) par le rôle Teleport tier 1, prestataires du "
+               "lot sûreté compris, avec un compte nominatif ouvert pour l'intervention (M-ADM-2).", ref="ANSSI PA-022")
+regle("F68", S, "TELEPORT", "IOT-TOUT", ["tcp/22", "tcp/443"], journal="tout",
+      pourquoi="Configuration et micrologiciels des caméras, UTL et automates (groupe électrogène compris), poussés depuis "
+               "l'administration : les objets n'initient rien (F27).", ref="ANSSI PA-072 ; objets connectés v1.0")
+regle("F41", S, "SUPERV", ["GEST-EQUIP", "SRV-TOUT", "DT-AD", "DMZ-TOUT", "BKP", "IOT-TOUT", "IA-GW", "IA-BACK"], ICMP_ECHO + ["udp/161", "tcp/9100"],
       journal="refus", pourquoi="Supervision : disponibilité (ping), SNMPv3 (authPriv) et métriques des serveurs Linux.",
       tests=[("sup", "DT-AD", "icmp/echo-request")])
-regle("F42", S, ["GEST-EQUIP", "SRV-TOUT", "DT-AD", "DMZ-TOUT", "IOT-TOUT", "IA-GW", "IA-BACK"], "LOGS", ["tcp/6514"], journal="non",
-      pourquoi="Journaux de toutes les zones vers les collecteurs, en syslog sur TLS.", ref="ANSSI journalisation v2.0")
-regle("F43", S, ["GEST-EQUIP", "SRV-TOUT", "DT-AD", "DMZ-GEST"], "SUPERV", ["udp/162"], journal="non", pourquoi="Traps SNMP vers snmptrapd.")
-regle("F44", S, ["GEST-EQUIP", "SRV-TOUT", "DT-AD", "USR-TOUT", "GST-TOUT", "IA-GW", "IA-BACK", "DMZ-GEST"], "NTP", ["udp/123"],
-      journal="non", pourquoi="Une seule source de temps pour tous les journaux : condition de leur valeur de preuve.",
+regle("F70", S, "SUPERV", "GE", ICMP_ECHO + ["udp/161", "tcp/502"],
+      profil="IPS Modbus : codes fonction en lecture seule, écritures refusées", journal="tout",
+      pourquoi="Supervision du groupe électrogène et de l'inverseur : secteur présent, groupe en marche, inverseur sur groupe, défauts, "
+               "niveau de carburant, batterie de démarrage. Aucune commande à distance (M-PHY-5).", ref="ANSSI GTB/GTC ; PA-072")
+regle("F42", S, ["GEST-EQUIP", "BOUCLES", "SRV-TOUT", "DT-AD", "DMZ-TOUT", "IOT-TOUT", "BKP", "PAW", "IA-GW", "IA-BACK"], "LOGS", ["tcp/6514"],
+      journal="non", pourquoi="Journaux de toutes les zones vers les collecteurs, en syslog sur TLS (le journal légal vers les deux collecteurs).",
       ref="ANSSI journalisation v2.0")
+regle("F43", S, ["GEST-EQUIP", "BOUCLES", "SRV-TOUT", "DT-AD", "DMZ-GEST", "BKP", "GE"], "SUPERV", ["udp/162"], journal="non",
+      pourquoi="Traps SNMP vers snmptrapd.")
+regle("F44", S, ["GEST-EQUIP", "BOUCLES", "SRV-TOUT", "DT-AD", "USR-TOUT", "GST-TOUT", "IA-GW", "IA-BACK", "DMZ-TOUT", "BKP", "PAW"], "NTP",
+      ["udp/123"], journal="non", pourquoi="Une seule source de temps pour tous les journaux : condition de leur valeur de preuve.",
+      ref="ANSSI journalisation v2.0")
+regle("F65", S, "BORNES", "WLC", ["udp/5246", "udp/5247"], profil="ACL de la distribution", journal="refus",
+      pourquoi="CAPWAP des bornes en mode local vers les WLC (contrôle en DTLS, données des clients) : sans ce flux, plus de Wi-Fi.")
+regle("F66", S, "RELAIS-ADM", "KEA", ["udp/67", "udp/547"], profil="ACL du cœur et de la distribution", journal="refus",
+      pourquoi="Relais DHCP des VLAN d'administration vers Kea : réservations des switchs d'accès, des bornes (option 43) et des PAW.")
+regle("F61", S, "NUT-SRV", "ONDULEURS", ["udp/161"], profil="SNMPv3 authPriv", journal="refus",
+      pourquoi="NUT lit l'état des deux onduleurs et la température de la salle (déclencheurs de l'arrêt ordonné).", ref="Point 14")
+regle("F62", S, ["PVE-ADM", "BKP", "VS-NVR1"], "NUT-SRV", ["tcp/3493"], profil="NUT sur TLS", journal="refus",
+      pourquoi="Clients NUT : hyperviseurs NM et DT, DT-BKP1 et VS-NVR1 s'arrêtent dans l'ordre si le groupe électrogène n'a pas repris.",
+      ref="Point 14")
+regle("F64", S, "PVE-ADM", "BKP", ["tcp/8007"], profil="ACL du cœur (même VRF)", journal="tout",
+      pourquoi="Sauvegardes vzdump des hyperviseurs NM et DT, dans la VRF ADM, sans traverser le Stormshield (SEC-01) ; jetons API "
+               "limités à l'écriture (SEC-03).", ref="ANSSI BP-100")
 regle("F45", S, "BKP", "INTERNET", ["tcp/443"], profil="filtrage d'URL (fournisseur de stockage objet)", journal="tout",
       pourquoi="Copie externalisée et immuable des sauvegardes (prestataire SecNumCloud, à choisir au point 15).", ref="ANSSI BP-100")
-regle("F46", S, "ADM-SERVICES", "INTERNET", ["tcp/443"], profil="filtrage d'URL (dépôts, FortiGuard, mises à jour)", journal="tout",
-      pourquoi="Mises à jour des services et des équipements, téléchargées sur l'administration puis poussées.")
+regle("F46", S, "ADM-SERVICES", "INTERNET", ["tcp/443"],
+      profil="filtrage d'URL (dépôts, FortiGuard, mises à jour, passerelle SMS d'astreinte)", journal="tout",
+      pourquoi="Mises à jour des services et des équipements, téléchargées sur l'administration puis poussées ; SMS d'astreinte.")
+regle("F59", S, "DNS-INT", "INTERNET", DNS, profil="IPS (DNS), validation DNSSEC sur Unbound", journal="refus",
+      pourquoi="Résolution récursive des noms Internet par les seuls résolveurs internes ; tout autre DNS vers Internet est refusé (F18).",
+      ref="ANSSI PA-105")
+regle("F60", S, "NTP", "INTERNET", ["udp/123", "tcp/4460"], profil="filtrage à états (serveurs NTP de RENATER, NTS)", journal="refus",
+      pourquoi="Sources de temps des serveurs chrony ; tcp/4460 pour l'échange de clés NTS.", ref="ANSSI journalisation v2.0")
+regle("F69", S, ["SUPERV", "NUT-SRV"], "DM-MAIL", ["tcp/587"], profil="IPS", journal="tout",
+      pourquoi="Alertes de la supervision et de NUT par courriel (soumission authentifiée sur DM-MAIL1) : coupure secteur, groupe "
+               "électrogène en défaut, fuite d'eau, la nuit comme le jour.")
 regle("F47", S, "PAW", ["INTERNET", "USR-TOUT"], ["tout"], action="refuser", journal="tout + alerte",
       pourquoi="Un poste d'administration ne navigue pas sur Internet et ne lit pas la messagerie.", ref="ANSSI PA-022")
 
@@ -338,8 +429,10 @@ regle("F99", S, ["tout"], ["tout"], ["tout"], action="refuser", journal="tout",
       pourquoi="Politique par défaut : tout ce qui n'est pas autorisé est refusé et journalisé.", ref="ANSSI politique de filtrage")
 
 # ---------------------------------------------------------------------------
-# Écarts : règles de l'architecture v2 que l'analyse de sécurité propose de faire évoluer (v3)
+# Écarts relevés en v2 entre l'architecture et cette matrice. v2.1 : E2, E3 et E4 sont intégrés à l'architecture (L3) ;
+# E1 et E5 restent des propositions, qui dépendent des points 13 et 11.
 # ---------------------------------------------------------------------------
+INTEGRES_V21 = ("E2", "E3", "E4")
 ECARTS = {
     "E1": ("Messagerie : DM-MAIL1 parle au tier 0 (F10)",
            "Un serveur exposé à Internet interroge directement les contrôleurs de domaine. Si DM-MAIL1 est compromis, l'attaquant "
@@ -350,11 +443,12 @@ ECARTS = {
     "E2": ("VPN d'administration en SSL (architecture v2) → IPsec IKEv2",
            "Les passerelles VPN SSL sont la première cible des attaquants depuis 2019 (vulnérabilités FortiOS exploitées en masse), "
            "et Fortinet retire le mode tunnel SSL de FortiOS 7.6.",
-           "VPN IPsec IKEv2 avec certificat machine et MFA, comme le recommande l'ANSSI. L'adresse publique .36 est inchangée.",
+           f"VPN IPsec IKEv2 avec certificat machine et MFA, comme le recommande l'ANSSI. L'adresse publique .36 est inchangée ; "
+           f"pool {D.VPN_ADM['v4']} (plan d'adressage v2.1).",
            "point 08 (bordure)"),
     "E3": ("Sens du flux vidéo (architecture v2 : caméras → enregistreur)",
            "Avec la plupart des logiciels de vidéoprotection, c'est l'enregistreur qui ouvre la connexion RTSP vers la caméra.",
-           "Règle F24 : NVR → caméras. Les caméras n'ouvrent aucune connexion ; l'ACL téléchargée sur leur port reste en place.",
+           "Règle F24 : VS-NVR1 → caméras. Les caméras n'ouvrent aucune connexion ; l'ACL téléchargée sur leur port reste en place.",
            "points 12 et 17 (lot sûreté)"),
     "E4": ("DNS des postes (architecture v2 : USR → contrôleurs de domaine en DNS)",
            "Si les postes interrogent directement les contrôleurs de domaine, le filtrage DNS des résolveurs Unbound ne s'applique pas.",
@@ -378,7 +472,7 @@ MAQUETTE_POSTES = {  # poste : (zone, adresse IPv4) ; postes Docker de container
 }
 CIBLES_MAQUETTE = {  # objet -> adresse de test dans la maquette
     "DT-AD": "10.13.48.11", "DT-DHCP": "10.13.48.31", "SUPERV": "10.13.59.50", "PERS": "10.13.18.10",
-    "GEST-EQUIP": "10.13.56.1",
+    "GEST-EQUIP": "10.13.56.1", "TELEPORT": "10.13.59.40",
 }
 
 
@@ -395,13 +489,13 @@ def filtre(zs, zd):
         return "tous"
     if zs == zd:
         return "ACL (même zone)" if zs not in ("INTERNET", "DMZ", "WAN") else ("FortiGate" if zs == "DMZ" else "—")
-    externes = {"INTERNET", "DMZ"}
+    externes = {"INTERNET", "DMZ", "VPN"}
     if zs in externes and zd in externes:
         return "FortiGate"
     if zs in externes or zd in externes:
         return "FortiGate + Stormshield"
-    if "WAN" in (zs, zd):
-        return "Stormshield (lien WAN)"
+    if "WAN" in (zs, zd):  # v2.1 (SEC21-22) : la liaison avec Digne est un tunnel IPsec du FortiGate, puis le Stormshield
+        return "FortiGate (tunnel IPsec) + Stormshield"
     return "Stormshield"
 
 
@@ -422,21 +516,81 @@ def adresses(obj, maquette=False):
         elif el[0] == "passerelle":
             v = D.VLANS[el[1]]
             out.append((v["gw4"], v["gw6"]))
-        else:
+        elif el[0] == "litteral":
             out.append((el[1], el[2]))
     return out
 
 
+def exclusions(obj):
+    """Préfixes retirés d'un objet défini par négation (INTERNET, NOMADES) : liste de (IPv4, IPv6)."""
+    return [(el[1], el[2]) for el in OBJETS[obj][2] if el[0] == "sauf"]
+
+
+def _dans_objet(obj, reseau, maquette=False):
+    """Vrai si le réseau (ou l'adresse) IPv4 est entièrement dans l'objet, exclusions comprises."""
+    n = ip.ip_network(reseau, strict=False)
+    if any(n.overlaps(ip.ip_network(x4)) for x4, _ in exclusions(obj) if x4):
+        return False
+    listes = adresses(obj, maquette=True) + adresses(obj) if maquette else adresses(obj)
+    return any(a4 and n.subnet_of(ip.ip_network(a4, strict=False)) for a4, _ in listes)
+
+
 def contient(objets, adresse4):
     """Vrai si l'adresse IPv4 appartient à l'un des objets (« tout » contient tout)."""
-    a = ip.ip_address(adresse4)
-    for o in objets:
-        if o == "tout":
-            return True
-        for a4, _ in adresses(o, maquette=True) + adresses(o):
-            if a4 and a in ip.ip_network(a4, strict=False):
-                return True
-    return False
+    return any(o == "tout" or _dans_objet(o, adresse4, maquette=True) for o in objets)
+
+
+def deploiement():
+    """Ordre de déploiement sur les pare-feu : autorisations (ordre Fxx), refus explicites (ordre Fxx), puis F99 (SEC21-04)."""
+    cle = lambda r: int(r["id"][1:])
+    autor = sorted((r for r in R if r["action"] == "autoriser"), key=cle)
+    refus = sorted((r for r in R if r["action"] == "refuser" and r["id"] != "F99"), key=cle)
+    return autor + refus + [r for r in R if r["id"] == "F99"]
+
+
+def _svc_couverts(a, b):
+    """Vrai si tous les services de a sont dans b (« tout » couvre tout ; les plages de ports sont comparées)."""
+    if "tout" in b:
+        return True
+    if "tout" in a:
+        return False
+
+    def plage(x):
+        proto, _, port = x.partition("/")
+        if proto not in ("tcp", "udp"):
+            return proto, port, port
+        d, _, f = port.partition("-")
+        return proto, int(d), int(f or d)
+    for x in a:
+        p, d, f = plage(x)
+        if not any(q == p and (dd <= d and f <= ff if isinstance(d, int) else dd == d) for q, dd, ff in map(plage, b)):
+            return False
+    return True
+
+
+def _objets_couverts(a, b):
+    """Couples d'objets (oa, ob) de a et b tels que oa est entièrement dans ob."""
+    out = []
+    for oa in a:
+        for ob in b:
+            if ob == "tout" or (oa != "tout" and adresses(oa) and all(_dans_objet(ob, a4) for a4, _ in adresses(oa) if a4)
+                                and not exclusions(oa)):
+                out.append((oa, ob))
+    return out
+
+
+def masques(ordre):
+    """Autorisations (ou parties d'autorisation) masquées par un refus placé avant elles dans `ordre`."""
+    out = []
+    for i, r in enumerate(ordre):
+        if r["action"] != "autoriser":
+            continue
+        for q in ordre[:i]:
+            if q["action"] == "refuser" and _svc_couverts(r["svc"], q["svc"]):
+                for s_, _ in _objets_couverts(r["src"], q["src"]):
+                    for d_, _ in _objets_couverts(r["dst"], q["dst"]):
+                        out.append((r["id"], q["id"], s_, d_))
+    return out
 
 
 def verifier():
@@ -491,6 +645,22 @@ def verifier():
     for a, b, _ in RESUME_L3:
         if (a, b) not in couples:
             erreurs.append(f"couple {a} → {b} du résumé L3 sans règle détaillée")
+    # 6. v2.1 (RES-01, SEC21-04/05) : chaque hôte, passerelle et transit cité est dans son sous-réseau (plan d'adressage) ;
+    #    aucun objet hors site ne contient d'adresse du site ; aucune autorisation masquée dans l'ordre de déploiement
+    try:
+        D.verifier_adresses()
+    except AssertionError as x:
+        erreurs.append(f"plan d'adressage : {x}")
+    internes = [v["gw4"] for v in D.VLANS.values() if v["gw4"]] + [D.VLANS[t[0]]["a"][1] for t in D.TRANSITS] + \
+               [str(ip.ip_network(D.VPN_ADM["v4"]).network_address + 1)]
+    for nom, (z, _, _) in OBJETS.items():
+        if z in ("INTERNET", "WAN"):
+            for a in internes:
+                if _dans_objet(nom, a):
+                    erreurs.append(f"objet {nom} (zone {z}) : contient l'adresse interne {a}")
+                    break
+    for rid, qid, s_, d_ in masques(deploiement()):
+        erreurs.append(f"{rid} ({s_} → {d_}) masquée par le refus {qid}, placé avant elle dans l'ordre de déploiement")
     if erreurs:
         raise SystemExit("Matrice de flux : " + "\n  ".join(["erreurs"] + erreurs))
     return True
@@ -499,11 +669,12 @@ def verifier():
 # Couples de zones du tableau résumé de l'architecture L3 (architecture/reseau/documents.py, FLUX), recopiés en codes de zone
 RESUME_L3 = [
     ("USR", "T0", ""), ("USR", "SRV", ""), ("SRV", "T0", ""), ("T0", "INTERNET", ""), ("USR", "INTERNET", ""),
-    ("USR", "DMZ", ""), ("USR", "IOT", ""), ("USR", "ADM", ""), ("USR", "GST", ""), ("SRV", "IOT", ""), ("IOT", "INTERNET", ""),
-    ("GST", "INTERNET", ""), ("GST", "USR", ""), ("SRV", "INTERNET", ""), ("ADM", "ADM", ""), ("ADM", "DMZ", ""), ("DMZ", "ADM", ""),
-    ("ADM", "INTERNET", ""), ("USR", "ADM", ""), ("INTERNET", "DMZ", ""), ("DMZ", "USR", ""), ("DMZ", "T0", ""), ("DMZ", "SRV", ""),
+    ("USR", "DMZ", ""), ("USR", "IOT", ""), ("USR", "ADM", ""), ("USR", "GST", ""), ("SRV", "IOT", ""), ("IOT", "SRV", ""),
+    ("IOT", "INTERNET", ""), ("ADM", "IOT", ""), ("GST", "INTERNET", ""), ("GST", "USR", ""), ("SRV", "INTERNET", ""),
+    ("ADM", "ADM", ""), ("ADM", "DMZ", ""), ("DMZ", "ADM", ""), ("ADM", "INTERNET", ""), ("VPN", "ADM", ""), ("INTERNET", "DMZ", ""),
+    ("DMZ", "DMZ", ""), ("DMZ", "USR", ""), ("DMZ", "T0", ""), ("DMZ", "SRV", ""),
 ]
-# Remarque : documents.FLUX écrit « IOT → SRV » (caméras → enregistreur) ; la matrice détaillée l'inverse (écart E3).
+# v2.1 : documents.FLUX écrit désormais « SRV (VS-NVR1) → IOT (caméras) » comme la matrice (écart E3 intégré).
 
 
 if __name__ == "__main__":
@@ -511,5 +682,6 @@ if __name__ == "__main__":
     n = {"autoriser": 0, "refuser": 0}
     for r in R:
         n[r["action"]] += 1
-    print(f"Matrice de flux v{VERSION} : {len(R)} règles ({n['autoriser']} autorisations, {n['refuser']} refus), "
-          f"{len(OBJETS)} objets, {len(ECARTS)} écarts. Contrôles : OK")
+    print(f"Matrice de flux : {len(R)} règles ({n['autoriser']} autorisations, {n['refuser']} refus), {len(OBJETS)} objets, "
+          f"{len(ECARTS)} écarts. Contrôles : OK. Déployées dans l'ordre des numéros, {len(masques(sorted(R, key=lambda r: int(r['id'][1:]))))} "
+          "parties d'autorisation seraient masquées : d'où l'ordre de déploiement imposé.")

@@ -1,9 +1,9 @@
 prefixe,usage,detail
-139.124.112.0/30,Lien EL-RTR1 <-> FAI 1 (AMU / RENATER),"PE opérateur .1, EL-RTR1 .2 · IPv6 2001:660:5402:4FF0::/127"
+139.124.112.0/30,"Lien EL-RTR1 <-> FAI 1 (AMU / RENATER, AS2457)","PE opérateur .1, EL-RTR1 .2 · IPv6 2001:660:5402:4FF0::/127"
 139.124.112.4/30,iBGP EL-RTR1 <-> EL-RTR2 (câble direct),"EL-RTR1 .5, EL-RTR2 .6 · IPv6 2001:660:5402:4FF1::/127 · annonce conditionnelle"
 139.124.112.8/29,OUT-A : EL-RTR1 <-> cluster FortiGate,"EL-RTR1 .9, FortiGate .14 · IPv6 2001:660:5402:4F00::/64 (::1 / ::e)"
 139.124.112.16/29,OUT-B : EL-RTR2 <-> cluster FortiGate,"EL-RTR2 .17, FortiGate .22 · IPv6 2001:660:5402:4F01::/64 (::1 / ::e)"
-139.124.112.32/27,Adresses publiées (VIP FortiGate vers la DMZ),".33 web (Caddy), .34 messagerie (MX), .35 DNS public (ns1), .36 VPN admin FortiGate"
+139.124.112.32/27,Adresses publiées (VIP FortiGate vers la DMZ),".33 web (Caddy), .34 messagerie (MX), .35 DNS public ns1 (DM-DNS1), .36 VPN admin FortiGate, .37 DNS public ns2 (DM-DNS2)"
 139.124.112.64/28,NAT sortant VRF USR,"PAT, journalisé (traçabilité, loi n° 2006-64)"
 139.124.112.80/29,NAT sortant VRF SRV et ADM,Mises à jour des serveurs et des équipements
 139.124.112.88/29,NAT sortant VRF GST,Séparé des usagers : une plainte sur une IP invités ne vise pas le personnel
