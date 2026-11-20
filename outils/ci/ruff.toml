@@ -1,0 +1,34 @@
+# Configuration ruff de la CI (job « Python »).
+#
+#   ruff check --config outils/ci/ruff.toml .          contrôle bloquant (erreurs réelles)
+#   ruff check --config outils/ci/ruff.toml --select E,W,B,SIM --exit-zero --statistics .
+#                                                     style, pour information (non bloquant)
+#
+# Les chemins ci-dessous sont relatifs à la racine du dépôt (ruff les résout depuis le dossier
+# où il est lancé quand la configuration est passée par --config).
+
+target-version = "py312"
+line-length = 160
+
+# Code figé des versions précédentes : on ne le corrige plus.
+extend-exclude = [
+    "architecture/archives",
+    "livrables/archives",
+]
+
+[lint]
+# Bloquant : erreurs de syntaxe (E9), tout pyflakes (F : nom indéfini F821, import inutile F401,
+# variable inutilisée F841, f-string sans champ F541, redéfinition F811…), séquence d'échappement
+# invalide (W605, future erreur de syntaxe) et erreurs pylint (PLE).
+select = ["E9", "F", "W605", "PLE"]
+
+[lint.per-file-ignores]
+# Dette existante au 20/11/2026, à corriger dans le code puis à retirer d'ici (voir outils/ci/README.md).
+# Chaque ligne ne neutralise que les règles déjà en défaut dans ce fichier.
+"architecture/audit/generer_rapport_audit.py" = ["W605"]   # l. 630 : « \ge » dans une chaîne non brute
+"architecture/reseau/schemas.py" = ["F541", "F841"]        # l. 98 vm, l. 246 f-string, l. 420 base
+"cablage/document.py" = ["F541"]                           # l. 75
+"cablage/etude_rssi.py" = ["F841"]                         # l. 227 ordre
+"cablage/rapport.py" = ["F401", "F541", "F841"]            # l. 9 regles, l. 19 data, l. 66 f-string
+"communication/bureautique.py" = ["F401"]                  # l. 8 WD_SECTION, l. 13 Emu, l. 15 PEmu
+"communication/documents.py" = ["F401"]                    # l. 528 shutil
