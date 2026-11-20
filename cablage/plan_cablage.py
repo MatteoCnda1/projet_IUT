@@ -8,18 +8,24 @@ regles.py) et des bornes de l'étude RSSI (etude_rssi.py) :
      plus court chemin dans le bâtiment (couloirs privilégiés), et vérifie le lien permanent
      ≤ 90 m (ISO/IEC 11801-1, EN 50173-1) ;
   3. en déduit les chemins de câbles et leur largeur ;
-  4. trace les rocades fibre (2 par local, par deux chemins disjoints et deux colonnes
-     montantes) et les deux adductions opérateur ;
+  4. trace les rocades fibre (2 par local : deux colonnes montantes pour le RDC et l'étage ; au
+     sous-sol, voie B par d'autres circulations que la voie A) et les deux adductions opérateur
+     (la seconde évite les circulations de la première) ; les tronçons communs qui restent sont
+     listés dans resume.json (« points_communs ») ;
   5. dimensionne chaque baie (ports, switchs, U, budget PoE).
 
 Sorties dans livrables/plan_cablage/ :
   plans/<niveau>_cablage.pdf|svg|png, synoptique.pdf|svg|png, prises.csv, baies.csv,
   rocades.csv, resume.json
 Usage : python3 cablage/plan_cablage.py   (après salles.py et etude_rssi.py)
+
+v2.1 (20/11/2026) : caméra du foyer des étudiants retirée (CNIL : pas de vidéo dans un lieu de pause), voies B du sous-sol
+et adduction FAI 2 tracées en évitant les zones de la voie A (audit QTE-09, QTE-20).
 """
 import csv
 import json
 import math
+import re
 from pathlib import Path
 
 import cv2
@@ -52,10 +58,11 @@ LOCAUX = {  # nom du L.TECH sur le plan -> code
 COLONNES = {"Nord": ("N0", "L.TECH"), "Sud": ("N0", "L.TECH 02")}
 
 # Caméras : (niveau, salle, position le long du grand axe de la salle, 0 à 1)
+# v2.1 : plus de caméra au FOYER ETUDIANTS (ex-N0-LT01-P050) : la CNIL exclut la vidéo dans les lieux de pause (AIPD, point 19).
 CAMERAS = [
     ("N-1", "PARKING", 0.25), ("N-1", "PARKING EST", 0.75), ("N-1", "SALLE SERVEUR", 0.5), ("N-1", "CIRC 02", 0.8),
     ("N0", "ENTREE", 0.5), ("N0", "HALL D'ENTREE", 0.15), ("N0", "HALL D'ENTREE", 0.85), ("N0", "CIRCULATION 02", 0.5),
-    ("N0", "CIRCULATION 04", 0.5), ("N0", "FOYER ETUDIANTS", 0.5), ("N0", "DGMT", 0.5),
+    ("N0", "CIRCULATION 04", 0.5), ("N0", "DGMT", 0.5),
     ("N1", "CIRCULATION 01", 0.5), ("N1", "CIRC 04", 0.5), ("N1", "CIRC 05", 0.5), ("N1", "PASSERELLE", 0.5),
 ]
 # Badgeuses : à la porte de ces locaux
@@ -73,6 +80,8 @@ CABLE_MM2 = 44.0            # section d'un câble Cat6A U/FTP (Ø 7,5 mm)
 REMPLISSAGE = 0.40
 CHEMINS = [(100, 50), (200, 60), (300, 100)]  # largeur × hauteur (mm)
 TYPES_CHEMIN = {"circulation", "technique", "salle_serveur", "parking", "exterieur"}
+ASCENSEUR = re.compile(r"(^|\s)ASC(\s|$)")
+PENALITE_DISJOINT = 40.0    # coût multiplié sur les zones et les parois de la voie A, pour tracer une voie B distincte
 
 
 # ---------------------------------------------------------------------------
@@ -141,6 +150,8 @@ class Reseau:
             m = poly_mask(s["contour"], self.shape)
             emprise |= m.astype(np.uint8)
             c = {"circulation": 1.0, "technique": 1.2, "salle_serveur": 1.2, "parking": 1.1, "exterieur": 1.3}.get(t, 3.0)
+            if ASCENSEUR.search(s["nom"]):
+                c = 30.0   # v2.1 : gaine et local de machinerie d'ascenseur interdits aux câbles étrangers (NF EN 81-20) : évités
             sel = m & ((cout == 0) | (cout > c))
             cout[sel] = c
             self.zone[m & (self.zone < 0)] = i
@@ -197,14 +208,14 @@ class Reseau:
                 return int(ys[k] + y0), int(xs[k] + x0)
         return None
 
-    def depuis(self, x, y, penalite=None):
+    def depuis(self, x, y, penalite=None, facteur=PENALITE_DISJOINT):
         """Distances (pondérées) et prédécesseurs depuis le point (x, y)."""
         c = self.cellule(x, y)
         g = self.graphe
         if penalite is not None:
             g = g.copy()
             pen = penalite.ravel()[g.indices]
-            g.data = g.data * np.where(pen, 8.0, 1.0)
+            g.data = g.data * np.where(pen, facteur, 1.0)
         dist, pred = dijkstra(g, indices=int(self.idx[c]), return_predecessors=True)
         return dist.reshape(self.shape), pred
 
@@ -216,6 +227,34 @@ class Reseau:
             out.append(n)
             n = int(pred[n])
         return out
+
+    def zones(self, cells):
+        """Indices des salles et circulations traversées, dans l'ordre, sans répétition consécutive."""
+        out = []
+        for z in self.zone.flat[np.array(cells, dtype=np.int64)] if len(cells) else []:
+            z = int(z)
+            if z >= 0 and (not out or out[-1] != z):
+                out.append(z)
+        return out
+
+    def penalite_disjointe(self, cells, libres=(), points=()):
+        """Cellules qu'un second chemin doit éviter pour être distinct du premier : salles et circulations traversées (sauf
+        `libres`, les zones des deux extrémités), parois franchies entre deux zones consécutives du premier chemin, et une bande
+        de ± 0,5 m autour de lui (libérée à moins de 0,75 m des `points` de départ et d'arrivée)."""
+        H, W = self.shape
+        ordre = self.zones(cells)
+        pen = np.isin(self.zone, [z for z in set(ordre) if z not in libres])
+        k = np.ones((5, 5), np.uint8)
+        for a, b in zip(ordre, ordre[1:]):
+            pen |= (cv2.dilate((self.zone == a).astype(np.uint8), k) > 0) & (cv2.dilate((self.zone == b).astype(np.uint8), k) > 0)
+        bande = np.zeros(self.shape, np.uint8)
+        ys, xs = np.divmod(np.array(cells), W)
+        bande[ys, xs] = 1
+        bande = cv2.dilate(bande, k) > 0
+        for x, y in points:
+            i, j = int(y / G), int(x / G)
+            bande[max(0, i - 3):i + 4, max(0, j - 3):j + 4] = False
+        return pen | bande
 
     def longueur(self, cells):
         if len(cells) < 2:
@@ -320,7 +359,7 @@ def main():
             niveau = next(k for k, v in ALTITUDE.items() if v == ALTITUDE[p["niveau"]] - 1)
             d, code = meilleur_local(niveau, p["x"], p["y"])
             monte = HAUTEUR_NIVEAU
-            p["remarque"] = f"câblée depuis {niveau} (pas d'accès sur son niveau), +{HAUTEUR_NIVEAU:.1f} m de montée"
+            p["remarque"] = f"câblée depuis {niveau} (pas d'accès sur son niveau), +{HAUTEUR_NIVEAU:.1f} m de montée".replace(".", ",")
         rs = reseaux[niveau]
         cells = rs.chemin(arbres[code][1], p["x"], p["y"])
         geo = rs.longueur(cells)
@@ -360,8 +399,28 @@ def main():
             lng[dim] = lng.get(dim, 0) + G
         chemins[c] = {k: round(v) for k, v in sorted(lng.items()) if round(v) > 0}
 
-    # 4. Rocades : 2 fibres par local, par deux chemins disjoints
+    # 4. Rocades : 2 fibres par local, par deux chemins distincts
     rs_ss = reseaux["N-1"]
+    salles_ss = niveaux["N-1"]["salles"]
+    z_srv = rs_ss.zone.flat[rs_ss.idx[rs_ss.cellule(srv["x"], srv["y"])]]
+
+    def communs(cA, cB, libres):
+        """Salles et circulations empruntées par les deux chemins (hors extrémités) : le point faible qui reste,
+        avec l'écart minimal entre les deux tracés dans ces zones (m)."""
+        za = set(rs_ss.zones(cA)) - set(libres)
+        zc = [z for z in rs_ss.zones(cB) if z in za]
+        if not zc:
+            return [], None
+        W = rs_ss.shape[1]
+
+        def pts(cells):
+            cells = np.array(cells, dtype=np.int64)
+            cells = cells[np.isin(rs_ss.zone.flat[cells], zc)]
+            ys, xs = np.divmod(cells, W)
+            return np.c_[xs, ys] * G
+        a, b = pts(cA), pts(cB)
+        ecart = float(np.min(np.hypot(*(a[:, None, :] - b[None, :, :]).transpose(2, 0, 1)))) if len(a) and len(b) else 0.0
+        return [salles_ss[z]["nom"] for z in zc], round(ecart, 1)
     d_srv, p_srv = rs_ss.depuis(srv["x"], srv["y"])
     col = {}
     for nomc, (c, nom) in COLONNES.items():
@@ -377,23 +436,21 @@ def main():
     for code, lt in locaux.items():
         c = lt["niveau"]
         if c == "N-1":
+            # v2.1 (QTE-09) : la voie B évite les salles, les circulations et les parois de la voie A (et plus seulement une bande
+            # de 0,5 m autour d'elle) : au sous-sol, les deux fibres ne partagent plus le même couloir ni la même traversée de mur.
             cA = rs_ss.chemin(p_srv, lt["x"], lt["y"])
-            pen = np.zeros(rs_ss.shape, bool)
-            H, W = rs_ss.shape
-            ys, xs = np.divmod(np.array(cA), W)
-            pen[ys, xs] = True
-            pen = cv2.dilate(pen.astype(np.uint8), np.ones((5, 5), np.uint8)).astype(bool)
-            # on garde libres les abords immédiats des deux locaux
-            for x, y in ((srv["x"], srv["y"]), (lt["x"], lt["y"])):
-                i, j = int(y / G), int(x / G)
-                pen[max(0, i - 8):i + 9, max(0, j - 8):j + 9] = False
+            z_lt = rs_ss.zone.flat[rs_ss.idx[rs_ss.cellule(lt["x"], lt["y"])]]
+            libres = (z_srv, z_lt)
+            pen = rs_ss.penalite_disjointe(cA, libres, ((srv["x"], srv["y"]), (lt["x"], lt["y"])))
             _dB, pB = rs_ss.depuis(srv["x"], srv["y"], penalite=pen)
             cB = rs_ss.chemin(pB, lt["x"], lt["y"])
+            commun, ecart = communs(cA, cB, libres)
             for voie, cells in (("A", cA), ("B", cB)):
                 L = COEF_TRACE * rs_ss.longueur(cells) + 2 * LOVAGE + 2 * DESCENTES
                 rocades.append({"local": code, "voie": voie, "par": "sous-sol" + (" (chemin direct)" if voie == "A" else " (second chemin)"),
                                 "longueur": round(L, 1),
-                                "chemin": "SALLE SERVEUR → " + passage(rs_ss, niveaux["N-1"]["salles"], cells[::-1], "SALLE SERVEUR") + f" → {code}"})
+                                "chemin": "SALLE SERVEUR → " + passage(rs_ss, salles_ss, cells[::-1], "SALLE SERVEUR") + f" → {code}",
+                                "points_communs": commun, "ecart_min_m": ecart})
                 traces["N-1"].append((voie, cells))
             continue
         # locaux du RDC et de l'étage : voie A par la colonne la plus proche, voie B par l'autre
@@ -411,20 +468,32 @@ def main():
             bas = passage(rs_ss, niveaux["N-1"]["salles"], col[nomc]["cells_ss"][::-1], "SALLE SERVEUR")
             haut = passage(rs, niveaux[c]["salles"], cells[::-1])
             rocades.append({"local": code, "voie": voie, "par": f"colonne {nomc}", "longueur": round(L, 1),
-                            "chemin": f"SALLE SERVEUR → {bas} → colonne {nomc} (montée {vert:.1f} m) → {haut} → {code}"})
+                            "chemin": f"SALLE SERVEUR → {bas} → colonne {nomc} (montée {f'{vert:.1f}'.replace('.', ',')} m) → {haut} → {code}",
+                            "points_communs": [], "ecart_min_m": None})
             traces[c].append((voie, cells))
             traces["N-1"].append((voie, col[nomc]["cells_ss"]))
 
-    # Adductions
+    # Adductions : v2.1 (QTE-20), la seconde évite les circulations de la première (comme une voie B)
     adductions = []
+    premiere = None
     for fai, (c, nom, ou) in ADDUCTIONS.items():
         s = salle(c, nom)
         x, y = (s["bbox"][0], s["y"]) if fai == "FAI 1" else (s["bbox"][2], s["y"])
-        cells = rs_ss.chemin(p_srv, x, y)
+        commun, ecart = [], None
+        if premiere is None:
+            cells = rs_ss.chemin(p_srv, x, y)
+        else:
+            z_ent = rs_ss.zone.flat[rs_ss.idx[rs_ss.cellule(x, y)]]
+            pen = rs_ss.penalite_disjointe(premiere, (z_srv, z_ent), ((srv["x"], srv["y"]), (x, y)))
+            _d2, p2 = rs_ss.depuis(srv["x"], srv["y"], penalite=pen)
+            cells = rs_ss.chemin(p2, x, y)
+            commun, ecart = communs(premiere, cells, (z_srv, z_ent))
         L = COEF_TRACE * rs_ss.longueur(cells) + 15.0  # + 15 m jusqu'à la chambre de tirage extérieure
         adductions.append({"operateur": fai, "entree": ou, "x": round(x, 2), "y": round(y, 2), "longueur_interne": round(L, 1),
-                           "chemin": "chambre de tirage → " + passage(rs_ss, niveaux["N-1"]["salles"], cells, "SALLE SERVEUR") + " → SALLE SERVEUR"})
+                           "chemin": "chambre de tirage → " + passage(rs_ss, salles_ss, cells, "SALLE SERVEUR") + " → SALLE SERVEUR",
+                           "points_communs": commun, "ecart_min_m": ecart})
         traces["N-1"].append(("FAI", cells))
+        premiere = premiere if premiere is not None else cells
 
     # 5. Baies
     baies = []
@@ -459,6 +528,10 @@ def main():
         "liens_hors_norme": [p["id"] for p in prises if p["longueur"] > LIEN_MAX],
         "chemins_de_cables_m": chemins, "baies": baies, "rocades": rocades, "adductions": adductions,
         "fibre_m": round(sum(r["longueur"] for r in rocades)),
+        "points_communs": {**{r["local"]: r["points_communs"] for r in rocades if r["voie"] == "B" and r["points_communs"]},
+                           **({"adductions": adductions[-1]["points_communs"]} if adductions[-1]["points_communs"] else {})},
+        "cameras_retirees": [{"salle": "FOYER ETUDIANTS", "niveau": "N0", "ancien_repere": "N0-LT01-P050",
+                              "motif": "v2.1 : pas de vidéo dans un lieu de pause (CNIL, AIPD du point 19)"}],
         "hypotheses": {"coef_trace": COEF_TRACE, "descentes_m": DESCENTES, "lovage_m": LOVAGE, "lien_max_m": LIEN_MAX,
                        "hauteur_niveau_m": HAUTEUR_NIVEAU, "maille_m": G},
     }
@@ -477,7 +550,7 @@ def main():
         for p in prises:
             wr.writerow({k: p.get(k, "") for k in champs})
 
-    print(f"{len(prises)} prises ({resume['par_type']}), {resume['telephones']} téléphones")
+    print(f"{len(prises)} prises ({resume['par_type']}), {resume['telephones']} téléphones ; points communs : {resume['points_communs'] or 'aucun'}")
     print(f"Cuivre : {resume['cable_cuivre_m']} m, lien moyen {resume['lien_moyen_m']} m, max {resume['lien_max_m']} m, "
           f"{len(resume['liens_hors_norme'])} lien(s) > {LIEN_MAX:.0f} m")
     for b in baies:

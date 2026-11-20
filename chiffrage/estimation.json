@@ -1,4 +1,6 @@
 {
+ "version": "v2.1",
+ "date": "20/11/2026",
  "capex_lignes": [
   {
    "categorie": "Egress / WAN",
@@ -57,20 +59,20 @@
   {
    "categorie": "DMZ",
    "schema": "DM-PVE1, DM-PVE2",
-   "solution": "Dell PowerEdge R360 (Xeon E-2488 8 cœurs, 64 Go, 4x960 Go SSD ZFS, 2x10 GbE, double alim)",
+   "solution": "Dell PowerEdge R360 (Xeon E-2488 8 cœurs, 64 Go, 4 × 960 Go SSD ZFS, 4 × 10 GbE SFP+, double alim)",
    "quantite": 2,
-   "pu_ht": 4200,
-   "total_ht": 8400,
-   "note": "v2 (SYS-02) : cluster Proxmox de la DMZ (VM Caddy x2, DNS x2, web, mail, applicatif) au lieu de 6 serveurs physiques"
+   "pu_ht": 4450,
+   "total_ht": 8900,
+   "note": "v2 (SYS-02) : cluster Proxmox de la DMZ (VM Caddy ×2, DNS ×2, web, mail, applicatif) au lieu de 6 serveurs physiques. v2.1 : 4 ports 10G (bond1 2×10G, réplication 10G DAC, 1 libre), carte 2 × 10G ajoutée (+250 €)"
   },
   {
    "categorie": "DMZ",
    "schema": "DM-WITNESS",
-   "solution": "Dell PowerEdge R260 entrée de gamme (Xeon E-2414, 16 Go, 2x480 Go SSD)",
+   "solution": "Dell PowerEdge R260 entrée de gamme (Xeon E-2414, 16 Go, 2 × 480 Go SSD)",
    "quantite": 1,
    "pu_ht": 1600,
    "total_ht": 1600,
-   "note": "v2 : QDevice propre à la DMZ (aucun flux vers l'administration)"
+   "note": "v2 : QDevice propre à la DMZ (flux vers l'administration limités à la sauvegarde, aux journaux, à l'heure et à NUT)"
   },
   {
    "categorie": "Cœur",
@@ -84,34 +86,34 @@
   {
    "categorie": "Distribution",
    "schema": "DL-SW1 à DL-SW4",
-   "solution": "Cisco Catalyst C9500-16X-E + DNA-E 3 ans",
+   "solution": "Cisco Catalyst C9500-16X-E + DNA-E 3 ans + module 40G SVL (C9500-NM-2Q)",
    "quantite": 4,
    "pu_ht": 9500,
    "total_ht": 38000,
-   "note": "2 blocs StackWise Virtual (le SVL impose la gamme 9500)"
+   "note": "2 blocs StackWise Virtual (gamme 9500 : la moins chère des gammes compatibles SVL, avec 9400 et 9600). v2.1 : module 40G nommé, compris dans le prix comme pour le cœur"
   },
   {
    "categorie": "Accès",
-   "schema": "AL-SW1 à AL-SW4",
+   "schema": "AL-SW1 à AL-SW15",
    "solution": "Cisco Catalyst C9200L-48P-4X-E PoE+ + DNA-E 3 ans",
    "quantite": 15,
    "pu_ht": 3900,
    "total_ht": 58500,
-   "note": "Le schéma en montre 4. Plan de câblage : 15 switchs pour 484 prises (+10 % de ports libres) et le budget PoE, répartis dans les 6 L.TECH"
+   "note": "Plan de câblage : 15 switchs pour 483 prises (+10 % de ports libres) et le budget PoE, répartis dans les 6 L.TECH (le schéma de site n'en montre que 4, à titre de principe)"
   },
   {
    "categorie": "Accès",
-   "schema": "AL-AP1",
+   "schema": "AP-N-1-01 à AP-N1-16",
    "solution": "Borne Wi-Fi 6E Cisco CW9164I + licence DNA AP 3 ans",
    "quantite": 38,
    "pu_ht": 1300,
    "total_ht": 49400,
-   "note": "Nombre fixé par l'étude RSSI prédictive (≥ −67 dBm à 5 GHz, livrables/plan_cablage/wifi)"
+   "note": "Nombre fixé par l'étude RSSI prédictive (≥ −67 dBm à 5 GHz, livrables/plan_cablage/wifi/bornes.csv)"
   },
   {
    "categorie": "Accès",
    "schema": "WLC1, WLC2",
-   "solution": "Contrôleur Wi-Fi Cisco Catalyst 9800-L-F (4x10G SFP+), HA SSO",
+   "solution": "Contrôleur Wi-Fi Cisco Catalyst 9800-L-F (4 × 10G SFP+), HA SSO",
    "quantite": 2,
    "pu_ht": 6000,
    "total_ht": 12000,
@@ -129,7 +131,7 @@
   {
    "categorie": "Net Management",
    "schema": "NM-PVE1, NM-PVE2",
-   "solution": "Dell PowerEdge R660xs (2x Xeon Silver 4510, 256 Go, 4x1,92 To SSD ZFS miroir, 2x25 GbE + carte 4x1G)",
+   "solution": "Dell PowerEdge R660xs (2 × Xeon Silver 4510, 256 Go, 4 × 1,92 To SSD ZFS miroir, 2 × 25 GbE + carte 4 × 1G)",
    "quantite": 2,
    "pu_ht": 9800,
    "total_ht": 19600,
@@ -138,7 +140,7 @@
   {
    "categorie": "Net Management",
    "schema": "NM-WITNESS",
-   "solution": "Dell PowerEdge R260 entrée de gamme (Xeon E-2414, 16 Go, 2x480 Go SSD)",
+   "solution": "Dell PowerEdge R260 entrée de gamme (Xeon E-2414, 16 Go, 2 × 480 Go SSD)",
    "quantite": 1,
    "pu_ht": 1600,
    "total_ht": 1600,
@@ -174,11 +176,11 @@
   {
    "categorie": "Datacenter",
    "schema": "DT-PVE1, DT-PVE2",
-   "solution": "Dell PowerEdge R660xs (1x Xeon Silver 4514Y 16 cœurs, 128 Go, 4x1,92 To SSD ZFS, 4x25 GbE)",
+   "solution": "Dell PowerEdge R660xs (1 × Xeon Silver 4514Y 16 cœurs, 128 Go, 4 × 1,92 To SSD ZFS, 4 × 25 GbE)",
    "quantite": 2,
    "pu_ht": 8500,
    "total_ht": 17000,
-   "note": "v2 (SYS-02) : cluster Proxmox tier 0 (VM AD x2, NPS x2, DHCP x2) au lieu de 6 serveurs physiques"
+   "note": "v2 (SYS-02) : cluster Proxmox tier 0 (VM AD ×2, NPS ×2, DHCP ×2) au lieu de 6 serveurs physiques"
   },
   {
    "categorie": "Datacenter",
@@ -228,7 +230,7 @@
   {
    "categorie": "Énergie / locaux",
    "schema": "Salle serveur",
-   "solution": "Baie 42U 800x1000 avec portes ventilées",
+   "solution": "Baie 42U 800 × 1000 avec portes ventilées",
    "quantite": 2,
    "pu_ht": 1500,
    "total_ht": 3000,
@@ -236,7 +238,7 @@
   },
   {
    "categorie": "Énergie / locaux",
-   "schema": "Locaux techniques (6 L.TECH)",
+   "schema": "Locaux techniques (5 L.TECH)",
    "solution": "Baie 24U murale/sol",
    "quantite": 5,
    "pu_ht": 700,
@@ -246,7 +248,7 @@
   {
    "categorie": "Énergie / locaux",
    "schema": "Locaux techniques",
-   "solution": "Baie 42U 600x800 au sol",
+   "solution": "Baie 42U 600 × 800 au sol",
    "quantite": 1,
    "pu_ht": 1200,
    "total_ht": 1200,
@@ -282,20 +284,11 @@
   {
    "categorie": "Énergie / locaux",
    "schema": "Salle serveur",
-   "solution": "Climatisation de précision ~7 kW, redondance N+1",
-   "quantite": 1,
-   "pu_ht": 12000,
+   "solution": "Climatiseur technique 7,1 kW (fonctionnement 24 h/24), 1 en marche + 1 en secours (N+1)",
+   "quantite": 2,
+   "pu_ht": 6000,
    "total_ht": 12000,
-   "note": ""
-  },
-  {
-   "categorie": "Énergie / locaux",
-   "schema": "Salle serveur + L.TECH",
-   "solution": "Contrôle d'accès par badge",
-   "quantite": 1,
-   "pu_ht": 5000,
-   "total_ht": 5000,
-   "note": ""
+   "note": "v2.1 : 2 unités, comme au point 14 (v2 : « climatisation de précision » forfaitaire, 1 × 12 000 €) ; les armoires de précision y sont une option écartée"
   },
   {
    "categorie": "Énergie / locaux",
@@ -304,7 +297,7 @@
    "quantite": 2,
    "pu_ht": 1400,
    "total_ht": 2800,
-   "note": "Autonomie si un onduleur tombe : 11.1 min sans pack, 33 min avec (point 14)"
+   "note": "Autonomie si un onduleur tombe : 10,6 min sans pack, 32 min avec (point 14)"
   },
   {
    "categorie": "Énergie / locaux",
@@ -322,7 +315,7 @@
    "quantite": 1,
    "pu_ht": 1200,
    "total_ht": 1200,
-   "note": "Green IT : -10 % sur la clim (point 14)"
+   "note": "Green IT : −10 % sur la clim (point 14)"
   },
   {
    "categorie": "Énergie / locaux",
@@ -451,12 +444,57 @@
    "note": "v2.1 : forfait installateur (point 14)"
   },
   {
+   "categorie": "Sûreté",
+   "schema": "Caméras 14 (plan de câblage)",
+   "solution": "Caméra IP fixe PoE 802.3af, ONVIF profils S et T, 802.1X, posée, raccordée et réglée (masquage des zones privatives), panneaux d'information compris",
+   "quantite": 14,
+   "pu_ht": 550,
+   "total_ht": 7700,
+   "note": "v2.1 : lot 4 chiffré ; ordre de grandeur 400 à 700 € posée, à confirmer par devis. Aucune caméra au foyer des étudiants"
+  },
+  {
+   "categorie": "Sûreté",
+   "schema": "VS-NVR1",
+   "solution": "Licence VMS par caméra (perpétuelle, 3 ans de mises à jour)",
+   "quantite": 14,
+   "pu_ht": 150,
+   "total_ht": 2100,
+   "note": "v2.1 : ordre de grandeur 100 à 200 € par caméra, à confirmer par devis"
+  },
+  {
+   "categorie": "Sûreté",
+   "schema": "VS-NVR1",
+   "solution": "Enregistreur vidéo 2U, 8 × 8 To en RAID 6 (≈ 43 To utiles), logiciel VMS, 2 alimentations",
+   "quantite": 1,
+   "pu_ht": 7500,
+   "total_ht": 7500,
+   "note": "v2.1 : baie 2 de la salle serveur. 30 jours d'images : 14 caméras × 4 Mb/s ≈ 18 To (36 To à 8 Mb/s). À confirmer par devis"
+  },
+  {
+   "categorie": "Sûreté",
+   "schema": "Badgeuses 11 (plan de câblage)",
+   "solution": "Lecteur sans contact DESFire EV3 + UTL OSDP v2 (canal sécurisé), gâche ou ventouse, posés et raccordés",
+   "quantite": 11,
+   "pu_ht": 1200,
+   "total_ht": 13200,
+   "note": "v2.1 : remplace le forfait v2 de 5 000 € (7 portes) ; ordre de grandeur 800 à 1 500 € par porte, à confirmer par devis"
+  },
+  {
+   "categorie": "Sûreté",
+   "schema": "Contrôle d'accès",
+   "solution": "Logiciel de contrôle d'accès (licence serveur, VM du datacenter)",
+   "quantite": 1,
+   "pu_ht": 1500,
+   "total_ht": 1500,
+   "note": "v2.1 : à confirmer par devis"
+  },
+  {
    "categorie": "Câblage",
    "schema": "Prises",
    "solution": "Prise RJ45 Cat6A fournie, posée et recettée",
-   "quantite": 484,
+   "quantite": 483,
    "pu_ht": 140,
-   "total_ht": 67760,
+   "total_ht": 67620,
    "note": "10 Gb/s, durée de vie 15 ans (CdC). Usagers + bornes + caméras + badgeuses (plan de câblage)"
   },
   {
@@ -466,15 +504,15 @@
    "quantite": 12,
    "pu_ht": 1500,
    "total_ht": 18000,
-   "note": "2 câbles par local, par deux chemins disjoints (colonnes Nord et Sud)"
+   "note": "2 câbles par local, par deux chemins distincts (colonnes Nord et Sud ; au sous-sol, deux circulations différentes)"
   },
   {
    "categorie": "Câblage",
    "schema": "Chemins de câbles",
    "solution": "Chemin de câbles fil 100×50 mm, posé",
-   "quantite": 636,
+   "quantite": 628,
    "pu_ht": 35,
-   "total_ht": 22260,
+   "total_ht": 21980,
    "note": "Métré du plan de câblage (circulations et locaux)"
   },
   {
@@ -499,10 +537,10 @@
    "categorie": "Câblage",
    "schema": "Optiques",
    "solution": "Modules SFP+/SFP28/QSFP compatibles et câbles DAC",
-   "quantite": 96,
+   "quantite": 114,
    "pu_ht": 70,
-   "total_ht": 6720,
-   "note": "Optiques Cisco d'origine : x4 environ. v2 : +16 (Stormshield, WLC, DAC de réplication)"
+   "total_ht": 7980,
+   "note": "v2.1 : décompte (60 optiques pour les Po1 des 15 switchs d'accès + 54 DAC et QSFP dans la salle serveur, v2 : 96 forfaitaires), à valider par l'équipe réseau. Optiques Cisco d'origine : environ ×4"
   },
   {
    "categorie": "Câblage",
@@ -535,20 +573,21 @@
  "par_categorie": {
   "Egress / WAN": 23400,
   "Sécurité interne": 16400,
-  "DMZ": 14600,
+  "DMZ": 15100,
   "Cœur": 19000,
   "Distribution": 38000,
   "Accès": 119900,
   "Net Management": 29100,
   "Datacenter": 60050,
-  "Énergie / locaux": 77550,
+  "Énergie / locaux": 72550,
   "Énergie / secours": 32000,
-  "Câblage": 119925,
+  "Sûreté": 32000,
+  "Câblage": 120765,
   "Prestations": 39000
  },
- "sous_total": 588925,
- "aleas": 58892,
- "capex": 647817,
+ "sous_total": 617265,
+ "aleas": 61726,
+ "capex": 678991,
  "opex": [
   {
    "poste": "Accès Internet FAI 1",
@@ -562,28 +601,58 @@
   },
   {
    "poste": "Interconnexion WAN",
-   "detail": "VPN MPLS vers le site jumeau (Digne/Gap)",
+   "detail": "VPN MPLS vers le site jumeau (Digne)",
    "montant": 8400
   },
   {
    "poste": "Proxmox VE",
-   "detail": "Souscription Standard : NM 2 nœuds x 2 sockets, DT et DMZ 4 nœuds x 1 socket, 550 €/socket",
+   "detail": "Souscription Standard : NM 2 nœuds × 2 sockets, DT et DMZ 4 nœuds × 1 socket, 550 €/socket",
    "montant": 4400
   },
   {
+   "poste": "Proxmox Backup Server",
+   "detail": "v2.1 : souscription Basic de DT-BKP1 (1 socket), à confirmer",
+   "montant": 550
+  },
+  {
    "poste": "Sauvegarde externalisée",
-   "detail": "Stockage objet ~20 To hors site, verrouillage S3 Object Lock en mode conformité (hébergeur SecNumCloud)",
+   "detail": "Stockage objet ~20 To hors site, verrouillage S3 Object Lock en mode conformité (hébergeur qualifié SecNumCloud, données dans l'UE)",
    "montant": 2160
   },
   {
+   "poste": "Support Cisco 24 h/24 7 j/7, remplacement sous 4 h (v2.1)",
+   "detail": "EL-RTR1/2 : 2 × 350 € ; CL-SW1/2, DL-SW1 à 4 : 6 × 1 200 € ; WLC1/2 : 2 × 600 €",
+   "montant": 9100
+  },
+  {
+   "poste": "Fortinet : remplacement matériel sous 4 h, 24 h/24 7 j/7 (v2.1)",
+   "detail": "EL-FGT1/2 (en plus de FortiCare Premium) : 2 × 700 €",
+   "montant": 1400
+  },
+  {
+   "poste": "Stormshield : échange sur site sous 4 h, 24 h/24 7 j/7 (v2.1)",
+   "detail": "EL-SNS1/2 : 2 × 600 €",
+   "montant": 1200
+  },
+  {
+   "poste": "Dell : ProSupport Plus Mission Critical, intervention sous 4 h, 24 h/24 7 j/7 (v2.1)",
+   "detail": "DT-PVE1/2, NM-PVE1/2, DT-BKP1 : supplément sur la garantie de base : 5 × 750 €",
+   "montant": 3750
+  },
+  {
    "poste": "Électricité du réseau",
-   "detail": "58 491 kWh/an × 0.20 € (salle serveur, PUE 1.45, 6 locaux techniques)",
-   "montant": 11698
+   "detail": "59 422 kWh/an × 0,20 € (salle serveur, PUE 1,45, 6 locaux techniques)",
+   "montant": 11884
   },
   {
    "poste": "Maintenance de la climatisation",
-   "detail": "Contrat d'entretien, 2 unités",
-   "montant": 900
+   "detail": "v2.1 : 2 unités, 2 visites par an, dépannage 24 h/24 7 j/7 avec rétablissement en 4 h (astreinte 1 200 €)",
+   "montant": 2100
+  },
+  {
+   "poste": "Maintenance des onduleurs de la salle",
+   "detail": "v2.1 : 2 APC SRT 6 kVA, contrat 24 h/24 7 j/7, intervention sur site en 4 h, une visite préventive par an (650 € par onduleur)",
+   "montant": 1300
   },
   {
    "poste": "Provision batteries d'onduleurs",
@@ -607,8 +676,8 @@
   },
   {
    "poste": "Gazole du groupe électrogène",
-   "detail": "v2.1 : 54 l/an × 1.40 € (essais mensuels, banc, coupures) + analyse et traitement du gazole",
-   "montant": 156
+   "detail": "v2.1 : 55 l/an × 1,40 € (essais mensuels, banc, coupures) + analyse et traitement du gazole",
+   "montant": 157
   },
   {
    "poste": "Maintenance du mini-split des L.TECH",
@@ -621,7 +690,7 @@
    "montant": 30
   }
  ],
- "opex_total": 48069,
+ "opex_total": 66756,
  "renouvellement": [
   {
    "poste": "FortiGuard UTP + FortiCare",
@@ -635,32 +704,84 @@
   },
   {
    "poste": "Cisco DNA Essentials / AP",
-   "detail": "~29 switchs + 38 bornes",
-   "montant": 14357
+   "detail": "v2.1 : 15 switchs d'accès × 220 € + 14 switchs de la salle × 500 € + 38 bornes × 90 € + 2 routeurs × 300 € (v2 : 12 000 € × switchs et bornes / 56, base non documentée)",
+   "montant": 14320
   },
   {
    "poste": "Support matériel serveurs",
-   "detail": "Extension garantie 9 serveurs (v1 : 16)",
+   "detail": "Extension de garantie J+1 de 9 serveurs × 400 € (v1 : 16 serveurs, comptés 18 × 350 €)",
    "montant": 3600
+  },
+  {
+   "poste": "Sûreté (lot 4)",
+   "detail": "v2.1 : mises à jour du VMS (14 caméras × 30 €), du logiciel de contrôle d'accès (400 €), extension de garantie du VS-NVR1 (300 €)",
+   "montant": 1120
   }
  ],
- "renouvellement_total": 25157,
- "tco5": 938476,
+ "renouvellement_total": 26240,
+ "tco5": 1065251,
  "optimisations": [
   {
    "piste": "Cœur replié (collapsed core)",
-   "detail": "Un seul bâtiment : fusionner distribution et cœur sur 2 C9500-48Y4C (SVL). Suppression de DL-SW1 à DL-SW4. Étudiée, non retenue : le cahier des charges demande 3 couches (audit NET-02).",
-   "economie": 38000
+   "detail": "Un seul bâtiment : fusionner distribution et cœur sur 2 C9500-48Y4C (SVL). Suppression de DL-SW1 à DL-SW4. Étudiée, non retenue : le cahier des charges demande 3 couches (audit NET-02). Économie brute : le surcoût des deux C9500-48Y4C par rapport aux C9500-16X du cœur est à déduire (non chiffré).",
+   "economie": 38000,
+   "brute": true
   },
   {
    "piste": "Services libres pour NPS et DHCP",
    "detail": "Remplacer NPS et le DHCP Windows par FreeRADIUS et Kea (déjà utilisés pour les autres VRF) : seules les 2 VM AD restent sous Windows, soit 1 licence par nœud au lieu de 3.",
-   "economie": 4400
+   "economie": 4400,
+   "brute": false
   },
   {
    "piste": "Tarifs Éducation",
-   "detail": "Remises éditeur Microsoft/Cisco/Fortinet pour l'enseignement supérieur (souvent -30 à -50 %).",
-   "economie": null
+   "detail": "Remises éditeur Microsoft/Cisco/Fortinet pour l'enseignement supérieur (souvent −30 à −50 %).",
+   "economie": null,
+   "brute": false
   }
- ]
+ ],
+ "lots": {
+  "energie": 104550,
+  "surete": 32000
+ },
+ "quantites": {
+  "prises": 483,
+  "bornes": 38,
+  "cameras": 14,
+  "badges": 11,
+  "switchs_acces": 15,
+  "rocades": 12,
+  "optiques": 114
+ },
+ "stockage_video": {
+  "jours": 30,
+  "debits_mbps": [
+   4,
+   8
+  ],
+  "disques": 8,
+  "disque_to": 8,
+  "utile_to": 43,
+  "besoin_to": [
+   18.1,
+   36.3
+  ],
+  "cameras": 14
+ },
+ "support_4h": {
+  "opex_reseau_serveurs": 15450,
+  "opex_energie": 3400,
+  "equipements": "EL-RTR, EL-FGT, EL-SNS, CL-SW, DL-SW, WLC, DT-PVE, NM-PVE, DT-BKP1, onduleurs et climatiseurs de la salle",
+  "reste": "J+1 ouvré (AL-SW, bornes, DMZ, objets)"
+ },
+ "v2": {
+  "capex": 606403,
+  "opex_total": 44892,
+  "renouvellement_total": 25157,
+  "tco5": 881177,
+  "Énergie / locaux": 71900,
+  "controle_acces_forfait": 5000,
+  "cameras": 15,
+  "prises": 484
+ }
 }

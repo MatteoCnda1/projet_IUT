@@ -1,14 +1,15 @@
 {
  "version": "2.1",
  "date": "20/11/2026",
+ "reference": "RLI-ETU-002",
  "salle": {
-  "it_typ": 3492,
-  "it_max": 5650,
-  "it_pointe": 4520,
+  "it_typ": 3572,
+  "it_max": 5800,
+  "it_pointe": 4640,
   "simple": 256.0,
   "simple_max": 312.0,
-  "double": 2980.0,
-  "double_max": 3896.0
+  "double": 3060.0,
+  "double_max": 4016.0
  },
  "baies": {
   "1": {
@@ -17,9 +18,9 @@
    "u": 30
   },
   "2": {
-   "typ": 1956,
-   "max": 3200,
-   "u": 19
+   "typ": 2036,
+   "max": 3350,
+   "u": 21
   }
  },
  "locaux": [
@@ -67,14 +68,14 @@
    "surface": 2.3,
    "switchs": 2,
    "baie": "24U murale",
-   "poe_typ": 172,
-   "poe_max": 333,
-   "charge_typ": 301,
-   "charge_max": 500,
-   "taux": 50,
-   "autonomie": 22,
-   "chaleur": 147,
-   "chaleur_pointe": 307,
+   "poe_typ": 166,
+   "poe_max": 320,
+   "charge_typ": 294,
+   "charge_max": 486,
+   "taux": 49,
+   "autonomie": 23,
+   "chaleur": 146,
+   "chaleur_pointe": 306,
    "debit": 44,
    "ventilation": "extracteur thermostaté 150 m³/h",
    "ventilation_v2": "extracteur 150 m³/h",
@@ -140,61 +141,61 @@
  ],
  "onduleurs": {
   "capacite": 6000,
-  "normal": 1746,
-  "degrade": 3236,
-  "degrade_pointe": 4208,
-  "taux_normal": 29,
-  "taux_degrade": 70,
+  "normal": 1786,
+  "degrade": 3316,
+  "degrade_pointe": 4328,
+  "taux_normal": 30,
+  "taux_degrade": 72,
   "ok": true,
-  "autonomie_interne": 11.1,
+  "autonomie_interne": 10.6,
   "pack": true,
-  "autonomie_normal": 84,
-  "autonomie_degrade": 33
+  "autonomie_normal": 81,
+  "autonomie_degrade": 32
  },
  "clim": {
-  "q_typ": 3.92,
-  "q_pointe": 5.26,
+  "q_typ": 4.0,
+  "q_pointe": 5.38,
   "unite_kw": 7.1,
-  "taux": 55
+  "taux": 56
  },
  "energie": {
-  "it_kw": 3.49,
-  "clim_kw": 1.04,
-  "pertes_kw": 0.3,
+  "it_kw": 3.57,
+  "clim_kw": 1.06,
+  "pertes_kw": 0.31,
   "aux_kw": 0.12,
   "ge_aux_kw": 0.12,
-  "salle_kw": 5.08,
+  "salle_kw": 5.18,
   "lt_kw": 1.86,
   "pue": 1.45,
   "pue_usuel": 1.53,
-  "kwh": 58491,
-  "kwh_usuel": 63170,
-  "cout": 11698,
-  "cout_usuel": 12634,
-  "co2_t": 3.0
+  "kwh": 59422,
+  "kwh_usuel": 64073,
+  "cout": 11884,
+  "cout_usuel": 12815,
+  "co2_t": 3.1
  },
  "gains": [
   {
    "mesure": "Consigne de la salle à 27 °C au lieu de 22 °C (plage recommandée ASHRAE A1 : 18-27 °C)",
-   "kwh": 1347,
-   "euros": 269,
-   "co2_kg": 70,
+   "kwh": 1376,
+   "euros": 275,
+   "co2_kg": 72,
    "cout": 0,
    "retour": "immédiat"
   },
   {
    "mesure": "Allée froide confinée (obturateurs de U vides, rideaux aux extrémités)",
-   "kwh": 1010,
-   "euros": 202,
-   "co2_kg": 53,
+   "kwh": 1032,
+   "euros": 206,
+   "co2_kg": 54,
    "cout": 1200,
-   "retour": "5.9 ans"
+   "retour": "5,8 ans"
   },
   {
-   "mesure": "Coupure programmée de 30 bornes Wi-Fi des salles la nuit et le week-end (103 h/semaine)",
-   "kwh": 2321,
-   "euros": 464,
-   "co2_kg": 121,
+   "mesure": "Coupure programmée de 29 bornes Wi-Fi des salles la nuit et le week-end (103 h/semaine)",
+   "kwh": 2244,
+   "euros": 449,
+   "co2_kg": 117,
    "cout": 0,
    "retour": "immédiat"
   }
@@ -203,8 +204,8 @@
   {
    "piste": "Cœur replié : suppression de DL-SW1 à DL-SW4 (variante étudiée, non retenue : CdC en 3 couches)",
    "w": 640,
-   "kwh": 8156,
-   "euros": 1631
+   "kwh": 8137,
+   "euros": 1627
   }
  ],
  "capex_nouveaux": [
@@ -215,7 +216,7 @@
    "quantite": 2,
    "pu_ht": 1400,
    "total_ht": 2800,
-   "note": "Autonomie si un onduleur tombe : 11.1 min sans pack, 33 min avec"
+   "note": "Autonomie si un onduleur tombe : 10,6 min sans pack, 32 min avec"
   },
   {
    "categorie": "Énergie / locaux",
@@ -233,7 +234,7 @@
    "quantite": 1,
    "pu_ht": 1200,
    "total_ht": 1200,
-   "note": "Green IT : -10 % sur la clim"
+   "note": "Green IT : −10 % sur la clim"
   },
   {
    "categorie": "Énergie / locaux",
@@ -362,18 +363,23 @@
    "note": "v2.1 : forfait installateur"
   }
  ],
- "capex_lot": 109550,
+ "capex_lot": 104550,
  "capex_groupe_electrogene": 32000,
  "opex": [
   {
    "poste": "Électricité du réseau",
-   "detail": "58 491 kWh/an × 0.20 € (salle serveur, PUE 1.45, 6 locaux techniques)",
-   "montant": 11698
+   "detail": "59 422 kWh/an × 0,20 € (salle serveur, PUE 1,45, 6 locaux techniques)",
+   "montant": 11884
   },
   {
    "poste": "Maintenance de la climatisation",
-   "detail": "Contrat d'entretien, 2 unités",
-   "montant": 900
+   "detail": "v2.1 : 2 unités, 2 visites par an, dépannage 24 h/24 7 j/7 avec rétablissement en 4 h (astreinte 1 200 €)",
+   "montant": 2100
+  },
+  {
+   "poste": "Maintenance des onduleurs de la salle",
+   "detail": "v2.1 : 2 APC SRT 6 kVA, contrat 24 h/24 7 j/7, intervention sur site en 4 h, une visite préventive par an (650 € par onduleur)",
+   "montant": 1300
   },
   {
    "poste": "Provision batteries d'onduleurs",
@@ -397,8 +403,8 @@
   },
   {
    "poste": "Gazole du groupe électrogène",
-   "detail": "v2.1 : 54 l/an × 1.40 € (essais mensuels, banc, coupures) + analyse et traitement du gazole",
-   "montant": 156
+   "detail": "v2.1 : 55 l/an × 1,40 € (essais mensuels, banc, coupures) + analyse et traitement du gazole",
+   "montant": 157
   },
   {
    "poste": "Maintenance du mini-split des L.TECH",
@@ -406,11 +412,11 @@
    "montant": 150
   }
  ],
- "opex_total": 16879,
- "cout_5ans": 193945,
+ "opex_total": 19566,
+ "cout_5ans": 202380,
  "bet": {
   "date": "20/11/2026",
-  "reference": "RLI-NRJ-002",
+  "reference": "RLI-ETU-013",
   "locaux": [
    {
     "local": "N-1-LT01",
@@ -432,8 +438,8 @@
    },
    {
     "local": "N0-LT01",
-    "dissipation_typ_w": 147,
-    "pointe_ete_w": 307,
+    "dissipation_typ_w": 146,
+    "pointe_ete_w": 306,
     "solution": "extracteur 150 m³/h",
     "solution_v2": "extracteur 150 m³/h",
     "t_ete": 33.1,
@@ -468,15 +474,15 @@
    }
   ],
   "salle": {
-   "q_typ_w": 3922,
-   "q_pointe_w": 5261,
-   "t35_min": 8.5,
-   "t40_min": 15.3,
-   "t40_air_min": 3.0
+   "q_typ_w": 4004,
+   "q_pointe_w": 5384,
+   "t35_min": 8.4,
+   "t40_min": 15.1,
+   "t40_air_min": 2.9
   },
-  "puissance_max_kva": 16.4,
+  "puissance_max_kva": 16.5,
   "reserve_tgbt_kva": 20,
-  "puissance_courante_kw": 7.1,
+  "puissance_courante_kw": 7.2,
   "verifications": {
    "total": 34,
    "ok": 30,
@@ -490,11 +496,21 @@
    "charge_max_pct": 55,
    "charge_moy_pct": 25,
    "cuve_l": 250,
-   "autonomie_h": 62,
+   "autonomie_h": 61,
    "autonomie_75_h": 32,
    "conso_75_lh": 5.3,
    "arret_nut_si_ge_absent_min": 3,
    "fin_arret_min": 11
+  },
+  "reserve_ia": {
+   "gpu": 8,
+   "kw": 10.0,
+   "couvert": false,
+   "marges_kw": {
+    "Onduleur seul, en pointe (critère 90 % de 6 kW)": 1.1,
+    "Climatiseur seul (puissance sensible / 1,15)": 0.2,
+    "Groupe électrogène (80 % de la PRP, en kVA)": 7.5
+   }
   }
  },
  "v2": {

@@ -10,20 +10,23 @@ Module appelé par energie/energie.py, qui lui fournit le bilan de puissance (sa
 
 Usage : python3 energie/energie.py (qui appelle ce module), ou python3 energie/bet.py (même effet).
 Toutes les hypothèses sont en tête de fichier, avec leur justification.
+Référence du document : RLI-ETU-013 (charte commune, commun/charte.py). v2.1 : enregistreur vidéo VS-NVR1 au bilan de la salle
+(inventaire d'energie.py), réserve sur la tranche optionnelle « plateforme d'IA » du CCTP lot 3.
 """
 import csv
 import html
 import math
-import shutil
-import subprocess
-import tempfile
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+from commun import charte as CH  # noqa: E402
+
 OUT = ROOT / "livrables" / "energie_refroidissement"
-REF = "RLI-NRJ-002"
-DATE_V21 = "20/11/2026"
-V21 = "<span class='v21'>v2.1</span>"
+REF = "RLI-ETU-013"
+DATE_V21 = CH.DATE_VERSION
+V21 = CH.badge("v2.1")
 
 # ---------------------------------------------------------------------------
 # Hypothèses physiques
@@ -124,17 +127,20 @@ COUPURES_H = 4.0             # heures de coupure réseau par an (hypothèse prud
 GE_AUX_W = 120.0             # W moyens : réchauffeur de bloc 500 W thermostaté (~25 % du temps) + chargeur de batterie
 ARRET_GE_ABSENT_MIN = 3      # min : sans retour du GE, NUT lance l'arrêt ordonné (v2 : 5 min, sans GE)
 FIN_ARRET_MIN = 11           # min : fin de la séquence d'arrêt (v2 : 13 min)
+# Tranche optionnelle « plateforme d'IA locale » du CCTP lot 3 (juridique/cctp.py) : modèle ouvert d'au moins 10¹² paramètres,
+# soit 0,5 à 1 To de mémoire GPU, un nœud de 8 GPU d'environ 10 kW (ordre de grandeur des serveurs 8 GPU du marché)
+IA_GPU, IA_KW = 8, 10.0
 
 e = html.escape
 
 
 def fr(v, d=1):
-    """Nombre au format français (virgule, espace des milliers)."""
-    s = f"{v:,.{d}f}".replace(",", " ").replace(".", ",")
-    return s
+    """Nombre au format français (virgule, insécable des milliers) : CH.nombre."""
+    return CH.nombre(v, d)
 
 
-eur = lambda v: f"{v:,.0f} €".replace(",", " ")
+def eur(v):
+    return f"{CH.nombre(round(v))} €"
 
 
 def mono_courant(p_w, cos=0.95):
@@ -246,7 +252,7 @@ def local_technique(b, sw_typ, sw_max, rend_poe):
     poe_m = float(b["poe_W"])
     ligne(f"SW1…SW{n}" if n > 1 else "SW1", "Cisco C9200L-48P-4X : électronique et ventilateurs (hors PoE)", n, n * sw_typ, n * sw_max,
           n * sw_typ, n * sw_max, "onduleur du local")
-    ligne("PoE", f"PoE envoyé sur les câbles (alimentation + PSE, rendement {rend_poe:.0%})", 1, poe_t / rend_poe, poe_m / rend_poe,
+    ligne("PoE", f"PoE envoyé sur les câbles (alimentation + PSE, rendement {rend_poe * 100:.0f} %)", 1, poe_t / rend_poe, poe_m / rend_poe,
           poe_t * (1 / rend_poe - 1), poe_m * (1 / rend_poe - 1), "onduleur du local", "seules les pertes restent dans le local")
     for k, mod, t, c in POE_APPAREILS:
         if b[k]:
@@ -308,7 +314,7 @@ def local_technique(b, sw_typ, sw_max, rend_poe):
 # Étude : salle serveur, tableau informatique, groupe électrogène, vérifications
 # ---------------------------------------------------------------------------
 def etude(ctx):
-    lignes, s, lt, ond, clim, en, baies = ctx["lignes"], ctx["s"], ctx["lt"], ctx["ond"], ctx["clim"], ctx["en"], ctx["baies"]
+    lignes, s, lt, ond, clim, baies = ctx["lignes"], ctx["s"], ctx["lt"], ctx["ond"], ctx["clim"], ctx["baies"]
     rocade = {}
     for r in ctx["plan"]["rocades"]:
         if r["voie"] == "A":
@@ -369,7 +375,7 @@ def etude(ctx):
                 i_b=srt_nominal, L=L_SALLE["onduleur"], cos=0.99,
                 note="I_B = entrée à 6 kW + recharge ; réel : l'onduleur seul en pointe, batteries en recharge")
     for k, ph in ((1, "L3"), (2, "L3")):
-        circuit(f"Q{2 + k}", f"Climatiseur {k} ({clim['unite_kw']} kW, unité extérieure)", ph, P_CLIM_MAX_KW * 1000, 20, "30 mA type F",
+        circuit(f"Q{2 + k}", f"Climatiseur {k} ({fr(clim['unite_kw'])} kW, unité extérieure)", ph, P_CLIM_MAX_KW * 1000, 20, "30 mA type F",
                 L=L_SALLE["clim"], note="compresseur inverter, calibre conseillé par le constructeur")
     phases_lt = {"N-1-LT01": "L1", "N0-LT01": "L1", "N-1-LT02": "L2", "N0-LT02": "L2", "N1-LT01": "L3", "N1-LT02": "L3"}
     for i, l in enumerate(lt):
@@ -413,7 +419,19 @@ def etude(ctx):
     lt_taux_max = max(l["taux"] for l in lt)
     verifs = verifications(ctx, th_salle, lt, tableau, ge, circuits, ond_fin_vie, lt_aut_min, lt_taux_max)
     return dict(salle=dict(inventaire=inv, thermique=th_salle, charge=cs), circuits=circuits, tableau=tableau, ge=ge, verifs=verifs,
-                ond_fin_vie=ond_fin_vie, lt_aut_min=lt_aut_min, lt_taux_max=lt_taux_max)
+                ond_fin_vie=ond_fin_vie, lt_aut_min=lt_aut_min, lt_taux_max=lt_taux_max, reserve_ia=reserve_ia(ond, th_salle, ge))
+
+
+def reserve_ia(ond, th, ge):
+    """v2.1 : marges de la salle actuelle face à un nœud d'IA de la tranche optionnelle du CCTP lot 3 (≈ 10 kW, 8 GPU)."""
+    w = IA_KW * 1000
+    lignes = [
+        ("Onduleur seul, en pointe (critère 90 % de 6 kW)", 0.9 * 6000, ond["degrade_pointe"], w),
+        ("Climatiseur seul (puissance sensible / 1,15)", th["sensible"] * 1000 / 1.15, th["q_pointe"], w),
+        ("Groupe électrogène (80 % de la PRP, en kVA)", 0.8 * ge["prp"] * 1000, ge["reel_kva"] * 1000, w / 0.95 + w / EER_ETE / 0.95),
+    ]
+    rows = [dict(element=n, capacite=c, charge=ch, marge=c - ch, besoin=b, couvert=c - ch >= b) for n, c, ch, b in lignes]
+    return dict(gpu=IA_GPU, kw=IA_KW, lignes=rows, couvert=all(r["couvert"] for r in rows))
 
 
 def groupe_electrogene(ups_in_max, lt_max, aux_max, p_moy, ond, s):
@@ -509,23 +527,19 @@ def verifications(ctx, th, lt, tab, ge, circuits, ond_fin_vie, lt_aut_min, lt_ta
 # Production : CSV, figure, document
 # ---------------------------------------------------------------------------
 CSS_BET = """
-.v21 { display: inline-block; padding: 0 1.2mm; border-radius: 1mm; background: #05893e; color: #fff; font-size: 6.8pt; font-weight: bold; vertical-align: 1px; }
-.entete { display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 2.5mm; border-bottom: 1px solid #DEDAD1; margin-bottom: 5mm; }
-.entete img { width: auto; height: 10mm; border: 0; margin: 0; }
-.entete .ref { text-align: right; color: #6C6861; font-size: 7.6pt; line-height: 1.35; }
-.cartouche { display: grid; grid-template-columns: 1.1fr 0.7fr 1fr 1.6fr; border: 1px solid #DEDAD1; margin: 3mm 0 4mm; }
-.cartouche div { padding: 1.6mm 2.5mm; border-right: 1px solid #E8E5DE; font-size: 7.4pt; color: #6C6861; }
-.cartouche div:last-child { border-right: 0; }
-.cartouche b { display: block; color: #211F1C; font-size: 8.6pt; margin-top: .4mm; }
-.statut { display: inline-block; padding: 0 1.4mm; border-radius: 1mm; font-size: 7pt; font-weight: bold; white-space: nowrap; color: #fff; }
-.s-ok { background: #05893e; } .s-cor { background: #1F4E8C; } .s-av { background: #ab7400; } .s-nok { background: #c13c3b; } .s-par { background: #6C8C2C; }
-.fiche { border: 1px solid #DEDAD1; border-top: 3px solid #1F4E8C; padding: 1mm 3mm 2mm; margin: 4mm 0; }
+.statut { display: inline-block; padding: 0 1.4mm; font: 600 6.8pt/1.5 var(--mono); white-space: nowrap; color: #fff; }
+.s-ok { background: var(--emeraude); } .s-cor { background: var(--encre); } .s-av { background: var(--alerte); }
+.s-nok { background: var(--rouge); } .s-par { background: var(--emeraude-fonce); }
+.fiche { border: 1px solid var(--trait); border-top: 3px solid var(--encre); padding: 1mm 3mm 2mm; margin: 4mm 0; }
 .fiche h3 { margin-top: 2mm; }
-.verdict { border-left: 3px solid #05893e; background: #F1F8F3; padding: 1.8mm 3mm; margin: 2mm 0; }
-.verdict.renf { border-left-color: #1F4E8C; background: #EAF0F8; }
+.verdict { border: 1px solid var(--trait); border-left: 3px solid var(--emeraude); background: var(--surface); padding: 1.8mm 3mm; margin: 2mm 0; }
+.verdict.renf { border-left-color: var(--encre); background: var(--remplissage); }
+.verdict.reserve { border-left-color: var(--alerte); }
 .grille2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
-td.tot, tr.tot td { font-weight: bold; background: #F6F4EF; }
+td.tot, tr.tot td { font-weight: 600; background: var(--remplissage); color: var(--encre); }
 .petit { font-size: 7.4pt; }
+.hors { color: var(--discret); }
+.depasse { color: var(--rouge); }
 table.inv td, table.inv th { padding: 0.9mm 1.4mm; }
 table.kv td { padding: 1mm 1.6mm; }
 table.kv td:first-child { width: 52%; }
@@ -563,14 +577,15 @@ def ecrire_csv(etd, lt):
 
 def figure_montee(etd, lt):
     import matplotlib.pyplot as plt
+    plt.rcParams.update({"svg.hashsalt": "rudylink", "svg.fonttype": "none", "font.family": "DejaVu Sans", "text.color": CH.CORPS})
     th = etd["salle"]["thermique"]
     xmax, ymin, ymax = 30, 24, 48
     t = [i * 0.25 for i in range(0, 4 * xmax + 1)]
     fig, ax = plt.subplots(figsize=(9.6, 4.4))
-    # Palette catégorielle validée (ordre fixe) ; contraste faible des teintes 3-4 compensé par les étiquettes directes et les tableaux
-    serie = [("#2a78d6", "Salle serveur (2 climatiseurs à l'arrêt)", courbe(th["q_typ"], th["C_kJ"] * 1000, th["UA"], T_CONSIGNE, T_AMB_ETE["N-1"], t))]
+    # Couleurs de la charte (ordre fixe) ; étiquettes directes en bout de courbe
+    serie = [(CH.ENCRE, "Salle serveur (2 climatiseurs à l'arrêt)", courbe(th["q_typ"], th["C_kJ"] * 1000, th["UA"], T_CONSIGNE, T_AMB_ETE["N-1"], t))]
     chauds = sorted(lt, key=lambda l: -l["bet"]["panne"]["t_inf"])[:3]
-    for col, l in zip(("#eb6834", "#1baf7a", "#eda100"), chauds):
+    for col, l in zip((CH.EMERAUDE, CH.ALERTE, CH.ROUGE), chauds):
         b, p = l["bet"], l["bet"]["panne"]
         serie.append((col, f"{l['local']} ({b['solution_court']} à l'arrêt)", courbe(b["dissipation_max"], p["C_kJ"] * 1000, p["UA"], p["t0"], b["t_amb"], t)))
     etiquettes = []
@@ -582,12 +597,12 @@ def figure_montee(etd, lt):
     for i in range(1, len(etiquettes)):  # écarte les étiquettes qui se chevauchent
         etiquettes[i][0] = max(etiquettes[i][0], etiquettes[i - 1][0] + 1.1)
     for y, nom, col in etiquettes:
-        ax.text(xmax + 0.6, y, nom, color="#3A3833", fontsize=7, va="center")
+        ax.text(xmax + 0.6, y, nom, color=CH.SECONDAIRE, fontsize=7, va="center")
     for s_, lab in ((T_CRITIQUE, "35 °C : limite A2"), (T_LIMITE, "40 °C : limite de fonctionnement")):
-        ax.axhline(s_, color="#8C8880", lw=0.9, ls=":")
-        ax.text(0.3, s_ + 0.25, lab, fontsize=7, color="#6C6861", bbox=dict(fc="white", ec="none", pad=0.5))
-    ax.axvline(FIN_ARRET_MIN, color="#8C8880", lw=0.9, ls=":")
-    ax.text(FIN_ARRET_MIN + 0.3, ymin + 0.4, f"fin de l'arrêt ordonné (T0 + {FIN_ARRET_MIN} min)", fontsize=7, color="#6C6861")
+        ax.axhline(s_, color=CH.DISCRET, lw=0.9, ls=":")
+        ax.text(0.3, s_ + 0.25, lab, fontsize=7, color=CH.DISCRET, bbox=dict(fc="white", ec="none", pad=0.5))
+    ax.axvline(FIN_ARRET_MIN, color=CH.DISCRET, lw=0.9, ls=":")
+    ax.text(FIN_ARRET_MIN + 0.3, ymin + 0.4, f"fin de l'arrêt ordonné (T0 + {FIN_ARRET_MIN} min)", fontsize=7, color=CH.DISCRET)
     ax.legend(loc="upper left", fontsize=7, frameon=False)
     ax.set_xlim(0, xmax)
     ax.set_ylim(ymin, ymax)
@@ -595,14 +610,16 @@ def figure_montee(etd, lt):
     ax.set_ylabel("température de l'air (°C)")
     for sp in ("top", "right"):
         ax.spines[sp].set_visible(False)
-    ax.spines["left"].set_color("#BDB8AE")
-    ax.spines["bottom"].set_color("#BDB8AE")
-    ax.grid(axis="y", color="#ECE9E2", lw=0.6)
-    ax.set_title("Montée en température sans refroidissement (été, charge permanente)", loc="left", fontsize=10, weight="bold", family="DejaVu Serif")
+    ax.spines["left"].set_color(CH.TRAIT)
+    ax.spines["bottom"].set_color(CH.TRAIT)
+    ax.grid(axis="y", color=CH.REMPLISSAGE, lw=0.6)
+    ax.set_title("Montée en température sans refroidissement (été, charge permanente)", loc="left", fontsize=10, weight="bold", color=CH.ENCRE)
+    fig.text(0.01, -0.02, CH.mention_figure("14") + " · " + REF, fontsize=6.6, color=CH.DISCRET)
     fig.subplots_adjust(right=0.7)
     (OUT / "schemas").mkdir(parents=True, exist_ok=True)
     for ext in ("png", "svg"):
-        fig.savefig(OUT / "schemas" / f"montee_temperature.{ext}", dpi=170 if ext == "png" else None, bbox_inches="tight")
+        fig.savefig(OUT / "schemas" / f"montee_temperature.{ext}", dpi=170 if ext == "png" else None, bbox_inches="tight",
+                    metadata={"Date": None} if ext == "svg" else {})
     plt.close(fig)
 
 
@@ -612,7 +629,7 @@ def tableau_inventaire(inv, pointe=None):
          "<th class='n'>Dissipé typ.</th><th class='n'>Dissipé max.</th><th class='n'>BTU/h max.</th><th>Remarque</th></tr>"]
     for l in inv:
         hors = l["alimentation"] == "PoE (hors local)"
-        st = " style='color:#6C6861'" if hors else ""
+        st = " class='hors'" if hors else ""
         H.append(f"<tr{st}><td>{e(str(l['repere']))}</td><td>{e(l['modele'])}</td><td class='n'>{l['quantite']}</td>"
                  f"<td class='n'>{fr(l['w_abs_typ'], 0)} W</td><td class='n'>{fr(l['w_abs_max'], 0)} W</td>"
                  f"<td class='n'>{fr(l['w_dis_typ'], 0)} W</td><td class='n'>{fr(l['w_dis_max'], 0)} W</td><td class='n'>{fr(l['btu_max'], 0)}</td>"
@@ -640,10 +657,10 @@ def tableau_circuits(cs):
 
 
 def document(ctx, etd, fin):
-    lt, ond, clim, en, s = ctx["lt"], ctx["ond"], ctx["clim"], ctx["en"], ctx["s"]
+    lt, ond, clim, s = ctx["lt"], ctx["ond"], ctx["clim"], ctx["s"]
     th, cs, tab, ge = etd["salle"]["thermique"], etd["salle"]["charge"], etd["tableau"], etd["ge"]
-    css = ctx["css"] + CSS_BET
     V = etd["verifs"]
+    ia = etd["reserve_ia"]
     n_ok = sum(v["statut"] in ("OK", "Corrigé v2.1", "OK avec parade") for v in V)
     n_av = sum(v["statut"] == "À vérifier" for v in V)
     n_nok = sum(v["statut"] == "NOK" for v in V)
@@ -652,15 +669,9 @@ def document(ctx, etd, fin):
     lignes_ge = [l for l in fin["nouveaux"] if l.get("ge")]
     capex_ge = sum(l["total_ht"] for l in lignes_ge)
     opex_ge = sum(m for p, _, m in fin["opex"] if "électrogène" in p or "banc de charge" in p or "Gazole" in p)
-    H = [f"<!doctype html><html lang='fr'><head><meta charset='utf-8'><title>BET des locaux techniques</title><style>{css}</style></head><body>",
-         "<div class='entete'><img src='../communication/logo/rudylink-infrastructure-couleur.svg' alt='RudyLink Infrastructure'>"
-         f"<div class='ref'>Note de calcul BET fluides et courants forts<br>{REF} · version 2.1 · {DATE_V21}</div></div>",
-         "<h1>Bilan thermique et électrique des locaux techniques</h1>",
-         f"<p class='sous'>Site de Marseille · IUT Génie Télécom, Luminy · RudyLink Infrastructure · {REF} · version 2.1 · {DATE_V21}<br>"
-         "Salle serveur, 6 locaux techniques, tableau informatique, TGBT et groupe électrogène : inventaire, chaleur, ventilation, circuits, "
-         "secours. Complète le document principal <code>energie_refroidissement.pdf</code> (point 14).</p>",
-         "<div class='cartouche'><div>Référence<b>" + REF + "</b></div><div>Version<b>2.1</b></div><div>Statut<b>Pour validation client</b></div>"
-         "<div>Rédigé par<b>BET fluides / courants forts, RudyLink Infrastructure</b></div></div>",
+    H = [f"<div class='note'><b>Version 2.1 — {CH.DATE_VERSION}</b> {V21}. Nouveau document de la v2.1 (note de calcul BET fluides et courants forts). "
+         "Il complète <code>energie_refroidissement.pdf</code> (RLI-ETU-002), dont il reprend le bilan de puissance, enregistreur vidéo VS-NVR1 "
+         "compris.</div>",
          "<div class='cles'>",
          f"<div class='cle'><b>{n_ok}/{len(V)}</b>vérifications conformes ({n_av} à vérifier sur site, {n_nok} non conforme)</div>",
          f"<div class='cle'><b>{len(renf)} L.TECH</b>renforcés en v2.1 (ventilation sous-dimensionnée en été)</div>",
@@ -673,6 +684,19 @@ def document(ctx, etd, fin):
           f"({', '.join(l['local'] for l in renf)}), les pertes réelles des onduleurs à faible charge (sous-estimées, PUE trop optimiste) et "
           f"l'absence de secours long (le client confirme qu'il n'y a pas de groupe électrogène sur le site). Ils sont corrigés dans les sources "
           f"et dans le chiffrage. Restent {n_av} points à vérifier sur site, surtout la réserve de puissance du TGBT et l'emplacement du groupe.</div>",
+          f"<div class='verdict reserve'><b>Réserve : tranche optionnelle « plateforme d'IA locale » du CCTP lot 3</b> {V21}. Servir un modèle ouvert d'au "
+          f"moins 1 000 milliards de paramètres demande 0,5 à 1 To de mémoire GPU, soit un nœud d'environ {ia['gpu']} GPU et {fr(ia['kw'], 0)} kW. "
+          + ("La salle actuelle le couvre." if ia["couvert"] else
+             "La salle actuelle ne le couvre pas : ni un onduleur seul, ni un climatiseur, ni le groupe électrogène n'ont cette marge (tableau ci-dessous). "
+             "Une étude spécifique est nécessaire avant de lever l'option (alimentation et onduleur dédiés, refroidissement dédié, ou hébergement hors "
+             "du bâtiment) ; aucun coût n'est inclus au chiffrage.")
+          + "<table class='petit'><tr><th>Élément</th><th class='n'>Capacité</th><th class='n'>Charge actuelle</th><th class='n'>Marge</th>"
+          "<th class='n'>Besoin d'un nœud d'IA</th><th>Couvert</th></tr>"
+          + "".join(f"<tr><td>{e(r['element'])}</td>" + "".join(f"<td class='n'>{fr(r[k] / 1000)} {'kVA' if 'kVA' in r['element'] else 'kW'}</td>"
+                                                               for k in ("capacite", "charge", "marge", "besoin"))
+                    + f"<td>{statut('OK') if r['couvert'] else statut('NOK')}</td></tr>" for r in ia["lignes"])
+          + "</table><p class='sous'>Groupe : le nœud d'IA et sa climatisation (EER d'été 2,8). La consommation et la dissipation déclarées par "
+          "nœud dans les offres (exigence du CCTP lot 3) remplaceront cette estimation.</p></div>",
           "<h3>Les locaux en un tableau</h3><table><tr><th>Local</th><th>Niveau</th><th class='n'>Surface</th><th class='n'>Puissance élec. max.</th>"
           "<th class='n'>Dissipé typ.</th><th class='n'>Pointe été</th><th>Refroidissement retenu</th><th class='n'>T été</th><th>Verdict</th></tr>",
           f"<tr><td><b>Salle serveur</b></td><td>N-1</td><td class='n'>{SURFACE_SALLE:.0f} m²</td>"
@@ -731,15 +755,15 @@ def document(ctx, etd, fin):
           "l'appareil ; seules les pertes de conversion du switch (rendement 90 %) chauffent le local</td></tr>",
           "<tr><td>Pertes des onduleurs</td><td>SRT 6 kVA en ligne : 100 W + 3 % ; SMT 1500 line-interactive : 12 W + 2 %</td><td>Ordres de grandeur des courbes de "
           "rendement constructeur (92 % à 30 % de charge, 95 % à pleine charge pour le SRT)</td></tr>",
-          f"<tr><td>Ventilation naturelle</td><td>2 grilles 600 × 200 mm (section libre 50 %), {H_GRILLES} m d'écart, C<sub>d</sub> {CD}</td>"
+          f"<tr><td>Ventilation naturelle</td><td>2 grilles 600 × 200 mm (section libre 50 %), {fr(H_GRILLES)} m d'écart, C<sub>d</sub> {fr(CD)}</td>"
           "<td>Tirage thermique entre la grille basse (porte) et la grille haute (imposte)</td></tr>",
-          f"<tr><td>Inertie en panne de refroidissement</td><td>air + {FRACTION_MASSE:.0%} de la masse des baies ({C_MASSE:.0f} J/kg·K), cloisons U = {U_PAROI} W/m²·K</td>"
+          f"<tr><td>Inertie en panne de refroidissement</td><td>air + {FRACTION_MASSE * 100:.0f} % de la masse des baies ({C_MASSE:.0f} J/kg·K), cloisons U = {fr(U_PAROI)} W/m²·K</td>"
           "<td>Borne pessimiste également donnée : air seul, parois adiabatiques, puissance de pointe</td></tr>",
-          f"<tr><td>Climatiseurs de la salle</td><td>{fr(clim['unite_kw'])} kW, part sensible {SHR_CLIM:.0%}, {DEBIT_CLIM_M3H:.0f} m³/h, {P_CLIM_MAX_KW} kW absorbés max.</td>"
+          f"<tr><td>Climatiseurs de la salle</td><td>{fr(clim['unite_kw'])} kW, part sensible {SHR_CLIM * 100:.0f} %, {DEBIT_CLIM_M3H:.0f} m³/h, {fr(P_CLIM_MAX_KW)} kW absorbés max.</td>"
           "<td>Climatiseur technique (salle sèche) ; kit basse température pour fonctionner l'hiver</td></tr>",
           "<tr><td>Régime de neutre, TGBT</td><td>TN-S supposé ; TGBT au RDC (local PL.ELEC, 27 m²)</td><td>Bâtiment alimenté par un poste HTA/BT du campus : "
           "<b>à confirmer</b> avec les services techniques</td></tr>",
-          f"<tr><td>Câbles</td><td>U1000 R2V sur chemin de câbles, méthode E, facteur {K_POSE}</td><td>NF C 15-100 / IEC 60364-5-52 ; ΔU ≤ {DU_TERMINAL:.0f} % par départ, "
+          f"<tr><td>Câbles</td><td>U1000 R2V sur chemin de câbles, méthode E, facteur {fr(K_POSE)}</td><td>NF C 15-100 / IEC 60364-5-52 ; ΔU ≤ {DU_TERMINAL:.0f} % par départ, "
           f"≤ {DU_DISTRIBUTION:.0f} % pour les liaisons de distribution (total ≤ 5 %)</td></tr>",
           f"<tr><td>Groupe électrogène</td><td>diesel 400 V, gamme {', '.join(str(g[0]) for g in GE_GAMME)} kVA PRP, {fr(PRIX_GAZOLE, 2)} € HT/l</td>"
           "<td>NF ISO 8528-1 (PRP : puissance continue à charge variable ; ESP : secours), prix et consommations : fiches et tarifs distributeurs, ordre de grandeur</td></tr></table>"]
@@ -759,7 +783,7 @@ def document(ctx, etd, fin):
           f"<td>besoin pour ΔT = {DT_SERVEURS:.0f} K à travers les serveurs ; écart soufflage-reprise {fr(th['dt_clim'])} K en pointe</td></tr>",
           f"<tr><td>Régime établi</td><td class='n'>{T_CONSIGNE:.0f} °C</td><td>allée froide confinée ; reprise chaude ≈ {T_CONSIGNE + DT_SERVEURS:.0f} °C</td></tr>",
           f"<tr><td>Panne des 2 climatiseurs : 35 °C · 40 °C</td><td class='n'>{duree(th['t35'])} · {duree(th['t40'])}</td>"
-          f"<td>air {fr(th['vol'], 0)} m³ + {FRACTION_MASSE:.0%} de {th['masse']:.0f} kg de baies et d'équipements ; borne pessimiste (air seul) : "
+          f"<td>air {fr(th['vol'], 0)} m³ + {FRACTION_MASSE * 100:.0f} % de {th['masse']:.0f} kg de baies et d'équipements ; borne pessimiste (air seul) : "
           f"{duree(th['t35_air'])} · {duree(th['t40_air'])}</td></tr>",
           f"<tr><td>Coupure secteur avec GE : {RELANCE_CLIM_S // 60} min sans froid</td><td class='n'>{fr(th['t_relance'])} °C</td>"
           f"<td>borne pessimiste {fr(th['t_relance_air'])} °C ; les climatiseurs ne sont pas ondulés (inutile)</td></tr>",
@@ -807,7 +831,7 @@ def document(ctx, etd, fin):
               f"<tr><td>Courant réel · I<sub>B</sub> (+25 %)</td><td class='v'>{fr(c['i_reel'])} · {fr(c['i_b'])} A</td></tr>",
               f"<tr><td>Départ TD-INFO</td><td class='v'>{c['In']} A C, {c['phase']}, 300 mA A-S</td></tr>",
               f"<tr><td>Câble ({c['L']:.0f} m) · ΔU</td><td class='v'>{fr(c['section'])} mm² · {fr(c['du'])} %</td></tr>",
-              f"<tr><td>Coffret du local</td><td class='v'>10 A 30 mA A SI" + (" + 10 A 30 mA F" if b["solution"][0] != "grilles" else "") + "</td></tr>",
+              "<tr><td>Coffret du local</td><td class='v'>10 A 30 mA A SI" + (" + 10 A 30 mA F" if b["solution"][0] != "grilles" else "") + "</td></tr>",
               f"<tr><td>Fuite permanente sur le 30 mA</td><td class='v'>≈ {b['fuite_ma']:.0f} mA (≤ 9)</td></tr></table></div></div>"]
         if b["v2_ok"]:
             H.append(f"<div class='verdict'><b>Verdict : conforme.</b> {e(b['solution_libelle']).capitalize()} : {fr(b['t_ete'])} °C au plus chaud de l'été "
@@ -836,9 +860,9 @@ def document(ctx, etd, fin):
           "Différentiels : 300 mA sélectifs (S) en amont, 30 mA instantanés en aval.</p>",
           "<div class='verdict'><b>Verdict : conforme</b>, sous réserve de l'étude de sélectivité du fabricant retenu.</div></div>"]
     # 3.x TGBT
-    H += [f"<div class='fiche court'><h3>3.9 TGBT existant du bâtiment</h3>",
+    H += ["<div class='fiche court'><h3>3.9 TGBT existant du bâtiment</h3>",
           f"<p>Le bâtiment existe : on ne remplace pas son tableau général, on lui demande <b>un départ 4P 63 A</b> et une <b>réserve de {tab['reserve_kva']} kVA</b> "
-          f"(puissance maximale appelée {fr(tab['s_max'] / 1000)} kVA + {MARGE_EVOLUTION - 1:.0%} d'évolution ; puissance courante ≈ {fr(tab['p_moy'] / 1000)} kW).</p>",
+          f"(puissance maximale appelée {fr(tab['s_max'] / 1000)} kVA + {(MARGE_EVOLUTION - 1) * 100:.0f} % d'évolution ; puissance courante ≈ {fr(tab['p_moy'] / 1000)} kW).</p>",
           "<table><tr><th>Grandeur</th><th class='n'>Valeur</th><th>Commentaire</th></tr>",
           f"<tr><td>Liaison TGBT → inverseur</td><td class='n'>5G{tab['feeder_section']:g} mm², {L_TGBT_TD:.0f} m</td><td>I<sub>B</sub> {fr(tab['feeder_i'])} A, "
           f"ΔU {fr(tab['feeder_du'])} % (≤ 2 %)</td></tr>",
@@ -869,7 +893,7 @@ def document(ctx, etd, fin):
     H += [f"<tr class='tot'><td>Total réel (sans coefficient)</td><td class='n'>{fr(ge['reel_kw'], 1)}</td><td></td><td class='n'>{fr(ge['reel_kva'], 1)}</td>"
           f"<td></td><td class='n'>{fr(sum(r['kva_pond'] for r in ge['charges']), 1)}</td><td></td></tr></table>",
           "<table><tr><th>Méthode</th><th class='n'>Besoin</th><th>Détail</th></tr>",
-          f"<tr><td>1. Charges réelles pondérées + {MARGE_EVOLUTION - 1:.0%} d'évolution</td><td class='n'>{fr(ge['m1'])} kVA</td><td>onduleurs × {K_ONDULEUR_GE} "
+          f"<tr><td>1. Charges réelles pondérées + {(MARGE_EVOLUTION - 1) * 100:.0f} % d'évolution</td><td class='n'>{fr(ge['m1'])} kVA</td><td>onduleurs × {K_ONDULEUR_GE} "
           f"(courant harmonique, reprise), L.TECH × {K_LT_GE}, clims × 1 (inverter, relance échelonnée)</td></tr>",
           f"<tr><td>2. Règle usuelle : {K_ONDULEUR_GE} × puissance nominale des onduleurs + autres charges</td><td class='n'>{fr(ge['m2'])} kVA</td>"
           f"<td>{K_ONDULEUR_GE} × 2 × 6 kVA = {fr(K_ONDULEUR_GE * 12)} kVA, + clims, L.TECH, auxiliaires</td></tr>",
@@ -909,7 +933,7 @@ def document(ctx, etd, fin):
           "<h3>4.5 Emplacement et raccordement</h3><table><tr><th>Emplacement</th><th>Avantages</th><th>Inconvénients</th><th>Choix</th></tr>",
           "<tr><td><b>Extérieur, façade est, sur dalle près de l'entrée du parking</b></td><td>Accès camion pour le gazole et le levage ; câble court "
           f"(≈ {L_GE_TD:.0f} m) par le chemin de l'adduction FAI 2 ; pas de local à créer</td><td>Bruit pour le voisinage ; capot, clôture et dalle à prévoir</td>"
-          "<td><b>Retenu</b> (à valider sur site)</td></tr>",
+          "<td><b>Retenu</b> (emplacement exact à vérifier sur site)</td></tr>",
           "<tr><td>Toiture-terrasse</td><td>Loin des passages</td><td>≈ 1,2 t avec le gazole sur une toiture non prévue pour (étude de structure), levage à la grue, "
           "livraison du gazole impossible, vibrations au-dessus des salles</td><td>Écarté</td></tr>",
           "<tr><td>Dans le parking du sous-sol</td><td>À l'abri, près de la salle</td><td>Local coupe-feu dédié, amenée et rejet d'air (≈ 3 000 m³/h), "
@@ -980,7 +1004,7 @@ def document(ctx, etd, fin):
           "<li>Chute de tension : ΔU = b·L·I<sub>B</sub>·(ρ·cos φ/S + λ·sin φ), b = 2 en monophasé, √3 en triphasé ; ρ = 0,0225 Ω·mm²/m, λ = 0,08 mΩ/m.</li>",
           "<li>Onduleurs : pertes SRT = 100 W + 3 % de la charge ; SMT = 12 W + 2 % ; autonomie interpolée en loi de puissance entre deux points constructeur ; "
           "fin de vie : 80 % de la capacité.</li>",
-          f"<li>Groupe : consommation c(P) = c<sub>75</sub>·(0,2 + 0,8·P/(0,75·P<sub>PRP</sub>)) ; cuve ≥ max(48 h·c<sub>moy</sub>, 24 h·c<sub>75</sub>) / (0,9 × 0,75).</li></ul>",
+          "<li>Groupe : consommation c(P) = c<sub>75</sub>·(0,2 + 0,8·P/(0,75·P<sub>PRP</sub>)) ; cuve ≥ max(48 h·c<sub>moy</sub>, 24 h·c<sub>75</sub>) / (0,9 × 0,75).</li></ul>",
           "<h3>B. Courant admissible (U1000 R2V, méthode E, avant facteur 0,7)</h3><table><tr><th>Section</th>"
           + "".join(f"<th class='n'>{fr(k)} mm²</th>" for k in IZ[2]) + "</tr><tr><td>2 conducteurs chargés</td>"
           + "".join(f"<td class='n'>{v} A</td>" for v in IZ[2].values()) + "</tr><tr><td>3 conducteurs chargés</td>"
@@ -991,7 +1015,7 @@ def document(ctx, etd, fin):
         b = l["bet"]
         cells = [regime(("grilles", 0), b["p_dim"], b["t_amb"])] + [regime(("extracteur", q), b["p_dim"], b["t_amb"]) for q, _ in EXTRACTEURS]
         H.append(f"<tr><td>{l['local']}</td><td class='n'>{fr(b['p_dim'], 0)} W</td><td class='n'>{b['t_amb']:.0f} °C</td>"
-                 + "".join(f"<td class='n'{' style=\"color:#c13c3b\"' if t > T_MAX_LT else ''}>{fr(t)} °C</td>" for t in cells)
+                 + "".join(f"<td class='n{' depasse' if t > T_MAX_LT else ''}'>{fr(t)} °C</td>" for t in cells)
                  + f"<td class='n'>{T_CONSIGNE:.0f} °C</td><td>{e(b['solution_court'])}</td></tr>")
     H.append(f"</table><p class='sous'>En rouge : au-dessus de {T_MAX_LT:.0f} °C. On retient la première solution conforme dans l'ordre grilles → extracteur 150 → "
              "extracteur 300 → mini-split, en partant de la solution de la v2.</p>")
@@ -999,22 +1023,21 @@ def document(ctx, etd, fin):
           "<li>Réserve de puissance du TGBT, emplacement exact, régime de neutre, schéma de l'alimentation du bâtiment depuis le poste du campus.</li>",
           "<li>Emplacement du groupe électrogène (façade est), accès du camion de livraison, avis du service patrimoine et du bureau de contrôle.</li>",
           "<li>Passage d'une gaine de rejet pour les extracteurs des L.TECH du RDC et de l'étage ; place pour l'unité extérieure du mini-split en toiture.</li>",
-          "<li>Notices définitives : courant d'entrée et différentiel préconisés pour les onduleurs, puissance absorbée des climatiseurs, Icc du groupe.</li></ul>",
-          "</body></html>"]
-    return "\n".join(H)
+          "<li>Notices définitives : courant d'entrée et différentiel préconisés pour les onduleurs, puissance absorbée des climatiseurs, Icc du groupe.</li>",
+          f"<li>Tranche optionnelle « plateforme d'IA locale » (CCTP lot 3) {V21} : étude spécifique si l'option est levée (réserve de la section 1).</li></ul>",
+          CH.bloc_suivi(REF, changements="Création : bilan thermique et électrique de chaque local, groupe électrogène, vérifications ; "
+                                         "enregistreur vidéo VS-NVR1 ; réserve sur la plateforme d'IA ; charte commune.")]
+    return CH.page(titre="Bilan thermique et électrique des locaux techniques", titre_court="BET des locaux techniques", ref=REF, points="14",
+                   dossier=OUT, chapo="Salle serveur, 6 locaux techniques, tableau informatique, TGBT et groupe électrogène : inventaire, chaleur, "
+                                      "ventilation, circuits, secours. Note de calcul du BET fluides et courants forts.",
+                   corps="\n".join(H), css_extra=CSS_BET)
 
 
 def produire(ctx, etd, fin):
     OUT.mkdir(parents=True, exist_ok=True)
     ecrire_csv(etd, ctx["lt"])
     figure_montee(etd, ctx["lt"])
-    page = OUT / "bet_locaux_techniques.html"
-    page.write_text(document(ctx, etd, fin), encoding="utf-8")
-    chrome = shutil.which("google-chrome") or shutil.which("chromium")
-    if chrome:
-        with tempfile.TemporaryDirectory() as prof:
-            subprocess.run([chrome, "--headless=new", "--no-sandbox", "--disable-gpu", f"--user-data-dir={prof}", "--no-pdf-header-footer",
-                            f"--print-to-pdf={OUT / 'bet_locaux_techniques.pdf'}", page.as_uri()], check=True, capture_output=True, timeout=180)
+    CH.ecrire_et_imprimer(document(ctx, etd, fin), OUT / "bet_locaux_techniques.html", OUT / "bet_locaux_techniques.pdf")
 
 
 def resume(etd, lt):
@@ -1033,7 +1056,9 @@ def resume(etd, lt):
         groupe_electrogene=dict(prp_kva=ge["prp"], esp_kva=ge["esp"], besoin_kva=round(ge["besoin"], 1), charge_max_pct=round(ge["taux_max"]),
                                 charge_moy_pct=round(ge["taux_moy"]), cuve_l=ge["cuve"], autonomie_h=round(ge["autonomie_moy"]),
                                 autonomie_75_h=round(ge["autonomie_75"]), conso_75_lh=ge["c75"], arret_nut_si_ge_absent_min=ARRET_GE_ABSENT_MIN,
-                                fin_arret_min=FIN_ARRET_MIN))
+                                fin_arret_min=FIN_ARRET_MIN),
+        reserve_ia=dict(gpu=etd["reserve_ia"]["gpu"], kw=etd["reserve_ia"]["kw"], couvert=etd["reserve_ia"]["couvert"],
+                        marges_kw={r["element"]: round(r["marge"] / 1000, 1) for r in etd["reserve_ia"]["lignes"]}))
 
 
 if __name__ == "__main__":

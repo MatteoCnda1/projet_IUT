@@ -7,7 +7,9 @@ Décisions de l'équipe (12/11/2026) :
   - densité de prises : hypothèse du chiffrage (bureau 2 par poste, salle TP 1 par poste + 2,
     salle TD/cours/réunion 3) ;
   - bornes Wi-Fi : nombre fixé par l'étude RSSI (etude_rssi.py) ;
-  - 15 caméras, ~10 badgeuses, téléphones IP : 1 par bureau d'enseignant + accueil.
+  - 14 caméras (v2.1 : plus de caméra au foyer des étudiants, lieu de pause, CNIL), 11 badgeuses (salle serveur,
+    6 L.TECH, entrée, hall, 2 salles réseaux) : listes CAMERAS et BADGEUSES de plan_cablage.py ;
+  - téléphones IP : 1 par bureau d'enseignant + l'accueil (secrétariat), sur la 2e prise du bureau.
 """
 import re
 
@@ -84,14 +86,14 @@ def prises_utilisateurs(t, nom, surface):
     s = surface or 0
     if t == "tp":
         postes = min(POSTES_TP_MAX, int(s // M2_PAR_POSTE_TP))
-        return postes + 2, f"{postes} postes + 2 enseignant"
+        return postes + 2, f"{postes} postes + 2 pour l'enseignant"
     if t == "cours":
         return 3, "vidéoprojecteur, enseignant, réserve"
     if t == "projet":
         return 8, "4 îlots de 2 prises"
     if t == "bureau":
         postes = 1 if s < 18 else 2
-        return 2 * postes, f"{postes} poste(s) × 2 (PC + téléphone)"
+        return 2 * postes, f"{postes} poste{'s' if postes > 1 else ''} × 2 prises (PC, téléphone ou réserve)"
     if t == "accueil":
         return 6, "2 postes × 2 + imprimante + réserve"
     if t == "atelier":

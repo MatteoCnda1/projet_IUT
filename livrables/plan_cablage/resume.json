@@ -1,14 +1,14 @@
 {
- "prises": 484,
+ "prises": 483,
  "par_type": {
   "usager": 420,
   "wifi": 38,
-  "camera": 15,
+  "camera": 14,
   "badge": 11
  },
  "telephones": 17,
  "cable_cuivre_m": 13037,
- "lien_moyen_m": 26.9,
+ "lien_moyen_m": 27.0,
  "lien_max_m": 57.1,
  "liens_hors_norme": [],
  "chemins_de_cables_m": {
@@ -20,7 +20,7 @@
    "200×60": 8
   },
   "N1": {
-   "100×50": 242,
+   "100×50": 234,
    "200×60": 9,
    "300×100": 7
   }
@@ -67,13 +67,13 @@
    "salle": "L.TECH",
    "niveau": "N0",
    "surface_m2": 2.3,
-   "prises": 53,
+   "prises": 52,
    "usagers": 38,
    "wifi": 10,
-   "cameras": 3,
+   "cameras": 2,
    "badges": 2,
    "telephones": 4,
-   "poe_W": 333,
+   "poe_W": 320,
    "switchs_48p": 2,
    "panneaux_24": 3,
    "hauteur_U": 13,
@@ -141,84 +141,108 @@
    "voie": "A",
    "par": "sous-sol (chemin direct)",
    "longueur": 14.1,
-   "chemin": "SALLE SERVEUR → L.TECH 01 → N-1-LT01"
+   "chemin": "SALLE SERVEUR → L.TECH 01 → N-1-LT01",
+   "points_communs": [],
+   "ecart_min_m": null
   },
   {
    "local": "N-1-LT01",
    "voie": "B",
    "par": "sous-sol (second chemin)",
-   "longueur": 14.1,
-   "chemin": "SALLE SERVEUR → L.TECH 01 → N-1-LT01"
+   "longueur": 16.6,
+   "chemin": "SALLE SERVEUR → CIRC 03 → L.TECH 01 → N-1-LT01",
+   "points_communs": [],
+   "ecart_min_m": null
   },
   {
    "local": "N-1-LT02",
    "voie": "A",
    "par": "sous-sol (chemin direct)",
    "longueur": 51.3,
-   "chemin": "SALLE SERVEUR → CIRC 03 → PARKING NORD → PARKING → L.TECH 02 → N-1-LT02"
+   "chemin": "SALLE SERVEUR → CIRC 03 → PARKING NORD → PARKING → L.TECH 02 → N-1-LT02",
+   "points_communs": [],
+   "ecart_min_m": null
   },
   {
    "local": "N-1-LT02",
    "voie": "B",
    "par": "sous-sol (second chemin)",
-   "longueur": 53.1,
-   "chemin": "SALLE SERVEUR → CIRC 03 → PARKING NORD → PARKING → L.TECH 02 → N-1-LT02"
+   "longueur": 56.9,
+   "chemin": "SALLE SERVEUR → L.TECH 01 → SAS 01 → CIRC 05 → L.TECH 02 → N-1-LT02",
+   "points_communs": [],
+   "ecart_min_m": null
   },
   {
    "local": "N0-LT01",
    "voie": "A",
    "par": "colonne Nord",
    "longueur": 48.4,
-   "chemin": "SALLE SERVEUR → CIRC 02 → CIRCULATION 01 → VIDE SANITAIRE 02 → VIDE SANITAIRE 01 → colonne Nord (montée 3.5 m) → L.TECH → N0-LT01"
+   "chemin": "SALLE SERVEUR → CIRC 02 → CIRCULATION 01 → VIDE SANITAIRE 02 → VIDE SANITAIRE 01 → colonne Nord (montée 3,5 m) → L.TECH → N0-LT01",
+   "points_communs": [],
+   "ecart_min_m": null
   },
   {
    "local": "N0-LT01",
    "voie": "B",
    "par": "colonne Sud",
    "longueur": 92.8,
-   "chemin": "SALLE SERVEUR → CIRC 03 → PARKING NORD → PARKING NORD EST → colonne Sud (montée 3.5 m) → L.TECH 02 → CIRCULATION 04 → SOUS-PASSERELLE → DGMT → PL.ELEC → L.TECH → N0-LT01"
+   "chemin": "SALLE SERVEUR → CIRC 03 → PARKING NORD → PARKING NORD EST → colonne Sud (montée 3,5 m) → L.TECH 02 → CIRCULATION 04 → SOUS-PASSERELLE → DGMT → PL.ELEC → L.TECH → N0-LT01",
+   "points_communs": [],
+   "ecart_min_m": null
   },
   {
    "local": "N0-LT02",
    "voie": "A",
    "par": "colonne Sud",
    "longueur": 35.9,
-   "chemin": "SALLE SERVEUR → CIRC 03 → PARKING NORD → PARKING NORD EST → colonne Sud (montée 3.5 m) → L.TECH 02 → N0-LT02"
+   "chemin": "SALLE SERVEUR → CIRC 03 → PARKING NORD → PARKING NORD EST → colonne Sud (montée 3,5 m) → L.TECH 02 → N0-LT02",
+   "points_communs": [],
+   "ecart_min_m": null
   },
   {
    "local": "N0-LT02",
    "voie": "B",
    "par": "colonne Nord",
    "longueur": 105.3,
-   "chemin": "SALLE SERVEUR → CIRC 02 → CIRCULATION 01 → VIDE SANITAIRE 02 → VIDE SANITAIRE 01 → colonne Nord (montée 3.5 m) → L.TECH → PL.ELEC → DGMT → SOUS-PASSERELLE → CIRCULATION 04 → L.TECH 02 → N0-LT02"
+   "chemin": "SALLE SERVEUR → CIRC 02 → CIRCULATION 01 → VIDE SANITAIRE 02 → VIDE SANITAIRE 01 → colonne Nord (montée 3,5 m) → L.TECH → PL.ELEC → DGMT → SOUS-PASSERELLE → CIRCULATION 04 → L.TECH 02 → N0-LT02",
+   "points_communs": [],
+   "ecart_min_m": null
   },
   {
    "local": "N1-LT01",
    "voie": "A",
    "par": "colonne Nord",
    "longueur": 57.0,
-   "chemin": "SALLE SERVEUR → CIRC 02 → CIRCULATION 01 → VIDE SANITAIRE 02 → VIDE SANITAIRE 01 → colonne Nord (montée 7.0 m) → RGMT 01 → L.TECH 01 → N1-LT01"
+   "chemin": "SALLE SERVEUR → CIRC 02 → CIRCULATION 01 → VIDE SANITAIRE 02 → VIDE SANITAIRE 01 → colonne Nord (montée 7,0 m) → RGMT 01 → L.TECH 01 → N1-LT01",
+   "points_communs": [],
+   "ecart_min_m": null
   },
   {
    "local": "N1-LT01",
    "voie": "B",
    "par": "colonne Sud",
    "longueur": 104.3,
-   "chemin": "SALLE SERVEUR → CIRC 03 → PARKING NORD → PARKING NORD EST → colonne Sud (montée 7.0 m) → CIRC 05 → PASSERELLE → CIRC 02 → CIRCULATION 01 → L.TECH 01 → N1-LT01"
+   "chemin": "SALLE SERVEUR → CIRC 03 → PARKING NORD → PARKING NORD EST → colonne Sud (montée 7,0 m) → CIRC 05 → PASSERELLE → CIRC 02 → CIRCULATION 01 → L.TECH 01 → N1-LT01",
+   "points_communs": [],
+   "ecart_min_m": null
   },
   {
    "local": "N1-LT02",
    "voie": "A",
    "par": "colonne Sud",
    "longueur": 41.8,
-   "chemin": "SALLE SERVEUR → CIRC 03 → PARKING NORD → PARKING NORD EST → colonne Sud (montée 7.0 m) → L.TECH 02 → N1-LT02"
+   "chemin": "SALLE SERVEUR → CIRC 03 → PARKING NORD → PARKING NORD EST → colonne Sud (montée 7,0 m) → L.TECH 02 → N1-LT02",
+   "points_communs": [],
+   "ecart_min_m": null
   },
   {
    "local": "N1-LT02",
    "voie": "B",
    "par": "colonne Nord",
    "longueur": 114.0,
-   "chemin": "SALLE SERVEUR → CIRC 02 → CIRCULATION 01 → VIDE SANITAIRE 02 → VIDE SANITAIRE 01 → colonne Nord (montée 7.0 m) → CIRCULATION 01 → CIRC 02 → PASSERELLE → CIRC 05 → L.TECH 02 → N1-LT02"
+   "chemin": "SALLE SERVEUR → CIRC 02 → CIRCULATION 01 → VIDE SANITAIRE 02 → VIDE SANITAIRE 01 → colonne Nord (montée 7,0 m) → CIRCULATION 01 → CIRC 02 → PASSERELLE → CIRC 05 → L.TECH 02 → N1-LT02",
+   "points_communs": [],
+   "ecart_min_m": null
   }
  ],
  "adductions": [
@@ -228,18 +252,37 @@
    "x": 20.86,
    "y": 51.27,
    "longueur_interne": 58.3,
-   "chemin": "chambre de tirage → L.SERVICE → L.TECH 02 → PARKING → PARKING NORD → CIRC 03 → SALLE SERVEUR"
+   "chemin": "chambre de tirage → L.SERVICE → L.TECH 02 → PARKING → PARKING NORD → CIRC 03 → SALLE SERVEUR",
+   "points_communs": [],
+   "ecart_min_m": null
   },
   {
    "operateur": "FAI 2",
    "entree": "façade est, par le parking",
    "x": 73.26,
    "y": 46.41,
-   "longueur_interne": 55.1,
-   "chemin": "chambre de tirage → PARKING EST → PARKING NORD EST → PARKING NORD → CIRC 03 → SALLE SERVEUR"
+   "longueur_interne": 56.8,
+   "chemin": "chambre de tirage → PARKING EST → PARKING NORD EST → PARKING NORD → L.TECH 01 → SALLE SERVEUR",
+   "points_communs": [
+    "PARKING NORD"
+   ],
+   "ecart_min_m": 0.0
   }
  ],
- "fibre_m": 732,
+ "fibre_m": 738,
+ "points_communs": {
+  "adductions": [
+   "PARKING NORD"
+  ]
+ },
+ "cameras_retirees": [
+  {
+   "salle": "FOYER ETUDIANTS",
+   "niveau": "N0",
+   "ancien_repere": "N0-LT01-P050",
+   "motif": "v2.1 : pas de vidéo dans un lieu de pause (CNIL, AIPD du point 19)"
+  }
+ ],
  "hypotheses": {
   "coef_trace": 1.1,
   "descentes_m": 3.0,

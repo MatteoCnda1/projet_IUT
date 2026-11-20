@@ -19,6 +19,7 @@ Usage  : python3 cablage/etude_rssi.py
 import csv
 import json
 import math
+import sys
 from pathlib import Path
 
 import cv2
@@ -28,6 +29,8 @@ import batiment as bat
 import regles as R
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE.parent))
+from commun import charte as CH  # noqa: E402
 BUILD = HERE / "build"
 OUT = HERE.parent / "livrables" / "plan_cablage" / "wifi"
 GRILLE = 0.5      # m, maille d'évaluation
@@ -224,7 +227,6 @@ def plan_canaux(etudes):
     aps = [(e, b) for e in etudes for b in e["bornes"]]
     n = len(aps)
     I = np.full((n, n), -120.0)
-    ordre = {e["code"]: k for k, e in enumerate(etudes)}
     niveaux = {"N-1": -1, "N0": 0, "N1": 1}
     for a, (ea, ba) in enumerate(aps):
         for b, (eb, bb) in enumerate(aps):
@@ -299,10 +301,10 @@ def carte(e):
     ax.imshow(fond, extent=(0, fond.shape[1] / ppm, fond.shape[0] / ppm, 0), interpolation="antialiased")
     etiquettes_salles(ax, {"salles": e["salles"]}, [], gris_circ=True)
     for b in e["bornes"]:
-        ax.plot(b["x"], b["y"], marker="o", ms=7, mfc="#1F4E8C", mec="white", mew=1.2, zorder=10)
-        ax.annotate(f"AP{b['id'][-2:]} · canal {b['canal']}", (b["x"], b["y"]), xytext=(5, -9), textcoords="offset points",
-                    fontsize=6, color="#0E2240", weight="bold", zorder=11,
-                    bbox=dict(boxstyle="round,pad=0.12", fc="white", ec="none", alpha=0.85))
+        ax.plot(b["x"], b["y"], marker="o", ms=7, mfc=CH.ENCRE, mec="white", mew=1.2, zorder=10)
+        ax.annotate(f"{b['id']} · canal {b['canal']}", (b["x"], b["y"]), xytext=(5, -9), textcoords="offset points",
+                    fontsize=6, color=CH.ENCRE, weight="bold", zorder=11,
+                    bbox=dict(boxstyle="square,pad=0.12", fc="white", ec="none", alpha=0.85))
     ax.set_xlim(x0, x1)
     ax.set_ylim(y1, y0)
     ax.set_axis_off()
@@ -310,10 +312,11 @@ def carte(e):
     noms = {"N-1": "Sous-sol", "N0": "Rez-de-chaussée", "N1": "Étage 1"}
     ax.set_title(f"Couverture Wi-Fi prévue (5 GHz) · {noms[e['code']]} · {len(e['bornes'])} bornes\n"
                  f"Signal reçu de la meilleure borne. Objectif ≥ {R.OBJECTIF_DBM:.0f} dBm atteint sur {s['couverture_pct']} % "
-                 f"de la surface ; une 2ᵉ borne ≥ {R.ROAMING_DBM:.0f} dBm (passage d'une borne à l'autre) sur {s['itinerance_pct']} %.",
-                 fontsize=9, loc="left")
+                 f"de la surface ; une 2e borne ≥ {R.ROAMING_DBM:.0f} dBm (passage d'une borne à l'autre) sur {s['itinerance_pct']} %.",
+                 fontsize=9, loc="left", color=CH.ENCRE)
+    fig.text(0.01, 0.005, CH.mention_figure("04") + " · étude Wi-Fi prédictive", fontsize=6.5, color=CH.DISCRET)
     ax.legend(handles=[Patch(color=np.array(c) / 255, label=l, alpha=0.7) for _v, l, c in BANDES]
-              + [plt.Line2D([], [], marker="o", ls="", mfc="#1F4E8C", mec="white", label="borne Wi-Fi (APxx · canal)")],
+              + [plt.Line2D([], [], marker="o", ls="", mfc=CH.ENCRE, mec="white", label="borne Wi-Fi (AP-niveau-nn · canal)")],
               loc="lower right", fontsize=7.5, framealpha=0.95, title="Signal reçu", title_fontsize=8)
     OUT.mkdir(parents=True, exist_ok=True)
     fig.savefig(OUT / f"{e['code']}_rssi.png", bbox_inches="tight")

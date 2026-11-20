@@ -1,7 +1,7 @@
 local,salle,niveau,surface_m2,prises,usagers,wifi,cameras,badges,telephones,poe_W,switchs_48p,panneaux_24,hauteur_U,baie,lien_max_m
 N-1-LT01,L.TECH 01,N-1,6.7,10,3,2,3,2,0,103,1,1,9,24U murale,38.5
 N-1-LT02,L.TECH 02,N-1,16.0,17,13,2,1,1,0,70,1,1,9,24U murale,26.5
-N0-LT01,L.TECH,N0,2.3,53,38,10,3,2,4,333,2,3,13,24U murale,54.0
+N0-LT01,L.TECH,N0,2.3,52,38,10,2,2,4,320,2,3,13,24U murale,54.0
 N0-LT02,L.TECH 02,N0,6.9,136,120,10,4,2,10,385,4,6,20,24U murale,52.6
 N1-LT01,L.TECH 01,N1,3.7,58,49,6,2,1,1,192,2,3,13,24U murale,39.2
 N1-LT02,L.TECH 02,N1,6.6,210,197,8,2,3,2,262,5,9,27,42U au sol,57.1

@@ -6,7 +6,6 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-11-20T09:25:26.238137</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -30,203 +29,143 @@ z
   </g>
   <g id="axes_1">
    <g id="patch_2">
-    <path d="M 97.5123 106.050809 
-L 270.5202 106.050809 
-Q 274.8726 106.050809 274.8726 101.821898 
-L 274.8726 75.3912 
-Q 274.8726 71.162288 270.5202 71.162288 
-L 97.5123 71.162288 
-Q 93.1599 71.162288 93.1599 75.3912 
-L 93.1599 101.821898 
-Q 93.1599 106.050809 97.5123 106.050809 
+    <path d="M 94.248 104.993581 
+L 273.7845 104.993581 
+L 273.7845 72.219516 
+L 94.248 72.219516 
 z
-" clip-path="url(#p55f52afc6b)" style="fill: #f6f4ef; stroke: #8c8880; stroke-width: 1.3; stroke-linejoin: miter"/>
+" clip-path="url(#pcb1dadfeb2)" style="fill: #eceef1; stroke: #6d727b; stroke-width: 1.3; stroke-linejoin: miter"/>
    </g>
    <g id="patch_3">
-    <path d="M 396.7398 106.050809 
-L 586.0692 106.050809 
-Q 590.4216 106.050809 590.4216 101.821898 
-L 590.4216 75.3912 
-Q 590.4216 71.162288 586.0692 71.162288 
-L 396.7398 71.162288 
-Q 392.3874 71.162288 392.3874 75.3912 
-L 392.3874 101.821898 
-Q 392.3874 106.050809 396.7398 106.050809 
+    <path d="M 393.4755 104.993581 
+L 589.3335 104.993581 
+L 589.3335 72.219516 
+L 393.4755 72.219516 
 z
-" clip-path="url(#p55f52afc6b)" style="fill: #eef7f1; stroke: #05893e; stroke-width: 1.3; stroke-linejoin: miter"/>
+" clip-path="url(#pcb1dadfeb2)" style="fill: #e8f8ec; stroke: #05893e; stroke-width: 1.3; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
-    <path d="M 228.0843 153.626065 
-L 439.1757 153.626065 
-Q 443.5281 153.626065 443.5281 149.397153 
-L 443.5281 124.023684 
-Q 443.5281 119.794772 439.1757 119.794772 
-L 228.0843 119.794772 
-Q 223.7319 119.794772 223.7319 124.023684 
-L 223.7319 149.397153 
-Q 223.7319 153.626065 228.0843 153.626065 
+    <path d="M 224.82 152.568837 
+L 442.44 152.568837 
+L 442.44 120.852 
+L 224.82 120.852 
 z
-" clip-path="url(#p55f52afc6b)" style="fill: #eef7f1; stroke: #05893e; stroke-width: 1.3; stroke-linejoin: miter"/>
+" clip-path="url(#pcb1dadfeb2)" style="fill: #e8f8ec; stroke: #05893e; stroke-width: 1.3; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
-    <path d="M 244.4058 201.201321 
-L 422.8542 201.201321 
-Q 427.2066 201.201321 427.2066 196.972409 
-L 427.2066 171.59894 
-Q 427.2066 167.370028 422.8542 167.370028 
-L 244.4058 167.370028 
-Q 240.0534 167.370028 240.0534 171.59894 
-L 240.0534 196.972409 
-Q 240.0534 201.201321 244.4058 201.201321 
+    <path d="M 241.1415 200.144093 
+L 426.1185 200.144093 
+L 426.1185 168.427256 
+L 241.1415 168.427256 
 z
-" clip-path="url(#p55f52afc6b)" style="fill: #eaf0f8; stroke: #1f4e8c; stroke-width: 1.3; stroke-linejoin: miter"/>
+" clip-path="url(#pcb1dadfeb2)" style="fill: #eceef1; stroke: #101217; stroke-width: 1.3; stroke-linejoin: miter"/>
    </g>
    <g id="patch_6">
-    <path d="M 64.8693 272.564205 
-L 199.7937 272.564205 
-Q 204.1461 272.564205 204.1461 268.335293 
-L 204.1461 236.618456 
-Q 204.1461 232.389544 199.7937 232.389544 
-L 64.8693 232.389544 
-Q 60.5169 232.389544 60.5169 236.618456 
-L 60.5169 268.335293 
-Q 60.5169 272.564205 64.8693 272.564205 
+    <path d="M 61.605 271.506977 
+L 203.058 271.506977 
+L 203.058 233.446772 
+L 61.605 233.446772 
 z
-" clip-path="url(#p55f52afc6b)" style="fill: #ffffff; stroke: #2c6e8c; stroke-width: 1.3; stroke-linejoin: miter"/>
+" clip-path="url(#pcb1dadfeb2)" style="fill: #ffffff; stroke: #006925; stroke-width: 1.3; stroke-linejoin: miter"/>
    </g>
    <g id="patch_7">
-    <path d="M 266.1678 272.564205 
-L 401.0922 272.564205 
-Q 405.4446 272.564205 405.4446 268.335293 
-L 405.4446 236.618456 
-Q 405.4446 232.389544 401.0922 232.389544 
-L 266.1678 232.389544 
-Q 261.8154 232.389544 261.8154 236.618456 
-L 261.8154 268.335293 
-Q 261.8154 272.564205 266.1678 272.564205 
+    <path d="M 262.9035 271.506977 
+L 404.3565 271.506977 
+L 404.3565 233.446772 
+L 262.9035 233.446772 
 z
-" clip-path="url(#p55f52afc6b)" style="fill: #ffffff; stroke: #8c682c; stroke-width: 1.3; stroke-linejoin: miter"/>
+" clip-path="url(#pcb1dadfeb2)" style="fill: #ffffff; stroke: #ab7400; stroke-width: 1.3; stroke-linejoin: miter"/>
    </g>
    <g id="patch_8">
-    <path d="M 467.4663 272.564205 
-L 635.0337 272.564205 
-Q 639.3861 272.564205 639.3861 268.335293 
-L 639.3861 236.618456 
-Q 639.3861 232.389544 635.0337 232.389544 
-L 467.4663 232.389544 
-Q 463.1139 232.389544 463.1139 236.618456 
-L 463.1139 268.335293 
-Q 463.1139 272.564205 467.4663 272.564205 
+    <path d="M 464.202 271.506977 
+L 638.298 271.506977 
+L 638.298 233.446772 
+L 464.202 233.446772 
 z
-" clip-path="url(#p55f52afc6b)" style="fill: #ffffff; stroke: #1d7a4e; stroke-width: 1.3; stroke-linejoin: miter"/>
+" clip-path="url(#pcb1dadfeb2)" style="fill: #ffffff; stroke: #4d525b; stroke-width: 1.3; stroke-linejoin: miter"/>
    </g>
    <g id="patch_9">
-    <path d="M 32.2263 351.856298 
-L 210.6747 351.856298 
-Q 215.0271 351.856298 215.0271 347.627386 
-L 215.0271 314.324707 
-Q 215.0271 310.095795 210.6747 310.095795 
-L 32.2263 310.095795 
-Q 27.8739 310.095795 27.8739 314.324707 
-L 27.8739 347.627386 
-Q 27.8739 351.856298 32.2263 351.856298 
+    <path d="M 28.962 350.79907 
+L 213.939 350.79907 
+L 213.939 311.153023 
+L 28.962 311.153023 
 z
-" clip-path="url(#p55f52afc6b)" style="fill: #ffffff; stroke: #3a3833; stroke-width: 1.3; stroke-linejoin: miter"/>
+" clip-path="url(#pcb1dadfeb2)" style="fill: #ffffff; stroke: #4d525b; stroke-width: 1.3; stroke-linejoin: miter"/>
    </g>
    <g id="patch_10">
-    <path d="M 233.5248 351.856298 
-L 411.9732 351.856298 
-Q 416.3256 351.856298 416.3256 347.627386 
-L 416.3256 314.324707 
-Q 416.3256 310.095795 411.9732 310.095795 
-L 233.5248 310.095795 
-Q 229.1724 310.095795 229.1724 314.324707 
-L 229.1724 347.627386 
-Q 229.1724 351.856298 233.5248 351.856298 
+    <path d="M 230.2605 350.79907 
+L 415.2375 350.79907 
+L 415.2375 311.153023 
+L 230.2605 311.153023 
 z
-" clip-path="url(#p55f52afc6b)" style="fill: #ffffff; stroke: #3a3833; stroke-width: 1.3; stroke-linejoin: miter"/>
+" clip-path="url(#pcb1dadfeb2)" style="fill: #ffffff; stroke: #4d525b; stroke-width: 1.3; stroke-linejoin: miter"/>
    </g>
    <g id="patch_11">
-    <path d="M 32.2263 423.219181 
-L 210.6747 423.219181 
-Q 215.0271 423.219181 215.0271 418.99027 
-L 215.0271 377.758381 
-Q 215.0271 373.52947 210.6747 373.52947 
-L 32.2263 373.52947 
-Q 27.8739 373.52947 27.8739 377.758381 
-L 27.8739 418.99027 
-Q 27.8739 423.219181 32.2263 423.219181 
+    <path d="M 28.962 422.161953 
+L 213.939 422.161953 
+L 213.939 374.586698 
+L 28.962 374.586698 
 z
-" clip-path="url(#p55f52afc6b)" style="fill: #ffffff; stroke: #3a3833; stroke-width: 1.3; stroke-linejoin: miter"/>
+" clip-path="url(#pcb1dadfeb2)" style="fill: #ffffff; stroke: #4d525b; stroke-width: 1.3; stroke-linejoin: miter"/>
    </g>
    <g id="patch_12">
-    <path d="M 233.5248 423.219181 
-L 411.9732 423.219181 
-Q 416.3256 423.219181 416.3256 418.99027 
-L 416.3256 377.758381 
-Q 416.3256 373.52947 411.9732 373.52947 
-L 233.5248 373.52947 
-Q 229.1724 373.52947 229.1724 377.758381 
-L 229.1724 418.99027 
-Q 229.1724 423.219181 233.5248 423.219181 
+    <path d="M 230.2605 422.161953 
+L 415.2375 422.161953 
+L 415.2375 374.586698 
+L 230.2605 374.586698 
 z
-" clip-path="url(#p55f52afc6b)" style="fill: #ffffff; stroke: #3a3833; stroke-width: 1.3; stroke-linejoin: miter"/>
+" clip-path="url(#pcb1dadfeb2)" style="fill: #ffffff; stroke: #4d525b; stroke-width: 1.3; stroke-linejoin: miter"/>
    </g>
    <g id="patch_13">
-    <path d="M 467.4663 365.071647 
-L 635.0337 365.071647 
-Q 639.3861 365.071647 639.3861 360.842735 
-L 639.3861 311.681637 
-Q 639.3861 307.452726 635.0337 307.452726 
-L 467.4663 307.452726 
-Q 463.1139 307.452726 463.1139 311.681637 
-L 463.1139 360.842735 
-Q 463.1139 365.071647 467.4663 365.071647 
+    <path d="M 464.202 364.014419 
+L 638.298 364.014419 
+L 638.298 308.509953 
+L 464.202 308.509953 
 z
-" clip-path="url(#p55f52afc6b)" style="fill: #ffffff; stroke: #5c2c8c; stroke-width: 1.3; stroke-linejoin: miter"/>
+" clip-path="url(#pcb1dadfeb2)" style="fill: #ffffff; stroke: #6d727b; stroke-width: 1.3; stroke-linejoin: miter"/>
    </g>
    <g id="line2d_1">
     <path d="M 426.1185 184.285674 
 L 649.179 184.285674 
 L 649.179 287.365395 
-" clip-path="url(#p55f52afc6b)" style="fill: none; stroke: #5c2c8c; stroke-width: 1.2; stroke-linecap: square"/>
+" clip-path="url(#pcb1dadfeb2)" style="fill: none; stroke: #6d727b; stroke-width: 1.2; stroke-linecap: square"/>
    </g>
    <g id="text_1">
-    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Serif'; text-anchor: start" x="7.2" y="21.040882" transform="rotate(-0 7.2 21.040882)">Alimentation électrique de l'infrastructure</text>
+    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #101217" x="7.2" y="21.040882" transform="rotate(-0 7.2 21.040882)">Alimentation électrique de l'infrastructure</text>
    </g>
    <g id="text_2">
-    <text style="font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3833" x="7.2" y="37.386378" transform="rotate(-0 7.2 37.386378)">Chaque équipement critique est alimenté par deux voies indépendantes (A et B). La panne d'un onduleur ou d'un circuit ne coupe aucun service.</text>
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #4d525b" x="7.2" y="37.386378" transform="rotate(-0 7.2 37.386378)">Chaque équipement critique est alimenté par deux voies indépendantes (A et B). La panne d'un onduleur ou d'un circuit ne coupe aucun service.</text>
    </g>
    <g id="text_3">
-    <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #05893e" x="7.2" y="51.658955" transform="rotate(-0 7.2 51.658955)">v2.1 : un groupe électrogène et un inverseur de source secourent tout le tableau informatique (coupure longue).</text>
+    <text style="font-weight: 700; font-size: 8px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #006925" x="7.2" y="51.658955" transform="rotate(-0 7.2 51.658955)">v2.1 : un groupe électrogène et un inverseur de source secourent tout le tableau informatique (coupure longue).</text>
    </g>
    <g id="text_4">
-    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="184.01625" y="83.983692" transform="rotate(-0 184.01625 83.983692)">Arrivée électrique du bâtiment</text>
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #101217" x="184.01625" y="83.983692" transform="rotate(-0 184.01625 83.983692)">Arrivée électrique du bâtiment</text>
    </g>
    <g id="text_5">
-    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3833" x="184.01625" y="99.486986" transform="rotate(-0 184.01625 99.486986)">TGBT existant (RDC) · départ 4P 63 A</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #4d525b" x="184.01625" y="99.486986" transform="rotate(-0 184.01625 99.486986)">TGBT existant (RDC) · départ 4P 63 A</text>
    </g>
    <g id="text_6">
-    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="491.4045" y="83.954005" transform="rotate(-0 491.4045 83.954005)">Groupe électrogène 33 kVA ESP · v2.1</text>
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #101217" x="491.4045" y="83.954005" transform="rotate(-0 491.4045 83.954005)">Groupe électrogène 33 kVA ESP · v2.1</text>
    </g>
    <g id="text_7">
-    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3833" x="491.4045" y="99.486986" transform="rotate(-0 491.4045 99.486986)">30 kVA PRP, diesel, capoté · cuve 250 l (≈ 62 h) · extérieur</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #4d525b" x="491.4045" y="99.486986" transform="rotate(-0 491.4045 99.486986)">30 kVA PRP, diesel, capoté · cuve 250 l (≈ 61 h) · extérieur</text>
    </g>
    <g id="text_8">
-    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="333.63" y="131.935562" transform="rotate(-0 333.63 131.935562)">Inverseur de source automatique · v2.1</text>
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #101217" x="333.63" y="131.935562" transform="rotate(-0 333.63 131.935562)">Inverseur de source automatique · v2.1</text>
    </g>
    <g id="text_9">
-    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3833" x="333.63" y="147.462856" transform="rotate(-0 333.63 147.462856)">4P 63 A · bascule en ≈ 15 s · reports vers la supervision</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #4d525b" x="333.63" y="147.462856" transform="rotate(-0 333.63 147.462856)">4P 63 A · bascule en ≈ 15 s · reports vers la supervision</text>
    </g>
    <g id="patch_14">
     <path d="M 185.989112 105.322191 
 Q 231.621148 112.922878 275.929776 120.303132 
-" style="fill: none; stroke: #3a3833; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: none; stroke: #4d525b; stroke-width: 1.2; stroke-linecap: round"/>
     <path d="M 273.036145 118.199112 
 L 275.929776 120.303132 
 L 272.510381 121.355625 
 z
-" style="fill: #3a3833; stroke: #3a3833; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: #4d525b; stroke: #4d525b; stroke-width: 1.2; stroke-linecap: round"/>
    </g>
    <g id="patch_15">
     <path d="M 489.426574 105.297025 
@@ -239,7 +178,7 @@ z
 " style="fill: #05893e; stroke: #05893e; stroke-width: 1.2; stroke-linecap: round"/>
    </g>
    <g id="text_10">
-    <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #3a3833" x="132.3315" y="118.20893" transform="rotate(-0 132.3315 118.20893)">réseau (normal)</text>
+    <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #4d525b" x="132.3315" y="118.20893" transform="rotate(-0 132.3315 118.20893)">réseau (normal)</text>
    </g>
    <g id="text_11">
     <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #05893e" x="483.24375" y="118.20893" transform="rotate(-0 483.24375 118.20893)">secours</text>
@@ -247,192 +186,195 @@ z
    <g id="patch_16">
     <path d="M 333.63 154.570498 
 Q 333.63 160.499201 333.63 165.086263 
-" style="fill: none; stroke: #3a3833; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: none; stroke: #4d525b; stroke-width: 1.2; stroke-linecap: round"/>
     <path d="M 335.23 161.886263 
 L 333.63 165.086263 
 L 332.03 161.886263 
 z
-" style="fill: #3a3833; stroke: #3a3833; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: #4d525b; stroke: #4d525b; stroke-width: 1.2; stroke-linecap: round"/>
    </g>
    <g id="text_12">
-    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="333.63" y="179.510818" transform="rotate(-0 333.63 179.510818)">Tableau informatique TD-INFO</text>
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #101217" x="333.63" y="179.510818" transform="rotate(-0 333.63 179.510818)">Tableau informatique TD-INFO</text>
    </g>
    <g id="text_13">
-    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3833" x="333.63" y="195.166112" transform="rotate(-0 333.63 195.166112)">dans la salle serveur, hors d'eau · 13 départs</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #4d525b" x="333.63" y="195.166112" transform="rotate(-0 333.63 195.166112)">dans la salle serveur, hors d'eau · 13 départs</text>
    </g>
    <g id="text_14">
-    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="132.3315" y="247.702018" transform="rotate(-0 132.3315 247.702018)">Onduleur A</text>
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #101217" x="132.3315" y="247.702018" transform="rotate(-0 132.3315 247.702018)">Onduleur A</text>
    </g>
    <g id="text_15">
-    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3833" x="132.3315" y="263.229312" transform="rotate(-0 132.3315 263.229312)">APC SRT 6 kVA + pack batterie</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #4d525b" x="132.3315" y="263.229312" transform="rotate(-0 132.3315 263.229312)">APC SRT 6 kVA + pack batterie</text>
    </g>
    <g id="text_16">
-    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="333.63" y="247.702018" transform="rotate(-0 333.63 247.702018)">Onduleur B</text>
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #101217" x="333.63" y="247.702018" transform="rotate(-0 333.63 247.702018)">Onduleur B</text>
    </g>
    <g id="text_17">
-    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3833" x="333.63" y="263.229312" transform="rotate(-0 333.63 263.229312)">APC SRT 6 kVA + pack batterie</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #4d525b" x="333.63" y="263.229312" transform="rotate(-0 333.63 263.229312)">APC SRT 6 kVA + pack batterie</text>
    </g>
    <g id="patch_17">
     <path d="M 277.274967 200.586191 
 Q 205.778576 216.795359 135.590622 232.707887 
-" style="fill: none; stroke: #2c6e8c; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: none; stroke: #006925; stroke-width: 1.2; stroke-linecap: round"/>
     <path d="M 139.065187 233.560761 
 L 135.590622 232.707887 
 L 138.357661 230.439959 
 z
-" style="fill: #2c6e8c; stroke: #2c6e8c; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: #006925; stroke: #006925; stroke-width: 1.2; stroke-linecap: round"/>
    </g>
    <g id="patch_18">
     <path d="M 333.63 202.14014 
 Q 333.63 216.794105 333.63 230.106429 
-" style="fill: none; stroke: #8c682c; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: none; stroke: #ab7400; stroke-width: 1.2; stroke-linecap: round"/>
     <path d="M 335.23 226.906429 
 L 333.63 230.106429 
 L 332.03 226.906429 
 z
-" style="fill: #8c682c; stroke: #8c682c; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: #ab7400; stroke: #ab7400; stroke-width: 1.2; stroke-linecap: round"/>
    </g>
    <g id="text_18">
-    <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #2c6e8c" x="61.605" y="217.588353" transform="rotate(-0 61.605 217.588353)">départ 32 A · diff. type B</text>
+    <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #006925" x="61.605" y="217.588353" transform="rotate(-0 61.605 217.588353)">départ 32 A · diff. type B</text>
    </g>
    <g id="text_19">
-    <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #8c682c" x="339.0705" y="217.588353" transform="rotate(-0 339.0705 217.588353)">départ 32 A · type B</text>
+    <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #ab7400" x="339.0705" y="217.588353" transform="rotate(-0 339.0705 217.588353)">départ 32 A · type B</text>
    </g>
    <g id="text_20">
-    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="551.25" y="247.702018" transform="rotate(-0 551.25 247.702018)">2 climatiseurs 7.1 kW</text>
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #101217" x="551.25" y="247.702018" transform="rotate(-0 551.25 247.702018)">2 climatiseurs 7,1 kW</text>
    </g>
    <g id="text_21">
-    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3833" x="551.25" y="263.357312" transform="rotate(-0 551.25 263.357312)">1 en marche, 1 en secours · relance temporisée</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #4d525b" x="551.25" y="263.357312" transform="rotate(-0 551.25 263.357312)">1 en marche, 1 en secours · relance temporisée</text>
    </g>
    <g id="patch_19">
     <path d="M 389.981878 200.602452 
 Q 458.762126 216.79558 526.236437 232.681248 
-" style="fill: none; stroke: #1d7a4e; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: none; stroke: #4d525b; stroke-width: 1.2; stroke-linecap: round"/>
     <path d="M 523.488266 230.390493 
 L 526.236437 232.681248 
 L 522.754931 233.505332 
 z
-" style="fill: #1d7a4e; stroke: #1d7a4e; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: #4d525b; stroke: #4d525b; stroke-width: 1.2; stroke-linecap: round"/>
    </g>
    <g id="text_22">
-    <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #1d7a4e" x="466.92225" y="217.588353" transform="rotate(-0 466.92225 217.588353)">2 départs 20 A · type F</text>
+    <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #4d525b" x="466.92225" y="217.588353" transform="rotate(-0 466.92225 217.588353)">2 départs 20 A · type F</text>
    </g>
    <g id="text_23">
-    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="121.4505" y="326.20119" transform="rotate(-0 121.4505 326.20119)">Baie 1 · réseau et sécurité</text>
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #101217" x="121.4505" y="326.20119" transform="rotate(-0 121.4505 326.20119)">Baie 1 · réseau et sécurité</text>
    </g>
    <g id="text_24">
-    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3833" x="121.4505" y="341.728484" transform="rotate(-0 121.4505 341.728484)">PDU A (bleue) + PDU B (ocre), métrées</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #4d525b" x="121.4505" y="341.728484" transform="rotate(-0 121.4505 341.728484)">PDU A (verte) + PDU B (ocre), métrées</text>
    </g>
    <g id="text_25">
-    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="322.749" y="326.20119" transform="rotate(-0 322.749 326.20119)">Baie 2 · serveurs</text>
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #101217" x="322.749" y="326.323503" transform="rotate(-0 322.749 326.323503)">Baie 2 · serveurs, enregistreur vidéo</text>
    </g>
    <g id="text_26">
-    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #3a3833" x="322.749" y="341.728484" transform="rotate(-0 322.749 341.728484)">PDU A (bleue) + PDU B (ocre), métrées</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #4d525b" x="322.749" y="341.728484" transform="rotate(-0 322.749 341.728484)">PDU A (verte) + PDU B (ocre), métrées</text>
    </g>
    <g id="patch_20">
     <path d="M 131.127942 273.101627 
 Q 117.37046 291.329556 104.421213 308.486617 
-" style="fill: none; stroke: #2c6e8c; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: none; stroke: #006925; stroke-width: 1.2; stroke-linecap: round"/>
     <path d="M 107.626049 306.896325 
 L 104.421213 308.486617 
 L 105.071881 304.968573 
 z
-" style="fill: #2c6e8c; stroke: #2c6e8c; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: #006925; stroke: #006925; stroke-width: 1.2; stroke-linecap: round"/>
    </g>
    <g id="patch_21">
     <path d="M 331.670213 271.909269 
 Q 237.059933 291.330245 143.763891 310.481442 
-" style="fill: none; stroke: #8c682c; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: none; stroke: #ab7400; stroke-width: 1.2; stroke-linecap: round"/>
     <path d="M 147.220259 311.405304 
 L 143.763891 310.481442 
 L 146.576801 308.270665 
 z
-" style="fill: #8c682c; stroke: #8c682c; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: #ab7400; stroke: #ab7400; stroke-width: 1.2; stroke-linecap: round"/>
    </g>
    <g id="patch_22">
     <path d="M 134.279665 271.957665 
 Q 218.020107 291.330169 300.45343 310.400285 
-" style="fill: none; stroke: #2c6e8c; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: none; stroke: #006925; stroke-width: 1.2; stroke-linecap: round"/>
     <path d="M 297.696388 308.120215 
 L 300.45343 310.400285 
 L 296.975149 311.237876 
 z
-" style="fill: #2c6e8c; stroke: #2c6e8c; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: #006925; stroke: #006925; stroke-width: 1.2; stroke-linecap: round"/>
    </g>
    <g id="patch_23">
     <path d="M 334.033455 273.467017 
 Q 337.710879 291.332447 341.11781 307.883787 
-" style="fill: none; stroke: #8c682c; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: none; stroke: #ab7400; stroke-width: 1.2; stroke-linecap: round"/>
     <path d="M 342.039792 304.426917 
 L 341.11781 307.883787 
 L 338.905503 305.07208 
 z
-" style="fill: #8c682c; stroke: #8c682c; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: #ab7400; stroke: #ab7400; stroke-width: 1.2; stroke-linecap: round"/>
    </g>
    <g id="text_27">
-    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="121.4505" y="394.235969" transform="rotate(-0 121.4505 394.235969)">Équipements à 2 alimentations</text>
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #101217" x="121.4505" y="394.235969" transform="rotate(-0 121.4505 394.235969)">Équipements à 2 alimentations</text>
    </g>
    <g id="text_28">
-    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(58.554 405.543463)">cœur, distribution, pare-feux FortiGate,</text>
-    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(72.061 412.710063)">serveurs : 1 alim sur A, 1 sur B</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #4d525b" transform="translate(41.0965 405.543463)">cœur, distribution, switchs DT, pare-feu FortiGate,</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #4d525b" transform="translate(72.061 412.710063)">serveurs : 1 alim sur A, 1 sur B</text>
    </g>
    <g id="text_29">
-    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="322.749" y="394.235969" transform="rotate(-0 322.749 394.235969)">Équipements à 1 alimentation</text>
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #101217" x="322.749" y="394.235969" transform="rotate(-0 322.749 394.235969)">Équipements à 1 alimentation</text>
    </g>
    <g id="text_30">
-    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(258.968 405.543463)">routeurs, switchs C9200L, Stormshield :</text>
-    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(283.1635 412.710063)">le n°1 sur A, le n°2 sur B</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #4d525b" transform="translate(260.046 405.543463)">routeurs, switchs C9200L, Stormshield,</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #4d525b" transform="translate(248.983 412.710063)">contrôleurs Wi-Fi 9800-L : n°1 sur A, n°2 sur B</text>
    </g>
    <g id="patch_24">
     <path d="M 121.4505 352.799763 
 Q 121.4505 362.691914 121.4505 371.242425 
-" style="fill: none; stroke: #3a3833; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: none; stroke: #4d525b; stroke-width: 1.2; stroke-linecap: round"/>
     <path d="M 123.0505 368.042425 
 L 121.4505 371.242425 
 L 119.8505 368.042425 
 z
-" style="fill: #3a3833; stroke: #3a3833; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: #4d525b; stroke: #4d525b; stroke-width: 1.2; stroke-linecap: round"/>
    </g>
    <g id="patch_25">
     <path d="M 322.749 352.799763 
 Q 322.749 362.691914 322.749 371.242425 
-" style="fill: none; stroke: #3a3833; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: none; stroke: #4d525b; stroke-width: 1.2; stroke-linecap: round"/>
     <path d="M 324.349 368.042425 
 L 322.749 371.242425 
 L 321.149 368.042425 
 z
-" style="fill: #3a3833; stroke: #3a3833; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: #4d525b; stroke: #4d525b; stroke-width: 1.2; stroke-linecap: round"/>
    </g>
    <g id="text_31">
-    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle" x="551.25" y="320.12213" transform="rotate(-0 551.25 320.12213)">6 locaux techniques</text>
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #101217" x="551.25" y="320.12213" transform="rotate(-0 551.25 320.12213)">6 locaux techniques</text>
    </g>
    <g id="text_32">
-    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(469.0605 333.460284)">coffret du local → onduleur 1,5 kVA → switchs PoE+</text>
-    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(481.668 340.934084)">→ bornes, caméras, badgeuses, téléphones</text>
-    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(479.347 348.100684)">ventilation : 3 extracteurs, 1 mini-split (v2.1)</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #4d525b" transform="translate(469.0605 333.460284)">coffret du local → onduleur 1,5 kVA → switchs PoE+</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #4d525b" transform="translate(481.668 340.934084)">→ bornes, caméras, badgeuses, téléphones</text>
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; fill: #4d525b" transform="translate(479.347 348.100684)">ventilation : 3 extracteurs, 1 mini-split (v2.1)</text>
    </g>
    <g id="patch_26">
     <path d="M 647.601707 288.591429 
 Q 635.578943 297.936747 624.61545 306.458692 
-" style="fill: none; stroke: #5c2c8c; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: none; stroke: #6d727b; stroke-width: 1.2; stroke-linecap: round"/>
     <path d="M 628.12389 305.758086 
 L 624.61545 306.458692 
 L 626.160029 303.231577 
 z
-" style="fill: #5c2c8c; stroke: #5c2c8c; stroke-width: 1.2; stroke-linecap: round"/>
+" style="fill: #6d727b; stroke: #6d727b; stroke-width: 1.2; stroke-linecap: round"/>
    </g>
    <g id="text_33">
-    <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #5c2c8c" x="496.845" y="180.585377" transform="rotate(-0 496.845 180.585377)">6 départs 20 A · 300 mA type A-S</text>
+    <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6d727b" x="496.845" y="180.585377" transform="rotate(-0 496.845 180.585377)">6 départs 20 A · 300 mA type A-S</text>
    </g>
    <g id="text_34">
-    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(453.321 415.76462)">Coupure secteur : onduleurs sur batterie sans interruption ;</text>
-    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(453.321 423.705533)">groupe en charge en ≈ 15 s, clim relancée à 60 s. Groupe absent :</text>
-    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; fill: #3a3833" transform="translate(453.321 431.320045)">arrêt ordonné à T0 + 3 min (33 min d'autonomie avec 1 onduleur).</text>
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; fill: #4d525b" transform="translate(453.321 415.76462)">Coupure secteur : onduleurs sur batterie sans interruption ;</text>
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; fill: #4d525b" transform="translate(453.321 423.705533)">groupe en charge en ≈ 15 s, clim relancée à 60 s. Groupe absent :</text>
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; fill: #4d525b" transform="translate(453.321 431.320045)">arrêt ordonné à T0 + 3 min (32 min d'autonomie avec 1 onduleur).</text>
+   </g>
+   <g id="text_35">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6d727b" x="7.2" y="457.792336" transform="rotate(-0 7.2 457.792336)">RudyLink Infrastructure · IUT Génie Télécom, Luminy · point 14 · v2.1 — 20/11/2026</text>
    </g>
   </g>
  </g>
  <defs>
-  <clipPath id="p55f52afc6b">
+  <clipPath id="pcb1dadfeb2">
    <rect x="7.2" y="7.2" width="652.86" height="454.608"/>
   </clipPath>
  </defs>
