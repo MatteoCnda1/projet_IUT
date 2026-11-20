@@ -66,7 +66,8 @@ DAC_SALLE = 54
 NB_OPTIQUES = 4 * NB_AL_SW + DAC_SALLE
 
 # Sûreté (lot 4, v2.1) : enregistrement continu, conservation 30 jours au plus (volet juridique)
-VIDEO = dict(jours=30, debits_mbps=(4, 8), disques=8, disque_to=8, utile_to=43)
+VIDEO = dict(jours=30, debits_mbps=(4, 8), disques=6, disque_to=8)   # RAID 6 : 2 disques de parité
+VIDEO["utile_to"] = round((VIDEO["disques"] - 2) * VIDEO["disque_to"] * 1e12 / 2 ** 40)   # To utiles (Tio)
 VIDEO["besoin_to"] = [round(NB_CAMERAS * d * 1e6 * VIDEO["jours"] * 86400 / 8 / 1e12, 1) for d in VIDEO["debits_mbps"]]
 
 
@@ -134,7 +135,7 @@ CAPEX = [
     ("Sûreté", "VS-NVR1", "Licence VMS par caméra (perpétuelle, 3 ans de mises à jour)", NB_CAMERAS, 150,
      "v2.1 : ordre de grandeur 100 à 200 € par caméra, à confirmer par devis"),
     ("Sûreté", "VS-NVR1", f"Enregistreur vidéo 2U, {VIDEO['disques']} × {VIDEO['disque_to']} To en RAID 6 (≈ {VIDEO['utile_to']} To utiles), "
-     "logiciel VMS, 2 alimentations", 1, 7500,
+     "logiciel VMS, 2 alimentations", 1, 7000,
      f"v2.1 : baie 2 de la salle serveur. {VIDEO['jours']} jours d'images : {NB_CAMERAS} caméras × {VIDEO['debits_mbps'][0]} Mb/s ≈ "
      f"{fr(VIDEO['besoin_to'][0])} To ({fr(VIDEO['besoin_to'][1])} To à {VIDEO['debits_mbps'][1]} Mb/s). À confirmer par devis"),
     ("Sûreté", f"Badgeuses {NB_BADGES} (plan de câblage)", "Lecteur sans contact DESFire EV3 + UTL OSDP v2 (canal sécurisé), gâche ou ventouse, "
@@ -320,7 +321,7 @@ def main():
            "- Bâtiment IUT Génie Télécom (Luminy) : sous-sol, RDC, étage 1, 6 locaux techniques (plans `docs/plans_batiment/`).",
            (f"- {NB_PRISES} prises d'après le plan de câblage (`livrables/plan_cablage/`) : bureaux 2 par poste, salles de TP 1 par poste + 2, "
             f"salles de TD/cours/réunion 3, {NB_BORNES} bornes Wi-Fi (étude RSSI), {NB_CAMERAS} caméras IP, {NB_BADGES} badgeuses." if PLAN else
-            "- ~400 prises : ~17 bureaux × 2, ~10 salles info/TP/réseaux × 24, ~12 salles TD/cours/réunion × 3, 30 bornes, ~14 caméras IP, ~11 badgeuses."),
+            "- ~400 prises : ~17 bureaux × 2, ~10 salles info/TP/réseaux × 24, ~12 salles TD/cours/réunion × 3, 30 bornes, 7 caméras IP (accès des locaux techniques), ~11 badgeuses."),
            "- Postes clients, imprimantes et téléphones IP exclus (budget poste de travail à part).",
            f"- Sûreté (lot 4, v2.1) : enregistrement continu, {VIDEO['jours']} jours au plus ; {NB_CAMERAS} caméras × {VIDEO['debits_mbps'][0]} à "
            f"{VIDEO['debits_mbps'][1]} Mb/s = {fr(VIDEO['besoin_to'][0])} à {fr(VIDEO['besoin_to'][1])} To, couverts par les {VIDEO['utile_to']} To utiles "

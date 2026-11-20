@@ -294,7 +294,7 @@ z
     <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; fill: #2b2f36" transform="translate(373.627352 204.513671)">porte vers CIRC 03</text>
     <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; fill: #2b2f36" transform="translate(373.627352 211.792249)">batardeau</text>
     <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; fill: #2b2f36" transform="translate(373.627352 219.070827)">badge N-1-B1</text>
-    <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; fill: #2b2f36" transform="translate(373.627352 226.349406)">caméra N-1-C2</text>
+    <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; fill: #2b2f36" transform="translate(373.627352 226.349406)">caméra N-1-C1</text>
    </g>
    <g id="text_5">
     <text style="font-size: 6.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #6d727b" x="202.02581" y="285.37513" transform="rotate(-0 202.02581 285.37513)">mur sud : local technique N-1-LT01 (passage des fibres)</text>
@@ -442,7 +442,7 @@ L 18.502372 266.378325
     <text style="font-size: 6.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #2b2f36" x="461.363478" y="268.748903" transform="rotate(-0 461.363478 268.748903)">pointillé ocre : plancher surélevé 30 cm · batardeau à la porte</text>
    </g>
    <g id="text_33">
-    <text style="font-size: 7px; font-family: 'DejaVu Sans'; fill: #4d525b" transform="translate(443.300158 294.070606)">Chaleur à évacuer : 4,00 kW (pointe 5,38 kW).</text>
+    <text style="font-size: 7px; font-family: 'DejaVu Sans'; fill: #4d525b" transform="translate(443.300158 294.070606)">Chaleur à évacuer : 3,99 kW (pointe 5,36 kW).</text>
     <text style="font-size: 7px; font-family: 'DejaVu Sans'; fill: #4d525b" transform="translate(443.300158 301.909075)">Un seul climatiseur suffit ; le second prend le relais</text>
     <text style="font-size: 7px; font-family: 'DejaVu Sans'; fill: #4d525b" transform="translate(443.300158 309.747543)">en cas de panne ou d'entretien.</text>
    </g>

@@ -358,7 +358,9 @@ LOTS = [
                       "préfectorale pour les caméras qui filment des lieux ouverts au public (entrées, hall, parkings), selon la position "
                       "du DPO." if J.LIEU_DE_PAUSE_FILME else
                       "Avant la mise en service : autorisation préfectorale pour les caméras qui filment des lieux ouverts au public (entrées, "
-                      "hall, parkings) et validation par le DPO du champ de chaque caméra."),
+                      "hall, parkings) et validation par le DPO du champ de chaque caméra." if J.LIEU_PUBLIC_FILME else
+                      "Caméras limitées aux accès contrôlés des locaux techniques (porte badgée) : aucune ne filme un lieu ouvert au "
+                      "public, pas d'autorisation préfectorale. Avant la mise en service : validation par le DPO du champ de chaque caméra."),
     },
     {
         "num": 5, "titre": "Énergie et locaux techniques", "nouveau": True,

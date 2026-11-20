@@ -7,8 +7,8 @@ Décisions de l'équipe (12/11/2026) :
   - densité de prises : hypothèse du chiffrage (bureau 2 par poste, salle TP 1 par poste + 2,
     salle TD/cours/réunion 3) ;
   - bornes Wi-Fi : nombre fixé par l'étude RSSI (etude_rssi.py) ;
-  - 14 caméras (v2.1 : plus de caméra au foyer des étudiants, lieu de pause, CNIL), 11 badgeuses (salle serveur,
-    6 L.TECH, entrée, hall, 2 salles réseaux) : listes CAMERAS et BADGEUSES de plan_cablage.py ;
+  - caméras (v2.1) : une à chaque accès contrôlé de local technique (salle serveur et 6 L.TECH), 11 badgeuses (salle
+    serveur, 6 L.TECH, entrée, hall, 2 salles réseaux) : listes CAMERAS_ACCES et BADGEUSES de plan_cablage.py ;
   - téléphones IP : 1 par bureau d'enseignant + l'accueil (secrétariat), sur la 2e prise du bureau.
 """
 import re

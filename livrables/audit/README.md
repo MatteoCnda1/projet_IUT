@@ -21,15 +21,15 @@ Les deux audits du dossier et leur traitement : l'audit du 15/11/2026 (version 1
 |---|---:|---:|---:|
 | Serveurs physiques | 16 | 9 | 9 |
 | VLAN (hors transits) | 37 | 41 | 41 |
-| Puissance IT de la salle serveur | 4,15 kW | 3,46 kW | 3,57 kW |
+| Puissance IT de la salle serveur | 4,15 kW | 3,46 kW | 3,56 kW |
 | PUE de la salle serveur | 1,34 | 1,34 | 1,45 |
-| Électricité par an | 61 557 kWh | 53 510 kWh | 59 422 kWh |
+| Électricité par an | 61 557 kWh | 53 510 kWh | 58 831 kWh |
 | Autonomie avec un seul onduleur | 24 min | 33 min | 32 min |
 | Secours long | aucun | aucun | groupe 33 kVA, 61 h |
 | Lot énergie (investissement) | 57 000 € | 71 900 € | 104 550 € |
-| CAPEX (aléas compris) | 582 951 € | 606 403 € | 678 991 € |
-| OPEX annuel | 44 081 € | 44 892 € | 66 756 € |
-| Coût sur 5 ans | 859 070 € | 881 177 € | 1 065 251 € |
+| CAPEX (aléas compris) | 582 951 € | 606 403 € | 670 587 € |
+| OPEX annuel | 44 081 € | 44 892 € | 66 637 € |
+| Coût sur 5 ans | 859 070 € | 881 177 € | 1 055 832 € |
 
 v1 et v2 sont relues dans leurs archives (`livrables/archives/`), la v2.1 dans `chiffrage/estimation.json` et `livrables/energie_refroidissement/resume.json`.
 

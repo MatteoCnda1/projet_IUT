@@ -99,7 +99,7 @@
    "quantite": 15,
    "pu_ht": 3900,
    "total_ht": 58500,
-   "note": "Plan de câblage : 15 switchs pour 483 prises (+10 % de ports libres) et le budget PoE, répartis dans les 6 L.TECH (le schéma de site n'en montre que 4, à titre de principe)"
+   "note": "Plan de câblage : 15 switchs pour 476 prises (+10 % de ports libres) et le budget PoE, répartis dans les 6 L.TECH (le schéma de site n'en montre que 4, à titre de principe)"
   },
   {
    "categorie": "Accès",
@@ -297,7 +297,7 @@
    "quantite": 2,
    "pu_ht": 1400,
    "total_ht": 2800,
-   "note": "Autonomie si un onduleur tombe : 10,6 min sans pack, 32 min avec (point 14)"
+   "note": "Autonomie si un onduleur tombe : 10,7 min sans pack, 32 min avec (point 14)"
   },
   {
    "categorie": "Énergie / locaux",
@@ -445,30 +445,30 @@
   },
   {
    "categorie": "Sûreté",
-   "schema": "Caméras 14 (plan de câblage)",
+   "schema": "Caméras 7 (plan de câblage)",
    "solution": "Caméra IP fixe PoE 802.3af, ONVIF profils S et T, 802.1X, posée, raccordée et réglée (masquage des zones privatives), panneaux d'information compris",
-   "quantite": 14,
+   "quantite": 7,
    "pu_ht": 550,
-   "total_ht": 7700,
+   "total_ht": 3850,
    "note": "v2.1 : lot 4 chiffré ; ordre de grandeur 400 à 700 € posée, à confirmer par devis. Aucune caméra au foyer des étudiants"
   },
   {
    "categorie": "Sûreté",
    "schema": "VS-NVR1",
    "solution": "Licence VMS par caméra (perpétuelle, 3 ans de mises à jour)",
-   "quantite": 14,
+   "quantite": 7,
    "pu_ht": 150,
-   "total_ht": 2100,
+   "total_ht": 1050,
    "note": "v2.1 : ordre de grandeur 100 à 200 € par caméra, à confirmer par devis"
   },
   {
    "categorie": "Sûreté",
    "schema": "VS-NVR1",
-   "solution": "Enregistreur vidéo 2U, 8 × 8 To en RAID 6 (≈ 43 To utiles), logiciel VMS, 2 alimentations",
+   "solution": "Enregistreur vidéo 2U, 6 × 8 To en RAID 6 (≈ 29 To utiles), logiciel VMS, 2 alimentations",
    "quantite": 1,
-   "pu_ht": 7500,
-   "total_ht": 7500,
-   "note": "v2.1 : baie 2 de la salle serveur. 30 jours d'images : 14 caméras × 4 Mb/s ≈ 18 To (36 To à 8 Mb/s). À confirmer par devis"
+   "pu_ht": 7000,
+   "total_ht": 7000,
+   "note": "v2.1 : baie 2 de la salle serveur. 30 jours d'images : 7 caméras × 4 Mb/s ≈ 9 To (18 To à 8 Mb/s). À confirmer par devis"
   },
   {
    "categorie": "Sûreté",
@@ -492,9 +492,9 @@
    "categorie": "Câblage",
    "schema": "Prises",
    "solution": "Prise RJ45 Cat6A fournie, posée et recettée",
-   "quantite": 483,
+   "quantite": 476,
    "pu_ht": 140,
-   "total_ht": 67620,
+   "total_ht": 66640,
    "note": "10 Gb/s, durée de vie 15 ans (CdC). Usagers + bornes + caméras + badgeuses (plan de câblage)"
   },
   {
@@ -510,9 +510,9 @@
    "categorie": "Câblage",
    "schema": "Chemins de câbles",
    "solution": "Chemin de câbles fil 100×50 mm, posé",
-   "quantite": 628,
+   "quantite": 592,
    "pu_ht": 35,
-   "total_ht": 21980,
+   "total_ht": 20720,
    "note": "Métré du plan de câblage (circulations et locaux)"
   },
   {
@@ -581,13 +581,13 @@
   "Datacenter": 60050,
   "Énergie / locaux": 72550,
   "Énergie / secours": 32000,
-  "Sûreté": 32000,
-  "Câblage": 120765,
+  "Sûreté": 26600,
+  "Câblage": 118525,
   "Prestations": 39000
  },
- "sous_total": 617265,
- "aleas": 61726,
- "capex": 678991,
+ "sous_total": 609625,
+ "aleas": 60962,
+ "capex": 670587,
  "opex": [
   {
    "poste": "Accès Internet FAI 1",
@@ -641,8 +641,8 @@
   },
   {
    "poste": "Électricité du réseau",
-   "detail": "59 422 kWh/an × 0,20 € (salle serveur, PUE 1,45, 6 locaux techniques)",
-   "montant": 11884
+   "detail": "58 831 kWh/an × 0,20 € (salle serveur, PUE 1,45, 6 locaux techniques)",
+   "montant": 11766
   },
   {
    "poste": "Maintenance de la climatisation",
@@ -677,7 +677,7 @@
   {
    "poste": "Gazole du groupe électrogène",
    "detail": "v2.1 : 55 l/an × 1,40 € (essais mensuels, banc, coupures) + analyse et traitement du gazole",
-   "montant": 157
+   "montant": 156
   },
   {
    "poste": "Maintenance du mini-split des L.TECH",
@@ -690,7 +690,7 @@
    "montant": 30
   }
  ],
- "opex_total": 66756,
+ "opex_total": 66637,
  "renouvellement": [
   {
    "poste": "FortiGuard UTP + FortiCare",
@@ -714,12 +714,12 @@
   },
   {
    "poste": "Sûreté (lot 4)",
-   "detail": "v2.1 : mises à jour du VMS (14 caméras × 30 €), du logiciel de contrôle d'accès (400 €), extension de garantie du VS-NVR1 (300 €)",
-   "montant": 1120
+   "detail": "v2.1 : mises à jour du VMS (7 caméras × 30 €), du logiciel de contrôle d'accès (400 €), extension de garantie du VS-NVR1 (300 €)",
+   "montant": 910
   }
  ],
- "renouvellement_total": 26240,
- "tco5": 1065251,
+ "renouvellement_total": 26030,
+ "tco5": 1055832,
  "optimisations": [
   {
    "piste": "Cœur replié (collapsed core)",
@@ -742,12 +742,12 @@
  ],
  "lots": {
   "energie": 104550,
-  "surete": 32000
+  "surete": 26600
  },
  "quantites": {
-  "prises": 483,
+  "prises": 476,
   "bornes": 38,
-  "cameras": 14,
+  "cameras": 7,
   "badges": 11,
   "switchs_acces": 15,
   "rocades": 12,
@@ -759,14 +759,14 @@
    4,
    8
   ],
-  "disques": 8,
+  "disques": 6,
   "disque_to": 8,
-  "utile_to": 43,
+  "utile_to": 29,
   "besoin_to": [
-   18.1,
-   36.3
+   9.1,
+   18.1
   ],
-  "cameras": 14
+  "cameras": 7
  },
  "support_4h": {
   "opex_reseau_serveurs": 15450,

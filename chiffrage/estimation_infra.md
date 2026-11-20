@@ -18,17 +18,17 @@ Source : `architecture/Projet_Marseille_site.drawio`, plan de câblage (point 04
 | Datacenter | 60 050 € |
 | Énergie / locaux | 72 550 € |
 | Énergie / secours | 32 000 € |
-| Sûreté | 32 000 € |
-| Câblage | 120 765 € |
+| Sûreté | 26 600 € |
+| Câblage | 118 525 € |
 | Prestations | 39 000 € |
-| **Sous-total** | **617 265 €** |
-| Aléas (10 %) | 61 726 € |
-| **CAPEX total** | **678 991 €** |
-| OPEX annuel (années 1 à 5, hors renouvellements) | 66 756 € |
-| Renouvellements annuels (dès l'année 4) | 26 240 € |
-| **Coût total sur 5 ans (TCO)** | **1 065 251 €** |
+| **Sous-total** | **609 625 €** |
+| Aléas (10 %) | 60 962 € |
+| **CAPEX total** | **670 587 €** |
+| OPEX annuel (années 1 à 5, hors renouvellements) | 66 637 € |
+| Renouvellements annuels (dès l'année 4) | 26 030 € |
+| **Coût total sur 5 ans (TCO)** | **1 055 832 €** |
 
-Coût sur 5 ans = CAPEX + 5 × OPEX + 2 × renouvellements. Lot énergie (Énergie / locaux + Énergie / secours) : 104 550 € HT ; lot sûreté : 32 000 € HT (hors aléas).
+Coût sur 5 ans = CAPEX + 5 × OPEX + 2 × renouvellements. Lot énergie (Énergie / locaux + Énergie / secours) : 104 550 € HT ; lot sûreté : 26 600 € HT (hors aléas).
 
 ## Détail CAPEX
 
@@ -44,7 +44,7 @@ Coût sur 5 ans = CAPEX + 5 × OPEX + 2 × renouvellements. Lot énergie (Énerg
 | DMZ | DM-WITNESS | Dell PowerEdge R260 entrée de gamme (Xeon E-2414, 16 Go, 2 × 480 Go SSD) | 1 | 1 600 € | 1 600 € | v2 : QDevice propre à la DMZ (flux vers l'administration limités à la sauvegarde, aux journaux, à l'heure et à NUT) |
 | Cœur | CL-SW1, CL-SW2 | Cisco Catalyst C9500-16X-E + DNA-E 3 ans + modules 40G SVL | 2 | 9 500 € | 19 000 € | StackWise Virtual |
 | Distribution | DL-SW1 à DL-SW4 | Cisco Catalyst C9500-16X-E + DNA-E 3 ans + module 40G SVL (C9500-NM-2Q) | 4 | 9 500 € | 38 000 € | 2 blocs StackWise Virtual (gamme 9500 : la moins chère des gammes compatibles SVL, avec 9400 et 9600). v2.1 : module 40G nommé, compris dans le prix comme pour le cœur |
-| Accès | AL-SW1 à AL-SW15 | Cisco Catalyst C9200L-48P-4X-E PoE+ + DNA-E 3 ans | 15 | 3 900 € | 58 500 € | Plan de câblage : 15 switchs pour 483 prises (+10 % de ports libres) et le budget PoE, répartis dans les 6 L.TECH (le schéma de site n'en montre que 4, à titre de principe) |
+| Accès | AL-SW1 à AL-SW15 | Cisco Catalyst C9200L-48P-4X-E PoE+ + DNA-E 3 ans | 15 | 3 900 € | 58 500 € | Plan de câblage : 15 switchs pour 476 prises (+10 % de ports libres) et le budget PoE, répartis dans les 6 L.TECH (le schéma de site n'en montre que 4, à titre de principe) |
 | Accès | AP-N-1-01 à AP-N1-16 | Borne Wi-Fi 6E Cisco CW9164I + licence DNA AP 3 ans | 38 | 1 300 € | 49 400 € | Nombre fixé par l'étude RSSI prédictive (≥ −67 dBm à 5 GHz, livrables/plan_cablage/wifi/bornes.csv) |
 | Accès | WLC1, WLC2 | Contrôleur Wi-Fi Cisco Catalyst 9800-L-F (4 × 10G SFP+), HA SSO | 2 | 6 000 € | 12 000 € | v2 (NET-01) : bornes en mode local, itinérance sans coupure dans tout le bâtiment. Remplace la VM 9800-CL |
 | Net Management | NM-SW1, NM-SW2 | Cisco Catalyst C9200L-24T-4X-E + DNA-E 3 ans | 2 | 2 300 € | 4 600 € |  |
@@ -66,7 +66,7 @@ Coût sur 5 ans = CAPEX + 5 × OPEX + 2 × renouvellements. Lot énergie (Énerg
 | Énergie / locaux | Locaux techniques | Onduleur 1,5 kVA rackable | 6 | 900 € | 5 400 € |  |
 | Énergie / locaux | Salle serveur | PDU managées et métrées | 4 | 700 € | 2 800 € | Mesure de consommation (Green IT) |
 | Énergie / locaux | Salle serveur | Climatiseur technique 7,1 kW (fonctionnement 24 h/24), 1 en marche + 1 en secours (N+1) | 2 | 6 000 € | 12 000 € | v2.1 : 2 unités, comme au point 14 (v2 : « climatisation de précision » forfaitaire, 1 × 12 000 €) ; les armoires de précision y sont une option écartée |
-| Énergie / locaux | Salle serveur | Pack batterie externe APC SRT192RMBP (1 par onduleur) | 2 | 1 400 € | 2 800 € | Autonomie si un onduleur tombe : 10,6 min sans pack, 32 min avec (point 14) |
+| Énergie / locaux | Salle serveur | Pack batterie externe APC SRT192RMBP (1 par onduleur) | 2 | 1 400 € | 2 800 € | Autonomie si un onduleur tombe : 10,7 min sans pack, 32 min avec (point 14) |
 | Énergie / locaux | Salle serveur + L.TECH | Tableau électrique informatique (TD-INFO) et circuits dédiés | 1 | 6 800 € | 6 800 € | 2 départs 32 A onduleurs (différentiel type B), 2 départs 20 A clim (type F), 6 départs 20 A L.TECH, éclairage, prises, auxiliaires. v2.1 : différentiels adaptés (BET) (point 14) |
 | Énergie / locaux | Salle serveur | Confinement d'allée froide (obturateurs, rideaux) | 1 | 1 200 € | 1 200 € | Green IT : −10 % sur la clim (point 14) |
 | Énergie / locaux | Salle serveur + L.TECH | Sondes température/humidité et détection de fuite d'eau | 1 | 1 200 € | 1 200 € | Remontées dans LibreNMS ; fuite : salle au sous-sol (point 14) |
@@ -83,14 +83,14 @@ Coût sur 5 ans = CAPEX + 5 × OPEX + 2 × renouvellements. Lot énergie (Énerg
 | Énergie / secours | Extérieur, façade est | Génie civil : dalle béton armé ≈ 3 × 2 m, fourreaux, clôture et portillon | 1 | 4 500 € | 4 500 € | v2.1 : ordre de grandeur d'entreprise de génie civil (point 14) |
 | Énergie / secours | GE → TD-INFO, TGBT | Raccordement : câble 5G16 mm² (≈ 60 m) en fourreau, câble de commande, départ 4P 63 A au TGBT, circuit des auxiliaires du groupe | 1 | 4 000 € | 4 000 € | v2.1 : ≈ 40 €/m posé pour le câble de puissance, plus l'appareillage (point 14) |
 | Énergie / secours | Groupe électrogène | Transport, levage, mise en service, essai de réception sur banc de charge (4 h), premier plein, formation | 1 | 2 500 € | 2 500 € | v2.1 : forfait installateur (point 14) |
-| Sûreté | Caméras 14 (plan de câblage) | Caméra IP fixe PoE 802.3af, ONVIF profils S et T, 802.1X, posée, raccordée et réglée (masquage des zones privatives), panneaux d'information compris | 14 | 550 € | 7 700 € | v2.1 : lot 4 chiffré ; ordre de grandeur 400 à 700 € posée, à confirmer par devis. Aucune caméra au foyer des étudiants |
-| Sûreté | VS-NVR1 | Licence VMS par caméra (perpétuelle, 3 ans de mises à jour) | 14 | 150 € | 2 100 € | v2.1 : ordre de grandeur 100 à 200 € par caméra, à confirmer par devis |
-| Sûreté | VS-NVR1 | Enregistreur vidéo 2U, 8 × 8 To en RAID 6 (≈ 43 To utiles), logiciel VMS, 2 alimentations | 1 | 7 500 € | 7 500 € | v2.1 : baie 2 de la salle serveur. 30 jours d'images : 14 caméras × 4 Mb/s ≈ 18 To (36 To à 8 Mb/s). À confirmer par devis |
+| Sûreté | Caméras 7 (plan de câblage) | Caméra IP fixe PoE 802.3af, ONVIF profils S et T, 802.1X, posée, raccordée et réglée (masquage des zones privatives), panneaux d'information compris | 7 | 550 € | 3 850 € | v2.1 : lot 4 chiffré ; ordre de grandeur 400 à 700 € posée, à confirmer par devis. Aucune caméra au foyer des étudiants |
+| Sûreté | VS-NVR1 | Licence VMS par caméra (perpétuelle, 3 ans de mises à jour) | 7 | 150 € | 1 050 € | v2.1 : ordre de grandeur 100 à 200 € par caméra, à confirmer par devis |
+| Sûreté | VS-NVR1 | Enregistreur vidéo 2U, 6 × 8 To en RAID 6 (≈ 29 To utiles), logiciel VMS, 2 alimentations | 1 | 7 000 € | 7 000 € | v2.1 : baie 2 de la salle serveur. 30 jours d'images : 7 caméras × 4 Mb/s ≈ 9 To (18 To à 8 Mb/s). À confirmer par devis |
 | Sûreté | Badgeuses 11 (plan de câblage) | Lecteur sans contact DESFire EV3 + UTL OSDP v2 (canal sécurisé), gâche ou ventouse, posés et raccordés | 11 | 1 200 € | 13 200 € | v2.1 : remplace le forfait v2 de 5 000 € (7 portes) ; ordre de grandeur 800 à 1 500 € par porte, à confirmer par devis |
 | Sûreté | Contrôle d'accès | Logiciel de contrôle d'accès (licence serveur, VM du datacenter) | 1 | 1 500 € | 1 500 € | v2.1 : à confirmer par devis |
-| Câblage | Prises | Prise RJ45 Cat6A fournie, posée et recettée | 483 | 140 € | 67 620 € | 10 Gb/s, durée de vie 15 ans (CdC). Usagers + bornes + caméras + badgeuses (plan de câblage) |
+| Câblage | Prises | Prise RJ45 Cat6A fournie, posée et recettée | 476 | 140 € | 66 640 € | 10 Gb/s, durée de vie 15 ans (CdC). Usagers + bornes + caméras + badgeuses (plan de câblage) |
 | Câblage | Rocades | Fibre OM4 12 brins L.TECH vers salle serveur | 12 | 1 500 € | 18 000 € | 2 câbles par local, par deux chemins distincts (colonnes Nord et Sud ; au sous-sol, deux circulations différentes) |
-| Câblage | Chemins de câbles | Chemin de câbles fil 100×50 mm, posé | 628 | 35 € | 21 980 € | Métré du plan de câblage (circulations et locaux) |
+| Câblage | Chemins de câbles | Chemin de câbles fil 100×50 mm, posé | 592 | 35 € | 20 720 € | Métré du plan de câblage (circulations et locaux) |
 | Câblage | Chemins de câbles | Chemin de câbles fil 200×60 mm, posé | 17 | 45 € | 765 € | Métré du plan de câblage (circulations et locaux) |
 | Câblage | Chemins de câbles | Chemin de câbles fil 300×100 mm, posé | 7 | 60 € | 420 € | Métré du plan de câblage (circulations et locaux) |
 | Câblage | Optiques | Modules SFP+/SFP28/QSFP compatibles et câbles DAC | 114 | 70 € | 7 980 € | v2.1 : décompte (60 optiques pour les Po1 des 15 switchs d'accès + 54 DAC et QSFP dans la salle serveur, v2 : 96 forfaitaires), à valider par l'équipe réseau. Optiques Cisco d'origine : environ ×4 |
@@ -112,14 +112,14 @@ Coût sur 5 ans = CAPEX + 5 × OPEX + 2 × renouvellements. Lot énergie (Énerg
 | Fortinet : remplacement matériel sous 4 h, 24 h/24 7 j/7 (v2.1) | EL-FGT1/2 (en plus de FortiCare Premium) : 2 × 700 € | 1 400 € |
 | Stormshield : échange sur site sous 4 h, 24 h/24 7 j/7 (v2.1) | EL-SNS1/2 : 2 × 600 € | 1 200 € |
 | Dell : ProSupport Plus Mission Critical, intervention sous 4 h, 24 h/24 7 j/7 (v2.1) | DT-PVE1/2, NM-PVE1/2, DT-BKP1 : supplément sur la garantie de base : 5 × 750 € | 3 750 € |
-| Électricité du réseau | 59 422 kWh/an × 0,20 € (salle serveur, PUE 1,45, 6 locaux techniques) | 11 884 € |
+| Électricité du réseau | 58 831 kWh/an × 0,20 € (salle serveur, PUE 1,45, 6 locaux techniques) | 11 766 € |
 | Maintenance de la climatisation | v2.1 : 2 unités, 2 visites par an, dépannage 24 h/24 7 j/7 avec rétablissement en 4 h (astreinte 1 200 €) | 2 100 € |
 | Maintenance des onduleurs de la salle | v2.1 : 2 APC SRT 6 kVA, contrat 24 h/24 7 j/7, intervention sur site en 4 h, une visite préventive par an (650 € par onduleur) | 1 300 € |
 | Provision batteries d'onduleurs | Remplacement tous les 5 ans (salle) et tous les 4 ans (L.TECH, v2.1), lissé par an | 1 575 € |
 | Maintenance de l'extinction automatique | Visite annuelle obligatoire (APSAD R13), contrôle des bouteilles | 600 € |
 | Maintenance du groupe électrogène et de l'inverseur | v2.1 : contrat de 2 visites par an (vidange, filtres, liquide, batterie de démarrage, contrôle de l'inverseur) | 1 100 € |
 | Essai annuel du groupe sur banc de charge | v2.1 : location du banc et technicien, 2 h à 75 % de la PRP | 700 € |
-| Gazole du groupe électrogène | v2.1 : 55 l/an × 1,40 € (essais mensuels, banc, coupures) + analyse et traitement du gazole | 157 € |
+| Gazole du groupe électrogène | v2.1 : 55 l/an × 1,40 € (essais mensuels, banc, coupures) + analyse et traitement du gazole | 156 € |
 | Maintenance du mini-split des L.TECH | v2.1 : visite annuelle (filtres, contrôle d'étanchéité) | 150 € |
 | Nom de domaine | Domaine + DNS secondaire | 30 € |
 
@@ -133,7 +133,7 @@ Support des équipements critiques (v2.1) : rétablissement en 4 h, 24 h/24 7 j/
 | Stormshield Premium UTM | 2 SN710 | 3 000 € |
 | Cisco DNA Essentials / AP | v2.1 : 15 switchs d'accès × 220 € + 14 switchs de la salle × 500 € + 38 bornes × 90 € + 2 routeurs × 300 € (v2 : 12 000 € × switchs et bornes / 56, base non documentée) | 14 320 € |
 | Support matériel serveurs | Extension de garantie J+1 de 9 serveurs × 400 € (v1 : 16 serveurs, comptés 18 × 350 €) | 3 600 € |
-| Sûreté (lot 4) | v2.1 : mises à jour du VMS (14 caméras × 30 €), du logiciel de contrôle d'accès (400 €), extension de garantie du VS-NVR1 (300 €) | 1 120 € |
+| Sûreté (lot 4) | v2.1 : mises à jour du VMS (7 caméras × 30 €), du logiciel de contrôle d'accès (400 €), extension de garantie du VS-NVR1 (300 €) | 910 € |
 
 ## Pistes d'optimisation
 
@@ -149,10 +149,10 @@ Détail par constat : `livrables/audit/traitement_audit.pdf`. Version 1 : `livra
 
 | | v1 | v2.1 | Écart |
 |---|---:|---:|---:|
-| CAPEX total | 582 951 € | 678 991 € | +96 040 € |
-| OPEX annuel | 44 081 € | 66 756 € | +22 675 € |
-| Renouvellements annuels | 27 857 € | 26 240 € | −1 617 € |
-| TCO 5 ans | 859 070 € | 1 065 251 € | +206 181 € |
+| CAPEX total | 582 951 € | 670 587 € | +87 636 € |
+| OPEX annuel | 44 081 € | 66 637 € | +22 556 € |
+| Renouvellements annuels | 27 857 € | 26 030 € | −1 827 € |
+| TCO 5 ans | 859 070 € | 1 055 832 € | +196 762 € |
 
 Principales causes (v2) : 12 serveurs physiques et 3 nœuds Ceph remplacés par 6 hyperviseurs et 2 témoins (−) ; contrôleurs Wi-Fi physiques, modules 10G du Stormshield, kits de pile, sauvegarde hors ligne (+) ; extinction automatique, plancher surélevé et batardeau (lot énergie, +). Puis v2.1 : voir ci-dessous.
 
@@ -163,20 +163,20 @@ Version 2 : `livrables/archives/v2_2026-11-20/`. Étude BET et groupe électrog�
 | | v2 | v2.1 | Écart |
 |---|---:|---:|---:|
 | Lot énergie (Énergie / locaux + Énergie / secours) | 71 900 € (dont 5 000 € de contrôle d'accès) | 104 550 € | +32 650 € |
-| Lot sûreté (caméras, VMS, enregistreur, badgeuses) | 5 000 € (forfait, dans le lot énergie) | 32 000 € | +27 000 € |
-| CAPEX total (aléas compris) | 606 403 € | 678 991 € | +72 588 € |
-| OPEX annuel | 44 892 € | 66 756 € | +21 864 € |
-| Renouvellements annuels | 25 157 € | 26 240 € | +1 083 € |
-| TCO 5 ans | 881 177 € | 1 065 251 € | +184 074 € |
+| Lot sûreté (caméras, VMS, enregistreur, badgeuses) | 5 000 € (forfait, dans le lot énergie) | 26 600 € | +21 600 € |
+| CAPEX total (aléas compris) | 606 403 € | 670 587 € | +64 184 € |
+| OPEX annuel | 44 892 € | 66 637 € | +21 745 € |
+| Renouvellements annuels | 25 157 € | 26 030 € | +873 € |
+| TCO 5 ans | 881 177 € | 1 055 832 € | +174 655 € |
 
-Causes : groupe électrogène 33 kVA ESP, inverseur de source, génie civil et raccordement (32 000 € HT) ; ventilation renforcée de trois L.TECH (mini-split, extracteurs 300 m³/h) et coffrets électriques ; OPEX : maintenance, essai sur banc et gazole du groupe, électricité recalculée (pertes réelles des onduleurs, auxiliaires, enregistreur vidéo) ; lot 4 chiffré : 14 caméras et leurs licences VMS, enregistreur VS-NVR1, 11 lecteurs de badge et UTL, logiciel de contrôle d'accès, au lieu du forfait de 5 000 € classé dans le lot énergie ; caméra du foyer retirée (15 → 14 caméras, 484 → 483 prises) ; optiques et DAC décomptés (96 → 114), carte 2 × 10G des DM-PVE ; support 24 h/24 7 j/7 en 4 h des équipements critiques (18 850 € HT/an), souscription Proxmox Backup Server ; renouvellement DNA par prix unitaires, mises à jour du lot sûreté.
+Causes : groupe électrogène 33 kVA ESP, inverseur de source, génie civil et raccordement (32 000 € HT) ; ventilation renforcée de trois L.TECH (mini-split, extracteurs 300 m³/h) et coffrets électriques ; OPEX : maintenance, essai sur banc et gazole du groupe, électricité recalculée (pertes réelles des onduleurs, auxiliaires, enregistreur vidéo) ; lot 4 chiffré : 7 caméras et leurs licences VMS, enregistreur VS-NVR1, 11 lecteurs de badge et UTL, logiciel de contrôle d'accès, au lieu du forfait de 5 000 € classé dans le lot énergie ; caméra du foyer retirée (15 → 7 caméras, 484 → 476 prises) ; optiques et DAC décomptés (96 → 114), carte 2 × 10G des DM-PVE ; support 24 h/24 7 j/7 en 4 h des équipements critiques (18 850 € HT/an), souscription Proxmox Backup Server ; renouvellement DNA par prix unitaires, mises à jour du lot sûreté.
 
 ## Hypothèses de dimensionnement
 
 - Bâtiment IUT Génie Télécom (Luminy) : sous-sol, RDC, étage 1, 6 locaux techniques (plans `docs/plans_batiment/`).
-- 483 prises d'après le plan de câblage (`livrables/plan_cablage/`) : bureaux 2 par poste, salles de TP 1 par poste + 2, salles de TD/cours/réunion 3, 38 bornes Wi-Fi (étude RSSI), 14 caméras IP, 11 badgeuses.
+- 476 prises d'après le plan de câblage (`livrables/plan_cablage/`) : bureaux 2 par poste, salles de TP 1 par poste + 2, salles de TD/cours/réunion 3, 38 bornes Wi-Fi (étude RSSI), 7 caméras IP, 11 badgeuses.
 - Postes clients, imprimantes et téléphones IP exclus (budget poste de travail à part).
-- Sûreté (lot 4, v2.1) : enregistrement continu, 30 jours au plus ; 14 caméras × 4 à 8 Mb/s = 18 à 36 To, couverts par les 43 To utiles de VS-NVR1. Prix en ordre de grandeur, à confirmer par devis. Le VMS n'est plus une VM du datacenter.
+- Sûreté (lot 4, v2.1) : enregistrement continu, 30 jours au plus ; 7 caméras × 4 à 8 Mb/s = 9 à 18 To, couverts par les 29 To utiles de VS-NVR1. Prix en ordre de grandeur, à confirmer par devis. Le VMS n'est plus une VM du datacenter.
 - La `cisco-price-list.pdf` (`docs/references_prix/`) date du début des années 2000 (gammes Aironet 340/350, VPN 3000) : elle n'est pas utilisable pour des prix actuels.
-- Électricité, onduleurs, climatisation : bilan du point 14 (`livrables/energie_refroidissement/`), PUE 1,45, 59 422 kWh/an, 0,20 €/kWh HT.
+- Électricité, onduleurs, climatisation : bilan du point 14 (`livrables/energie_refroidissement/`), PUE 1,45, 58 831 kWh/an, 0,20 €/kWh HT.
 - Groupe électrogène (v2.1) : le site n'en a pas (confirmé par le client). Groupe diesel 33 kVA ESP / 30 kVA PRP et inverseur automatique en tête du tableau informatique, prix en ordre de grandeur (distributeurs, installateurs), à confirmer par devis.

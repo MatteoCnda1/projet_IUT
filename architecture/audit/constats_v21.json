@@ -95,7 +95,7 @@
   {
    "id": "D3",
    "titre": "Sûreté (lot 4)",
-   "resume": "Caméra du foyer retirée (CNIL) : 15 → 14 caméras. Enregistreur physique VS-NVR1 (8 × 8 To RAID 6, ≈ 43 To utiles, 30 jours couverts), le VMS n'est plus une VM du cluster DT. Catégorie « Sûreté » au chiffrage (caméras, licences VMS, VS-NVR1, lecteurs et UTL), hors du lot énergie.",
+   "resume": "Caméras limitées aux accès contrôlés des locaux techniques (porte badgée de la salle serveur et des 6 L.TECH) : 15 → 7 caméras (décision de l'équipe du 20/11/2026). Retirées : le foyer (lieu de pause, CNIL), les entrées, halls et parkings (lieux ouverts au public : pas d'autorisation préfectorale), les circulations. Enregistreur physique VS-NVR1 (6 × 8 To en RAID 6, ≈ 29 To utiles, 30 jours couverts même à 8 Mb/s). Lot 4 chiffré : caméras, licences VMS, VS-NVR1, lecteurs de badge et UTL.",
    "constats": [
     "QTE-05",
     "QTE-06",
@@ -179,7 +179,7 @@
   },
   {
    "type": "client",
-   "sujet": "Validation du DPO de l'AMU : conservation de 6 mois des URL du proxy, autorisation préfectorale de la vidéoprotection, traitement T13 (messagerie) au registre de l'AMU",
+   "sujet": "Validation du DPO de l'AMU : conservation de 6 mois des URL du proxy, champ des 7 caméras des accès aux locaux techniques, traitement T13 (messagerie) au registre de l'AMU",
    "source": "juridique, D5"
   },
   {
@@ -986,7 +986,7 @@
    "gravite": "majeur",
    "hors_depot": false,
    "titre": "Stockage de 30 jours de vidéo dimensionné nulle part",
-   "traitement": "Enregistreur physique VS-NVR1 (8 × 8 To en RAID 6, ≈ 43 To utiles) : 30 jours couverts même à 8 Mb/s (D3).",
+   "traitement": "Enregistreur physique VS-NVR1 (6 × 8 To en RAID 6, ≈ 29 To utiles) : 30 jours couverts même à 8 Mb/s pour les 7 caméras (D3).",
    "responsables": [
     "reseau_securite",
     "cablage_chiffrage_energie"
@@ -1004,7 +1004,7 @@
    "gravite": "majeur",
    "hors_depot": false,
    "titre": "CCTP lot 4 contradictoire sur la caméra du foyer",
-   "traitement": "Caméra du foyer retirée à la source (CNIL : pas de vidéo dans un lieu de pause) : 14 caméras (D3).",
+   "traitement": "Caméra du foyer retirée à la source (CNIL : pas de vidéo dans un lieu de pause) ; caméras limitées aux accès des locaux techniques : 7 caméras (D3).",
    "responsables": [
     "cablage_chiffrage_energie",
     "juridique"

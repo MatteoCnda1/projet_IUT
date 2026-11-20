@@ -91,7 +91,7 @@ SALLE = [
     ("DT-PVE1, DT-PVE2 (VM AD, NPS, DHCP)", "Dell PowerEdge R660xs", 2, "2", 2, 240, 400, 1),
     ("NM-PVE1, NM-PVE2", "Dell PowerEdge R660xs", 2, "2", 2, 260, 420, 1),
     ("DT-BKP1", "Dell PowerEdge R760xd2", 1, "2", 2, 320, 480, 2),
-    ("VS-NVR1 (lot sûreté)", "Enregistreur vidéo 2U, 8 × 8 To RAID 6", 1, "2", 2, 80, 150, 2),  # v2.1 : enregistreur physique (D3)
+    ("VS-NVR1 (lot sûreté)", "Enregistreur vidéo 2U, 6 × 8 To RAID 6", 1, "2", 2, 65, 120, 2),  # v2.1 : enregistreur physique (D3)
     ("PDU-1A, PDU-1B", "PDU métrée et managée 16 A (électronique)", 2, "1", 1, 8, 10, 0),  # v2.1 : ajoutées au bilan
     ("PDU-2A, PDU-2B", "PDU métrée et managée 16 A (électronique)", 2, "2", 1, 8, 10, 0),
 ]

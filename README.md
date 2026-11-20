@@ -43,9 +43,9 @@ Traitement des audits, constat par constat : [`livrables/audit/traitement_audit.
 
 | | HT |
 |---|---:|
-| CAPEX (avec 10 % d'aléas) | 678 991 € |
-| OPEX annuel (années 1 à 5, hors renouvellements) | 66 756 € |
-| Coût total sur 5 ans | 1 065 251 € |
+| CAPEX (avec 10 % d'aléas) | 670 587 € |
+| OPEX annuel (années 1 à 5, hors renouvellements) | 66 637 € |
+| Coût total sur 5 ans | 1 055 832 € |
 
 Version 2.1 de l'infrastructure (20/11/2026). Version 1 : 582 951 € / 44 081 € / 859 070 €. Version 2 : 606 403 € / 44 892 € / 881 177 €.
 

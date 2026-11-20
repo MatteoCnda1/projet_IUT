@@ -57,13 +57,28 @@ LOCAUX = {  # nom du L.TECH sur le plan -> code
 # Colonnes montantes : à l'aplomb des deux locaux du RDC
 COLONNES = {"Nord": ("N0", "L.TECH"), "Sud": ("N0", "L.TECH 02")}
 
-# Caméras : (niveau, salle, position le long du grand axe de la salle, 0 à 1)
-# v2.1 : plus de caméra au FOYER ETUDIANTS (ex-N0-LT01-P050) : la CNIL exclut la vidéo dans les lieux de pause (AIPD, point 19).
-CAMERAS = [
-    ("N-1", "PARKING", 0.25), ("N-1", "PARKING EST", 0.75), ("N-1", "SALLE SERVEUR", 0.5), ("N-1", "CIRC 02", 0.8),
-    ("N0", "ENTREE", 0.5), ("N0", "HALL D'ENTREE", 0.15), ("N0", "HALL D'ENTREE", 0.85), ("N0", "CIRCULATION 02", 0.5),
-    ("N0", "CIRCULATION 04", 0.5), ("N0", "DGMT", 0.5),
-    ("N1", "CIRCULATION 01", 0.5), ("N1", "CIRC 04", 0.5), ("N1", "CIRC 05", 0.5), ("N1", "PASSERELLE", 0.5),
+# Caméras (v2.1, décision de l'équipe du 20/11/2026) : seulement aux accès contrôlés des locaux techniques, c'est-à-dire
+# à la porte badgée de la salle serveur et des 6 L.TECH, côté circulation, face au lecteur de badge. Retirées : la caméra
+# du foyer (lieu de pause, CNIL), celles des entrées, halls et parkings (lieux ouverts au public : pas d'autorisation
+# préfectorale) et celles des circulations (hors des accès aux locaux techniques).
+CAMERAS_ACCES = [("N-1", "SALLE SERVEUR")] + [(n, s) for (n, s) in LOCAUX]
+# Caméras de la v2 (repères du plan v2, commit 7e1db0b) et motif de leur retrait en v2.1
+CAMERAS_RETIREES = [
+    ("N0-LT01-P050", "N0", "FOYER ETUDIANTS", "lieu de pause : la CNIL exclut la vidéo (AIPD du point 19)"),
+    ("N0-LT02-P133", "N0", "ENTREE", "lieu ouvert au public : autorisation préfectorale non obtenue"),
+    ("N0-LT01-P051", "N0", "HALL D'ENTREE", "lieu ouvert au public : autorisation préfectorale non obtenue"),
+    ("N0-LT02-P134", "N0", "HALL D'ENTREE", "lieu ouvert au public : autorisation préfectorale non obtenue"),
+    ("N-1-LT02-P016", "N-1", "PARKING", "lieu ouvert au public : autorisation préfectorale non obtenue"),
+    ("N-1-LT01-P007", "N-1", "PARKING EST", "lieu ouvert au public : autorisation préfectorale non obtenue"),
+    ("N-1-LT01-P006", "N-1", "CIRC 02", "circulation, hors des accès aux locaux techniques"),
+    ("N0-LT01-P049", "N0", "DGMT", "hors des accès aux locaux techniques"),
+    ("N0-LT02-P131", "N0", "CIRCULATION 02", "circulation, hors des accès aux locaux techniques"),
+    ("N0-LT02-P132", "N0", "CIRCULATION 04", "circulation, hors des accès aux locaux techniques"),
+    ("N1-LT01-P056", "N1", "CIRCULATION 01", "circulation, hors des accès aux locaux techniques"),
+    ("N1-LT01-P057", "N1", "PASSERELLE", "circulation, hors des accès aux locaux techniques"),
+    ("N1-LT02-P206", "N1", "CIRC 04", "circulation, hors des accès aux locaux techniques"),
+    ("N1-LT02-P207", "N1", "CIRC 05", "circulation, hors des accès aux locaux techniques"),
+    ("N-1-LT01-P008", "N-1", "SALLE SERVEUR", "déplacée de l'intérieur de la salle à sa porte badgée (accès contrôlé)"),
 ]
 # Badgeuses : à la porte de ces locaux
 BADGEUSES = [("N-1", "SALLE SERVEUR")] + [(n, s) for (n, s) in LOCAUX] + [
@@ -284,20 +299,28 @@ def placer_prises(data, bornes):
             if b["niveau"] == code:
                 prises.append({"niveau": code, "salle": b["salle"], "type": "wifi", "x": b["x"], "y": b["y"],
                                "usage": f"borne {b['id']} (canal {b['canal']}), au plafond", "poe": "wifi"})
-        for c, nom, f in CAMERAS:
-            if c == code and nom in par_nom:
-                x, y = le_long(par_nom[nom], f)
-                prises.append({"niveau": code, "salle": nom, "type": "camera", "x": round(x, 2), "y": round(y, 2),
-                               "usage": "caméra IP, VLAN vidéo", "poe": "camera"})
         circ = [s for s in niv["salles"] if s["type"] == "circulation" and s.get("contour")]
-        for c, nom in BADGEUSES:
-            if c != code or nom not in par_nom:
-                continue
+
+        def porte(nom):
             s = par_nom[nom]
             # sommet du contour le plus proche d'une circulation : là où est la porte
             best = min(((math.hypot(px - q["x"], py - q["y"]), px, py) for px, py in s["contour"] for q in circ if q["nom"] != nom),
                        default=(0, s["x"], s["y"]))
-            prises.append({"niveau": code, "salle": nom, "type": "badge", "x": best[1], "y": best[2],
+            return s, best[1], best[2]
+
+        for c, nom in CAMERAS_ACCES:
+            if c != code or nom not in par_nom:
+                continue
+            s, x, y = porte(nom)
+            d = math.hypot(x - s["x"], y - s["y"]) or 1.0
+            x, y = x + 0.6 * (x - s["x"]) / d, y + 0.6 * (y - s["y"]) / d  # 0,6 m côté circulation, face à la porte
+            prises.append({"niveau": code, "salle": nom, "type": "camera", "x": round(x, 2), "y": round(y, 2),
+                           "usage": "caméra IP de l'accès au local technique (porte badgée), VLAN vidéo", "poe": "camera"})
+        for c, nom in BADGEUSES:
+            if c != code or nom not in par_nom:
+                continue
+            s, x, y = porte(nom)
+            prises.append({"niveau": code, "salle": nom, "type": "badge", "x": x, "y": y,
                            "usage": "lecteur de badge, VLAN contrôle d'accès", "poe": "badge"})
     return prises
 
@@ -530,8 +553,7 @@ def main():
         "fibre_m": round(sum(r["longueur"] for r in rocades)),
         "points_communs": {**{r["local"]: r["points_communs"] for r in rocades if r["voie"] == "B" and r["points_communs"]},
                            **({"adductions": adductions[-1]["points_communs"]} if adductions[-1]["points_communs"] else {})},
-        "cameras_retirees": [{"salle": "FOYER ETUDIANTS", "niveau": "N0", "ancien_repere": "N0-LT01-P050",
-                              "motif": "v2.1 : pas de vidéo dans un lieu de pause (CNIL, AIPD du point 19)"}],
+        "cameras_retirees": [{"ancien_repere": r, "niveau": n, "salle": s, "motif": m} for r, n, s, m in CAMERAS_RETIREES],
         "hypotheses": {"coef_trace": COEF_TRACE, "descentes_m": DESCENTES, "lovage_m": LOVAGE, "lien_max_m": LIEN_MAX,
                        "hauteur_niveau_m": HAUTEUR_NIVEAU, "maille_m": G},
     }

@@ -63,8 +63,8 @@ def cameras():
                 regime, note = "à retirer", "lieu de pause : la CNIL considère que filmer les lieux de pause est disproportionné"
             elif any(k in salle for k in ("ENTREE", "HALL", "PARKING")):
                 regime, note = "CSI si ouvert au public", "autorisation préfectorale si le lieu reçoit du public ; masquer la voie publique"
-            elif "SERVEUR" in salle:
-                regime, note = "RGPD", "local sensible, accès restreint : finalité claire"
+            elif "SERVEUR" in salle or "L.TECH" in salle:
+                regime, note = "RGPD", "accès au local technique : la caméra filme la porte badgée, pas la circulation au-delà"
             else:
                 regime, note = "RGPD", "circulation intérieure : pas de poste de travail dans le champ"
             out.append((p["id"], p["niveau"], p["salle"], regime, note))
@@ -74,6 +74,7 @@ def cameras():
 CAMERAS = cameras()
 NB_CAMERAS = len(CAMERAS)
 LIEU_DE_PAUSE_FILME = any(c[3] == "à retirer" for c in CAMERAS)
+LIEU_PUBLIC_FILME = any(c[3].startswith("CSI") for c in CAMERAS)   # autorisation préfectorale à demander
 
 # ---------------------------------------------------------------------------
 # Registre des traitements (RGPD art. 30) : traitements créés ou touchés par l'infrastructure du site.
@@ -138,11 +139,11 @@ CRITERES = {"surv": "surveillance systématique", "vuln": "personnes vulnérable
 AIPD = {
     "T06": {
         "criteres": ["surv", "vuln", "echelle"],
-        "necessite": "Sécuriser les accès du bâtiment, les parkings et la salle serveur, qui contient le matériel le plus coûteux. "
+        "necessite": "Sécuriser les accès aux locaux techniques (salle serveur et L.TECH), qui contiennent le matériel le plus coûteux. "
                      "Moins intrusif d'abord : contrôle d'accès par badge aux locaux sensibles, éclairage, fermeture des parkings la nuit.",
-        "proportion": [f"{NB_CAMERAS} caméras au plan de câblage, limitées aux entrées, aux circulations, aux parkings et à la salle serveur ; "
-                       "aucune caméra ne filme un poste de travail, une salle de cours en continu, des sanitaires ni un lieu de pause"
-                       + ("" if LIEU_DE_PAUSE_FILME else " (la caméra du foyer des étudiants prévue en v2 est retirée) " + V21),
+        "proportion": [f"{NB_CAMERAS} caméras au plan de câblage, limitées aux accès contrôlés des locaux techniques (porte badgée de la "
+                       "salle serveur et des L.TECH) ; aucune caméra ne filme un lieu ouvert au public, un poste de travail, une salle de "
+                       "cours, des sanitaires ni un lieu de pause " + V21,
                        "Masquage dynamique des zones privatives et de la voie publique",
                        "Images conservées 30 jours au plus, effacées automatiquement par écrasement ; le stockage de l'enregistreur est "
                        f"dimensionné pour 30 jours (≈ {_VOLUME_30J_TO:.0f} To à 4 Mb/s par caméra) et pas au-delà ; extraction seulement "
@@ -157,8 +158,9 @@ AIPD = {
         "conclusion": ("Risques résiduels acceptables, sous réserve de retirer la caméra du foyer des étudiants et de l'autorisation "
                        "préfectorale pour les caméras qui filment des lieux ouverts au public." if LIEU_DE_PAUSE_FILME else
                        "Risques résiduels acceptables, sous réserve de l'autorisation préfectorale pour les caméras qui filment des lieux "
-                       "ouverts au public. La caméra du foyer des étudiants, demandée par cette analyse, est retirée du plan de câblage "
-                       "en v2.1. " + V21),
+                       "ouverts au public." if LIEU_PUBLIC_FILME else
+                       "Risques résiduels acceptables. En v2.1, les caméras sont limitées aux accès des locaux techniques : aucune ne filme "
+                       "un lieu ouvert au public (pas d'autorisation préfectorale à demander) ni le foyer des étudiants. " + V21),
     },
     "T08": {
         "criteres": ["innov", "echelle", "vuln", "sens"],

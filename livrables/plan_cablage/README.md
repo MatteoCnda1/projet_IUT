@@ -12,7 +12,7 @@ Plan de câblage du bâtiment Génie des Télécommunications de l'IUT, campus d
 | `baies.csv`, `rocades.csv`, `resume.json` | — | Dimensionnement des baies, longueurs et chemins des rocades, synthèse (lue par le chiffrage, l'énergie, l'adressage et les CCTP) |
 | `wifi/` | — | Étude RSSI : cartes de couverture, bornes et canaux |
 
-**Version 2.1 — 20/11/2026** : caméra du foyer des étudiants retirée (14 caméras, 483 prises), voies B du sous-sol et arrivée FAI 2 tracées par d'autres circulations que la voie A, câbles écartés de la gaine d'ascenseur, repères uniques des bornes, caméras et badgeuses, charte commune, repérés « v2.1 » dans les documents. Version précédente : `livrables/archives/v2_2026-11-20/`.
+**Version 2.1 — 20/11/2026** : caméra du foyer des étudiants retirée (7 caméras, 476 prises), voies B du sous-sol et arrivée FAI 2 tracées par d'autres circulations que la voie A, câbles écartés de la gaine d'ascenseur, repères uniques des bornes, caméras et badgeuses, charte commune, repérés « v2.1 » dans les documents. Version précédente : `livrables/archives/v2_2026-11-20/`.
 
 Régénérer : `python3 cablage/salles.py && python3 cablage/etude_rssi.py && python3 cablage/plan_cablage.py && python3 cablage/rapport.py` (sources : `cablage/`). Chaîne complète du dépôt, dans l'ordre des dépendances : `bash outils/ci/generer_tout.sh`.
 
@@ -25,15 +25,15 @@ Régénérer : `python3 cablage/salles.py && python3 cablage/etude_rssi.py && py
 | Logement de fonction (étage 1, aile nord-est) | **Hors périmètre** : abonnement opérateur séparé, aucune prise. |
 | Densité de prises | Bureau : 2 par poste (PC, téléphone ou réserve). Salle de TP : 1 par poste (environ 2,5 m² par poste, 24 au plus) + 2 pour l'enseignant. Salle de TD, cours, réunion : 3. Projet : 8. |
 | Wi-Fi | Nombre de bornes fixé par une **étude RSSI prédictive** (ci-dessous), validée par l'équipe. |
-| Sûreté | 14 caméras IP (v2.1 : aucune au foyer des étudiants, lieu de pause), 11 badgeuses (salle serveur, 6 L.TECH, entrée, hall, 2 salles réseaux). |
+| Sûreté | 7 caméras IP (v2.1 : aucune au foyer des étudiants, lieu de pause), 11 badgeuses (salle serveur, 6 L.TECH, entrée, hall, 2 salles réseaux). |
 | Téléphonie IP | 1 téléphone par bureau d'enseignant + l'accueil (secrétariat) : 17 postes, sur la 2e prise du bureau. |
 | Adductions opérateur | **Deux entrées séparées** : FAI 1 façade ouest (L.TECH 02 du sous-sol, côté chaufferie), FAI 2 façade est (parking) ; v2.1 : le tracé intérieur de FAI 2 évite les circulations de FAI 1. |
 | Rocades | **Deux fibres OM4 par local, par deux chemins distincts** : une par colonne montante (RDC, étage) ; au sous-sol, voie B par d'autres circulations et une autre traversée de mur que la voie A (v2.1). |
 
 ## Résultats
 
-- **483 prises RJ45 Cat6A** : 420 usagers, 38 bornes Wi-Fi, 14 caméras, 11 badgeuses.
-- **13 037 m de câble cuivre**, lien moyen 27,0 m, **lien le plus long 57,1 m** (aucun au-delà de 90 m).
+- **476 prises RJ45 Cat6A** : 420 usagers, 38 bornes Wi-Fi, 7 caméras, 11 badgeuses.
+- **12 783 m de câble cuivre**, lien moyen 26,9 m, **lien le plus long 57,1 m** (aucun au-delà de 90 m).
 - **12 rocades fibre**, 738 m au total.
 - **15 switchs d'accès** 48 ports PoE+ (Catalyst C9200L-48P-4X) répartis dans les 6 locaux.
 
@@ -41,12 +41,12 @@ Régénérer : `python3 cablage/salles.py && python3 cablage/etude_rssi.py && py
 
 | Local | Salle du plan | Surface | Prises | Usagers / Wi-Fi / caméras / badges | Switchs 48p | Baie | PoE | Lien max |
 |---|---|---:|---:|---|---:|---|---:|---:|
-| N-1-LT01 | L.TECH 01 | 7 m² | 10 | 3 / 2 / 3 / 2 | 1 | 24U murale (9U) | 103 W | 38 m |
+| N-1-LT01 | L.TECH 01 | 7 m² | 9 | 3 / 2 / 2 / 2 | 1 | 24U murale (9U) | 90 W | 26 m |
 | N-1-LT02 | L.TECH 02 | 16 m² | 17 | 13 / 2 / 1 / 1 | 1 | 24U murale (9U) | 70 W | 26 m |
-| N0-LT01 | L.TECH | 2 m² | 52 | 38 / 10 / 2 / 2 | 2 | 24U murale (13U) | 320 W | 54 m |
-| N0-LT02 | L.TECH 02 | 7 m² | 136 | 120 / 10 / 4 / 2 | 4 | 24U murale (20U) | 385 W | 53 m |
-| N1-LT01 | L.TECH 01 | 4 m² | 58 | 49 / 6 / 2 / 1 | 2 | 24U murale (13U) | 192 W | 39 m |
-| N1-LT02 | L.TECH 02 | 7 m² | 210 | 197 / 8 / 2 / 3 | 5 | 42U au sol (27U) | 262 W | 57 m |
+| N0-LT01 | L.TECH | 2 m² | 51 | 38 / 10 / 1 / 2 | 2 | 24U murale (13U) | 307 W | 54 m |
+| N0-LT02 | L.TECH 02 | 7 m² | 133 | 120 / 10 / 1 / 2 | 4 | 24U murale (20U) | 346 W | 53 m |
+| N1-LT01 | L.TECH 01 | 4 m² | 57 | 49 / 6 / 1 / 1 | 2 | 24U murale (13U) | 179 W | 39 m |
+| N1-LT02 | L.TECH 02 | 7 m² | 209 | 197 / 8 / 1 / 3 | 5 | 42U au sol (27U) | 249 W | 57 m |
 
 Le local du RDC nord (`L.TECH`, environ 2 m²) est un placard : baie murale 24U, ventilation dimensionnée par l'étude BET du point 14. Le L.TECH 02 de l'étage reçoit la baie au sol 42U (aile sud, salles de TP).
 
@@ -82,10 +82,10 @@ Point commun restant : les deux fourreaux traversent le PARKING NORD, seul passa
 
 | Niveau | Dimension (mm) | Longueur |
 |---|---|---:|
-| Sous-sol | 100×50 | 120 m |
-| RDC | 100×50 | 274 m |
+| Sous-sol | 100×50 | 88 m |
+| RDC | 100×50 | 271 m |
 | RDC | 200×60 | 8 m |
-| Étage 1 | 100×50 | 234 m |
+| Étage 1 | 100×50 | 233 m |
 | Étage 1 | 200×60 | 9 m |
 | Étage 1 | 300×100 | 7 m |
 

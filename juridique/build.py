@@ -273,7 +273,8 @@ def doc_volet():
                   [[str(l["num"]), f"<span class='nw'>{l['ref']}</span>", t(l["titre"]), t(CLAUSES_LOTS[l["num"]])] for l in CC.LOTS])]
     # 8. Points à valider
     H += ["<h2>8. Points à faire valider par le DPO et le service juridique</h2><ul>",
-          "<li>Régime de chaque caméra (lieu ouvert au public ou non) et autorisation préfectorale"
+          "<li>Régime de chaque caméra (lieu ouvert au public ou non)" + (" et autorisation préfectorale" if J.LIEU_PUBLIC_FILME else
+          " : toutes aux accès des locaux techniques, aucune autorisation préfectorale à demander")
           + (" ; retrait de la caméra du foyer" if J.LIEU_DE_PAUSE_FILME else "") + ".</li>",
           "<li>Durées de conservation, en particulier pour la plateforme d'IA (30 jours de contenus) et pour les journaux de navigation "
           f"(6 mois) {BADGE}.</li>",
