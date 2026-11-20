@@ -1,0 +1,95 @@
+local,repere,modele,quantite,w_abs_typ,w_abs_max,w_dis_typ,w_dis_max,btu_typ,btu_max,alimentation,note
+Salle serveur,"EL-RTR1, EL-RTR2",Cisco C8200L-1N-4T,2,40,60,40,60,136,205,PDU A/B (baie 1),
+Salle serveur,"EL-FGT1, EL-FGT2",FortiGate 120G,2,80,130,80,130,273,444,PDU A/B (baie 1),
+Salle serveur,"EL-SW1, EL-SW2",Cisco C9200L-24T-4X,2,80,120,80,120,273,409,PDU A/B (baie 1),
+Salle serveur,"EL-SNS1, EL-SNS2",Stormshield SN710,2,90,140,90,140,307,478,PDU A/B (baie 1),
+Salle serveur,"DM-SW1, DM-SW2",Cisco C9200L-24T-4X,2,80,120,80,120,273,409,PDU A/B (baie 1),
+Salle serveur,"CL-SW1, CL-SW2",Cisco C9500-16X,2,320,520,320,520,1092,1774,PDU A/B (baie 1),
+Salle serveur,DL-SW1 à DL-SW4,Cisco C9500-16X,4,640,1040,640,1040,2184,3548,PDU A/B (baie 1),
+Salle serveur,"NM-SW1, NM-SW2",Cisco C9200L-24T-4X,2,80,120,80,120,273,409,PDU A/B (baie 1),
+Salle serveur,"WLC1, WLC2",Cisco Catalyst 9800-L-F,2,110,180,110,180,375,614,PDU A/B (baie 1),
+Salle serveur,Tiroirs optiques,Rocades et adductions,3,0,0,0,0,0,0,—,passifs
+Salle serveur,"DM-PVE1, DM-PVE2 (VM de la DMZ)",Dell PowerEdge R360,2,240,400,240,400,819,1365,PDU A/B (baie 2),
+Salle serveur,"NM-WITNESS, DM-WITNESS",Dell PowerEdge R260 (entrée de gamme),2,120,220,120,220,409,751,PDU A/B (baie 2),
+Salle serveur,"DT-SW1, DT-SW2",Cisco C9300X-12Y,2,260,440,260,440,887,1501,PDU A/B (baie 2),
+Salle serveur,"DT-PVE1, DT-PVE2 (VM AD, NPS, DHCP)",Dell PowerEdge R660xs,2,480,800,480,800,1638,2730,PDU A/B (baie 2),
+Salle serveur,"NM-PVE1, NM-PVE2",Dell PowerEdge R660xs,2,520,840,520,840,1774,2866,PDU A/B (baie 2),
+Salle serveur,DT-BKP1,Dell PowerEdge R760xd2,1,320,480,320,480,1092,1638,PDU A/B (baie 2),
+Salle serveur,"PDU-1A, PDU-1B",PDU métrée et managée 16 A (électronique),2,16,20,16,20,55,68,PDU A/B (baie 1),
+Salle serveur,"PDU-2A, PDU-2B",PDU métrée et managée 16 A (électronique),2,16,20,16,20,55,68,PDU A/B (baie 2),
+Salle serveur,"OND-A, OND-B",APC SRT 6 kVA en ligne double conversion : pertes,2,304.8,335.6,304.8,335.6,1040,1145,TD-INFO,100 W + 3 % chacun ; 92 % à 29 % de charge
+Salle serveur,TD,Tableau TD-INFO et inverseur de source : pertes,1,40,40,40,40,136,136,—,≈ 2 W par départ chargé + électronique
+Salle serveur,VESDA,Détection précoce par aspiration (VESDA),1,30,30,30,30,102,102,TD-INFO (auxiliaires),
+Salle serveur,EXT,Centrale d'extinction IG-541 et déclencheurs,1,15,15,15,15,51,51,TD-INFO (auxiliaires),
+Salle serveur,ACC,Lecteur de badge B1 et gâche de la porte,1,10,10,10,10,34,34,TD-INFO (auxiliaires),
+Salle serveur,SON,Sondes T/H et centrale de détection de fuite,1,10,10,10,10,34,34,TD-INFO (auxiliaires),
+Salle serveur,ECL,Éclairage LED 8 W/m²,1,20.0,200.0,20.0,200.0,68,682,TD-INFO,allumé 10 % du temps
+Salle serveur,OCC,Technicien en intervention,1,0,100.0,0,100.0,0,341,—,ponctuel
+Salle serveur,PAR,Apports par les parois,1,0,0,0,0,0,0,—,sous-sol enterré : pertes vers le sol négligées
+N-1-LT01,SW1,Cisco C9200L-48P-4X : électronique et ventilateurs (hors PoE),1,55,65,55,65,188,222,onduleur du local,
+N-1-LT01,PoE,"PoE envoyé sur les câbles (alimentation + PSE, rendement 90%)",1,57.8,114.4,5.8,11.4,20,39,onduleur du local,seules les pertes restent dans le local
+N-1-LT01,WIF,Borne Wi-Fi 6E Cisco CW9164I,2,26.0,51.0,0,0,0,0,PoE (hors local),chaleur chez l'appareil ; énergie comptée dans la ligne PoE
+N-1-LT01,CAM,Caméra IP (PoE 802.3af),3,18.0,38.8,0,0,0,0,PoE (hors local),chaleur chez l'appareil ; énergie comptée dans la ligne PoE
+N-1-LT01,BAD,Lecteur de badge PoE,2,8.0,13.0,0,0,0,0,PoE (hors local),chaleur chez l'appareil ; énergie comptée dans la ligne PoE
+N-1-LT01,OND,APC Smart-UPS SMT 1500 RM 2U (line-interactive) : pertes,1,14.3,15.6,14.3,15.6,49,53,départ du TD-INFO,≈ 12 W + 2 % de la charge
+N-1-LT01,PB,"Panneaux de brassage, tiroir optique, passe-câbles",2,0,0,0,0,0,0,—,passifs
+N-1-LT01,ECL,Éclairage LED (allumé pendant les interventions),1,0,53.6,0,53.6,0,183,éclairage du bâtiment,ponctuel
+N-1-LT01,OCC,Technicien en intervention (chaleur sensible),1,0,100.0,0,100.0,0,341,—,ponctuel
+N-1-LT02,SW1,Cisco C9200L-48P-4X : électronique et ventilateurs (hors PoE),1,55,65,55,65,188,222,onduleur du local,
+N-1-LT02,PoE,"PoE envoyé sur les câbles (alimentation + PSE, rendement 90%)",1,40.0,77.8,4.0,7.8,14,27,onduleur du local,seules les pertes restent dans le local
+N-1-LT02,WIF,Borne Wi-Fi 6E Cisco CW9164I,2,26.0,51.0,0,0,0,0,PoE (hors local),chaleur chez l'appareil ; énergie comptée dans la ligne PoE
+N-1-LT02,CAM,Caméra IP (PoE 802.3af),1,6.0,12.9,0,0,0,0,PoE (hors local),chaleur chez l'appareil ; énergie comptée dans la ligne PoE
+N-1-LT02,BAD,Lecteur de badge PoE,1,4.0,6.5,0,0,0,0,PoE (hors local),chaleur chez l'appareil ; énergie comptée dans la ligne PoE
+N-1-LT02,OND,APC Smart-UPS SMT 1500 RM 2U (line-interactive) : pertes,1,13.9,14.9,13.9,14.9,47,51,départ du TD-INFO,≈ 12 W + 2 % de la charge
+N-1-LT02,PB,"Panneaux de brassage, tiroir optique, passe-câbles",2,0,0,0,0,0,0,—,passifs
+N-1-LT02,ECL,Éclairage LED (allumé pendant les interventions),1,0,128.0,0,128.0,0,437,éclairage du bâtiment,ponctuel
+N-1-LT02,OCC,Technicien en intervention (chaleur sensible),1,0,100.0,0,100.0,0,341,—,ponctuel
+N0-LT01,SW1…SW2,Cisco C9200L-48P-4X : électronique et ventilateurs (hors PoE),2,110,130,110,130,375,444,onduleur du local,
+N0-LT01,PoE,"PoE envoyé sur les câbles (alimentation + PSE, rendement 90%)",1,191.1,370.0,19.1,37.0,65,126,onduleur du local,seules les pertes restent dans le local
+N0-LT01,WIF,Borne Wi-Fi 6E Cisco CW9164I,10,130.0,255.0,0,0,0,0,PoE (hors local),chaleur chez l'appareil ; énergie comptée dans la ligne PoE
+N0-LT01,CAM,Caméra IP (PoE 802.3af),3,18.0,38.8,0,0,0,0,PoE (hors local),chaleur chez l'appareil ; énergie comptée dans la ligne PoE
+N0-LT01,BAD,Lecteur de badge PoE,2,8.0,13.0,0,0,0,0,PoE (hors local),chaleur chez l'appareil ; énergie comptée dans la ligne PoE
+N0-LT01,TEL,Téléphone IP PoE,4,16.0,26.0,0,0,0,0,PoE (hors local),chaleur chez l'appareil ; énergie comptée dans la ligne PoE
+N0-LT01,OND,APC Smart-UPS SMT 1500 RM 2U (line-interactive) : pertes,1,18.0,22.0,18.0,22.0,61,75,départ du TD-INFO,≈ 12 W + 2 % de la charge
+N0-LT01,PB,"Panneaux de brassage, tiroir optique, passe-câbles",4,0,0,0,0,0,0,—,passifs
+N0-LT01,ECL,Éclairage LED (allumé pendant les interventions),1,0,18.4,0,18.4,0,63,éclairage du bâtiment,ponctuel
+N0-LT01,OCC,Technicien en intervention (chaleur sensible),1,0,100.0,0,100.0,0,341,—,ponctuel
+N0-LT02,SW1…SW4,Cisco C9200L-48P-4X : électronique et ventilateurs (hors PoE),4,220,260,220,260,751,887,onduleur du local,
+N0-LT02,PoE,"PoE envoyé sur les câbles (alimentation + PSE, rendement 90%)",1,224.4,427.8,22.4,42.8,77,146,onduleur du local,seules les pertes restent dans le local
+N0-LT02,WIF,Borne Wi-Fi 6E Cisco CW9164I,10,130.0,255.0,0,0,0,0,PoE (hors local),chaleur chez l'appareil ; énergie comptée dans la ligne PoE
+N0-LT02,CAM,Caméra IP (PoE 802.3af),4,24.0,51.8,0,0,0,0,PoE (hors local),chaleur chez l'appareil ; énergie comptée dans la ligne PoE
+N0-LT02,BAD,Lecteur de badge PoE,2,8.0,13.0,0,0,0,0,PoE (hors local),chaleur chez l'appareil ; énergie comptée dans la ligne PoE
+N0-LT02,TEL,Téléphone IP PoE,10,40.0,65.0,0,0,0,0,PoE (hors local),chaleur chez l'appareil ; énergie comptée dans la ligne PoE
+N0-LT02,OND,APC Smart-UPS SMT 1500 RM 2U (line-interactive) : pertes,1,20.9,25.8,20.9,25.8,71,88,départ du TD-INFO,≈ 12 W + 2 % de la charge
+N0-LT02,PB,"Panneaux de brassage, tiroir optique, passe-câbles",7,0,0,0,0,0,0,—,passifs
+N0-LT02,ECL,Éclairage LED (allumé pendant les interventions),1,0,55.2,0,55.2,0,188,éclairage du bâtiment,ponctuel
+N0-LT02,OCC,Technicien en intervention (chaleur sensible),1,0,100.0,0,100.0,0,341,—,ponctuel
+N1-LT01,SW1…SW2,Cisco C9200L-48P-4X : électronique et ventilateurs (hors PoE),2,110,130,110,130,375,444,onduleur du local,
+N1-LT01,PoE,"PoE envoyé sur les câbles (alimentation + PSE, rendement 90%)",1,108.9,213.3,10.9,21.3,37,73,onduleur du local,seules les pertes restent dans le local
+N1-LT01,WIF,Borne Wi-Fi 6E Cisco CW9164I,6,78.0,153.0,0,0,0,0,PoE (hors local),chaleur chez l'appareil ; énergie comptée dans la ligne PoE
+N1-LT01,CAM,Caméra IP (PoE 802.3af),2,12.0,25.9,0,0,0,0,PoE (hors local),chaleur chez l'appareil ; énergie comptée dans la ligne PoE
+N1-LT01,BAD,Lecteur de badge PoE,1,4.0,6.5,0,0,0,0,PoE (hors local),chaleur chez l'appareil ; énergie comptée dans la ligne PoE
+N1-LT01,TEL,Téléphone IP PoE,1,4.0,6.5,0,0,0,0,PoE (hors local),chaleur chez l'appareil ; énergie comptée dans la ligne PoE
+N1-LT01,OND,APC Smart-UPS SMT 1500 RM 2U (line-interactive) : pertes,1,16.4,18.9,16.4,18.9,56,64,départ du TD-INFO,≈ 12 W + 2 % de la charge
+N1-LT01,PB,"Panneaux de brassage, tiroir optique, passe-câbles",4,0,0,0,0,0,0,—,passifs
+N1-LT01,ECL,Éclairage LED (allumé pendant les interventions),1,0,29.6,0,29.6,0,101,éclairage du bâtiment,ponctuel
+N1-LT01,OCC,Technicien en intervention (chaleur sensible),1,0,100.0,0,100.0,0,341,—,ponctuel
+N1-LT01,PAR,Apports par la toiture-terrasse en été (local sous toiture),1,14.8,37.0,14.8,37.0,50,126,—,"10 W/m² en été, 40 % en moyenne annuelle"
+N1-LT02,SW1…SW5,Cisco C9200L-48P-4X : électronique et ventilateurs (hors PoE),5,275,325,275,325,938,1109,onduleur du local,
+N1-LT02,PoE,"PoE envoyé sur les câbles (alimentation + PSE, rendement 90%)",1,151.1,291.1,15.1,29.1,52,99,onduleur du local,seules les pertes restent dans le local
+N1-LT02,WIF,Borne Wi-Fi 6E Cisco CW9164I,8,104.0,204.0,0,0,0,0,PoE (hors local),chaleur chez l'appareil ; énergie comptée dans la ligne PoE
+N1-LT02,CAM,Caméra IP (PoE 802.3af),2,12.0,25.9,0,0,0,0,PoE (hors local),chaleur chez l'appareil ; énergie comptée dans la ligne PoE
+N1-LT02,BAD,Lecteur de badge PoE,3,12.0,19.5,0,0,0,0,PoE (hors local),chaleur chez l'appareil ; énergie comptée dans la ligne PoE
+N1-LT02,TEL,Téléphone IP PoE,2,8.0,13.0,0,0,0,0,PoE (hors local),chaleur chez l'appareil ; énergie comptée dans la ligne PoE
+N1-LT02,OND,APC Smart-UPS SMT 1500 RM 2U (line-interactive) : pertes,1,20.5,24.3,20.5,24.3,70,83,départ du TD-INFO,≈ 12 W + 2 % de la charge
+N1-LT02,PB,"Panneaux de brassage, tiroir optique, passe-câbles",10,0,0,0,0,0,0,—,passifs
+N1-LT02,ECL,Éclairage LED (allumé pendant les interventions),1,0,52.8,0,52.8,0,180,éclairage du bâtiment,ponctuel
+N1-LT02,OCC,Technicien en intervention (chaleur sensible),1,0,100.0,0,100.0,0,341,—,ponctuel
+N1-LT02,PAR,Apports par la toiture-terrasse en été (local sous toiture),1,26.4,66.0,26.4,66.0,90,225,—,"10 W/m² en été, 40 % en moyenne annuelle"
+Salle serveur,TOTAL,"Total dissipé dans le local (pointe : intervention, éclairage, été)",,3921.8,6390.6,3921.8,6390.6,13381,21805,,somme des maxima ; pointe réaliste retenue pour la clim : 5261 W (informatique à 80 %)
+N-1-LT01,TOTAL,"Total dissipé dans le local (pointe : intervention, éclairage, été)",,127.1,348.6,75.1,245.6,256,838,,
+N-1-LT02,TOTAL,"Total dissipé dans le local (pointe : intervention, éclairage, été)",,108.9,385.7,72.9,315.7,249,1077,,
+N0-LT01,TOTAL,"Total dissipé dans le local (pointe : intervention, éclairage, été)",,319.1,640.4,147.1,307.4,502,1049,,
+N0-LT02,TOTAL,"Total dissipé dans le local (pointe : intervention, éclairage, été)",,465.3,868.8,263.3,483.8,898,1651,,
+N1-LT01,TOTAL,"Total dissipé dans le local (pointe : intervention, éclairage, été)",,250.1,528.8,152.1,336.8,519,1149,,
+N1-LT02,TOTAL,"Total dissipé dans le local (pointe : intervention, éclairage, été)",,473.0,859.2,337.0,597.2,1150,2038,,

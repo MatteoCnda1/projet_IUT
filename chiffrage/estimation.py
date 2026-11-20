@@ -8,6 +8,10 @@ Lancer: python3 estimation.py  -> régénère estimation_infra.csv, estimation_i
 Version 2 (après l'audit du 15/11/2026) : chiffrage aligné sur l'architecture réelle (SYS-01 : 2 nœuds NM + témoin, sans Ceph),
 virtualisation de la DMZ et du datacenter (SYS-02), contrôleurs Wi-Fi physiques (NET-01), modules 10G du Stormshield (SEC-01),
 sauvegarde hors ligne et immuable (SEC-03). v1 : livrables/archives/v1_2026-11-15/chiffrage/.
+
+Version 2.1 du lot énergie (20/11/2026) : lignes reprises de l'étude BET (energie/bet.py, via livrables/energie_refroidissement/resume.json) :
+groupe électrogène et inverseur de source (catégorie « Énergie / secours », le site n'a pas de groupe), ventilation des L.TECH,
+coffrets électriques ; OPEX : maintenance, essais et gazole du groupe. Ordre : energie/energie.py puis ce script.
 """
 import csv, json, pathlib
 
@@ -32,6 +36,8 @@ else:
 _ENERGIE = HERE.parent / "livrables" / "energie_refroidissement" / "resume.json"
 ENERGIE = json.loads(_ENERGIE.read_text(encoding="utf-8")) if _ENERGIE.exists() else None
 PRIX_CHEMIN = {"100×50": 35, "200×60": 45, "300×100": 60}  # €/m posé, avec supports
+# Chiffres publiés en v2 (15/11/2026, commit 7e1db0b), pour mesurer l'effet du lot énergie v2.1 (groupe électrogène, BET)
+REF_V2 = {"capex": 606403, "opex_total": 44892, "renouvellement_total": 25157, "tco5": 881177, "Énergie / locaux": 71900}
 
 # (catégorie, éléments du schéma, solution proposée, quantité, prix unitaire HT, note)
 CAPEX = [
@@ -151,7 +157,7 @@ def main():
     (HERE / "estimation.json").write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
 
     e = lambda n: f"{n:,.0f} €".replace(",", " ")
-    md = ["# Estimation budgétaire – Site de Marseille (version 2)", "",
+    md = ["# Estimation budgétaire – Site de Marseille (version 2, lot énergie en version 2.1)", "",
           "Source : `architecture/Projet_Marseille_site.drawio`. Prix HT, prix revendeur constatés (neuf), novembre 2026. "
           "À confirmer par devis : ces montants servent à cadrer le budget.", "",
           "## Synthèse", "", "| Poste | Montant HT |", "|---|---:|"]
@@ -172,11 +178,23 @@ def main():
         a = json.loads(v1.read_text(encoding="utf-8"))
         md += ["", "## Écarts avec la version 1 (audit du 15/11/2026)", "",
                "Détail par constat : `livrables/audit/traitement_audit.pdf`. Version 1 : `livrables/archives/v1_2026-11-15/chiffrage/`.", "",
-               "| | v1 | v2 | Écart |", "|---|---:|---:|---:|"]
+               f"| | v1 | {'v2 (lot énergie v2.1)' if ENERGIE and ENERGIE.get('version') == '2.1' else 'v2'} | Écart |", "|---|---:|---:|---:|"]
         for nom, k in (("CAPEX total", "capex"), ("OPEX annuel", "opex_total"), ("Renouvellements annuels", "renouvellement_total"), ("TCO 5 ans", "tco5")):
             md.append(f"| {nom} | {e(a[k])} | {e(data[k])} | {'+' if data[k] >= a[k] else '−'}{e(abs(data[k] - a[k]))} |")
         md += ["", "Principales causes : 12 serveurs physiques et 3 nœuds Ceph remplacés par 6 hyperviseurs et 2 témoins (−) ; contrôleurs Wi-Fi physiques, "
                "modules 10G du Stormshield, kits de pile, sauvegarde hors ligne (+) ; extinction automatique, plancher surélevé et batardeau (lot énergie, +)."]
+    if ENERGIE and ENERGIE.get("version") == "2.1":
+        lot = cats.get("Énergie / locaux", 0) + cats.get("Énergie / secours", 0)
+        md += ["", "## Écarts avec la version 2 : lot énergie v2.1 (20/11/2026)", "",
+               "Étude BET de chaque local technique et groupe électrogène : `livrables/energie_refroidissement/bet_locaux_techniques.pdf`.", "",
+               "| | v2 | v2.1 | Écart |", "|---|---:|---:|---:|",
+               f"| Lot énergie (Énergie / locaux + Énergie / secours) | {e(REF_V2['Énergie / locaux'])} | {e(lot)} | +{e(lot - REF_V2['Énergie / locaux'])} |"]
+        for nom, k in (("CAPEX total (aléas compris)", "capex"), ("OPEX annuel", "opex_total"), ("Renouvellements annuels", "renouvellement_total"),
+                       ("TCO 5 ans", "tco5")):
+            md.append(f"| {nom} | {e(REF_V2[k])} | {e(data[k])} | {'+' if data[k] >= REF_V2[k] else '−'}{e(abs(data[k] - REF_V2[k]))} |")
+        md += ["", f"Causes : groupe électrogène {ENERGIE['bet']['groupe_electrogene']['esp_kva']} kVA ESP, inverseur de source, génie civil et raccordement "
+               f"({e(ENERGIE.get('capex_groupe_electrogene', 0))} HT) ; ventilation renforcée de trois L.TECH (mini-split, extracteurs 300 m³/h) et coffrets "
+               "électriques ; OPEX : maintenance, essai sur banc et gazole du groupe, électricité recalculée (pertes réelles des onduleurs, auxiliaires)."]
     md += ["", "## Hypothèses de dimensionnement", "",
            "- Bâtiment IUT Génie Télécom (Luminy) : sous-sol, RDC, étage 1, 6 locaux techniques (plans `docs/plans_batiment/`).",
            (f"- {NB_PRISES} prises d'après le plan de câblage (`livrables/plan_cablage/`) : bureaux 2 par poste, salles de TP 1 par poste + 2, "
@@ -185,7 +203,10 @@ def main():
            "- Postes clients, imprimantes, téléphones IP et caméras exclus (budget poste de travail à part).",
            "- La `cisco-price-list.pdf` du Drive date du début des années 2000 (gammes Aironet 340/350, VPN 3000) : elle n'est pas utilisable pour des prix actuels.",
            (f"- Électricité, onduleurs, climatisation : bilan du point 14 (`livrables/energie_refroidissement/`), PUE {ENERGIE['energie']['pue']}, "
-            f"{ENERGIE['energie']['kwh']} kWh/an, {KWH:.2f} €/kWh HT." if ENERGIE else f"- Électricité : {IT_KW} kW de charge IT moyenne, PUE {PUE}, {KWH:.2f} €/kWh HT."), ""]
+            f"{ENERGIE['energie']['kwh']} kWh/an, {KWH:.2f} €/kWh HT." if ENERGIE else f"- Électricité : {IT_KW} kW de charge IT moyenne, PUE {PUE}, {KWH:.2f} €/kWh HT."),
+           (f"- Groupe électrogène (v2.1) : le site n'en a pas (confirmé par le client). Groupe diesel {ENERGIE['bet']['groupe_electrogene']['esp_kva']} kVA ESP / "
+            f"{ENERGIE['bet']['groupe_electrogene']['prp_kva']} kVA PRP et inverseur automatique en tête du tableau informatique, prix en ordre de grandeur "
+            "(distributeurs, installateurs), à confirmer par devis." if ENERGIE and "bet" in ENERGIE else ""), ""]
     (HERE / "estimation_infra.md").write_text("\n".join(md), encoding="utf-8")
     print(f"sous-total {sous_total}  aleas {aleas}  CAPEX {capex}  OPEX/an {opex}  renouv/an {renouv}  TCO5 {tco5}")
     for c, v in cats.items(): print(f"  {c:20s} {v}")

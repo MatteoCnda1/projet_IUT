@@ -304,16 +304,16 @@
    "quantite": 2,
    "pu_ht": 1400,
    "total_ht": 2800,
-   "note": "Autonomie si un onduleur tombe : 11.2 min sans pack, 33 min avec (point 14)"
+   "note": "Autonomie si un onduleur tombe : 11.1 min sans pack, 33 min avec (point 14)"
   },
   {
    "categorie": "Énergie / locaux",
    "schema": "Salle serveur + L.TECH",
    "solution": "Tableau électrique informatique (TD-INFO) et circuits dédiés",
    "quantite": 1,
-   "pu_ht": 6000,
-   "total_ht": 6000,
-   "note": "2 départs 32 A onduleurs, 2 départs clim, 6 départs 16 A L.TECH, protections différentielles (point 14)"
+   "pu_ht": 6800,
+   "total_ht": 6800,
+   "note": "2 départs 32 A onduleurs (différentiel type B), 2 départs 20 A clim (type F), 6 départs 20 A L.TECH, éclairage, prises, auxiliaires. v2.1 : différentiels adaptés (BET) (point 14)"
   },
   {
    "categorie": "Énergie / locaux",
@@ -381,11 +381,74 @@
   {
    "categorie": "Énergie / locaux",
    "schema": "Locaux techniques",
-   "solution": "Extracteur d'air avec thermostat",
-   "quantite": 4,
+   "solution": "Extracteur d'air de gaine avec thermostat (150 ou 300 m³/h)",
+   "quantite": 3,
    "pu_ht": 450,
-   "total_ht": 1800,
-   "note": "Locaux les plus chargés ou les plus petits (point 14)"
+   "total_ht": 1350,
+   "note": "v2.1 : débit vérifié pour l'été par le BET (N0-LT01 150 m³/h, N0-LT02 300 m³/h, N1-LT01 300 m³/h) (point 14)"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Locaux techniques",
+   "solution": "Mini-split 2,5 kW froid (unité extérieure en toiture-terrasse)",
+   "quantite": 1,
+   "pu_ht": 3200,
+   "total_ht": 3200,
+   "note": "v2.1 (BET) : N1-LT02 trop chaud en été sous la toiture, même avec un extracteur (point 14)"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Locaux techniques",
+   "solution": "Coffret électrique de L.TECH (différentiels 30 mA type A SI et F, prise détrompée de l'onduleur)",
+   "quantite": 6,
+   "pu_ht": 350,
+   "total_ht": 2100,
+   "note": "v2.1 (BET) : protections adaptées aux onduleurs et aux ventilateurs (point 14)"
+  },
+  {
+   "categorie": "Énergie / secours",
+   "schema": "Extérieur, façade est",
+   "solution": "Groupe électrogène diesel 33 kVA ESP / 30 kVA PRP, capoté insonorisé, cuve double paroi 250 l, démarrage automatique",
+   "quantite": 1,
+   "pu_ht": 17500,
+   "total_ht": 17500,
+   "note": "v2.1 : le site n'a pas de groupe. Groupe 30 kVA capoté : 15 à 20 k€ HT fourni chez les distributeurs (ordre de grandeur) (point 14)"
+  },
+  {
+   "categorie": "Énergie / secours",
+   "schema": "TD-INFO",
+   "solution": "Inverseur de source automatique 4P 63 A (NF EN 60947-6-1), coffret, reports d'état",
+   "quantite": 1,
+   "pu_ht": 3500,
+   "total_ht": 3500,
+   "note": "v2.1 : bascule réseau / groupe en tête du tableau informatique. Appareil ≈ 1,5 à 2 k€, plus coffret, pose et mise en service (point 14)"
+  },
+  {
+   "categorie": "Énergie / secours",
+   "schema": "Extérieur, façade est",
+   "solution": "Génie civil : dalle béton armé ≈ 3 × 2 m, fourreaux, clôture et portillon",
+   "quantite": 1,
+   "pu_ht": 4500,
+   "total_ht": 4500,
+   "note": "v2.1 : ordre de grandeur d'entreprise de génie civil (point 14)"
+  },
+  {
+   "categorie": "Énergie / secours",
+   "schema": "GE → TD-INFO, TGBT",
+   "solution": "Raccordement : câble 5G16 mm² (≈ 60 m) en fourreau, câble de commande, départ 4P 63 A au TGBT, circuit des auxiliaires du groupe",
+   "quantite": 1,
+   "pu_ht": 4000,
+   "total_ht": 4000,
+   "note": "v2.1 : ≈ 40 €/m posé pour le câble de puissance, plus l'appareillage (point 14)"
+  },
+  {
+   "categorie": "Énergie / secours",
+   "schema": "Groupe électrogène",
+   "solution": "Transport, levage, mise en service, essai de réception sur banc de charge (4 h), premier plein, formation",
+   "quantite": 1,
+   "pu_ht": 2500,
+   "total_ht": 2500,
+   "note": "v2.1 : forfait installateur (point 14)"
   },
   {
    "categorie": "Câblage",
@@ -478,13 +541,14 @@
   "Accès": 119900,
   "Net Management": 29100,
   "Datacenter": 60050,
-  "Énergie / locaux": 71900,
+  "Énergie / locaux": 77550,
+  "Énergie / secours": 32000,
   "Câblage": 119925,
   "Prestations": 39000
  },
- "sous_total": 551275,
- "aleas": 55128,
- "capex": 606403,
+ "sous_total": 588925,
+ "aleas": 58892,
+ "capex": 647817,
  "opex": [
   {
    "poste": "Accès Internet FAI 1",
@@ -513,8 +577,8 @@
   },
   {
    "poste": "Électricité du réseau",
-   "detail": "53 510 kWh/an × 0.20 € (salle serveur, PUE 1.34, 6 locaux techniques)",
-   "montant": 10702
+   "detail": "58 491 kWh/an × 0.20 € (salle serveur, PUE 1.45, 6 locaux techniques)",
+   "montant": 11698
   },
   {
    "poste": "Maintenance de la climatisation",
@@ -523,8 +587,8 @@
   },
   {
    "poste": "Provision batteries d'onduleurs",
-   "detail": "Remplacement tous les 5 ans, lissé par an",
-   "montant": 1500
+   "detail": "Remplacement tous les 5 ans (salle) et tous les 4 ans (L.TECH, v2.1), lissé par an",
+   "montant": 1575
   },
   {
    "poste": "Maintenance de l'extinction automatique",
@@ -532,12 +596,32 @@
    "montant": 600
   },
   {
+   "poste": "Maintenance du groupe électrogène et de l'inverseur",
+   "detail": "v2.1 : contrat de 2 visites par an (vidange, filtres, liquide, batterie de démarrage, contrôle de l'inverseur)",
+   "montant": 1100
+  },
+  {
+   "poste": "Essai annuel du groupe sur banc de charge",
+   "detail": "v2.1 : location du banc et technicien, 2 h à 75 % de la PRP",
+   "montant": 700
+  },
+  {
+   "poste": "Gazole du groupe électrogène",
+   "detail": "v2.1 : 54 l/an × 1.40 € (essais mensuels, banc, coupures) + analyse et traitement du gazole",
+   "montant": 156
+  },
+  {
+   "poste": "Maintenance du mini-split des L.TECH",
+   "detail": "v2.1 : visite annuelle (filtres, contrôle d'étanchéité)",
+   "montant": 150
+  },
+  {
    "poste": "Nom de domaine",
    "detail": "Domaine + DNS secondaire",
    "montant": 30
   }
  ],
- "opex_total": 44892,
+ "opex_total": 48069,
  "renouvellement": [
   {
    "poste": "FortiGuard UTP + FortiCare",
@@ -561,7 +645,7 @@
   }
  ],
  "renouvellement_total": 25157,
- "tco5": 881177,
+ "tco5": 938476,
  "optimisations": [
   {
    "piste": "Cœur replié (collapsed core)",

@@ -1,4 +1,4 @@
-# Estimation budgétaire – Site de Marseille (version 2)
+# Estimation budgétaire – Site de Marseille (version 2, lot énergie en version 2.1)
 
 Source : `architecture/Projet_Marseille_site.drawio`. Prix HT, prix revendeur constatés (neuf), novembre 2026. À confirmer par devis : ces montants servent à cadrer le budget.
 
@@ -14,15 +14,16 @@ Source : `architecture/Projet_Marseille_site.drawio`. Prix HT, prix revendeur co
 | Accès | 119 900 € |
 | Net Management | 29 100 € |
 | Datacenter | 60 050 € |
-| Énergie / locaux | 71 900 € |
+| Énergie / locaux | 77 550 € |
+| Énergie / secours | 32 000 € |
 | Câblage | 119 925 € |
 | Prestations | 39 000 € |
-| **Sous-total** | **551 275 €** |
-| Aléas (10%) | 55 128 € |
-| **CAPEX total** | **606 403 €** |
-| OPEX annuel (années 1 à 3) | 44 892 € |
+| **Sous-total** | **588 925 €** |
+| Aléas (10%) | 58 892 € |
+| **CAPEX total** | **647 817 €** |
+| OPEX annuel (années 1 à 3) | 48 069 € |
 | Renouvellements annuels (dès l'année 4) | 25 157 € |
-| **Coût total sur 5 ans (TCO)** | **881 177 €** |
+| **Coût total sur 5 ans (TCO)** | **938 476 €** |
 
 ## Détail CAPEX
 
@@ -61,8 +62,8 @@ Source : `architecture/Projet_Marseille_site.drawio`. Prix HT, prix revendeur co
 | Énergie / locaux | Salle serveur | PDU managées et métrées | 4 | 700 € | 2 800 € | Mesure de consommation (Green IT) |
 | Énergie / locaux | Salle serveur | Climatisation de précision ~7 kW, redondance N+1 | 1 | 12 000 € | 12 000 € |  |
 | Énergie / locaux | Salle serveur + L.TECH | Contrôle d'accès par badge | 1 | 5 000 € | 5 000 € |  |
-| Énergie / locaux | Salle serveur | Pack batterie externe APC SRT192RMBP (1 par onduleur) | 2 | 1 400 € | 2 800 € | Autonomie si un onduleur tombe : 11.2 min sans pack, 33 min avec (point 14) |
-| Énergie / locaux | Salle serveur + L.TECH | Tableau électrique informatique (TD-INFO) et circuits dédiés | 1 | 6 000 € | 6 000 € | 2 départs 32 A onduleurs, 2 départs clim, 6 départs 16 A L.TECH, protections différentielles (point 14) |
+| Énergie / locaux | Salle serveur | Pack batterie externe APC SRT192RMBP (1 par onduleur) | 2 | 1 400 € | 2 800 € | Autonomie si un onduleur tombe : 11.1 min sans pack, 33 min avec (point 14) |
+| Énergie / locaux | Salle serveur + L.TECH | Tableau électrique informatique (TD-INFO) et circuits dédiés | 1 | 6 800 € | 6 800 € | 2 départs 32 A onduleurs (différentiel type B), 2 départs 20 A clim (type F), 6 départs 20 A L.TECH, éclairage, prises, auxiliaires. v2.1 : différentiels adaptés (BET) (point 14) |
 | Énergie / locaux | Salle serveur | Confinement d'allée froide (obturateurs, rideaux) | 1 | 1 200 € | 1 200 € | Green IT : -10 % sur la clim (point 14) |
 | Énergie / locaux | Salle serveur + L.TECH | Sondes température/humidité et détection de fuite d'eau | 1 | 1 200 € | 1 200 € | Remontées dans LibreNMS ; fuite : salle au sous-sol (point 14) |
 | Énergie / locaux | Salle serveur | Détection incendie raccordée au SSI + extincteurs CO2 | 1 | 1 500 € | 1 500 € | Report d'alarme au SSI du bâtiment (point 14) |
@@ -70,7 +71,14 @@ Source : `architecture/Projet_Marseille_site.drawio`. Prix HT, prix revendeur co
 | Énergie / locaux | Salle serveur | Plancher technique surélevé 30 cm, baies et onduleurs sur socles | 25 | 160 € | 4 000 € | v2 (SYS-03) : matériel hors d'eau en cas d'inondation du sous-sol (prix au m²) (point 14) |
 | Énergie / locaux | Salle serveur | Batardeau amovible à la porte (60 cm) + clapet anti-retour sur l'évacuation des condensats | 1 | 1 500 € | 1 500 € | v2 (SYS-03) : retarde l'entrée de l'eau par la circulation (point 14) |
 | Énergie / locaux | Salle serveur | Câble de détection de fuite sous le plancher (centrale + 20 m) | 1 | 900 € | 900 € | v2 (SYS-03) : alerte dès les premiers centimètres, avant que l'eau n'atteigne le matériel (point 14) |
-| Énergie / locaux | Locaux techniques | Extracteur d'air avec thermostat | 4 | 450 € | 1 800 € | Locaux les plus chargés ou les plus petits (point 14) |
+| Énergie / locaux | Locaux techniques | Extracteur d'air de gaine avec thermostat (150 ou 300 m³/h) | 3 | 450 € | 1 350 € | v2.1 : débit vérifié pour l'été par le BET (N0-LT01 150 m³/h, N0-LT02 300 m³/h, N1-LT01 300 m³/h) (point 14) |
+| Énergie / locaux | Locaux techniques | Mini-split 2,5 kW froid (unité extérieure en toiture-terrasse) | 1 | 3 200 € | 3 200 € | v2.1 (BET) : N1-LT02 trop chaud en été sous la toiture, même avec un extracteur (point 14) |
+| Énergie / locaux | Locaux techniques | Coffret électrique de L.TECH (différentiels 30 mA type A SI et F, prise détrompée de l'onduleur) | 6 | 350 € | 2 100 € | v2.1 (BET) : protections adaptées aux onduleurs et aux ventilateurs (point 14) |
+| Énergie / secours | Extérieur, façade est | Groupe électrogène diesel 33 kVA ESP / 30 kVA PRP, capoté insonorisé, cuve double paroi 250 l, démarrage automatique | 1 | 17 500 € | 17 500 € | v2.1 : le site n'a pas de groupe. Groupe 30 kVA capoté : 15 à 20 k€ HT fourni chez les distributeurs (ordre de grandeur) (point 14) |
+| Énergie / secours | TD-INFO | Inverseur de source automatique 4P 63 A (NF EN 60947-6-1), coffret, reports d'état | 1 | 3 500 € | 3 500 € | v2.1 : bascule réseau / groupe en tête du tableau informatique. Appareil ≈ 1,5 à 2 k€, plus coffret, pose et mise en service (point 14) |
+| Énergie / secours | Extérieur, façade est | Génie civil : dalle béton armé ≈ 3 × 2 m, fourreaux, clôture et portillon | 1 | 4 500 € | 4 500 € | v2.1 : ordre de grandeur d'entreprise de génie civil (point 14) |
+| Énergie / secours | GE → TD-INFO, TGBT | Raccordement : câble 5G16 mm² (≈ 60 m) en fourreau, câble de commande, départ 4P 63 A au TGBT, circuit des auxiliaires du groupe | 1 | 4 000 € | 4 000 € | v2.1 : ≈ 40 €/m posé pour le câble de puissance, plus l'appareillage (point 14) |
+| Énergie / secours | Groupe électrogène | Transport, levage, mise en service, essai de réception sur banc de charge (4 h), premier plein, formation | 1 | 2 500 € | 2 500 € | v2.1 : forfait installateur (point 14) |
 | Câblage | Prises | Prise RJ45 Cat6A fournie, posée et recettée | 484 | 140 € | 67 760 € | 10 Gb/s, durée de vie 15 ans (CdC). Usagers + bornes + caméras + badgeuses (plan de câblage) |
 | Câblage | Rocades | Fibre OM4 12 brins L.TECH vers salle serveur | 12 | 1 500 € | 18 000 € | 2 câbles par local, par deux chemins disjoints (colonnes Nord et Sud) |
 | Câblage | Chemins de câbles | Chemin de câbles fil 100×50 mm, posé | 636 | 35 € | 22 260 € | Métré du plan de câblage (circulations et locaux) |
@@ -90,10 +98,14 @@ Source : `architecture/Projet_Marseille_site.drawio`. Prix HT, prix revendeur co
 | Interconnexion WAN | VPN MPLS vers le site jumeau (Digne/Gap) | 8 400 € |
 | Proxmox VE | Souscription Standard : NM 2 nœuds x 2 sockets, DT et DMZ 4 nœuds x 1 socket, 550 €/socket | 4 400 € |
 | Sauvegarde externalisée | Stockage objet ~20 To hors site, verrouillage S3 Object Lock en mode conformité (hébergeur SecNumCloud) | 2 160 € |
-| Électricité du réseau | 53 510 kWh/an × 0.20 € (salle serveur, PUE 1.34, 6 locaux techniques) | 10 702 € |
+| Électricité du réseau | 58 491 kWh/an × 0.20 € (salle serveur, PUE 1.45, 6 locaux techniques) | 11 698 € |
 | Maintenance de la climatisation | Contrat d'entretien, 2 unités | 900 € |
-| Provision batteries d'onduleurs | Remplacement tous les 5 ans, lissé par an | 1 500 € |
+| Provision batteries d'onduleurs | Remplacement tous les 5 ans (salle) et tous les 4 ans (L.TECH, v2.1), lissé par an | 1 575 € |
 | Maintenance de l'extinction automatique | Visite annuelle obligatoire (APSAD R13), contrôle des bouteilles | 600 € |
+| Maintenance du groupe électrogène et de l'inverseur | v2.1 : contrat de 2 visites par an (vidange, filtres, liquide, batterie de démarrage, contrôle de l'inverseur) | 1 100 € |
+| Essai annuel du groupe sur banc de charge | v2.1 : location du banc et technicien, 2 h à 75 % de la PRP | 700 € |
+| Gazole du groupe électrogène | v2.1 : 54 l/an × 1.40 € (essais mensuels, banc, coupures) + analyse et traitement du gazole | 156 € |
+| Maintenance du mini-split des L.TECH | v2.1 : visite annuelle (filtres, contrôle d'étanchéité) | 150 € |
 | Nom de domaine | Domaine + DNS secondaire | 30 € |
 
 ## Renouvellements (à partir de l'année 4)
@@ -117,14 +129,28 @@ Source : `architecture/Projet_Marseille_site.drawio`. Prix HT, prix revendeur co
 
 Détail par constat : `livrables/audit/traitement_audit.pdf`. Version 1 : `livrables/archives/v1_2026-11-15/chiffrage/`.
 
-| | v1 | v2 | Écart |
+| | v1 | v2 (lot énergie v2.1) | Écart |
 |---|---:|---:|---:|
-| CAPEX total | 582 951 € | 606 403 € | +23 452 € |
-| OPEX annuel | 44 081 € | 44 892 € | +811 € |
+| CAPEX total | 582 951 € | 647 817 € | +64 866 € |
+| OPEX annuel | 44 081 € | 48 069 € | +3 988 € |
 | Renouvellements annuels | 27 857 € | 25 157 € | −2 700 € |
-| TCO 5 ans | 859 070 € | 881 177 € | +22 107 € |
+| TCO 5 ans | 859 070 € | 938 476 € | +79 406 € |
 
 Principales causes : 12 serveurs physiques et 3 nœuds Ceph remplacés par 6 hyperviseurs et 2 témoins (−) ; contrôleurs Wi-Fi physiques, modules 10G du Stormshield, kits de pile, sauvegarde hors ligne (+) ; extinction automatique, plancher surélevé et batardeau (lot énergie, +).
+
+## Écarts avec la version 2 : lot énergie v2.1 (20/11/2026)
+
+Étude BET de chaque local technique et groupe électrogène : `livrables/energie_refroidissement/bet_locaux_techniques.pdf`.
+
+| | v2 | v2.1 | Écart |
+|---|---:|---:|---:|
+| Lot énergie (Énergie / locaux + Énergie / secours) | 71 900 € | 109 550 € | +37 650 € |
+| CAPEX total (aléas compris) | 606 403 € | 647 817 € | +41 414 € |
+| OPEX annuel | 44 892 € | 48 069 € | +3 177 € |
+| Renouvellements annuels | 25 157 € | 25 157 € | +0 € |
+| TCO 5 ans | 881 177 € | 938 476 € | +57 299 € |
+
+Causes : groupe électrogène 33 kVA ESP, inverseur de source, génie civil et raccordement (32 000 € HT) ; ventilation renforcée de trois L.TECH (mini-split, extracteurs 300 m³/h) et coffrets électriques ; OPEX : maintenance, essai sur banc et gazole du groupe, électricité recalculée (pertes réelles des onduleurs, auxiliaires).
 
 ## Hypothèses de dimensionnement
 
@@ -132,4 +158,5 @@ Principales causes : 12 serveurs physiques et 3 nœuds Ceph remplacés par 6 hyp
 - 484 prises d'après le plan de câblage (`livrables/plan_cablage/`) : bureaux 2 par poste, salles de TP 1 par poste + 2, salles de TD/cours/réunion 3, 38 bornes Wi-Fi (étude RSSI), 15 caméras IP, 11 badgeuses.
 - Postes clients, imprimantes, téléphones IP et caméras exclus (budget poste de travail à part).
 - La `cisco-price-list.pdf` du Drive date du début des années 2000 (gammes Aironet 340/350, VPN 3000) : elle n'est pas utilisable pour des prix actuels.
-- Électricité, onduleurs, climatisation : bilan du point 14 (`livrables/energie_refroidissement/`), PUE 1.34, 53510 kWh/an, 0.20 €/kWh HT.
+- Électricité, onduleurs, climatisation : bilan du point 14 (`livrables/energie_refroidissement/`), PUE 1.45, 58491 kWh/an, 0.20 €/kWh HT.
+- Groupe électrogène (v2.1) : le site n'en a pas (confirmé par le client). Groupe diesel 33 kVA ESP / 30 kVA PRP et inverseur automatique en tête du tableau informatique, prix en ordre de grandeur (distributeurs, installateurs), à confirmer par devis.
