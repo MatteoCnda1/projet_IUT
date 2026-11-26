@@ -47,7 +47,7 @@ Détail et hypothèses : [`chiffrage/estimation_infra.md`](chiffrage/estimation_
 
 ## Société fictive : RudyLink Infrastructure
 
-Le groupe joue **RudyLink Infrastructure**, branche conseil réseau (imaginaire) de RudyLink, micro-entreprise réelle d'un membre. Charte, logo, modèles de rapport / slides / compte rendu : [`livrables/communication/`](livrables/communication/README.md). Équipe (comptes GesTT) : Mattéo Canada (chef de projet), Rafael Maunier, Solal Kruczinsky, Raphael Hovsepian. Journal de bord : `livrables/site_web/journal.html`.
+Le groupe joue **RudyLink Infrastructure**, branche conseil réseau (imaginaire) de RudyLink, micro-entreprise réelle d'un membre. Charte, logo, modèles de rapport / slides / compte rendu : [`livrables/communication/`](livrables/communication/README.md). Équipe (comptes GesTT) : Mattéo Canada (chef de projet), Rafael Maunier, Solal Kruczynski, Raphael Hovsepian. Journal de bord : `livrables/site_web/journal.html`.
 
 ## Livrables attendus
 
