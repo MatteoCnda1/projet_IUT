@@ -45,7 +45,7 @@ Symbole : la hiérarchie trois couches (1 cœur en émeraude, 2 distributions, 3
 
 ## Équipe et GesTT
 
-`societe.json` (nom, équipe, rôles, documents) est lu par l'import de GesTT, qui affiche la société dans « Infos projet ». Les membres et leurs titres viennent des comptes GesTT : Mattéo Canada (chef de projet), Rafael Maunier, Solal Kruczinsky, Raphael Hovsepian.
+`societe.json` (nom, équipe, rôles, documents) est lu par l'import de GesTT, qui affiche la société dans « Infos projet ». Les membres et leurs titres viennent des comptes GesTT : Mattéo Canada (chef de projet), Rafael Maunier, Solal Kruczynski, Raphael Hovsepian.
 
 ## Régénérer
 

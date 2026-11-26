@@ -346,7 +346,7 @@ def plaquette(cab, nrj, est):
 EQUIPE = [
     ("Mattéo Canada", "Chef de projet", "CP"),
     ("Rafael Maunier", "Membre de l'équipe", ""),
-    ("Solal Kruczinsky", "Membre de l'équipe", ""),
+    ("Solal Kruczynski", "Membre de l'équipe", ""),
     ("Raphael Hovsepian", "Membre de l'équipe", ""),
 ]
 ROLES = [
