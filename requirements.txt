@@ -1,0 +1,16 @@
+# Dépendances Python de la chaîne de génération des livrables (Python 3.12 ou plus récent).
+#   pip install -r requirements.txt
+# La CI fige les versions exactes avec outils/ci/contraintes.txt (mêmes versions que les livrables suivis par git) :
+#   pip install -r requirements.txt -c outils/ci/contraintes.txt
+#
+# Outils système nécessaires (hors pip) : poppler-utils (pdftotext, pdftoppm), Google Chrome ou Chromium (PDF et PNG),
+# la CLI draw.io (PNG des schémas), polices DejaVu. Voir outils/ci/README.md.
+
+matplotlib>=3.8          # schémas énergie, plans de câblage, cartes RSSI
+numpy>=1.26              # cablage/ (grilles, propagation)
+scipy>=1.11              # cablage/plan_cablage.py (plus courts chemins)
+opencv-python-headless>=4.8   # cablage/ (lecture des plans, murs)
+Pillow>=10.0             # architecture/reseau/build.py (recadrage de la zone NM)
+fonttools>=4.40          # communication/marque.py (logos vectorisés)
+python-docx>=1.1         # communication/bureautique.py (modèles Word)
+python-pptx>=1.0         # communication/bureautique.py (modèle PowerPoint)

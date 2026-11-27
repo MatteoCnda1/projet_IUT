@@ -1,0 +1,3167 @@
+{
+ "_lisez_moi": [
+  "Constats des quatre audits v2.1 du 20/11/2026 (commit audité b05e2e3) et leur traitement.",
+  "Lu par architecture/audit/traitement_audit.py : modifier ce fichier puis relancer le script (le PDF et le README de livrables/audit/ suivent).",
+  "statut : une des clés de « statuts ». traitement : texte affiché pour les constats bloquants et majeurs (vide = correction proposée par l'audit).",
+  "Les rapports d'audit complets (avant → après pour chaque constat) ne sont pas versionnés : ce fichier en garde l'identifiant, la gravité, le titre et les fichiers visés."
+ ],
+ "date": "20/11/2026",
+ "commit_audite": "b05e2e3",
+ "statuts": {
+  "traité": "corrigé dans les sources de la v2.1, livrables régénérés",
+  "partiel": "corrigé en partie, le reste figure dans les points ouverts",
+  "ouvert": "pas encore corrigé, en attente d'un choix, d'un devis ou d'une vérification",
+  "hors dépôt": "fichier non versionné, à corriger quand il entrera dans le dépôt",
+  "sans objet": "rien à corriger après examen"
+ },
+ "gravites": [
+  "bloquant",
+  "majeur",
+  "mineur",
+  "coquille"
+ ],
+ "responsables": {
+  "reseau_securite": "réseau et sécurité",
+  "cablage_chiffrage_energie": "câblage, chiffrage et énergie",
+  "juridique": "juridique",
+  "documentation": "documentation transverse",
+  "coordination": "coordination (README racine)",
+  "hors_depot": "hors dépôt"
+ },
+ "audits": [
+  {
+   "id": "reseau",
+   "titre": "Réseau",
+   "prefixe": "RES, MAQ",
+   "hors_depot_au_total": false,
+   "perimetre": "plan d'adressage, architectures L2 et L3, schémas draw.io, matrice des flux, traitement de l'audit, maquette (hors dépôt)",
+   "methode": "livrables régénérés et comparés au dépôt, contrôle de chaque adresse d'hôte et de transit et des IPv4 citées dans les HTML et les schémas, vérification des constats de l'audit du 15/11 déclarés corrigés"
+  },
+  {
+   "id": "quantites",
+   "titre": "Quantités, prix et puissances",
+   "prefixe": "QTE",
+   "hors_depot_au_total": false,
+   "perimetre": "plan de câblage, chiffrage, énergie et inventaire croisé des équipements dans tous les documents",
+   "methode": "sommes du chiffrage refaites, scripts rejoués, tableau croisé modèle × document, impact de chaque correction simulé"
+  },
+  {
+   "id": "forme",
+   "titre": "Forme et cohérence documentaire",
+   "prefixe": "DOC, H",
+   "hors_depot_au_total": true,
+   "perimetre": "tous les textes du dépôt, puis le travail non suivi du checkout principal (hors dépôt)",
+   "methode": "relecture complète, charte de rédaction v2.1 proposée (identité, version, cartouche, typographie, vocabulaire, nommage, README)"
+  },
+  {
+   "id": "securite_juridique",
+   "titre": "Sécurité et juridique",
+   "prefixe": "SEC21, JUR",
+   "hors_depot_au_total": false,
+   "perimetre": "points 09 (matrice des flux, EBIOS RM, PSSI) et 19 (charte, volet juridique, PRA, CCTP)",
+   "methode": "lecture complète, confrontation au plan d'adressage, au chiffrage et à l'énergie, contrôle de masquage des règles de filtrage"
+  }
+ ],
+ "decisions": [
+  {
+   "id": "D1",
+   "titre": "Charte commune et version",
+   "resume": "Module commun/charte.py : version v2.1 — 20/11/2026, cartouche, en-tête, pied de page numéroté, suivi des versions, typographie française, références RLI-ETU-001 à 013, RLI-CCTP-001 à 005, RLI-AUD-001 ; jamais la date du jour ; une seule forme par nom, celle de GesTT (site jumeau « Digne ou Gap »).",
+   "constats": [
+    "DOC-02",
+    "DOC-03",
+    "DOC-13",
+    "DOC-15",
+    "DOC-27",
+    "DOC-34",
+    "DOC-35",
+    "DOC-37",
+    "DOC-38",
+    "RES-18",
+    "RES-20",
+    "SEC21-25"
+   ]
+  },
+  {
+   "id": "D2",
+   "titre": "Groupe électrogène intégré en v2.1",
+   "resume": "Le client confirme qu'il n'y a pas de groupe sur le site : groupe dédié capoté, cuve double paroi, inverseur automatique en tête du TD-INFO, essais mensuels et annuels ; arrêt ordonné NUT seulement si le groupe n'a pas repris. Valeurs lues dans resume.json. Seuls restent « à vérifier sur site » la réserve du TGBT, le régime de neutre et l'emplacement exact.",
+   "constats": [
+    "DOC-01",
+    "SEC21-14",
+    "JUR-05"
+   ]
+  },
+  {
+   "id": "D3",
+   "titre": "Sûreté (lot 4)",
+   "resume": "Caméras limitées aux accès contrôlés des locaux techniques (porte badgée de la salle serveur et des 6 L.TECH) : 15 → 7 caméras (décision de l'équipe du 20/11/2026). Retirées : le foyer (lieu de pause, CNIL), les entrées, halls et parkings (lieux ouverts au public : pas d'autorisation préfectorale), les circulations. Enregistreur physique VS-NVR1 (6 × 8 To en RAID 6, ≈ 29 To utiles, 30 jours couverts même à 8 Mb/s). Lot 4 chiffré : caméras, licences VMS, VS-NVR1, lecteurs de badge et UTL.",
+   "constats": [
+    "QTE-05",
+    "QTE-06",
+    "QTE-07",
+    "QTE-17",
+    "JUR-04",
+    "JUR-06"
+   ]
+  },
+  {
+   "id": "D4",
+   "titre": "Maintenance et PRA",
+   "resume": "Rétablissement sous 4 h, 24 h/24 7 j/7 pour les équipements critiques (routeurs, pare-feu, cœur, distribution, WLC, hyperviseurs DT et NM, DT-BKP1, onduleurs et climatiseurs de la salle) ; jour ouvré suivant pour le reste. Dans les CCTP 1 à 3 et 5, le PRA et l'OPEX.",
+   "constats": [
+    "JUR-01"
+   ]
+  },
+  {
+   "id": "D5",
+   "titre": "Conservation des journaux",
+   "resume": "Données techniques de connexion : 1 an (CPCE, art. L34-1, décret n° 2021-1362), accès restreint, archives scellées. URL complètes du proxy : 6 mois, finalité sécurité, consultation tracée. PSSI, matrice, volet juridique et charte disent la même chose.",
+   "constats": [
+    "SEC21-13"
+   ]
+  },
+  {
+   "id": "D6",
+   "titre": "Chaîne de génération et points ouverts",
+   "resume": "Chaîne de référence : bash outils/ci/generer_tout.sh, dans l'ordre des dépendances, puis outils/ci/verifier_coherence.py. Les points vraiment ouverts (choix d'équipe, devis, vérifications sur site) sont listés, pas inventés.",
+   "constats": [
+    "QTE-04",
+    "DOC-05"
+   ]
+  },
+  {
+   "id": "D7",
+   "titre": "GesTT, source de vérité",
+   "resume": "GesTT fait foi sur le projet : statut, dates, responsables et checklists des points, décisions des tâches, dossiers et noms des livrables déposés. La v2.1 s'y aligne : roadmap reprise de GesTT (instantané roadmap/gestt_2026-11-20.json), livrables P09 sous les noms RLI-P09-* de livrables/securite/ (PR #12) et P19 dans livrables/depots/p19/ (PR #10), site jumeau « Digne ou Gap », BET établi sur l'inventaire v2 et à reprendre quand le point 11 aura arrêté les équipements, onglet « Énergie et refroidissement » conservé, schéma principal identique à celui de GesTT (commit 7e1db0b), plus réécrit par la chaîne.",
+   "constats": [
+    "DOC-10",
+    "DOC-13",
+    "RES-18"
+   ]
+  }
+ ],
+ "points_ouverts": [
+  {
+   "type": "vérification sur site",
+   "sujet": "Réserve de puissance disponible au TGBT pour le départ 4P 63 A du lot informatique (besoin calculé par le BET, section 12)",
+   "source": "BET, D2, juridique"
+  },
+  {
+   "type": "vérification sur site",
+   "sujet": "Régime de neutre du TGBT existant (TN-S supposé : choix de l'inverseur et des protections différentielles)",
+   "source": "BET, D2, juridique"
+  },
+  {
+   "type": "vérification sur site",
+   "sujet": "Emplacement exact du groupe électrogène en façade est (dalle, distance au TGBT, bruit en limite de propriété)",
+   "source": "BET, D2, juridique"
+  },
+  {
+   "type": "vérification sur site",
+   "sujet": "Cote de crue et remontées d'eau du sous-sol (salle serveur)",
+   "source": "audit du 15/11"
+  },
+  {
+   "type": "client",
+   "sujet": "Annonce du /24 de l'AMU par le FAI 2 (LOA, ROA RPKI, origine multiple) et numéro d'AS du FAI 1, à valider avec la DSI",
+   "source": "RES-11, réseau"
+  },
+  {
+   "type": "client",
+   "sujet": "BFD et annonce conditionnelle chez les deux opérateurs",
+   "source": "audit du 15/11"
+  },
+  {
+   "type": "client",
+   "sujet": "AIPD de l'inspection TLS avec le DPO de l'AMU",
+   "source": "DOC-19"
+  },
+  {
+   "type": "client",
+   "sujet": "Validation du DPO de l'AMU : conservation de 6 mois des URL du proxy, champ des 7 caméras des accès aux locaux techniques, traitement T13 (messagerie) au registre de l'AMU",
+   "source": "juridique, D5"
+  },
+  {
+   "type": "devis",
+   "sujet": "Prix à confirmer : module 10G du SN710, Catalyst 9800-L-F, extinction IG-541 et VESDA, plancher technique, forfait de brassage, stockage SecNumCloud de 20 To, souscription Proxmox Backup Server, C9500-48Y4C (économie nette du cœur replié)",
+   "source": "QTE, section 4, audit du 15/11"
+  },
+  {
+   "type": "devis",
+   "sujet": "Lot sûreté (caméras, licences VMS, VS-NVR1, lecteurs et UTL) chiffré en ordres de grandeur",
+   "source": "D3"
+  },
+  {
+   "type": "devis",
+   "sujet": "Surcoût des contrats de rétablissement sous 4 h, 24 h/24 7 j/7, à confirmer auprès des constructeurs",
+   "source": "D4, JUR-01"
+  },
+  {
+   "type": "devis",
+   "sujet": "Garantie de rétablissement du groupe électrogène et de l'inverseur : 4 h pendant une coupure, jour ouvré suivant sinon ; coût du contrat à confirmer",
+   "source": "juridique, CCTP lot 5"
+  },
+  {
+   "type": "choix d'équipe",
+   "sujet": "Fréquences de sauvegarde à confirmer au point 15 (PDMA de la messagerie : 24 h)",
+   "source": "juridique, PRA"
+  },
+  {
+   "type": "choix d'équipe",
+   "sujet": "Contrôle d'accès : logiciel en VM ou boîtier dédié",
+   "source": "juridique, CCTP lot 4"
+  },
+  {
+   "type": "choix d'équipe",
+   "sujet": "Scission éventuelle du lot 5 en deux lots par métier (électricité ; génie climatique et extinction)",
+   "source": "juridique, CCTP lot 5"
+  },
+  {
+   "type": "choix d'équipe",
+   "sujet": "Mises à jour des contrôleurs de domaine : import depuis l'administration ou VM WSUS dédiée (licence Windows en plus)",
+   "source": "RES-13, SEC21-12"
+  },
+  {
+   "type": "choix d'équipe",
+   "sujet": "Propositions E1 à E5 du point 09 (VPN IPsec, DNS des postes, sens enregistreur → caméras, relais de messagerie, zone IA) à reporter dans le L3 et le plan d'adressage",
+   "source": "réseau, DOC-14"
+  },
+  {
+   "type": "choix d'équipe",
+   "sujet": "Étanchéité du tier 0 : VLAN de gestion dédié ou séparation par rôles Teleport ; QDevice du cluster DT",
+   "source": "réseau"
+  },
+  {
+   "type": "choix d'équipe",
+   "sujet": "DNS public : serveur secondaire hors site (AMU ou RENATER) pour une vraie diversité",
+   "source": "RES-04, réseau"
+  },
+  {
+   "type": "choix d'équipe",
+   "sujet": "Nommage des WLC (CL-WLC1/2) ; schéma principal : 4 switchs d'accès dessinés pour 15 et enregistreur VS-NVR1 absent, à reprendre à la main dans draw.io si l'équipe le souhaite (le schéma de référence est celui de GesTT)",
+   "source": "réseau, QTE, section 4"
+  },
+  {
+   "type": "choix d'équipe",
+   "sujet": "Rocades du sous-sol et tronçon commun des deux adductions : vraie voie B ou point commun documenté",
+   "source": "QTE-09, QTE-20"
+  },
+  {
+   "type": "choix d'équipe",
+   "sujet": "Téléphones IP : un par bureau (17) ou un par poste (22)",
+   "source": "QTE-22"
+  },
+  {
+   "type": "choix d'équipe",
+   "sujet": "Optiques et câbles DAC : décompte de 114 à valider par l'équipe réseau",
+   "source": "QTE-12"
+  },
+  {
+   "type": "choix d'équipe",
+   "sujet": "Autonomie des locaux N0-LT02 et N1-LT02 (13 et 17 min) et supervision des 6 onduleurs des locaux techniques",
+   "source": "QTE, section 4"
+  },
+  {
+   "type": "choix d'équipe",
+   "sujet": "IPBX (point 12) et plateforme d'IA (tranche optionnelle du lot 3) : à chiffrer ou à retirer",
+   "source": "QTE, section 4"
+  },
+  {
+   "type": "choix d'équipe",
+   "sujet": "Porte de la salle serveur : côté CIRC 02 ou CIRC 03",
+   "source": "QTE, section 4"
+  },
+  {
+   "type": "choix d'équipe",
+   "sujet": "Attribution des rôles ARC, PHY, SYS, SEC et COM entre les quatre membres",
+   "source": "communication"
+  },
+  {
+   "type": "hors dépôt",
+   "sujet": "Maquette du point 06 : reporter les VLAN Wi-Fi, le VLAN 310 et le plan v2.1 (MAQ-01 à MAQ-08), puis versionner maquette/",
+   "source": "MAQ, DOC-06"
+  },
+  {
+   "type": "choix d'équipe",
+   "sujet": "Plan de câblage : 2 prises à ajouter au sous-sol (bloc 1) pour le contrôleur du groupe électrogène et l'inverseur de source (VLAN 122, .110 et .111)",
+   "source": "réseau, BET"
+  },
+  {
+   "type": "choix d'équipe",
+   "sujet": "Poste de consultation des images de vidéoprotection : à définir (aucun objet « poste de sûreté » dans la matrice des flux)",
+   "source": "réseau, D3"
+  },
+  {
+   "type": "choix d'équipe",
+   "sujet": "Lot sûreté : support de 802.1X (EAP-TLS) exigé des caméras et des badgeuses, ou MAB seul",
+   "source": "réseau, CCTP lot 4"
+  },
+  {
+   "type": "choix d'équipe",
+   "sujet": "Agrégat LACP du SN710 vers la paire StackWise Virtual du cœur : à valider en maquette",
+   "source": "réseau"
+  },
+  {
+   "type": "client",
+   "sujet": "Réglage du scanner BGP (bgp scan-time 5, bascule en moins de 10 s) à vérifier en maquette puis chez les opérateurs",
+   "source": "réseau, RES-11"
+  },
+  {
+   "type": "choix d'équipe",
+   "sujet": "Site vitrine (PR #9, travail d'un collègue) : reporter les chiffres et documents v2.1 (BET, CCTP lot 5, sécurité, juridique, traitement de l'audit), la copie à jour de l'implantation, le site jumeau « Digne ou Gap » (forme de GesTT) et l'hébergement v2",
+   "source": "QTE-03, DOC-08, DOC-09, DOC-13, DOC-23, DOC-25"
+  },
+  {
+   "type": "GesTT",
+   "sujet": "Onglet « Schéma réseau » encore en v1 (NM-PVE3, serveurs physiques DT-AD/RAD/DHCP et DM-RP/DNS/WEB/MAIL/SRV) : à mettre au niveau de l'architecture v2 de main",
+   "source": "D7, comparaison du 20/11/2026"
+  },
+  {
+   "type": "GesTT",
+   "sujet": "Checklist du point 11 : « Cluster Proxmox NM-PVE1/2/3 » (v1) à remplacer par 2 nœuds NM-PVE + témoin (v2)",
+   "source": "D7"
+  },
+  {
+   "type": "GesTT",
+   "sujet": "Notes du point 14 encore en v1 (24 min, 61 557 kWh, lot 57 000 €) et « groupe électrogène du campus à valider » : à mettre à jour une fois la PR 6 fusionnée (groupe dédié, BET RLI-ETU-013)",
+   "source": "D2, D7"
+  },
+  {
+   "type": "GesTT",
+   "sujet": "Redéposer depuis GesTT les livrables P09 et P19 de la v2.1 (mêmes noms et mêmes dossiers que les PR #12 et #10) ou fusionner la PR 6 avant elles",
+   "source": "D7"
+  }
+ ],
+ "constats": [
+  {
+   "id": "RES-01",
+   "audit": "reseau",
+   "gravite": "bloquant",
+   "hors_depot": false,
+   "titre": "Adresses des transits 1020 à 1090 hors de leur /29",
+   "traitement": "Adresses des transits recalculées dans leur /29 ; verifier() contrôle désormais chaque adresse d'hôte et de transit.",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/donnees.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-02",
+   "audit": "reseau",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Plage d'adresses des bornes Wi-Fi fausse (« .75 – .62 »)",
+   "traitement": "Plage des bornes .75 à .126 dans le /26, IPv4 et IPv6 alignées.",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/donnees.py",
+    "architecture/reseau/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-03",
+   "audit": "reseau",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Boucles 10.13.0.0/24 absentes du résumé ADM du Stormshield",
+   "traitement": "10.13.0.0/24 (et son /64) ajouté au résumé ADM et à l'objet EQUIP-AAA de la matrice.",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/donnees.py",
+    "securite/flux.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-04",
+   "audit": "reseau",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "DNS public « redondant » avec une seule adresse publique",
+   "traitement": "ns2 (DM-DNS2) publié sur 139.124.112.37 : adresse publique, NAT, matrice et schéma L3.",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/donnees.py",
+    "architecture/reseau/documents.py",
+    "architecture/reseau/schemas.py",
+    "securite/flux.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-05",
+   "audit": "reseau",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Passerelle IPv6 différente entre vlans.csv et equipements.csv",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/donnees.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-06",
+   "audit": "reseau",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "EL-RTR1/2 sans adresse de gestion",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/donnees.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-07",
+   "audit": "reseau",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Une seule adresse pour plusieurs PDU, onduleurs ou climatiseurs",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/donnees.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-08",
+   "audit": "reseau",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Bail DHCP du VLAN 530 écrit deux fois",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/donnees.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-09",
+   "audit": "reseau",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "VLAN 904 annoncé en DHCP alors qu'il n'a que des adresses fixes",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-10",
+   "audit": "reseau",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Commentaire incomplet sur les VLAN découpés dans un /24",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/donnees.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-11",
+   "audit": "reseau",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Numéro d'AS du FAI 1 écrit en dur à 8 endroits",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/donnees.py",
+    "architecture/reseau/documents.py",
+    "architecture/reseau/schemas.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-12",
+   "audit": "reseau",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Flux de la DMZ vers l'administration contradictoires entre L2, L3 et matrice",
+   "traitement": "L2, L3 et chiffrage décrivent les mêmes exceptions que la matrice (sauvegarde F09, journaux, traps et heure F42-F44, NUT).",
+   "responsables": [
+    "reseau_securite",
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "architecture/reseau/documents.py",
+    "chiffrage/estimation.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-13",
+   "audit": "reseau",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Proxy Windows Update du tier 0 inexistant",
+   "traitement": "Le proxy fantôme disparaît du L3 et de la matrice : mises à jour des contrôleurs de domaine sans accès Internet (variante WSUS : point ouvert).",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/documents.py",
+    "securite/flux.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-14",
+   "audit": "reseau",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Réserve IPv6 restée en v1",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-15",
+   "audit": "reseau",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Relais DHCP du Wi-Fi oublié sur les SVI du cœur",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-16",
+   "audit": "reseau",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Route par défaut IPv6 vers l'intérieur sur les routeurs de bordure",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-17",
+   "audit": "reseau",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Deux sections « 12 » dans l'architecture L3",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-18",
+   "audit": "reseau",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Site jumeau « Digne ou Gap » dans le plan d'adressage",
+   "traitement": "GesTT fait foi : le plan d'adressage garde « Digne ou Gap » et les autres documents s'alignent sur cette forme.",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-19",
+   "audit": "reseau",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "VLAN 907 rangé sous SYS-02 au lieu de NET-01",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-20",
+   "audit": "reseau",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Numéro de version écrit en dur (« version 2 »)",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/documents.py",
+    "architecture/reseau/build.py",
+    "architecture/reseau/schemas.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-21",
+   "audit": "reseau",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Ports 10G des DM-PVE : 3 utilisés, 2 achetés",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite",
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "architecture/reseau/documents.py",
+    "chiffrage/estimation.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-22",
+   "audit": "reseau",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Légende des transits trompeuse sur le schéma L3",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/schemas.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-23",
+   "audit": "reseau",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "« OSPFv2 + OSPFv3 » sur le schéma L3, OSPFv3 seul dans le texte",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/schemas.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-24",
+   "audit": "reseau",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "« 1 ou 2 switchs par local » sur le schéma L2 (jusqu'à 5)",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/schemas.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-25",
+   "audit": "reseau",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "VLAN 905 compté dans la pile NM-SW",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/schemas.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-26",
+   "audit": "reseau",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Traitement de l'audit : classe de défaut des adresses présentée comme soldée",
+   "traitement": "Le constat « adresses hors sous-réseau » de la partie v1 → v2 cite les transits (RES-01) et le contrôle ajouté à verifier().",
+   "responsables": [
+    "documentation"
+   ],
+   "fichiers": [
+    "architecture/audit/traitement_audit.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-27",
+   "audit": "reseau",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Flux NUT absents de la matrice : la DMZ s'arrêterait brutalement",
+   "traitement": "Règle NUT de la DMZ vers NM-WITNESS (tcp/3493) ajoutée à la matrice.",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/flux.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "RES-28",
+   "audit": "reseau",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Administration et sauvegardes de DT-BKP1 absentes de la matrice",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/flux.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "MAQ-01",
+   "audit": "reseau",
+   "gravite": "majeur",
+   "hors_depot": true,
+   "titre": "VLAN Wi-Fi v2 absents de la maquette GNS3",
+   "traitement": "",
+   "responsables": [
+    "hors_depot"
+   ],
+   "fichiers": [
+    "maquette/gns3/TP_maquette_LAN_GNS3_cisco.md"
+   ],
+   "statut": "hors dépôt"
+  },
+  {
+   "id": "MAQ-02",
+   "audit": "reseau",
+   "gravite": "majeur",
+   "hors_depot": true,
+   "titre": "AD de la maquette en VLAN 300 au lieu du VLAN 310",
+   "traitement": "",
+   "responsables": [
+    "hors_depot",
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "maquette/gns3/TP_maquette_LAN_GNS3_cisco.md",
+    "securite/flux.py"
+   ],
+   "statut": "hors dépôt"
+  },
+  {
+   "id": "MAQ-03",
+   "audit": "reseau",
+   "gravite": "majeur",
+   "hors_depot": true,
+   "titre": "TP containerlab et corrigé restés en v1",
+   "traitement": "",
+   "responsables": [
+    "hors_depot"
+   ],
+   "fichiers": [
+    "maquette/TP_maquette_LAN_containerlab.md",
+    "maquette/corrige/dl/setup.sh",
+    "maquette/corrige/fw/setup.sh",
+    "maquette/gns3/images/fw/setup.sh",
+    "maquette/lan/marseille-lan.clab.yml"
+   ],
+   "statut": "hors dépôt"
+  },
+  {
+   "id": "MAQ-04",
+   "audit": "reseau",
+   "gravite": "mineur",
+   "hors_depot": true,
+   "titre": "IPv6 des transits de la maquette différentes du plan",
+   "traitement": "",
+   "responsables": [
+    "hors_depot"
+   ],
+   "fichiers": [
+    "maquette/TP_maquette_LAN_containerlab.md",
+    "maquette/corrige/fw/setup.sh"
+   ],
+   "statut": "hors dépôt"
+  },
+  {
+   "id": "MAQ-05",
+   "audit": "reseau",
+   "gravite": "mineur",
+   "hors_depot": true,
+   "titre": "Trunk bond1 des DT-PVE décrit de trois façons",
+   "traitement": "",
+   "responsables": [
+    "hors_depot"
+   ],
+   "fichiers": [
+    "maquette/gns3/TP_maquette_LAN_GNS3_cisco.md",
+    "maquette/gns3/construire_projet_gns3.py"
+   ],
+   "statut": "hors dépôt"
+  },
+  {
+   "id": "MAQ-06",
+   "audit": "reseau",
+   "gravite": "mineur",
+   "hors_depot": true,
+   "titre": "Le schéma de maquette_gns3 est celui de la maquette containerlab",
+   "traitement": "",
+   "responsables": [
+    "hors_depot"
+   ],
+   "fichiers": [
+    "livrables/maquette_gns3/README.md",
+    "maquette/gns3/TP_maquette_LAN_GNS3_cisco.md"
+   ],
+   "statut": "hors dépôt"
+  },
+  {
+   "id": "MAQ-07",
+   "audit": "reseau",
+   "gravite": "mineur",
+   "hors_depot": true,
+   "titre": "DT-DHCP1 sur le mauvais nœud dans la maquette",
+   "traitement": "",
+   "responsables": [
+    "hors_depot"
+   ],
+   "fichiers": [
+    "maquette/gns3/TP_maquette_LAN_GNS3_cisco.md"
+   ],
+   "statut": "hors dépôt"
+  },
+  {
+   "id": "MAQ-08",
+   "audit": "reseau",
+   "gravite": "coquille",
+   "hors_depot": true,
+   "titre": "Phrase contradictoire sur l'adresse .130",
+   "traitement": "",
+   "responsables": [
+    "hors_depot"
+   ],
+   "fichiers": [
+    "maquette/gns3/TP_maquette_LAN_GNS3_cisco.md"
+   ],
+   "statut": "hors dépôt"
+  },
+  {
+   "id": "QTE-01",
+   "audit": "quantites",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Notes du point 14 en chiffres v1 dans la roadmap",
+   "traitement": "Notes du point 14 réécrites en v2.1 (puissance, autonomie, PUE, consommation, lot, groupe électrogène), cohérentes avec resume.json.",
+   "responsables": [
+    "documentation"
+   ],
+   "fichiers": [
+    "roadmap/seed_points.json"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-02",
+   "audit": "quantites",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Modèle de présentation avec les chiffres v1 (python-pptx absent)",
+   "traitement": "python-docx et python-pptx installés ; modèles Office régénérés avec les chiffres lus dans les JSON.",
+   "responsables": [
+    "documentation"
+   ],
+   "fichiers": [
+    "livrables/communication/modeles/modele_presentation.pptx",
+    "communication/bureautique.py",
+    "communication/build.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-03",
+   "audit": "quantites",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Copie du plan de câblage sur le site restée en v1",
+   "traitement": "Site vitrine non modifié en v2.1 : c'est le travail d'un collègue (PR #9), la correction lui revient.",
+   "responsables": [
+    "documentation"
+   ],
+   "fichiers": [
+    "livrables/site_web/documents/plan_cablage_implantation.pdf",
+    "communication/build.py"
+   ],
+   "statut": "ouvert"
+  },
+  {
+   "id": "QTE-04",
+   "audit": "quantites",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Chaîne de génération dans le mauvais ordre",
+   "traitement": "Chaîne de référence unique : bash outils/ci/generer_tout.sh, dans l'ordre des dépendances (D6).",
+   "responsables": [
+    "coordination",
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "README.md",
+    "cablage/README.md",
+    "cablage/rapport.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-05",
+   "audit": "quantites",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Lot 4 (sûreté) sans budget dans le chiffrage",
+   "traitement": "Catégorie « Sûreté » au chiffrage : caméras, licences VMS, enregistreur VS-NVR1, lecteurs de badge et UTL OSDP au nombre du plan (D3).",
+   "responsables": [
+    "cablage_chiffrage_energie",
+    "juridique"
+   ],
+   "fichiers": [
+    "chiffrage/estimation.py",
+    "juridique/cctp.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-06",
+   "audit": "quantites",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Stockage de 30 jours de vidéo dimensionné nulle part",
+   "traitement": "Enregistreur physique VS-NVR1 (6 × 8 To en RAID 6, ≈ 29 To utiles) : 30 jours couverts même à 8 Mb/s pour les 7 caméras (D3).",
+   "responsables": [
+    "reseau_securite",
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "architecture/reseau/donnees.py",
+    "architecture/reseau/documents.py",
+    "chiffrage/estimation.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-07",
+   "audit": "quantites",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "CCTP lot 4 contradictoire sur la caméra du foyer",
+   "traitement": "Caméra du foyer retirée à la source (CNIL : pas de vidéo dans un lieu de pause) ; caméras limitées aux accès des locaux techniques : 7 caméras (D3).",
+   "responsables": [
+    "cablage_chiffrage_energie",
+    "juridique"
+   ],
+   "fichiers": [
+    "cablage/plan_cablage.py",
+    "juridique/cctp.py",
+    "juridique/build.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-08",
+   "audit": "quantites",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Climatisation « de précision » au chiffrage, « technique » au point 14",
+   "traitement": "Deux climatiseurs techniques de 7,1 kW (N+1) au chiffrage et dans l'implantation, comme au point 14.",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "chiffrage/estimation.py",
+    "cablage/document.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-09",
+   "audit": "quantites",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Rocades du sous-sol pas vraiment disjointes",
+   "traitement": "Voies B des rocades du sous-sol séparées de la voie A, ou exception documentée (README du câblage, CCTP L1-02).",
+   "responsables": [
+    "cablage_chiffrage_energie",
+    "juridique"
+   ],
+   "fichiers": [
+    "cablage/plan_cablage.py",
+    "cablage/rapport.py",
+    "juridique/cctp.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-10",
+   "audit": "quantites",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Modules 40G SVL des DL-SW non chiffrés",
+   "traitement": "Module 40G SVL ajouté à la désignation et au prix des DL-SW (chiffrage, CCTP lot 1).",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "chiffrage/estimation.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-11",
+   "audit": "quantites",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "DM-PVE spécifiés en 2 × 10 GbE pour 3 ports utilisés",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "chiffrage/estimation.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-12",
+   "audit": "quantites",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Nombre d'optiques et de DAC fixé à 96 (≈ 114 nécessaires)",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "chiffrage/estimation.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-13",
+   "audit": "quantites",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Repères « AL-SW1 à AL-SW4 » et « AL-AP1 » pour 15 switchs et 38 bornes",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "chiffrage/estimation.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-14",
+   "audit": "quantites",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Schéma L2 : switchs par local et piles inexacts",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/schemas.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-15",
+   "audit": "quantites",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "30 bornes coupées la nuit, sans décompte",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "energie/energie.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-16",
+   "audit": "quantites",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Implantation : WLC absents, libellé tronqué, « à prévoir » dépassé",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "cablage/document.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-17",
+   "audit": "quantites",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Contrôle d'accès compté dans deux lots",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie",
+    "juridique"
+   ],
+   "fichiers": [
+    "chiffrage/estimation.py",
+    "energie/energie.py",
+    "juridique/cctp.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-18",
+   "audit": "quantites",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Économie du cœur replié surestimée",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie",
+    "documentation"
+   ],
+   "fichiers": [
+    "chiffrage/estimation.py",
+    "roadmap/roadmap.template.html"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-19",
+   "audit": "quantites",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Base de calcul du renouvellement DNA non documentée",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "chiffrage/estimation.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-20",
+   "audit": "quantites",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Tronçon intérieur commun aux deux adductions opérateurs",
+   "traitement": "FAI 2 évite FAI 1 partout sauf dans le PARKING NORD, seul passage possible : point commun documenté dans les limites du plan de câblage.",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "cablage/plan_cablage.py"
+   ],
+   "statut": "partiel"
+  },
+  {
+   "id": "QTE-21",
+   "audit": "quantites",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Repères des prises numérotés par niveau",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "cablage/rendu_cablage.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-22",
+   "audit": "quantites",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Règle des téléphones incohérente avec son texte",
+   "traitement": "Texte de la règle corrigé ; le nombre de téléphones (17, un par bureau) reste à confirmer par l'équipe.",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "cablage/regles.py"
+   ],
+   "statut": "partiel"
+  },
+  {
+   "id": "QTE-23",
+   "audit": "quantites",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Statuts de la roadmap en retard sur les livrables",
+   "traitement": "P05, P09 et P19 passés en cours avec leurs livrables ; tâches livrées cochées (P03, P05, P09, P10, P19).",
+   "responsables": [
+    "documentation"
+   ],
+   "fichiers": [
+    "roadmap/seed_points.json"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-24",
+   "audit": "quantites",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "EL-RTR1/2 sans adresse de gestion (même constat que RES-06)",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/donnees.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-25",
+   "audit": "quantites",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Une adresse pour plusieurs équipements (même constat que RES-07)",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/donnees.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-26",
+   "audit": "quantites",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Liste des équipements à une alimentation incomplète",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "energie/energie.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-27",
+   "audit": "quantites",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Repère de la caméra de la salle serveur faux (C3 au lieu de C2)",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "energie/energie.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-28",
+   "audit": "quantites",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Bilan des serveurs physiques partiel dans le README énergie",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "energie/energie.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-29",
+   "audit": "quantites",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Libellé « OPEX années 1 à 3 » trompeur",
+   "traitement": "« OPEX annuel (années 1 à 5, hors renouvellements) » au chiffrage et dans la roadmap.",
+   "responsables": [
+    "cablage_chiffrage_energie",
+    "coordination",
+    "documentation"
+   ],
+   "fichiers": [
+    "chiffrage/estimation.py",
+    "README.md",
+    "roadmap/roadmap.template.html"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-30",
+   "audit": "quantites",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "« 6 L.TECH » pour une quantité de 5",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "chiffrage/estimation.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-31",
+   "audit": "quantites",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "« ~10 badgeuses » au lieu de 11",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "cablage/regles.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-32",
+   "audit": "quantites",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Euroclasse différente entre CCTP et plan de câblage",
+   "traitement": "",
+   "responsables": [
+    "juridique",
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "juridique/cctp.py",
+    "cablage/rapport.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-33",
+   "audit": "quantites",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Règle des bornes par salle mal résumée",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "cablage/rapport.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-34",
+   "audit": "quantites",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Extension de garantie : base v1 non expliquée",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "chiffrage/estimation.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "QTE-35",
+   "audit": "quantites",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Point et virgule décimale mélangés",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "energie/energie.py",
+    "chiffrage/estimation.py",
+    "cablage/rapport.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-01",
+   "audit": "forme",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Groupe électrogène encore présenté comme une option",
+   "traitement": "Groupe électrogène intégré en v2.1 dans l'énergie, l'audit, la roadmap et le site ; plus aucune mention « option » ni « à valider avec le campus » (D2).",
+   "responsables": [
+    "cablage_chiffrage_energie",
+    "documentation"
+   ],
+   "fichiers": [
+    "energie/energie.py",
+    "livrables/energie_refroidissement/README.md",
+    "architecture/audit/traitement_audit.py",
+    "roadmap/seed_points.json"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-02",
+   "audit": "forme",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Sept cartouches différents, date du jour au lieu de la version",
+   "traitement": "Cartouche commun (commun/charte.py) : « v2.1 — 20/11/2026 », références RLI-ETU, RLI-CCTP et RLI-AUD, plus aucune date du jour (D1).",
+   "responsables": [
+    "reseau_securite",
+    "cablage_chiffrage_energie",
+    "documentation",
+    "juridique"
+   ],
+   "fichiers": [
+    "architecture/reseau/documents.py",
+    "cablage/document.py",
+    "cablage/rendu_cablage.py",
+    "energie/energie.py",
+    "architecture/audit/traitement_audit.py",
+    "securite/build.py",
+    "juridique/build.py",
+    "communication/documents.py",
+    "cablage/rapport.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-03",
+   "audit": "forme",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "PDF techniques hors charte (police, couleurs, pied de page)",
+   "traitement": "Feuille de style de la charte, logo, pied de page numéroté et suivi des versions dans tous les générateurs ; copie de la CSS de cablage/document.py supprimée (D1).",
+   "responsables": [
+    "cablage_chiffrage_energie",
+    "reseau_securite",
+    "documentation",
+    "juridique"
+   ],
+   "fichiers": [
+    "cablage/document.py",
+    "architecture/reseau/build.py",
+    "energie/energie.py",
+    "securite/build.py",
+    "architecture/audit/traitement_audit.py",
+    "juridique/build.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-04",
+   "audit": "forme",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Règle de nommage des fichiers contradictoire (charte et GesTT)",
+   "traitement": "Charte RLI-COM-001 : snake_case dans le dépôt, RLI-Pxx-sujet.ext au dépôt GesTT, référence et version dans le cartouche.",
+   "responsables": [
+    "documentation"
+   ],
+   "fichiers": [
+    "communication/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-05",
+   "audit": "forme",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "README racine sans les points 09 et 19 ni leur génération",
+   "traitement": "README racine : securite/, juridique/, commun/ et outils/ci/ dans l'arborescence ; génération par generer_tout.sh.",
+   "responsables": [
+    "coordination"
+   ],
+   "fichiers": [
+    "README.md"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-06",
+   "audit": "forme",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Ligne maquette/ du README racine sur un dossier non versionné",
+   "traitement": "Ligne maquette/ du README racine réécrite par la coordination.",
+   "responsables": [
+    "coordination"
+   ],
+   "fichiers": [
+    "README.md"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-07",
+   "audit": "forme",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Onglets GesTT perdus à la régénération (énergie, câblage)",
+   "traitement": "Onglets écrits par les générateurs des README de l'énergie et du câblage.",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "energie/energie.py",
+    "livrables/energie_refroidissement/README.md",
+    "cablage/rapport.py",
+    "livrables/plan_cablage/README.md"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-08",
+   "audit": "forme",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Site vitrine : copies v1, documents et journal incomplets",
+   "traitement": "Site vitrine non modifié en v2.1 : c'est le travail d'un collègue (PR #9), la correction lui revient.",
+   "responsables": [
+    "documentation"
+   ],
+   "fichiers": [
+    "communication/build.py",
+    "livrables/site_web/documents/plan_cablage_implantation.pdf",
+    "livrables/site_web/projet.html",
+    "livrables/site_web/journal.html"
+   ],
+   "statut": "ouvert"
+  },
+  {
+   "id": "DOC-09",
+   "audit": "forme",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Hébergement du site décrit avant la v2",
+   "traitement": "Site vitrine non modifié en v2.1 : c'est le travail d'un collègue (PR #9), la correction lui revient.",
+   "responsables": [
+    "documentation"
+   ],
+   "fichiers": [
+    "livrables/site_web/README.md"
+   ],
+   "statut": "ouvert"
+  },
+  {
+   "id": "DOC-10",
+   "audit": "forme",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Roadmap : notes v1 et statuts en retard",
+   "traitement": "Notes du point 14 en v2.1, P05, P09 et P19 à jour (statut, dépôt, notes), tâches dépassées réécrites.",
+   "responsables": [
+    "documentation"
+   ],
+   "fichiers": [
+    "roadmap/seed_points.json"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-11",
+   "audit": "forme",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Référentiel ANSSI : écarts déjà traités présentés comme ouverts",
+   "traitement": "Section 8 « Écarts relevés le 12/11/2026 et leur traitement » : chaque écart porte son état ; liste de nœuds v2.",
+   "responsables": [
+    "documentation"
+   ],
+   "fichiers": [
+    "docs/anssi/referentiel_anssi.md",
+    "roadmap/build.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-12",
+   "audit": "forme",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "CCTP avec notes internes du chiffrage et « ou équivalent » partout",
+   "traitement": "Notes internes retirées des CCTP ; « ou équivalent » seulement après une marque.",
+   "responsables": [
+    "juridique"
+   ],
+   "fichiers": [
+    "juridique/build.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-13",
+   "audit": "forme",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Site jumeau tantôt « Digne ou Gap », tantôt « Digne »",
+   "traitement": "Aligné sur GesTT : « Digne ou Gap » (« Digne/Gap » dans les libellés courts) partout, sauf dans le site vitrine (PR #9).",
+   "responsables": [
+    "reseau_securite",
+    "cablage_chiffrage_energie",
+    "coordination",
+    "documentation"
+   ],
+   "fichiers": [
+    "architecture/reseau/documents.py",
+    "chiffrage/estimation.py",
+    "README.md",
+    "communication/documents.py",
+    "livrables/site_web/index.html",
+    "roadmap/seed_points.json"
+   ],
+   "statut": "partiel"
+  },
+  {
+   "id": "DOC-14",
+   "audit": "forme",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Propositions E1 à E5 annoncées pour une « v3 »",
+   "traitement": "Plus de « v3 » : les propositions E1 à E5 sont situées par rapport à la v2.1.",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/build.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-15",
+   "audit": "forme",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Communication datée du 12/11 en v1.0 avec des chiffres v2",
+   "traitement": "Documents de communication en « v2.1 — 20/11/2026 » ; exemples chiffrés de la charte lus dans les JSON.",
+   "responsables": [
+    "documentation"
+   ],
+   "fichiers": [
+    "communication/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-16",
+   "audit": "forme",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Implantation : protections « à prévoir » déjà intégrées",
+   "traitement": "Plancher, batardeau, détection de fuite et extinction décrits comme intégrés au lot énergie.",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "cablage/document.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-17",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Deux sections « 12 » dans l'architecture L3",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-18",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Renvoi de section faux dans la matrice des flux",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/build.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-19",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "« DPIA » au lieu d'« AIPD », charte « à mettre à jour »",
+   "traitement": "« AIPD » dans le traitement de l'audit ; la charte informatique est livrée au point 19.",
+   "responsables": [
+    "reseau_securite",
+    "documentation"
+   ],
+   "fichiers": [
+    "architecture/reseau/documents.py",
+    "architecture/audit/traitement_audit.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-20",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Socle EBIOS : point 19 « à formaliser » alors qu'il est livré",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/ebios.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-21",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Euroclasse et norme différentes entre CCTP et câblage",
+   "traitement": "",
+   "responsables": [
+    "juridique"
+   ],
+   "fichiers": [
+    "juridique/cctp.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-22",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "« Climatisation de précision » contraire au point 14",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "cablage/document.py",
+    "chiffrage/estimation.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-23",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Ports ouverts vers la DMZ décrits trop restrictivement",
+   "traitement": "Site vitrine non modifié en v2.1 : c'est le travail d'un collègue (PR #9), la correction lui revient.",
+   "responsables": [
+    "documentation"
+   ],
+   "fichiers": [
+    "livrables/site_web/README.md"
+   ],
+   "statut": "ouvert"
+  },
+  {
+   "id": "DOC-24",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Lien vers le README au lieu du PDF du traitement de l'audit",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite",
+    "coordination"
+   ],
+   "fichiers": [
+    "architecture/reseau/build.py",
+    "README.md"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-25",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Quatre noms pour le même bâtiment",
+   "traitement": "Corrigé partout sauf dans le site vitrine (travail d'un collègue, PR #9).",
+   "responsables": [
+    "documentation"
+   ],
+   "fichiers": [
+    "communication/documents.py",
+    "communication/bureautique.py",
+    "livrables/site_web/index.html"
+   ],
+   "statut": "partiel"
+  },
+  {
+   "id": "DOC-26",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Titres de README hors modèle (communication, journal)",
+   "traitement": "« Communication sur la société fictive (point 02) » et « Journal de bord (point 01) ».",
+   "responsables": [
+    "documentation"
+   ],
+   "fichiers": [
+    "livrables/communication/README.md",
+    "livrables/journal_de_bord/README.md"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-27",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Titre HTML (et PDF) différent du titre du document",
+   "traitement": "<title> = titre du document · RudyLink Infrastructure (commun/charte.py et communication).",
+   "responsables": [
+    "cablage_chiffrage_energie",
+    "reseau_securite",
+    "documentation"
+   ],
+   "fichiers": [
+    "cablage/document.py",
+    "securite/build.py",
+    "architecture/audit/traitement_audit.py",
+    "communication/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-28",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Deux copies du rapport d'audit, nom hors snake_case",
+   "traitement": "Reporté : le générateur d'origine (texte figé) écrit ce nom et l'artefact de la CI le publie (.github/workflows/ci.yml) ; à changer en même temps que la CI.",
+   "responsables": [
+    "documentation"
+   ],
+   "fichiers": [
+    "architecture/audit/Rapport_Audit_Infrastructure_Marseille.html/.pdf",
+    "architecture/audit/traitement_audit.py"
+   ],
+   "statut": "ouvert"
+  },
+  {
+   "id": "DOC-29",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "« Votre » adressé à l'équipe dans le référentiel ANSSI",
+   "traitement": "« Notre FortiGate », « notre zone NM », « le syslog ».",
+   "responsables": [
+    "documentation"
+   ],
+   "fichiers": [
+    "docs/anssi/referentiel_anssi.md"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-30",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Anglicismes et formes non fixées (repo, DC, logs, check-list, 1er étage…)",
+   "traitement": "Dépôt, contrôleurs de domaine, journaux, liste de contrôle, administrateurs, étage 1, WPA3-Entreprise dans les fichiers de la documentation.",
+   "responsables": [
+    "cablage_chiffrage_energie",
+    "documentation",
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "cablage/README.md",
+    "roadmap/roadmap.template.html",
+    "roadmap/seed_points.json",
+    "architecture/audit/traitement_audit.py",
+    "docs/anssi/referentiel_anssi.md",
+    "architecture/reseau/documents.py",
+    "energie/energie.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-31",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Tableau des fichiers de cablage/README incomplet",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "cablage/README.md"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-32",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Roadmap : version et chiffres codés en dur, « Drive »",
+   "traitement": "Version, CAPEX v1, prises et bornes injectés par roadmap/build.py ; « année 4 » ; prix Cisco dans docs/references_prix/.",
+   "responsables": [
+    "documentation",
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "roadmap/roadmap.template.html",
+    "chiffrage/estimation.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-33",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Types de référence AUD et SUI absents de la charte",
+   "traitement": "AUD audit et SUI suivi ajoutés aux types de référence (charte et organisation).",
+   "responsables": [
+    "documentation"
+   ],
+   "fichiers": [
+    "communication/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-34",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "« version 1.0 » et « v1.0 » dans le même PDF",
+   "traitement": "Une seule mention « RLI-COM-00x · v2.1 — 20/11/2026 » sur la couverture et dans l'en-tête.",
+   "responsables": [
+    "documentation"
+   ],
+   "fichiers": [
+    "communication/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-35",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Deux libellés de version dans le point 09",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/build.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-36",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "« Les DMZ » alors qu'il n'y en a qu'une",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-37",
+   "audit": "forme",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Décimales avec un point",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie",
+    "documentation",
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "energie/energie.py",
+    "cablage/rapport.py",
+    "chiffrage/estimation.py",
+    "architecture/audit/traitement_audit.py",
+    "communication/documents.py",
+    "securite/build.py",
+    "securite/ebios.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-38",
+   "audit": "forme",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Séparateur de milliers sécable, aucune espace insécable",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie",
+    "documentation",
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "chiffrage/estimation.py",
+    "energie/energie.py",
+    "architecture/audit/traitement_audit.py",
+    "communication/documents.py",
+    "communication/bureautique.py",
+    "cablage/rapport.py",
+    "architecture/reseau/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-39",
+   "audit": "forme",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "« Aléas (10%) » sans espace",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "chiffrage/estimation.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-40",
+   "audit": "forme",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Accord : « mesure 22 et 23 »",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/pssi.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-41",
+   "audit": "forme",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Double point dans le README de la sécurité",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/build.py",
+    "livrables/securite/README.md"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-42",
+   "audit": "forme",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "« une VPN »",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-43",
+   "audit": "forme",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "« partager aux membres »",
+   "traitement": "",
+   "responsables": [
+    "coordination"
+   ],
+   "fichiers": [
+    "README.md"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-44",
+   "audit": "forme",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Pluriel et nom officiel du code des postes et des communications électroniques",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite",
+    "documentation"
+   ],
+   "fichiers": [
+    "architecture/reseau/documents.py",
+    "docs/anssi/referentiel_anssi.md"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-45",
+   "audit": "forme",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Majuscules à l'anglaise (RGS)",
+   "traitement": "« référentiel général de sécurité ».",
+   "responsables": [
+    "documentation"
+   ],
+   "fichiers": [
+    "docs/anssi/referentiel_anssi.md"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-46",
+   "audit": "forme",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "« Green IT » et « green IT » dans la même cellule",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "energie/energie.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-47",
+   "audit": "forme",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "« 2 switch(s) » alors que le nombre est connu",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "cablage/rendu_cablage.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-48",
+   "audit": "forme",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "« + 2 enseignant » : mot manquant",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "cablage/rapport.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-49",
+   "audit": "forme",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Année sur deux chiffres dans la roadmap",
+   "traitement": "« soutenance 14/03/2025 ».",
+   "responsables": [
+    "documentation"
+   ],
+   "fichiers": [
+    "roadmap/seed_points.json"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-50",
+   "audit": "forme",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Interrogatives orales dans le PRA",
+   "traitement": "",
+   "responsables": [
+    "juridique"
+   ],
+   "fichiers": [
+    "juridique/build.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-51",
+   "audit": "forme",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Trait d'union au lieu du signe moins",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "energie/energie.py",
+    "chiffrage/estimation.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-52",
+   "audit": "forme",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "« x » au lieu de « × »",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "chiffrage/estimation.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-53",
+   "audit": "forme",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Nombres de 4 et 5 chiffres sans séparateur",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "chiffrage/estimation.py",
+    "cablage/rapport.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "DOC-54",
+   "audit": "forme",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Montant sans HT ni TTC",
+   "traitement": "",
+   "responsables": [
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "energie/energie.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "H-01",
+   "audit": "forme",
+   "gravite": "majeur",
+   "hors_depot": true,
+   "titre": "Ligne maquette/ du README (diff non commité)",
+   "traitement": "",
+   "responsables": [
+    "hors_depot"
+   ],
+   "fichiers": [
+    "README.md"
+   ],
+   "statut": "hors dépôt"
+  },
+  {
+   "id": "H-02",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": true,
+   "titre": "README de maquette_gns3 sans onglet, nom trompeur",
+   "traitement": "",
+   "responsables": [
+    "hors_depot"
+   ],
+   "fichiers": [
+    "livrables/maquette_gns3/README.md"
+   ],
+   "statut": "hors dépôt"
+  },
+  {
+   "id": "H-03",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": true,
+   "titre": "« je » et journal de travail dans l'énoncé du TP GNS3",
+   "traitement": "",
+   "responsables": [
+    "hors_depot"
+   ],
+   "fichiers": [
+    "maquette/gns3/TP_maquette_LAN_GNS3_cisco.md"
+   ],
+   "statut": "hors dépôt"
+  },
+  {
+   "id": "H-04",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": true,
+   "titre": "Cartouche des TP hors charte",
+   "traitement": "",
+   "responsables": [
+    "hors_depot"
+   ],
+   "fichiers": [
+    "maquette/TP_maquette_LAN_containerlab.md",
+    "maquette/gns3/TP_maquette_LAN_GNS3_cisco.md"
+   ],
+   "statut": "hors dépôt"
+  },
+  {
+   "id": "H-05",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": true,
+   "titre": "Site jumeau de la maquette (conforme à la règle, rien à changer)",
+   "traitement": "",
+   "responsables": [
+    "hors_depot"
+   ],
+   "fichiers": [
+    "maquette/TP_maquette_LAN_containerlab.md"
+   ],
+   "statut": "sans objet"
+  },
+  {
+   "id": "H-06",
+   "audit": "forme",
+   "gravite": "coquille",
+   "hors_depot": true,
+   "titre": "Mois abrégé dans le corrigé de la maquette",
+   "traitement": "",
+   "responsables": [
+    "hors_depot"
+   ],
+   "fichiers": [
+    "maquette/corrige/README.md"
+   ],
+   "statut": "hors dépôt"
+  },
+  {
+   "id": "H-07",
+   "audit": "forme",
+   "gravite": "majeur",
+   "hors_depot": true,
+   "titre": "Fiche P14 du suivi : 4,2 kW et groupe électrogène « à valider »",
+   "traitement": "",
+   "responsables": [
+    "hors_depot"
+   ],
+   "fichiers": [
+    "suivi/etat.py"
+   ],
+   "statut": "hors dépôt"
+  },
+  {
+   "id": "H-08",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": true,
+   "titre": "Suivi : P04 et P14 « relus » sans approbation",
+   "traitement": "",
+   "responsables": [
+    "hors_depot"
+   ],
+   "fichiers": [
+    "suivi/etat.py"
+   ],
+   "statut": "hors dépôt"
+  },
+  {
+   "id": "H-09",
+   "audit": "forme",
+   "gravite": "coquille",
+   "hors_depot": true,
+   "titre": "Accords avec un compte nul dans le suivi",
+   "traitement": "",
+   "responsables": [
+    "hors_depot"
+   ],
+   "fichiers": [
+    "suivi/etat.py"
+   ],
+   "statut": "hors dépôt"
+  },
+  {
+   "id": "H-10",
+   "audit": "forme",
+   "gravite": "coquille",
+   "hors_depot": true,
+   "titre": "« 16,9/20 » sans espaces dans le suivi",
+   "traitement": "",
+   "responsables": [
+    "hors_depot"
+   ],
+   "fichiers": [
+    "suivi/etat.py"
+   ],
+   "statut": "hors dépôt"
+  },
+  {
+   "id": "H-11",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": true,
+   "titre": "« repo » dans le document de suivi",
+   "traitement": "",
+   "responsables": [
+    "hors_depot"
+   ],
+   "fichiers": [
+    "suivi/etat.py",
+    "suivi/build.py"
+   ],
+   "statut": "hors dépôt"
+  },
+  {
+   "id": "H-12",
+   "audit": "forme",
+   "gravite": "mineur",
+   "hors_depot": true,
+   "titre": "Document de suivi hors charte",
+   "traitement": "",
+   "responsables": [
+    "hors_depot"
+   ],
+   "fichiers": [
+    "suivi/build.py"
+   ],
+   "statut": "hors dépôt"
+  },
+  {
+   "id": "SEC21-01",
+   "audit": "securite_juridique",
+   "gravite": "bloquant",
+   "hors_depot": false,
+   "titre": "Aucun nom Internet ne se résout : pas de sortie DNS pour les résolveurs",
+   "traitement": "Règle de résolution récursive DNS-INT → Internet (DNS, validation DNSSEC) ; tout autre DNS vers Internet reste refusé.",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/flux.py",
+    "architecture/reseau/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-02",
+   "audit": "securite_juridique",
+   "gravite": "bloquant",
+   "hors_depot": false,
+   "titre": "Aucun résolveur pour la DMZ (messagerie, ACME, mises à jour)",
+   "traitement": "Relais DNS du FortiGate pour la DMZ, sans mêler autorité et récursion (nouvelle règle).",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/flux.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-03",
+   "audit": "securite_juridique",
+   "gravite": "bloquant",
+   "hors_depot": false,
+   "titre": "Relais DHCP des objets refusé : caméras et badgeuses sans adresse",
+   "traitement": "Relais DHCPv4 et DHCPv6 des passerelles IOT vers Kea autorisé (nouvelle règle).",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/flux.py",
+    "architecture/reseau/documents.py",
+    "architecture/reseau/donnees.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-04",
+   "audit": "securite_juridique",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Deux ordres d'évaluation contradictoires, 10 autorisations masquées",
+   "traitement": "Un seul ordre (première règle qui correspond, de haut en bas) ; refus explicites placés après les autorisations qu'ils masquaient.",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/flux.py",
+    "securite/build.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-05",
+   "audit": "securite_juridique",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "F38 ouvre le bastion à toutes les zones internes (NOMADES = 0.0.0.0/0)",
+   "traitement": "Pool VPN-ADM dédié pris dans la réserve VPN ; F38 limité aux PAW et à ce pool.",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/flux.py",
+    "architecture/reseau/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-06",
+   "audit": "securite_juridique",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Flux NUT absents : arrêt ordonné impossible depuis la DMZ",
+   "traitement": "Flux NUT dans la matrice (SNMP vers les onduleurs, clients upsd internes et de la DMZ) ; une adresse par carte réseau.",
+   "responsables": [
+    "cablage_chiffrage_energie",
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "energie/energie.py",
+    "architecture/reseau/donnees.py",
+    "securite/flux.py",
+    "architecture/reseau/documents.py",
+    "chiffrage/estimation.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-07",
+   "audit": "securite_juridique",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Aucune sortie NTP ni NTS, récepteur GPS non chiffré",
+   "traitement": "Sortie NTP/NTS des serveurs de temps vers les serveurs de RENATER ajoutée à la matrice.",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/documents.py",
+    "securite/flux.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-08",
+   "audit": "securite_juridique",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "DT-BKP1 et les PAW absents des objets transverses",
+   "traitement": "DT-BKP1 et PAW ajoutés aux objets d'administration, de supervision, de journaux et d'heure ; règle vzdump vers DT-BKP1.",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/flux.py",
+    "architecture/reseau/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-09",
+   "audit": "securite_juridique",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "CAPWAP et relais DHCP d'administration absents : plus de Wi-Fi",
+   "traitement": "Règles CAPWAP bornes → WLC et relais DHCP des VLAN d'administration vers Kea.",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/donnees.py",
+    "architecture/reseau/documents.py",
+    "securite/flux.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-10",
+   "audit": "securite_juridique",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Teleport sans accès aux serveurs tier 1 ni aux objets",
+   "traitement": "Teleport atteint les serveurs tier 1 et les objets (télémaintenance du lot sûreté par le bastion).",
+   "responsables": [
+    "reseau_securite",
+    "juridique"
+   ],
+   "fichiers": [
+    "securite/flux.py",
+    "juridique/cctp.py",
+    "architecture/reseau/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-11",
+   "audit": "securite_juridique",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Alertes par courriel ou SMS impossibles",
+   "traitement": "Supervision et NUT autorisés vers la soumission de courriel ; passerelle SMS d'astreinte dans le filtrage d'URL.",
+   "responsables": [
+    "cablage_chiffrage_energie",
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "energie/energie.py",
+    "securite/flux.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-12",
+   "audit": "securite_juridique",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Pas de chemin de mise à jour pour les contrôleurs de domaine",
+   "traitement": "Chemin de mise à jour des contrôleurs de domaine écrit dans la matrice et la PSSI, sans accès Internet direct (F37).",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/flux.py",
+    "architecture/reseau/documents.py",
+    "architecture/reseau/donnees.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-13",
+   "audit": "securite_juridique",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Durées de conservation des journaux discordantes",
+   "traitement": "Durées alignées partout (D5) : 1 an pour les données techniques de connexion, 6 mois pour les URL du proxy, finalité sécurité.",
+   "responsables": [
+    "reseau_securite",
+    "juridique"
+   ],
+   "fichiers": [
+    "securite/flux.py",
+    "architecture/reseau/documents.py",
+    "juridique/donnees.py",
+    "juridique/charte.py",
+    "securite/pssi.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-14",
+   "audit": "securite_juridique",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Coupure électrique prolongée absente de l'analyse de risque",
+   "traitement": "Événement redouté et risque non intentionnel de coupure prolongée dans l'EBIOS RM ; mesures M-PHY-4 et M-PHY-5 avec le groupe électrogène.",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/ebios.py",
+    "securite/pssi.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "JUR-01",
+   "audit": "securite_juridique",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Délai de remplacement contradictoire entre PRA et CCTP",
+   "traitement": "Garantie de rétablissement 4 h, 24 h/24 7 j/7 pour les équipements critiques, J+1 ouvré pour le reste, dans les CCTP 1 à 3 et 5, le PRA et l'OPEX (D4).",
+   "responsables": [
+    "juridique"
+   ],
+   "fichiers": [
+    "juridique/pra.py",
+    "juridique/cctp.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "JUR-02",
+   "audit": "securite_juridique",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Exigence SecNumCloud écrite de six façons",
+   "traitement": "Une seule formule partout : offre qualifiée SecNumCloud, données dans l'Union européenne (en France de préférence).",
+   "responsables": [
+    "juridique",
+    "documentation"
+   ],
+   "fichiers": [
+    "juridique/build.py",
+    "juridique/pra.py",
+    "juridique/cctp.py",
+    "docs/anssi/referentiel_anssi.md"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "JUR-03",
+   "audit": "securite_juridique",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Journaux légaux : PDMA de 24 h et copie « quotidienne hors ligne » inexacte",
+   "traitement": "PDMA visée nulle, envoi aux deux collecteurs, copie immuable quotidienne et copie hors ligne hebdomadaire.",
+   "responsables": [
+    "juridique",
+    "cablage_chiffrage_energie",
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "juridique/pra.py",
+    "chiffrage/estimation.py",
+    "architecture/reseau/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "JUR-04",
+   "audit": "securite_juridique",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "Stockage du VMS prévu nulle part (19 à 39 To)",
+   "traitement": "Enregistreur physique VS-NVR1 au CCTP lot 4, au chiffrage et au bilan de puissance ; le VMS n'est plus une VM du cluster DT (D3).",
+   "responsables": [
+    "juridique",
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "juridique/cctp.py",
+    "architecture/reseau/documents.py",
+    "juridique/donnees.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "JUR-05",
+   "audit": "securite_juridique",
+   "gravite": "majeur",
+   "hors_depot": false,
+   "titre": "CCTP du lot énergie inexistant",
+   "traitement": "CCTP lot 5 « Énergie et locaux techniques » (RLI-CCTP-005), groupe électrogène et inverseur compris.",
+   "responsables": [
+    "juridique"
+   ],
+   "fichiers": [
+    "juridique/cctp.py",
+    "juridique/build.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-15",
+   "audit": "securite_juridique",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "VM de la DMZ sans heure, supervision ni SSH par le bastion",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/flux.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-16",
+   "audit": "securite_juridique",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "SR6 non retenu malgré une pertinence de 4",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/ebios.py",
+    "securite/build.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-17",
+   "audit": "securite_juridique",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Vraisemblances résiduelles fondées sur des mesures seulement proposées",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/ebios.py",
+    "securite/build.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-18",
+   "audit": "securite_juridique",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Revue « annuelle » contre « tous les 3 ans »",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/pssi.py",
+    "securite/build.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-19",
+   "audit": "securite_juridique",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "M-PHY-2 « proposé » alors que l'extinction est au lot ; « vidéoprotection déclarée »",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/pssi.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-20",
+   "audit": "securite_juridique",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "RadSec annoncé alors que NPS ne le gère pas",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/flux.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-21",
+   "audit": "securite_juridique",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Loopback0 et VLAN 900 absents des objets de journaux et d'AAA",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "architecture/reseau/donnees.py",
+    "architecture/reseau/documents.py",
+    "securite/flux.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-22",
+   "audit": "securite_juridique",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Pare-feu qui filtre le lien vers le site jumeau ambigu",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/flux.py",
+    "architecture/reseau/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-23",
+   "audit": "securite_juridique",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "« 56 règles » écrit en dur",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite",
+    "juridique"
+   ],
+   "fichiers": [
+    "securite/pssi.py",
+    "juridique/cctp.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-24",
+   "audit": "securite_juridique",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Collision des modules « donnees » du juridique et de la sécurité",
+   "traitement": "",
+   "responsables": [
+    "juridique",
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "juridique/build.py",
+    "securite/flux.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "SEC21-25",
+   "audit": "securite_juridique",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Double point, versions « v1.0 » et objets inutilisés",
+   "traitement": "",
+   "responsables": [
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "securite/build.py",
+    "securite/flux.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "JUR-06",
+   "audit": "securite_juridique",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Contrôle d'accès attribué à deux lots",
+   "traitement": "",
+   "responsables": [
+    "juridique",
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "juridique/cctp.py",
+    "energie/energie.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "JUR-07",
+   "audit": "securite_juridique",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "CCTP lots 3 et 4 : quantités incomplètes, hors chiffrage non signalé",
+   "traitement": "",
+   "responsables": [
+    "juridique",
+    "cablage_chiffrage_energie"
+   ],
+   "fichiers": [
+    "juridique/cctp.py",
+    "chiffrage/estimation.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "JUR-08",
+   "audit": "securite_juridique",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Lot 2 sans exigence de sécurité du routage BGP",
+   "traitement": "",
+   "responsables": [
+    "juridique"
+   ],
+   "fichiers": [
+    "juridique/cctp.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "JUR-09",
+   "audit": "securite_juridique",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Inspection TLS et Wi-Fi personnel décrits différemment (charte, architecture)",
+   "traitement": "",
+   "responsables": [
+    "juridique",
+    "reseau_securite"
+   ],
+   "fichiers": [
+    "juridique/charte.py",
+    "architecture/reseau/documents.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "JUR-10",
+   "audit": "securite_juridique",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Références juridiques à préciser",
+   "traitement": "",
+   "responsables": [
+    "juridique",
+    "reseau_securite",
+    "documentation"
+   ],
+   "fichiers": [
+    "juridique/donnees.py",
+    "juridique/build.py",
+    "architecture/reseau/donnees.py",
+    "docs/anssi/referentiel_anssi.md"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "JUR-11",
+   "audit": "securite_juridique",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Inexactitudes du PRA (zone de l'enregistreur, modèles d'IA, réplication)",
+   "traitement": "",
+   "responsables": [
+    "juridique"
+   ],
+   "fichiers": [
+    "juridique/pra.py",
+    "juridique/build.py"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "JUR-12",
+   "audit": "securite_juridique",
+   "gravite": "mineur",
+   "hors_depot": false,
+   "titre": "Référentiel ANSSI resté d'avant la v2",
+   "traitement": "Postes d'administration, nœuds Proxmox, supervision et écarts n° 1, 3 et 4 à jour ; normes de l'énergie ajoutées (section 9).",
+   "responsables": [
+    "documentation"
+   ],
+   "fichiers": [
+    "docs/anssi/referentiel_anssi.md"
+   ],
+   "statut": "traité"
+  },
+  {
+   "id": "JUR-13",
+   "audit": "securite_juridique",
+   "gravite": "coquille",
+   "hors_depot": false,
+   "titre": "Accords, nombres en dur et README incomplet (juridique)",
+   "traitement": "",
+   "responsables": [
+    "juridique"
+   ],
+   "fichiers": [
+    "juridique/cctp.py",
+    "juridique/build.py",
+    "livrables/juridique/{charte_informatique,guide_cdc_cctp,cctp_lot1-4}.html"
+   ],
+   "statut": "traité"
+  }
+ ]
+}

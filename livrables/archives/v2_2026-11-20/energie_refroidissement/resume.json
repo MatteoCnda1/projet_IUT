@@ -1,0 +1,299 @@
+{
+ "salle": {
+  "it_typ": 3460,
+  "it_max": 5610,
+  "it_pointe": 4488,
+  "simple": 240.0,
+  "simple_max": 296.0,
+  "double": 2980.0,
+  "double_max": 3896.0
+ },
+ "baies": {
+  "1": {
+   "typ": 1520,
+   "max": 2430,
+   "u": 30
+  },
+  "2": {
+   "typ": 1940,
+   "max": 3180,
+   "u": 19
+  }
+ },
+ "locaux": [
+  {
+   "local": "N-1-LT01",
+   "salle": "L.TECH 01",
+   "surface": 6.7,
+   "switchs": 1,
+   "poe_typ": 52,
+   "poe_max": 103,
+   "charge_typ": 113,
+   "charge_max": 169,
+   "taux": 17,
+   "autonomie": 175,
+   "chaleur": 65,
+   "debit": 19,
+   "ventilation": "grilles hautes/basses"
+  },
+  {
+   "local": "N-1-LT02",
+   "salle": "L.TECH 02",
+   "surface": 16.0,
+   "switchs": 1,
+   "poe_typ": 36,
+   "poe_max": 70,
+   "charge_typ": 95,
+   "charge_max": 133,
+   "taux": 13,
+   "autonomie": 280,
+   "chaleur": 63,
+   "debit": 19,
+   "ventilation": "grilles hautes/basses"
+  },
+  {
+   "local": "N0-LT01",
+   "salle": "L.TECH",
+   "surface": 2.3,
+   "switchs": 2,
+   "poe_typ": 172,
+   "poe_max": 333,
+   "charge_typ": 301,
+   "charge_max": 480,
+   "taux": 48,
+   "autonomie": 23,
+   "chaleur": 141,
+   "debit": 42,
+   "ventilation": "extracteur"
+  },
+  {
+   "local": "N0-LT02",
+   "salle": "L.TECH 02",
+   "surface": 6.9,
+   "switchs": 4,
+   "poe_typ": 202,
+   "poe_max": 385,
+   "charge_typ": 444,
+   "charge_max": 648,
+   "taux": 65,
+   "autonomie": 13,
+   "chaleur": 260,
+   "debit": 78,
+   "ventilation": "extracteur"
+  },
+  {
+   "local": "N1-LT01",
+   "salle": "L.TECH 01",
+   "surface": 3.7,
+   "switchs": 2,
+   "poe_typ": 98,
+   "poe_max": 192,
+   "charge_typ": 219,
+   "charge_max": 323,
+   "taux": 32,
+   "autonomie": 50,
+   "chaleur": 130,
+   "debit": 39,
+   "ventilation": "extracteur"
+  },
+  {
+   "local": "N1-LT02",
+   "salle": "L.TECH 02",
+   "surface": 6.6,
+   "switchs": 5,
+   "poe_typ": 136,
+   "poe_max": 262,
+   "charge_typ": 426,
+   "charge_max": 566,
+   "taux": 57,
+   "autonomie": 17,
+   "chaleur": 307,
+   "debit": 92,
+   "ventilation": "extracteur"
+  }
+ ],
+ "onduleurs": {
+  "capacite": 6000,
+  "normal": 1730,
+  "degrade": 3220,
+  "degrade_pointe": 4192,
+  "taux_normal": 29,
+  "taux_degrade": 70,
+  "ok": true,
+  "autonomie_interne": 11.2,
+  "pack": true,
+  "autonomie_normal": 85,
+  "autonomie_degrade": 33
+ },
+ "clim": {
+  "q_typ": 3.66,
+  "q_pointe": 5.02,
+  "unite_kw": 7.1,
+  "taux": 52
+ },
+ "energie": {
+  "it_kw": 3.46,
+  "clim_kw": 0.97,
+  "pertes_kw": 0.18,
+  "salle_kw": 4.63,
+  "lt_kw": 1.74,
+  "pue": 1.34,
+  "pue_usuel": 1.41,
+  "kwh": 53510,
+  "kwh_usuel": 58033,
+  "cout": 10702,
+  "cout_usuel": 11607,
+  "co2_t": 2.8
+ },
+ "gains": [
+  {
+   "mesure": "Consigne de la salle à 27 °C au lieu de 22 °C (plage recommandée ASHRAE A1 : 18-27 °C)",
+   "kwh": 1258,
+   "euros": 252,
+   "co2_kg": 65,
+   "cout": 0,
+   "retour": "immédiat"
+  },
+  {
+   "mesure": "Allée froide confinée (obturateurs de U vides, rideaux aux extrémités)",
+   "kwh": 944,
+   "euros": 189,
+   "co2_kg": 49,
+   "cout": 1200,
+   "retour": "6.4 ans"
+  },
+  {
+   "mesure": "Coupure programmée de 30 bornes Wi-Fi des salles la nuit et le week-end (103 h/semaine)",
+   "kwh": 2321,
+   "euros": 464,
+   "co2_kg": 121,
+   "cout": 0,
+   "retour": "immédiat"
+  }
+ ],
+ "optimisations": [
+  {
+   "piste": "Cœur replié : suppression de DL-SW1 à DL-SW4 (variante étudiée, non retenue : CdC en 3 couches)",
+   "w": 640,
+   "kwh": 7505,
+   "euros": 1501
+  }
+ ],
+ "capex_nouveaux": [
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur",
+   "solution": "Pack batterie externe APC SRT192RMBP (1 par onduleur)",
+   "quantite": 2,
+   "pu_ht": 1400,
+   "total_ht": 2800,
+   "note": "Autonomie si un onduleur tombe : 11.2 min sans pack, 33 min avec"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur + L.TECH",
+   "solution": "Tableau électrique informatique (TD-INFO) et circuits dédiés",
+   "quantite": 1,
+   "pu_ht": 6000,
+   "total_ht": 6000,
+   "note": "2 départs 32 A onduleurs, 2 départs clim, 6 départs 16 A L.TECH, protections différentielles"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur",
+   "solution": "Confinement d'allée froide (obturateurs, rideaux)",
+   "quantite": 1,
+   "pu_ht": 1200,
+   "total_ht": 1200,
+   "note": "Green IT : -10 % sur la clim"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur + L.TECH",
+   "solution": "Sondes température/humidité et détection de fuite d'eau",
+   "quantite": 1,
+   "pu_ht": 1200,
+   "total_ht": 1200,
+   "note": "Remontées dans LibreNMS ; fuite : salle au sous-sol"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur",
+   "solution": "Détection incendie raccordée au SSI + extincteurs CO2",
+   "quantite": 1,
+   "pu_ht": 1500,
+   "total_ht": 1500,
+   "note": "Report d'alarme au SSI du bâtiment"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur",
+   "solution": "Extinction automatique par gaz inerte (IG-541) + détection précoce par aspiration (VESDA)",
+   "quantite": 1,
+   "pu_ht": 8500,
+   "total_ht": 8500,
+   "note": "v2 (audit SYS-03) : un incendie la nuit ne détruit plus la salle. Gaz inerte : sans danger pour le matériel"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur",
+   "solution": "Plancher technique surélevé 30 cm, baies et onduleurs sur socles",
+   "quantite": 25,
+   "pu_ht": 160,
+   "total_ht": 4000,
+   "note": "v2 (SYS-03) : matériel hors d'eau en cas d'inondation du sous-sol (prix au m²)"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur",
+   "solution": "Batardeau amovible à la porte (60 cm) + clapet anti-retour sur l'évacuation des condensats",
+   "quantite": 1,
+   "pu_ht": 1500,
+   "total_ht": 1500,
+   "note": "v2 (SYS-03) : retarde l'entrée de l'eau par la circulation"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Salle serveur",
+   "solution": "Câble de détection de fuite sous le plancher (centrale + 20 m)",
+   "quantite": 1,
+   "pu_ht": 900,
+   "total_ht": 900,
+   "note": "v2 (SYS-03) : alerte dès les premiers centimètres, avant que l'eau n'atteigne le matériel"
+  },
+  {
+   "categorie": "Énergie / locaux",
+   "schema": "Locaux techniques",
+   "solution": "Extracteur d'air avec thermostat",
+   "quantite": 4,
+   "pu_ht": 450,
+   "total_ht": 1800,
+   "note": "Locaux les plus chargés ou les plus petits"
+  }
+ ],
+ "capex_lot": 71900,
+ "opex": [
+  {
+   "poste": "Électricité du réseau",
+   "detail": "53 510 kWh/an × 0.20 € (salle serveur, PUE 1.34, 6 locaux techniques)",
+   "montant": 10702
+  },
+  {
+   "poste": "Maintenance de la climatisation",
+   "detail": "Contrat d'entretien, 2 unités",
+   "montant": 900
+  },
+  {
+   "poste": "Provision batteries d'onduleurs",
+   "detail": "Remplacement tous les 5 ans, lissé par an",
+   "montant": 1500
+  },
+  {
+   "poste": "Maintenance de l'extinction automatique",
+   "detail": "Visite annuelle obligatoire (APSAD R13), contrôle des bouteilles",
+   "montant": 600
+  }
+ ],
+ "opex_total": 13702,
+ "cout_5ans": 140410
+}

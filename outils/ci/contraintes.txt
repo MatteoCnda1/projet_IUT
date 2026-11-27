@@ -1,0 +1,14 @@
+# Versions exactes utilisées par la CI (pip install -r requirements.txt -c outils/ci/contraintes.txt).
+# Ce sont celles avec lesquelles les livrables suivis par git ont été produits (Debian 13, Python 3.13,
+# relevé du 20/11/2026) : le plan de câblage (cablage/) dépend du calcul numérique, une autre version
+# de numpy, scipy ou OpenCV peut déplacer une prise et changer prises.csv.
+# Pour monter une version : la changer ici, relancer la chaîne, vérifier puis committer les livrables.
+matplotlib==3.10.1
+numpy==2.2.4
+scipy==1.15.3
+opencv-python-headless==4.13.0.92
+Pillow==11.1.0
+fonttools==4.57.0
+python-docx==1.2.0
+python-pptx==1.0.2
+lxml==5.4.0

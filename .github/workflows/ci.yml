@@ -1,0 +1,158 @@
+# CI du projet IUT (infrastructure réseau du site de Marseille).
+# Trois jobs en parallèle, environ 5 minutes au total :
+#   python      compilation de tous les scripts et ruff (erreurs réelles bloquantes, style pour information)
+#   coherence   plan d'adressage, matrice des flux, montants des README, liens, règles GesTT, secrets (outils/ci/verifier_coherence.py)
+#   generation  chaîne complète des livrables, puis contrôle qu'ils sont à jour avec leurs sources ; livrables publiés en artefact
+# Documentation : outils/ci/README.md (lancer les mêmes contrôles en local, ajouter un contrôle).
+
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:  # toutes les branches de base : les revues visent souvent une branche revue/*, pas main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  PYTHON_VERSION: "3.13"
+  RUFF_VERSION: "0.17.6"
+  DRAWIO_VERSION: "32.6.10"  # même version que celle qui a produit les PNG suivis par git
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  PYTHONUNBUFFERED: "1"
+
+jobs:
+  python:
+    name: Python (compilation, ruff)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Installer ruff
+        run: python -m pip install "ruff==${RUFF_VERSION}"
+
+      - name: Compilation de tous les scripts
+        run: python -m compileall -q .
+
+      - name: ruff, erreurs réelles (bloquant)
+        run: ruff check --config outils/ci/ruff.toml --output-format=github .
+
+      - name: ruff, style (pour information)
+        run: ruff check --config outils/ci/ruff.toml --select E,W,B,SIM --exit-zero --statistics .
+
+  coherence:
+    name: Cohérence du dépôt
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Plan d'adressage, flux, montants, liens, GesTT, hygiène
+        run: python outils/ci/verifier_coherence.py
+
+      - name: Orthographe, fautes fréquentes (pour information)
+        if: always()
+        run: python outils/ci/orthographe.py
+
+  generation:
+    name: Génération des livrables
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            outils/ci/contraintes.txt
+
+      - name: Paquets système (poppler, polices DejaVu, Xvfb)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq --no-install-recommends \
+            poppler-utils fonts-dejavu-core fonts-dejavu-extra fonts-liberation xvfb xauth
+
+      - name: Cache du paquet draw.io
+        id: cache-drawio
+        uses: actions/cache@v6
+        with:
+          path: ~/drawio
+          key: drawio-${{ env.DRAWIO_VERSION }}
+
+      - name: Télécharger draw.io
+        if: steps.cache-drawio.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/drawio
+          curl -fsSL --retry 3 -o ~/drawio/drawio.deb \
+            "https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-amd64-${DRAWIO_VERSION}.deb"
+
+      - name: Installer draw.io (CLI sous Xvfb)
+        run: |
+          sudo apt-get install -y -qq --no-install-recommends "$HOME/drawio/drawio.deb"
+          # La CLI draw.io (Electron) veut un serveur X : on la remplace dans le PATH par un lanceur sous Xvfb
+          mkdir -p "$RUNNER_TEMP/bin"
+          printf '#!/bin/sh\nexec xvfb-run -a /opt/drawio/drawio "$@"\n' > "$RUNNER_TEMP/bin/drawio"
+          chmod +x "$RUNNER_TEMP/bin/drawio"
+          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+
+      - name: Chrome (PDF et PNG)
+        run: google-chrome --version || chromium --version
+
+      - name: Dépendances Python
+        run: python -m pip install -r requirements.txt -c outils/ci/contraintes.txt
+
+      - name: Chaîne de génération
+        run: |
+          touch "$RUNNER_TEMP/repere"
+          bash outils/ci/generer_tout.sh --strict
+
+      - name: Livrables à jour avec leurs sources
+        run: python outils/ci/verifier_a_jour.py --repere "$RUNNER_TEMP/repere" --patch "$RUNNER_TEMP/maj_livrables.patch"
+
+      - name: Publier les livrables régénérés
+        if: failure()  # seulement en cas d'échec : c'est là qu'on récupère les fichiers à committer
+        continue-on-error: true  # un quota de stockage d'artefacts atteint ne doit pas faire échouer le job
+        uses: actions/upload-artifact@v7
+        with:
+          name: livrables-regeneres
+          path: |
+            livrables/
+            !livrables/archives/
+            chiffrage/estimation*
+            roadmap/index.html
+            architecture/*.drawio
+            architecture/*.png
+            architecture/audit/Rapport_Audit_Infrastructure_Marseille.*
+          retention-days: 3
+          if-no-files-found: warn
+
+      - name: Publier le correctif des fichiers texte pas à jour
+        if: failure()
+        continue-on-error: true
+        uses: actions/upload-artifact@v7
+        with:
+          name: correctif-livrables
+          path: ${{ runner.temp }}/maj_livrables.patch
+          retention-days: 3
+          if-no-files-found: ignore

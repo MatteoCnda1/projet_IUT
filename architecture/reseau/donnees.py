@@ -1,7 +1,11 @@
-"""Source unique du plan d'adressage et de la segmentation (points 03 et 05). VERSION 2 (après l'audit du 15/11/2026).
+"""Source unique du plan d'adressage et de la segmentation (points 03 et 05). Version du dossier : commun/charte.py (v2.1).
 
 La v1 est archivée dans architecture/archives/v1_2026-11-15/reseau/. Les écarts v1 -> v2 sont listés dans
 livrables/audit/traitement_audit.pdf (une référence d'audit par modification : NET-01, SEC-02, ...).
+v2.1 (audit du 20/11/2026) : adresses des transits 1020-1090 remises dans leur /29 (RES-01), plage des bornes dans son /26
+(RES-02), passerelle IPv6 = ::1 partout (RES-05), une adresse par onduleur, PDU et climatiseur, EL-RTR1/2 en VLAN 900,
+boucles dans le résumé ADM, ns2 publié (.37), pool du VPN d'administration, enregistreur vidéo VS-NVR1, contrôleur du
+groupe électrogène et inverseur de source dans le VLAN GTB du bloc 1. verifier() contrôle chaque adresse.
 
 Tout ce qui suit est repris par build.py pour produire :
   - livrables/plan_adressage/  (CSV des VLAN, sous-réseaux, équipements)
@@ -11,21 +15,23 @@ Tout ce qui suit est repris par build.py pour produire :
 
 Conventions
 -----------
-IPv4 privé : 10.13.0.0/16 (13 = Bouches-du-Rhône). Site jumeau : 10.4.0.0/16 (Digne) réservé.
+IPv4 privé : 10.13.0.0/16 (13 = Bouches-du-Rhône). Site jumeau : 10.4.0.0/16 (Digne ou Gap) réservé.
 IPv4 public : 139.124.112.0/24, pris dans le bloc AMU 139.124.0.0/16 (affectation fictive, à demander à la DSI AMU).
-IPv6 : 2001:660:5402:4000::/52, pris dans le /48 de Luminy 2001:660:5402::/48 (bloc AMU 2001:660:5400::/40, AS2457).
+IPv6 : 2001:660:5402:4000::/52, pris dans le /48 de Luminy 2001:660:5402::/48 (bloc AMU 2001:660:5400::/40, dans le /32 de
+       RENATER 2001:660::/32, AS2200).
        Un /64 par VLAN : le 4e groupe vaut « 4 » suivi du numéro de VLAN (VLAN 112 -> 2001:660:5402:4112::/64).
        Les numéros de VLAN n'utilisent que des chiffres décimaux, donc le préfixe se lit directement.
        Blocs réservés : 4000::/64 boucles locales, 4Fxx::/64 liens d'interconnexion (/127 sur les liens point à point).
 Numéro de VLAN : 1er chiffre = zone (1 bloc 1, 2 bloc 2, 3 datacenter, 4 DMZ, 5 Wi-Fi du bâtiment, 9 administration),
                  2e chiffre = VRF dans un bloc (1 USR, 2 IOT, 3 GST, 9 ADM). D'où des résumés IPv6 en /60 par VRF et par bloc.
 Passerelle : toujours la première adresse (.1 / ::1). Les équipements ont la même terminaison en IPv4 et en IPv6
-             (10.13.59.41 <-> 2001:660:5402:4904::41) pour se repérer facilement.
+             (10.13.59.41 <-> 2001:660:5402:4904::41) pour se repérer facilement. Terminaison = rang dans le sous-réseau,
+             ou terminaison absolue dans le /24 pour les sous-réseaux découpés dans un /24 (voir _dans()).
 """
 import ipaddress as ip
+import re
 
-VERSION = "v2"
-DATE_AUDIT = "15/11/2026"
+DATE_AUDIT = "15/11/2026"  # audit de la v1 (la version du dossier et sa date sont dans commun/charte.py)
 V6 = "2001:660:5402:"
 P6_SITE = ip.ip_network("2001:660:5402:4000::/52")
 P4_PRIVE = ip.ip_network("10.13.0.0/16")
@@ -42,7 +48,8 @@ VRF = {
     "GST": {"id": 30, "nom": "Invités", "couleur": "#97549b",
             "role": "Wi-Fi invités : Internet seulement (HTTP/HTTPS/DNS), isolation entre clients"},
     "SRV": {"id": 40, "nom": "Serveurs", "couleur": "#008889",
-            "role": "Datacenter tier 1 (VM) : RADIUS/NPS, DHCP, enregistreur vidéo. L'AD est en tier 0 (VLAN 310, derrière le Stormshield)"},
+            "role": "Datacenter tier 1 : VM RADIUS/NPS et DHCP, enregistreur vidéo physique VS-NVR1, contrôle d'accès. "
+                    "L'AD est en tier 0 (VLAN 310, derrière le Stormshield)"},
     "ADM": {"id": 90, "nom": "Administration", "couleur": "#c13c3b",
             "role": "Gestion des équipements, IPMI, Proxmox, contrôleurs Wi-Fi, sauvegarde, services d'infrastructure, postes d'admin (ANSSI : SI d'administration dédié)"},
 }
@@ -63,7 +70,9 @@ def _bloc(n, base):
         (n * 100 + 13, f"IMPR-B{n}", "USR", f"{o(3)}.128/26", gw, "Imprimantes et copieurs (MAB, adresses réservées)"),
         (n * 100 + 20, f"CAM-B{n}", "IOT", f"{o(12)}.0/26", gw, "Caméras IP (MAB + profilage, vers l'enregistreur seulement)"),
         (n * 100 + 21, f"BADGE-B{n}", "IOT", f"{o(12)}.64/27", gw, "Lecteurs de badge (MAB, vers le serveur de contrôle d'accès)"),
-        (n * 100 + 22, f"GTB-B{n}", "IOT", f"{o(12)}.96/27", gw, "Gestion technique du bâtiment (réservé)"),
+        (n * 100 + 22, f"GTB-B{n}", "IOT", f"{o(12)}.96/27", gw,
+         "Gestion technique du bâtiment : contrôleur du groupe électrogène et inverseur de source (lecture seule)" if n == 1
+         else "Gestion technique du bâtiment (réservé)"),
         (n * 100 + 30, f"RESTREINT-B{n}", "GST", f"{o(14)}.0/24", gw, "Échec 802.1X sur une prise filaire : Internet seulement (VRF GST)"),
         (n * 100 + 90, f"GEST-ACC-B{n}", "ADM", f"{o(13)}.0/26", gw, "Gestion des switchs d'accès et de distribution du bloc"),
         (n * 100 + 91, f"AP-B{n}", "ADM", f"{o(13)}.64/26", gw, "Bornes Wi-Fi (mode local : CAPWAP vers les WLC 10.13.60.70)"),
@@ -71,7 +80,7 @@ def _bloc(n, base):
 
 
 VLAN_BRUTS = _bloc(1, 16) + _bloc(2, 32) + [
-    (300, "SRV-INFRA", "SRV", "10.13.48.0/24", "CL", "Serveurs tier 1 du datacenter (VM) : RADIUS (NPS), DHCP"),
+    (300, "SRV-INFRA", "SRV", "10.13.48.0/24", "CL", "Serveurs tier 1 du datacenter : VM RADIUS (NPS) et DHCP, enregistreur VS-NVR1"),
     (310, "SRV-T0", "T0", "10.13.52.0/27", "SNS", "Tier 0 : contrôleurs de domaine DT-AD1/2. Passerelle sur le Stormshield, pas d'Internet"),
     (400, "DMZ-FRONT", "DMZ", "172.16.13.0/27", "FGT", "VM reverse proxies Caddy, DNS publics, messagerie (publiés par VIP)"),
     (401, "DMZ-BACK", "DMZ", "172.16.13.32/27", "FGT", "VM applicatives derrière Caddy (site web, serveur applicatif)"),
@@ -80,7 +89,7 @@ VLAN_BRUTS = _bloc(1, 16) + _bloc(2, 32) + [
     (514, "WIFI-PERS", "USR", "10.13.80.0/22", "CL", "SSID AMU-Personnel, tout le bâtiment (commutation centrale sur les WLC)"),
     (515, "WIFI-ETU", "USR", "10.13.64.0/20", "CL", "SSID AMU-Etudiants et eduroam, tout le bâtiment (bail 2 h)"),
     (530, "WIFI-INVITES", "GST", "10.13.84.0/22", "CL", "SSID AMU-Invites, tout le bâtiment (portail captif, isolation, bail 1 h)"),
-    (900, "GEST-RESEAU", "ADM", "10.13.56.0/24", "CL", "Interfaces de gestion : cœur, pare-feu, switchs EL/DT/NM, PDU, onduleurs, sondes"),
+    (900, "GEST-RESEAU", "ADM", "10.13.56.0/24", "CL", "Interfaces de gestion : cœur, routeurs, pare-feu, switchs EL/DT/NM, PDU, onduleurs, sondes"),
     (901, "NM-IPMI", "ADM", "10.13.57.0/24", "CL", "iDRAC de tous les serveurs (hors DMZ)"),
     (902, "PVE-MGMT", "ADM", "10.13.58.0/27", "CL", "Administration des hyperviseurs Proxmox NM et DT (GUI 8006, SSH, sauvegardes vzdump) et du témoin"),
     (903, "NM-CLUSTER", "ADM", "10.13.58.32/28", None, "Corosync lien 0 et QDevice : non routé, latence faible"),
@@ -97,7 +106,9 @@ VLAN_BRUTS = _bloc(1, 16) + _bloc(2, 32) + [
 # VLAN de transit (L2 sur le cœur CL, entre ses SVI et le Stormshield raccordé directement en 2×10G MEC ; puis entre les deux pare-feu).
 # v1 : ces VLAN passaient par la pile EL-SW (C9200L, petits tampons) ; v2 : EL-SW ne porte plus que la gestion (audit SEC-01).
 TRANSITS = [
-    # vlan, nom, vrf, IPv4, côté A (adresse), côté B (adresse), préfixe v6 (/64)
+    # vlan, nom, vrf, IPv4, côté A (terminaison), côté B (terminaison), préfixe v6 (/64)
+    # Terminaison absolue dans le /24 (comme dans HOTES), reprise telle quelle en IPv6 : TR-IOT 10.13.2.9 <-> 4F22::9.
+    # v2.1 (RES-01) : la v1 et la v2 l'ajoutaient à l'adresse du réseau (TR-IOT en 10.13.2.17, hors de son /29).
     (1010, "TR-USR", "USR", "10.13.2.0/29", ("CL", 1), ("EL-SNS", 2), "4F21"),
     (1020, "TR-IOT", "IOT", "10.13.2.8/29", ("CL", 9), ("EL-SNS", 10), "4F22"),
     (1030, "TR-GST", "GST", "10.13.2.16/29", ("CL", 17), ("EL-SNS", 18), "4F23"),
@@ -133,19 +144,24 @@ BOUCLES = [  # Loopback0 (identifiant OSPF, source des flux de gestion : SNMP, s
 # ---------------------------------------------------------------------------
 PUBLIC = [
     # préfixe, usage, détail
-    ("139.124.112.0/30", "Lien EL-RTR1 <-> FAI 1 (AMU / RENATER)", "PE opérateur .1, EL-RTR1 .2 · IPv6 2001:660:5402:4FF0::/127"),
+    ("139.124.112.0/30", "Lien EL-RTR1 <-> FAI 1 (AMU / RENATER, AS2457)", "PE opérateur .1, EL-RTR1 .2 · IPv6 2001:660:5402:4FF0::/127"),
     ("139.124.112.4/30", "iBGP EL-RTR1 <-> EL-RTR2 (câble direct)", "EL-RTR1 .5, EL-RTR2 .6 · IPv6 2001:660:5402:4FF1::/127 · annonce conditionnelle"),
     ("139.124.112.8/29", "OUT-A : EL-RTR1 <-> cluster FortiGate", "EL-RTR1 .9, FortiGate .14 · IPv6 2001:660:5402:4F00::/64 (::1 / ::e)"),
     ("139.124.112.16/29", "OUT-B : EL-RTR2 <-> cluster FortiGate", "EL-RTR2 .17, FortiGate .22 · IPv6 2001:660:5402:4F01::/64 (::1 / ::e)"),
-    ("139.124.112.32/27", "Adresses publiées (VIP FortiGate vers la DMZ)", ".33 web (Caddy), .34 messagerie (MX), .35 DNS public (ns1), .36 VPN admin FortiGate"),
+    ("139.124.112.32/27", "Adresses publiées (VIP FortiGate vers la DMZ)", ".33 web (Caddy), .34 messagerie (MX), .35 DNS public ns1 (DM-DNS1), .36 VPN admin FortiGate, .37 DNS public ns2 (DM-DNS2)"),
     ("139.124.112.64/28", "NAT sortant VRF USR", "PAT, journalisé (traçabilité, loi n° 2006-64)"),
     ("139.124.112.80/29", "NAT sortant VRF SRV et ADM", "Mises à jour des serveurs et des équipements"),
     ("139.124.112.88/29", "NAT sortant VRF GST", "Séparé des usagers : une plainte sur une IP invités ne vise pas le personnel"),
     ("139.124.112.96/27", "Réserve", ""),
     ("139.124.112.128/25", "Réserve", "Extensions, deuxième bâtiment"),
 ]
+# FAI 1 : AS2457 = FR-RAIMU-2, réseau métropolitain de Marseille enregistré par RENATER, qui annonce 139.124.0.0/16 avec la
+# dorsale nationale de RENATER (AS2200) ; l'IPv6 de l'AMU est dans le /32 de RENATER (2001:660::/32, AS2200). Source : RIPEstat.
+FAI1 = {"as": "AS2457", "asn": 2457, "nom": "RAIMU (réseau régional de RENATER à Marseille)", "dorsale": "AS2200"}
 FAI2 = {"lien4": "203.0.113.0/30", "lien6": "2001:db8:ffff::/127", "pa6": "2001:db8:2000::/48", "as": "AS64496"}
 AS_SITE = 65013  # AS privé du site (eBGP vers les deux opérateurs)
+# v2.1 (SEC21-05) : pool du VPN d'administration (IKEv2) sur le FortiGate, pris dans la réserve « interconnexions futures »
+VPN_ADM = {"v4": "10.13.4.0/27", "v6": f"{V6}4F50::/64", "usage": "Pool du VPN d'administration IPsec IKEv2 (certificat + MFA) : bastion seulement"}
 
 # ---------------------------------------------------------------------------
 # Équipements (adresses fixes). Les terminaisons sont reprises en IPv6 dans le même VLAN.
@@ -153,7 +169,7 @@ AS_SITE = 65013  # AS privé du site (eBGP vers les deux opérateurs)
 HOTES = {
     300: [("Passerelle (SVI CL)", 1), ("VM DT-RAD1 (NPS)", 21), ("VM DT-RAD2 (NPS)", 22),
           ("VM DT-DHCP1", 31), ("VM DT-DHCP2", 32),
-          ("Enregistreur vidéo (NVR, lot sûreté)", 60), ("Serveur de contrôle d'accès (lot sûreté)", 61)],
+          ("VS-NVR1 : enregistreur vidéo physique (VMS, lot sûreté)", 60), ("Serveur de contrôle d'accès (lot sûreté)", 61)],
     310: [("Passerelle (Stormshield)", 1), ("VM DT-AD1 (contrôleur de domaine)", 11), ("VM DT-AD2 (contrôleur de domaine)", 12)],
     400: [("FortiGate (port DMZ)", 1), ("VIP Caddy (keepalived)", 10), ("VM DM-RP1 Caddy", 11), ("VM DM-RP2 Caddy", 12),
           ("VM DM-DNS1 (ns1)", 20), ("VM DM-MAIL1", 21), ("VM DM-DNS2 (ns2)", 22)],
@@ -161,9 +177,11 @@ HOTES = {
     402: [("FortiGate", 65), ("DM-SW (pile)", 66), ("DM-PVE1", 67), ("DM-PVE2", 68), ("DM-WITNESS", 69),
           ("iDRAC DM-PVE1", 71), ("iDRAC DM-PVE2", 72), ("iDRAC DM-WITNESS", 73)],
     403: [("DM-WITNESS (corosync-qnetd)", 104), ("DM-PVE1", 105), ("DM-PVE2", 106)],
-    900: [("Passerelle (SVI CL)", 1), ("EL-FGT1 (mgmt HA)", 13), ("EL-FGT2 (mgmt HA)", 14), ("EL-SNS1 (mgmt)", 15),
-          ("EL-SNS2 (mgmt)", 16), ("EL-SW (pile)", 21), ("DT-SW (pile)", 23), ("NM-SW (pile)", 25),
-          ("PDU A1 / B1 / A2 / B2", 41), ("Onduleurs SRT 6 kVA A / B", 45), ("Sondes salle serveur", 47), ("Climatiseurs 1 / 2", 48)],
+    900: [("Passerelle (SVI CL)", 1), ("EL-RTR1 (mgmt)", 11), ("EL-RTR2 (mgmt)", 12), ("EL-FGT1 (mgmt HA)", 13), ("EL-FGT2 (mgmt HA)", 14),
+          ("EL-SNS1 (mgmt)", 15), ("EL-SNS2 (mgmt)", 16), ("EL-SW (pile)", 21), ("DT-SW (pile)", 23), ("NM-SW (pile)", 25),
+          ("PDU A1, B1, A2, B2 (une adresse chacun)", "41-44"), ("Onduleur SRT 6 kVA A (carte réseau, lu par NUT)", 45),
+          ("Onduleur SRT 6 kVA B (carte réseau, lu par NUT)", 46), ("Sondes salle serveur", 47),
+          ("Climatiseur 1", 48), ("Climatiseur 2", 49)],
     901: [("Passerelle (SVI CL)", 1), ("iDRAC NM-PVE1", 11), ("iDRAC NM-PVE2", 12), ("iDRAC NM-WITNESS", 13),
           ("iDRAC DT-PVE1 (tier 0)", 21), ("iDRAC DT-PVE2 (tier 0)", 22), ("iDRAC DT-BKP1 (tier 0)", 27)],
     902: [("Passerelle (SVI CL)", 1), ("NM-PVE1", 11), ("NM-PVE2", 12), ("NM-WITNESS (QDevice du cluster DT, NUT)", 13),
@@ -174,7 +192,8 @@ HOTES = {
           ("LXC NTP 1 chrony", 21), ("LXC NTP 2 chrony", 22), ("LXC DNS interne 1 (Unbound)", 31), ("LXC DNS interne 2 (Unbound)", 32),
           ("VIP Teleport (keepalived)", 40), ("LXC Teleport 1", 41), ("LXC Teleport 2", 42),
           ("VM supervision Docker (LibreNMS, snmptrapd, Loki, Grafana)", 50),
-          ("VIP collecteur de journaux (keepalived)", 55), ("LXC journaux 1 (rsyslog, archives LCEN)", 56), ("LXC journaux 2 (rsyslog, archives LCEN)", 57)],
+          ("VIP collecteur de journaux (keepalived)", 55), ("LXC journaux 1 (rsyslog, archives légales)", 56),
+          ("LXC journaux 2 (rsyslog, archives légales)", 57)],
     906: [("Passerelle (SVI CL)", 1), ("Postes d'administration (Kea, réservations)", "11-30")],
     907: [("Passerelle (SVI CL)", 65), ("WLC : interface de gestion sans fil (WMI, CAPWAP)", 70),
           ("WLC1 C9800-L : gestion de redondance (RMI)", 71), ("WLC2 C9800-L : gestion de redondance (RMI)", 72)],
@@ -185,7 +204,11 @@ HOTES = {
 for n in (1, 2):
     HOTES[n * 100 + 90] = [(f"Passerelle DL-B{n} (SVI)", 1), (f"DL-SW{2 * n - 1}/{2 * n} (SVL, gestion)", 2),
                            (f"AL-SW du bloc {n} (1 par switch d'accès)", "11-30")]
-    HOTES[n * 100 + 91] = [(f"Passerelle DL-B{n} (SVI)", 1), ("Bornes CW9164I (Kea, option 43 vers le WLC 10.13.60.70)", "11-62")]
+    HOTES[n * 100 + 91] = [(f"Passerelle DL-B{n} (SVI)", 1), ("Bornes CW9164I (Kea, option 43 vers le WLC 10.13.60.70)", "75-126")]
+# v2.1 : groupe électrogène (D2). L'inverseur est en tête du TD-INFO (salle serveur, sous-sol), donc dans le bloc 1. Supervision en
+# lecture seule (Modbus TCP ou SNMP), sans modem ni service en nuage : la VRF IOT ne sort pas sur Internet (matrice, F27 et F70).
+HOTES[122] = [("Passerelle DL-B1 (SVI)", 1), ("Contrôleur du groupe électrogène (Modbus TCP, SNMP, lecture seule)", 110),
+              ("Inverseur de source automatique (carte de communication)", 111)]
 
 # Réseaux Net Management, dans l'ordre du schéma (nom court, VLAN, couleur du trait)
 NM_RESEAUX = [
@@ -204,17 +227,22 @@ def v6_vlan(vid):
     return f"{V6}4{vid:03d}::/64"
 
 
+def _dans(net, fin):
+    """Adresse IPv4 de terminaison `fin` dans `net` : rang dans le sous-réseau, ou terminaison absolue dans le /24 si elle
+    dépasse sa taille (sous-réseaux découpés dans un /24 : 401, 402, 403, 903, 905, 907, 908, 909, 1x91, 1x22, transits)."""
+    k = int(fin)
+    if k >= net.num_addresses:
+        k -= int(net.network_address) & 0xFF
+    return net.network_address + k
+
+
 def adresse(vid, fin):
-    """Adresse d'un hôte : terminaison décimale reprise telle quelle dans l'IID IPv6."""
+    """Adresse d'un hôte : terminaison décimale reprise telle quelle dans l'IID IPv6 (passerelle : ::1, RES-05)."""
     v = VLANS[vid]
     if not v["v4"]:
         return None, None
-    net = ip.ip_network(v["v4"])
-    k = int(fin) if str(fin).isdigit() else 0
-    if k >= net.num_addresses:  # terminaison donnée en absolu dans le /24 (VLAN découpés dans un /24 : 403, 907, 908, 909)
-        k -= int(net.network_address) & 0xFF
-    a4 = str(net.network_address + k)
-    a6 = f"{V6}4{vid:03d}::{fin}" if v["v6"] else None
+    a4 = str(_dans(ip.ip_network(v["v4"]), fin))
+    a6 = (v["gw6"] if a4 == v["gw4"] else f"{V6}4{vid:03d}::{fin}") if v["v6"] else None
     return a4, a6
 
 
@@ -234,11 +262,11 @@ for vid, nom, vrf, v4, a, b, p6 in TRANSITS:
     net = ip.ip_network(v4)
     VLANS[vid] = {"id": vid, "nom": nom, "vrf": vrf, "v4": v4, "gw_eq": None, "usage": f"Transit {a[0]} <-> {b[0]}",
                   "gw4": None, "v6": f"{V6}{p6}::/64", "gw6": None, "taille": net.num_addresses - 2,
-                  "a": (a[0], str(net.network_address + a[1]), f"{V6}{p6}::{a[1]}"),
-                  "b": (b[0], str(net.network_address + b[1]), f"{V6}{p6}::{b[1]}")}
+                  "a": (a[0], str(_dans(net, a[1])), f"{V6}{p6}::{a[1]}"),
+                  "b": (b[0], str(_dans(net, b[1])), f"{V6}{p6}::{b[1]}")}
 
-DHCP = {"USR": "DT-DHCP1/2", "IOT": "Kea (réserv.)", "GST": "Kea (bail 1 h)", "ADM": "Kea", "SRV": "statique", "DMZ": "statique", "T0": "statique"}
-BAIL = {515: "2 h", 514: "8 h", 530: "1 h"}  # baux courts sur le Wi-Fi (audit NET-01 : pool étudiants)
+DHCP = {"USR": "DT-DHCP1/2", "IOT": "Kea (réserv.)", "GST": "Kea", "ADM": "Kea", "SRV": "statique", "DMZ": "statique", "T0": "statique"}
+BAIL = {515: "2 h", 514: "8 h", 530: "1 h", 130: "1 h", 230: "1 h"}  # baux courts (audit NET-01 : pool étudiants)
 WIFI_CLIENTS_PAR_BORNE = 40
 
 # Résumés annoncés / routes statiques sur le Stormshield, par VRF
@@ -248,7 +276,8 @@ RESUMES = {
     "IOT": ["10.13.28.0/24", "10.13.44.0/24", f"{V6}4120::/60", f"{V6}4220::/60"],
     "GST": ["10.13.30.0/23", "10.13.46.0/23", "10.13.84.0/22", f"{V6}4130::/60", f"{V6}4230::/60", f"{V6}4530::/60"],
     "SRV": ["10.13.48.0/22", f"{V6}4300::/60"],
-    "ADM": ["10.13.29.0/24", "10.13.45.0/24", "10.13.56.0/21", f"{V6}4190::/60", f"{V6}4290::/60", f"{V6}4900::/60"],
+    "ADM": ["10.13.0.0/24", "10.13.29.0/24", "10.13.45.0/24", "10.13.56.0/21",  # 10.13.0.0/24 : Loopback0 (v2.1, RES-03)
+            f"{V6}4000::/64", f"{V6}4190::/60", f"{V6}4290::/60", f"{V6}4900::/60"],
 }
 
 
@@ -283,6 +312,78 @@ def verifier():
         assert a.subnet_of(P4_PUBLIC)
         for b in pubs[i + 1:]:
             assert not a.overlaps(b)
+    verifier_adresses()
+    return True
+
+
+def _hote_valide(net, a, quoi):
+    """L'adresse est dans le réseau et n'en est ni l'adresse de réseau ni la diffusion (sauf /31 et /127)."""
+    a = ip.ip_address(a)
+    assert a in net, f"{quoi} : {a} hors de {net}"
+    if net.prefixlen < net.max_prefixlen - 1:
+        assert a not in (net.network_address, net.broadcast_address), f"{quoi} : {a} = réseau ou diffusion de {net}"
+
+
+def verifier_adresses():
+    """v2.1 (RES-01) : chaque adresse d'hôte, de passerelle, de transit, de lien et de boucle est dans son sous-réseau,
+    sans doublon ; même terminaison en IPv4 et en IPv6 (convention ci-dessus), sauf les passerelles (::1)."""
+    vus = {}
+
+    def unique(a, quoi):
+        assert a not in vus, f"{quoi} : {a} déjà attribuée à {vus.get(a)}"
+        vus[a] = quoi
+
+    for vid, v in VLANS.items():
+        if v["gw4"]:
+            _hote_valide(ip.ip_network(v["v4"]), v["gw4"], f"passerelle VLAN {vid}")
+        if v["gw6"]:
+            assert ip.ip_address(v["gw6"]) == ip.ip_network(v["v6"]).network_address + 1, f"passerelle IPv6 VLAN {vid}"
+    for vid, hotes in HOTES.items():
+        v = VLANS[vid]
+        n4 = ip.ip_network(v["v4"])
+        n6 = ip.ip_network(v["v6"]) if v["v6"] else None
+        for nom, fin in hotes:
+            quoi = f"VLAN {vid} {nom}"
+            fins = range(int(fin.split("-")[0]), int(fin.split("-")[1]) + 1) if isinstance(fin, str) else [fin]
+            assert len(fins) > 0, quoi
+            for f in fins:
+                a4, a6 = adresse(vid, f)
+                _hote_valide(n4, a4, quoi)
+                unique(a4, quoi)
+                if n6 is not None:
+                    _hote_valide(n6, a6, quoi)
+                    if a4 != v["gw4"]:
+                        assert a6.rsplit(":", 1)[1] == a4.rsplit(".", 1)[1], f"{quoi} : terminaisons {a4} / {a6}"
+                    unique(a6, quoi)
+    for vid in (x for x in VLANS if x >= 1000):
+        v = VLANS[vid]
+        n4, n6 = ip.ip_network(v["v4"]), ip.ip_network(v["v6"])
+        for cote in ("a", "b"):
+            eq, a4, a6 = v[cote]
+            _hote_valide(n4, a4, f"transit {vid} {eq}")
+            _hote_valide(n6, a6, f"transit {vid} {eq}")
+            assert a6.rsplit(":", 1)[1] == a4.rsplit(".", 1)[1], f"transit {vid} {eq} : terminaisons {a4} / {a6}"
+            unique(a4, f"transit {vid} {eq}")
+    for q in P2P:
+        n4, n6 = ip.ip_network(q["v4"]), ip.ip_network(q["v6"])
+        for k in ("cl", "dl"):
+            _hote_valide(n4, q[k + "4"], q["sous_if"])
+            _hote_valide(n6, q[k + "6"], q["sous_if"])
+            unique(q[k + "4"], q["sous_if"])
+    for nom, n4, n6 in BOUCLES:
+        assert ip.ip_network(n4).prefixlen == 32 and ip.ip_network(n6).prefixlen == 128, nom
+        assert any(ip.ip_network(n4).subnet_of(ip.ip_network(r)) for r in RESUMES["ADM"] if ":" not in r), f"{nom} hors du résumé ADM"
+        assert any(ip.ip_network(n6).subnet_of(ip.ip_network(r)) for r in RESUMES["ADM"] if ":" in r), f"{nom} hors du résumé ADM"
+        unique(n4.split("/")[0], nom)
+    for nom, n4, adr, _ in LIENS_DIRECTS:
+        net = ip.ip_network(n4)
+        for fin in re.findall(r"\.(\d+)", adr):
+            _hote_valide(net, _dans(net, fin), nom)
+    pool = ip.ip_network(VPN_ADM["v4"])
+    assert pool.subnet_of(P4_PRIVE) and ip.ip_network(VPN_ADM["v6"]).subnet_of(P6_SITE), "pool du VPN d'administration"
+    for v in VLANS.values():
+        if v["v4"]:
+            assert not pool.overlaps(ip.ip_network(v["v4"])), f"pool VPN / {v['nom']}"
     return True
 
 

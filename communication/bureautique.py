@@ -2,23 +2,26 @@
 
 Nécessite python-docx et python-pptx (pip install python-docx python-pptx).
 Polices à installer sur le poste : livrables/communication/polices/ (Space Grotesk, IBM Plex Mono).
+Les chiffres des diapositives sont lus dans les JSON du câblage, de l'énergie et du chiffrage.
 """
 import json, pathlib
 from docx import Document
-from docx.enum.section import WD_SECTION
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.enum.text import WD_BREAK
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
-from docx.shared import Pt, Mm, RGBColor, Emu
+from docx.shared import Pt, Mm, RGBColor
 from pptx import Presentation
-from pptx.util import Inches, Pt as PPt, Emu as PEmu
+from pptx.util import Inches, Pt as PPt
 from pptx.dml.color import RGBColor as PRGB
 from pptx.enum.shapes import MSO_SHAPE
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 
 import marque
 from marque import C, AXES, NOM, DOMAINE
+from documents import CH  # charte commune (version du dossier, format des nombres)
+
+N = CH.nombre
 
 RACINE = pathlib.Path(__file__).parent.parent
 SORTIE = RACINE / "livrables" / "communication"
@@ -192,14 +195,14 @@ PLAN_RAPPORT = [
 ]
 
 
-def rapport_docx(sortie):
+def rapport_docx(sortie, nrj):
     doc = Document()
     _styles(doc)
-    _couverture(doc, "RLI-RAP-001 · version 0.1", "Rapport technique",
-                "Réseau du bâtiment Génie des Télécommunications, IUT de Luminy, et de son site jumeau",
-                [("Client", "IUT Aix-Marseille, R&T"), ("Référence", "RLI-RAP-001"), ("Version", "0.1 · brouillon"), ("Date", "JJ/MM/AAAA")])
-    doc.add_paragraph("Suivi du document", style="Étiquette")
-    _tableau(doc, ["Version", "Date", "Auteur", "Modifications"], [["0.1", "JJ/MM/AAAA", "Prénom Nom", "Création du document"]], [20, 28, 40, 82])
+    _couverture(doc, "RLI-RAP-001 · vX.Y — JJ/MM/AAAA", "Rapport technique",
+                "Réseau du bâtiment Génie des Télécommunications de l'IUT, campus de Luminy, et du site jumeau (Digne ou Gap)",
+                [("Client", "IUT Aix-Marseille, R&T"), ("Référence", "RLI-RAP-001"), ("Version", "vX.Y · brouillon"), ("Date", "JJ/MM/AAAA")])
+    doc.add_paragraph("Suivi des versions", style="Étiquette")
+    _tableau(doc, ["Version", "Date", "Auteur", "Modifications"], [["vX.Y", "JJ/MM/AAAA", "Prénom Nom", "Version du dossier dans laquelle le document change"]], [20, 28, 40, 82])
     doc.add_heading("Sommaire", 1)
     p = doc.add_paragraph(); _champ(p, 'TOC \\o "1-3" \\h \\z \\u')
     p = doc.add_paragraph("Clic droit sur le sommaire puis « Mettre à jour les champs » une fois le rapport rédigé.", style="Légende")
@@ -213,11 +216,11 @@ def rapport_docx(sortie):
         if titre.startswith("2."):
             doc.add_heading("2.1 Exemple de mise en forme", 2)
             p = doc.add_paragraph("Texte courant. Une affirmation, un chiffre : la salle serveur consomme ")
-            r = p.add_run("4,2 kW"); r.bold = True
+            r = p.add_run(f"{N(nrj['salle']['it_typ'] / 1000, 2)} kW"); r.bold = True
             p.add_run(" en fonctionnement normal. Les équipements gardent le nom du schéma : ")
             _police(p.add_run("CL-SW1"), MONO, 9, C["encre"])
             p.add_run(".")
-            _tableau(doc, ["Équipement", "Modèle", "Qté", "Total HT"], [["CL-SW1, CL-SW2", "Cisco C9500-16X", "2", "00 000 €"]], [45, 65, 20, 40])
+            _tableau(doc, ["Équipement", "Modèle", "Qté", "Total HT"], [["CL-SW1, CL-SW2", "Cisco C9500-16X", "2", "00 000 € HT"]], [45, 65, 20, 40])
             doc.add_paragraph("Tableau 1 · Légende du tableau et source des chiffres", style="Légende")
             _encadre(doc, "Recommandation", "Une recommandation au client, en une ou deux phrases.")
             _encadre(doc, "À valider avec le client", "Hypothèse retenue faute d'information, à confirmer en réunion.", C["alerte"])
@@ -324,7 +327,9 @@ def _titre(slide, etiquette, titre, couleur_etiquette=C["emeraude_fonce"]):
 
 
 def soutenance_pptx(sortie, cab, nrj, est):
-    eur = lambda v: f"{v:,.0f}".replace(",", " ") + " €"
+    eur = lambda v: CH.euros(v, ht=False)
+    ge = nrj.get("bet", {}).get("groupe_electrogene")
+    opt = next((o for o in nrj.get("optimisations", []) if o["piste"].startswith("Cœur replié")), None)
     prs = Presentation()
     prs.slide_width, prs.slide_height = W, H
     vide = prs.slide_layouts[6]
@@ -349,7 +354,7 @@ def soutenance_pptx(sortie, cab, nrj, est):
         _rect(s, Inches(8.3 + x * k - 0.28), Inches(1.2 + y * k - 0.28), Inches(0.56), Inches(0.56),
               C["emeraude"] if nd == "c" else "#1f2228", "#4a4f59")
     _txt(s, M, Inches(3.75), Inches(7), Inches(0.3), "Soutenance · JJ/MM/AAAA", 12, "#868b94", MONO, caps=True)
-    _txt(s, M, Inches(4.15), Inches(7.3), Inches(1.6), "Le réseau du bâtiment R&T de Luminy", 42, C["papier"], SANS, gras=True)
+    _txt(s, M, Inches(4.15), Inches(7.3), Inches(1.6), "Le réseau du bâtiment Génie des Télécommunications, à Luminy", 40, C["papier"], SANS, gras=True)
     _txt(s, M, Inches(6.0), Inches(7.3), Inches(0.5), "Proposition de RudyLink Infrastructure à l'IUT Aix-Marseille", 18, "#a4a9b1")
     _pied(s, n, True)
 
@@ -391,8 +396,9 @@ def soutenance_pptx(sortie, cab, nrj, est):
     s = nouvelle()
     _titre(s, "Synthèse", "Le projet en huit chiffres")
     tuiles = [("Câblage", str(cab["prises"]), "prises Cat6A"), ("Wi-Fi", str(cab["par_type"]["wifi"]), "bornes"),
-              ("Fibre", f"{cab['fibre_m']} m", "de rocades OM4"), ("Locaux", f"{len(cab['baies'])} + 1", "locaux et salle serveur"),
-              ("Énergie", str(nrj["energie"]["pue"]).replace(".", ","), "PUE de la salle serveur"), ("Secours", f"{nrj['onduleurs']['autonomie_degrade']} min", "avec un onduleur en panne"),
+              ("Fibre", f"{N(cab['fibre_m'])} m", "de rocades OM4"), ("Locaux", f"{len(cab['baies'])} + 1", "locaux et salle serveur"),
+              ("Énergie", N(nrj["energie"]["pue"], 2), "PUE de la salle serveur"),
+              ("Secours", f"{nrj['onduleurs']['autonomie_degrade']} min", f"sur un onduleur, puis groupe {ge['autonomie_h']} h" if ge else "avec un onduleur en panne"),
               ("Investissement", eur(est["capex"]), "HT, aléas compris"), ("Sur 5 ans", eur(est["tco5"]), "HT, exploitation comprise")]
     tw, th, g = Inches(2.85), Inches(1.95), Inches(0.2)
     for i, (lab, val, sous) in enumerate(tuiles):
@@ -407,7 +413,7 @@ def soutenance_pptx(sortie, cab, nrj, est):
     s = nouvelle()
     _titre(s, "Point 03 · Choix à valider", "Trois couches ou cœur replié ?")
     opts = [("Option A · schéma actuel", "Trois couches", ["Distribution par zone, cœur dédié", "Évolutif si le site s'agrandit", "Correspond au cahier des charges"], C["emeraude"]),
-            ("Option B", "Cœur replié", ["Distribution et cœur fusionnés", "4 commutateurs en moins, environ 1 500 €/an d'électricité économisés", "Suffisant pour un seul bâtiment"], C["trait"])]
+            ("Option B", "Cœur replié", ["Distribution et cœur fusionnés", "4 commutateurs en moins, environ " + (N(round(opt["euros"], -2)) if opt else "1 500") + " € HT/an d'électricité économisés", "Suffisant pour un seul bâtiment"], C["trait"])]
     for i, (lab, t, pts, coul) in enumerate(opts):
         x = M + i * Inches(6.15)
         _rect(s, x, Inches(2.0), Inches(5.9), Inches(4.2), C["surface"], coul)
@@ -446,7 +452,7 @@ def produire(rendu):
     nrj = json.loads((RACINE / "livrables/energie_refroidissement/resume.json").read_text(encoding="utf-8"))
     est = json.loads((RACINE / "chiffrage/estimation.json").read_text(encoding="utf-8"))
     m = SORTIE / "modeles"
-    rapport_docx(m / "modele_rapport.docx")
+    rapport_docx(m / "modele_rapport.docx", nrj)
     compte_rendu_docx(m / "modele_compte_rendu.docx")
     soutenance_pptx(m / "modele_presentation.pptx", cab, nrj, est)
     return ["modele_rapport.docx", "modele_compte_rendu.docx", "modele_presentation.pptx"]
